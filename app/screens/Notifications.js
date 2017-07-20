@@ -28,11 +28,12 @@ export default class Notifications extends Component {
             isSilent: false,
 
         };
+        // this.handleAppStateChange = this.handleAppStateChange.bind(this);
 
     }
 
     componentDidMount() {
-       //
+        //
 
         //
         AsyncStorage.getItem("isNotified").then((value) => {
@@ -44,9 +45,23 @@ export default class Notifications extends Component {
             var val = (value === "true");
             this.setState({"isSilent": val});
         }).done();
+        // AppState.addEventListener('change', this.handleAppStateChange);
 
     }
 
+    componentWillMount() {
+        // AppState.removeEventListener('change', this.handleAppStateChange);
+    }
+
+    handleAppStateChange(appState) {
+        if (appState === 'background') {
+            console.log('hi!')
+            PushNotification.localNotificationSchedule({
+                message: 'My Motification messages',
+                date: new Date(Date.now() + (3 * 1000))
+            });
+        }
+    }
 
     toggleNotificationSwitch = (value) => {
         AsyncStorage.setItem("isNotified", value.toString());
