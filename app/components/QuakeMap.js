@@ -147,7 +147,7 @@ export default class QuakeMap extends Component {
                 {this.state.markers.map((marker, index) => (
                     <MapView.Marker style={styles.marker}
                                     coordinate={marker.coordinates}
-                                    key={index}
+                                    key={`marker-${index}`}
                                     pinColor={colorByMmi(marker.mmi)}
 
 

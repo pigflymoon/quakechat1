@@ -224,36 +224,36 @@ export default class QuakeLevelList extends Component {
                 });
                 //var isNotified, isSilent, notification;
                 /*
-                AsyncStorage.getItem("isNotified").then((value) => {
-                    var val = (value === "true");
-                    isNotified = val;
-                    console.log('is notified', isNotified)
-                    if (isNotified) {
-                        for (var k in timestamp) {
-                            // let date = new Date(timestamp[k]);
-                            let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
+                 AsyncStorage.getItem("isNotified").then((value) => {
+                 var val = (value === "true");
+                 isNotified = val;
+                 console.log('is notified', isNotified)
+                 if (isNotified) {
+                 for (var k in timestamp) {
+                 // let date = new Date(timestamp[k]);
+                 let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
 
-                            notification = PushNotification.localNotificationSchedule({
-                                message: message,
-                                date: new Date(),
-                                number: 0,
-                                userInteraction: true
+                 notification = PushNotification.localNotificationSchedule({
+                 message: message,
+                 date: new Date(),
+                 number: 0,
+                 userInteraction: true
 
-                            });
+                 });
 
-                        }
+                 }
 
-                        PushNotification.scheduleLocalNotification(notification);
-                        this.setState({
-                            timestamp: {},
-                            // notification: true
-                        });
-                    }
+                 PushNotification.scheduleLocalNotification(notification);
+                 this.setState({
+                 timestamp: {},
+                 // notification: true
+                 });
+                 }
 
 
-                }).done();
+                 }).done();
 
-                */
+                 */
             }
 
 
@@ -280,7 +280,7 @@ export default class QuakeLevelList extends Component {
         return (
             <List>
                 {this.state.dataSource.map((quake, index) => (
-                    <ListItem key={index}
+                    <ListItem key={`list-${index}`}
                               leftIcon={{
                                   name: 'map-marker',
                                   type: 'font-awesome',

@@ -34,11 +34,9 @@ export default class About extends Component {
 
         return (
             <ScrollView>
-                <List>
-
-
-
-                </List>
+               <Text>QuakeChat has utilized the following copyrighted matererial:
+                   We acknowledge the New Zealand GeoNet project and its sponsors EQC, GNS Science and LINZ, for providing data used by this app.
+               </Text>
             </ScrollView>
         )
     }

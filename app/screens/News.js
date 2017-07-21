@@ -93,7 +93,7 @@ export default class News extends Component {
                 <List>
                     {this.state.dataSource.map((news, index) => (
                         <ListItem
-                            key={index}
+                            key={`list-${index}`}
                             title={news.title}
                             subtitle={news.published}
                             onPress={() => this.goToURL(news.link)}
