@@ -110,7 +110,7 @@ export default class QuakeLevelList extends Component {
                             value.properties.magnitude = value.properties.magnitude.toFixed(1);
                             value.properties.depth = value.properties.depth.toFixed(1) + ' km';
                             if (value.properties.mmi >= 2.8) {
-                                AppState.addEventListener('change', this.handleAppStateChange);
+                                // AppState.addEventListener('change', this.handleAppStateChange);
                                 timestamp['time' + notificationTime] = {
                                     time: time,
                                     magnitude: value.properties.magnitude,

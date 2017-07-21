@@ -11,7 +11,8 @@ import {
     Switch,
     AsyncStorage,
 } from 'react-native';
-// import PushNotification from 'react-native-push-notification';
+// import PushTest from '../components/PushTest';
+import PushNotification from 'react-native-push-notification';
 
 import {List, ListItem} from 'react-native-elements';
 
@@ -28,44 +29,55 @@ export default class Notifications extends Component {
             isSilent: false,
 
         };
-        // this.handleAppStateChange = this.handleAppStateChange.bind(this);
+        this.handleAppStateChange = this.handleAppStateChange.bind(this);
 
     }
 
-    componentDidMount() {
-        //
 
-        //
+    componentDidMount() {
         AsyncStorage.getItem("isNotified").then((value) => {
             var val = (value === "true");
             this.setState({"isNotified": val});
-
         }).done();
+
         AsyncStorage.getItem("isSilent").then((value) => {
             var val = (value === "true");
             this.setState({"isSilent": val});
         }).done();
-        // AppState.addEventListener('change', this.handleAppStateChange);
 
+        AppState.addEventListener('change', this.handleAppStateChange);
     }
 
-    componentWillMount() {
-        // AppState.removeEventListener('change', this.handleAppStateChange);
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
     }
 
     handleAppStateChange(appState) {
+
         if (appState === 'background') {
-            console.log('hi!')
-            PushNotification.localNotificationSchedule({
-                message: 'My Motification messages',
-                date: new Date(Date.now() + (3 * 1000))
-            });
+            let date = new Date(Date.now() + (2 * 1000));
+           if(this.state.isNotified){
+               PushNotification.localNotificationSchedule({
+                   message: "My Notification Message",
+                   date: date,
+                   number: 0
+
+               });
+           }
+
+
         }
     }
 
     toggleNotificationSwitch = (value) => {
         AsyncStorage.setItem("isNotified", value.toString());
         this.setState({"isNotified": value});
+        AsyncStorage.getItem("isNotified").then((value) => {
+            var val = (value === "true");
+            this.setState({"isNotified": val});
+
+
+        }).done();
 
     }
     toggleDisturbSwitch = (value) => {
@@ -79,6 +91,8 @@ export default class Notifications extends Component {
         return (
             <ScrollView>
                 <List>
+
+
                     <ListItem
                         hideChevron
                         title={`Notifications`}
