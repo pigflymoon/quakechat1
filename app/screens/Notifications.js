@@ -52,21 +52,32 @@ export default class Notifications extends Component {
         AppState.removeEventListener('change', this.handleAppStateChange);
     }
 
+
     handleAppStateChange(appState) {
 
+
         if (appState === 'background') {
-            let date = new Date(Date.now() + (2 * 1000));
-           if(this.state.isNotified){
-               PushNotification.localNotificationSchedule({
-                   message: "My Notification Message",
-                   date: date,
-                   number: 0
-
-               });
-           }
+            let date = new Date(Date.now() + (5 * 1000));
 
 
+            if (this.state.isNotified) {
+                PushNotification.localNotificationSchedule({
+                    message: "My Notification Message",
+                    date: date,
+                    number: 2,
+                    playSound: this.state.isSilent,
+
+                });
+
+            }
+            PushNotification.setApplicationIconBadgeNumber(0);
+
+
+        } else if (appState === 'active') {
+
+            PushNotification.setApplicationIconBadgeNumber(0);
         }
+
     }
 
     toggleNotificationSwitch = (value) => {
@@ -75,8 +86,6 @@ export default class Notifications extends Component {
         AsyncStorage.getItem("isNotified").then((value) => {
             var val = (value === "true");
             this.setState({"isNotified": val});
-
-
         }).done();
 
     }
