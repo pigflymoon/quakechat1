@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 import {bind} from '../utils/utils';
-// import PushController from '../components/PushController';
 import QuakeLevelTab from '../components/QuakeLevelTab';
 import QuakeLevelList from '../components/QuakeLevelList';
 
@@ -65,7 +64,6 @@ export default class QuakesList extends Component {
                                 nps_source={nps_url}
                                 refreshing={this.state.refreshing}
                                 level={this.state.level}/>
-
             </ScrollView>
         )
     }

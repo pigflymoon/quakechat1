@@ -11,8 +11,6 @@ import {
     Switch,
     AsyncStorage,
 } from 'react-native';
-// import PushTest from '../components/PushTest';
-import PushNotification from 'react-native-push-notification';
 
 import {List, ListItem} from 'react-native-elements';
 
@@ -29,8 +27,6 @@ export default class Notifications extends Component {
             isSilent: false,
 
         };
-        this.handleAppStateChange = this.handleAppStateChange.bind(this);
-
     }
 
 
@@ -44,39 +40,6 @@ export default class Notifications extends Component {
             var val = (value === "true");
             this.setState({"isSilent": val});
         }).done();
-
-        AppState.addEventListener('change', this.handleAppStateChange);
-    }
-
-    componentWillUnmount() {
-        AppState.removeEventListener('change', this.handleAppStateChange);
-    }
-
-
-    handleAppStateChange(appState) {
-
-
-        if (appState === 'background') {
-            let date = new Date(Date.now() + (5 * 1000));
-
-
-            if (this.state.isNotified) {
-                PushNotification.localNotificationSchedule({
-                    message: "My Notification Message",
-                    date: date,
-                    number: 2,
-                    playSound: this.state.isSilent,
-
-                });
-
-            }
-            PushNotification.setApplicationIconBadgeNumber(0);
-
-
-        } else if (appState === 'active') {
-
-            PushNotification.setApplicationIconBadgeNumber(0);
-        }
 
     }
 

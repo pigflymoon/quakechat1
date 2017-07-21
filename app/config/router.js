@@ -50,6 +50,14 @@ export const SettingsStack = StackNavigator({
 });
 
 export const Tabs = TabNavigator({
+    News: {
+        screen: News,
+        navigationOptions: {
+            tabBarLabel: 'News',
+            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+        },
+    },
+
     Settings: {
         screen: SettingsStack,
         navigationOptions: {
@@ -77,13 +85,6 @@ export const Tabs = TabNavigator({
         navigationOptions: {
             tabBarLabel: 'Map',
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
-        },
-    },
-    News: {
-        screen: News,
-        navigationOptions: {
-            tabBarLabel: 'News',
-            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
         },
     },
 
