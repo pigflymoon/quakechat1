@@ -60,6 +60,13 @@ export const SettingsStack = StackNavigator({
 });
 
 export const Tabs = TabNavigator({
+    ChatRoom: {
+        screen: ChatRoom,
+        navigationOptions: {
+            tabBarLabel: 'ChatRoom',
+            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+        },
+    },
     News: {
         screen: News,
         navigationOptions: {
@@ -82,13 +89,7 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
-    ChatRoom: {
-        screen: ChatRoom,
-        navigationOptions: {
-            tabBarLabel: 'ChatRoom',
-            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
-        },
-    },
+
     Map: {
         screen: QuakesMap,
 
