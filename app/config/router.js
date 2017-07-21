@@ -9,6 +9,7 @@ import QuakeDetail from '../screens/QuakeDetail';
 import QuakeQuality from '../screens/QuakeQuality';
 import ChatRoom from '../screens/ChatRoom';
 import Notifications from '../screens/Notifications';
+import About from '../screens/About';
 
 import Settings from '../screens/Settings';
 export const QuakesListStack = StackNavigator({
@@ -47,6 +48,15 @@ export const SettingsStack = StackNavigator({
             title: 'Notifications'
         }),
     },
+
+    About: {
+        screen: About,
+        navigationOptions: ({navigation}) => ({
+            title: 'About'
+        })
+
+
+    }
 });
 
 export const Tabs = TabNavigator({

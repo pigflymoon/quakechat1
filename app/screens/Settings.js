@@ -40,6 +40,7 @@ export default class Settings extends Component {
     handleAppStateChange(appState) {
         console.log('called?')
 
+
         if (appState === 'background') {
             let date = new Date(Date.now() + (5 * 1000));
             AsyncStorage.getItem("isNotified").then((value) => {
@@ -59,23 +60,29 @@ export default class Settings extends Component {
 
             }).done();
 
-            // if (this.state.isNotified) {
-            //
-            //
-            // }
+
+        }else if(appState === 'active'){
             PushNotification.setApplicationIconBadgeNumber(0);
-
-
-        } else if (appState === 'active') {
-
-            PushNotification.setApplicationIconBadgeNumber(0);
+            console.log('notification clear:');
         }
+
+        PushNotification.configure({
+            // (required) Called when a remote or local notification is opened or received
+            onNotification: function (notification) {
+                PushNotification.setApplicationIconBadgeNumber(0);
+                console.log('NOTIFICATION:', notification);
+            },
+        });
 
     }
 
     onNotifications = () => {
         console.log('navigation', this.props)
         this.props.navigation.navigate('Notifications', {});
+    };
+
+    onAbout = () => {
+        this.props.navigation.navigate('About', {});
     };
 
     renderLoadingView() {
@@ -96,13 +103,13 @@ export default class Settings extends Component {
             <ScrollView>
                 <List>
                     <ListItem
-                        leftIcon={{
-                            name: 'map-marker',
-                            type: 'font-awesome',
-                            size: 35,
-                        }}
                         title={`Notifications`}
                         onPress={() => this.onNotifications()}
+
+                    />
+                    <ListItem
+                        title={`About`}
+                        onPress={() => this.onAbout()}
 
                     />
                 </List>
