@@ -68,6 +68,7 @@ export default class Notifications extends Component {
                     <ListItem
                         hideChevron
                         title={`Notifications`}
+                        switchOnTintColor={colors.primary1}
                         switchButton
                         onSwitch={this.toggleNotificationSwitch}
                         switched={this.state.isNotified}
@@ -76,6 +77,7 @@ export default class Notifications extends Component {
                     <ListItem
                         hideChevron
                         title={`Do not disturb`}
+                        switchOnTintColor={colors.primary1}
                         subtitle={'Notification that arrive during 22:00 to 8:00 will be silenced'}
                         subtitleStyle={{marginRight: 10, fontWeight: 'normal'}}
                         switchButton
