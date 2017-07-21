@@ -78,7 +78,7 @@ export const Tabs = TabNavigator({
     List: {
         screen: QuakesListStack,
         navigationOptions: {
-            tabBarLabel: 'List',
+            tabBarLabel: 'Quakes',
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
