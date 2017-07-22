@@ -1,52 +1,39 @@
+// FadeInView.js
 import React, {Component} from 'react';
-import {Animated} from 'react-native';
+import {
+    Animated,
+    Easing,
+} from 'react-native';
+import colors from '../styles/colors';
 
 export default class Fade extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: props.visible,
+            fadeAnim: new Animated.Value(0),          // 透明度初始值设为0
         };
-    };
-
-    componentWillMount() {
-        this._visibility = new Animated.Value(this.props.visible ? 1 : 0);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.visible) {
-            this.setState({ visible: true });
-        }
-        Animated.timing(this._visibility, {
-            toValue: nextProps.visible ? 1 : 0,
-            duration: 300,
-        }).start(() => {
-            this.setState({ visible: nextProps.visible });
-        });
+    componentDidMount() {
+        Animated.timing(                            // 随时间变化而执行的动画类型
+            this.state.fadeAnim,                      // 动画中的变量值
+            {
+                toValue: 1,                             // 透明度最终变为1，即完全不透明
+                duration: 4000, // 动画时间
+                easing: Easing.linear // 缓动函数
+            }
+        ).start();                                  // 开始执行动画
     }
 
     render() {
-        const { visible, style, children, ...rest } = this.props;
-
-        const containerStyle = {
-            opacity: this._visibility.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 1],
-            }),
-            transform: [
-                {
-                    scale: this._visibility.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [1.1, 1],
-                    }),
-                },
-            ],
-        };
-
-        const combinedStyle = [containerStyle, style];
         return (
-            <Animated.View style={this.state.visible ? combinedStyle : containerStyle} {...rest}>
-                {this.state.visible ? children : null}
+            <Animated.View                            // 可动画化的视图组件
+                style={{
+                    ...this.props.style,
+                    opacity: this.state.fadeAnim,          // 将透明度指定为动画变量值
+                }}
+            >
+                {this.props.children}
             </Animated.View>
         );
     }

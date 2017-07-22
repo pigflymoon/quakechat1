@@ -10,6 +10,8 @@ import {
     Button,
     TouchableOpacity,
     Alert,
+    Animated,
+    Easing,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -35,6 +37,7 @@ export default class LoginScreen extends Component {
 
 
     }
+
 
     signup = () => {
         Actions.signup();
@@ -101,11 +104,14 @@ export default class LoginScreen extends Component {
 
     }
     removeInfo = () => {
-        this.setState({showInfo: false});
+        console.log('called')
+        this.setState({
+            showInfo: false,
+        });
+
     }
 
     render() {
-        const visible = 1;
         return (
             <View style={styles.container}>
                 <View style={styles.background} resizeMode="cover">
@@ -153,20 +159,14 @@ export default class LoginScreen extends Component {
                             </View>
                         </TouchableOpacity>
                         {this.state.showInfo ?
+                            <TouchableOpacity activeOpacity={.5} onPress={this.removeInfo}>
 
-
-                            <Fade visible={visible}>
-                                <TouchableOpacity
-                                    onPress={this.removeInfo}
-                                    style={styles.button}>
-                                    <Text
-                                        style={{color: 'white', fontSize: 20}}>
-                                        Click Here To Start
-                                    </Text>
-                                </TouchableOpacity>
+                            <Fade style={{width: 250, height: 50, backgroundColor: 'powderblue'}} >
+                                <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>Fading in</Text>
                             </Fade>
+                            </TouchableOpacity>: null}
 
-                            : null}
+
                     </View>
                     <View style={styles.container}>
                         <View style={styles.footerWrap}>
