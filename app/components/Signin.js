@@ -227,12 +227,6 @@ const styles = StyleSheet.create({
         padding: 0,
         margin: 0,
     },
-    infoWrapper: {
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        marginHorizontal: 10,
-
-    },
     inputWrap: {
         flexDirection: "row",
         marginVertical: 10,
@@ -283,6 +277,12 @@ const styles = StyleSheet.create({
     linkText: {
         color: colors.primary1,
         marginLeft: 5,
+    },
+    infoWrapper: {
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        marginHorizontal: 10,
+
     },
     infoText: {
         color: colors.white,

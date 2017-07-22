@@ -18,7 +18,7 @@ import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import background from '../images/cover_bg.png';
+import Fade from './Fade';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
@@ -31,7 +31,8 @@ export default class Signup extends Component {
             email: '',
             password: '',
             name: '',
-            isLoading: false
+            isLoading: false,
+            showInfo: false,
         }
         ;
     }
@@ -76,29 +77,24 @@ export default class Signup extends Component {
         e.preventDefault();
 
         if (!this.state.email) {
-            Alert.alert(
-                'Oop',
-                'Please enter your email',
-                [
-                    {text: 'OK'},
-                ], {
-                    cancelable: false,
-                }
-            )
+            this.setState({
+                showInfo: true
+            });
         } else if (!this.state.password) {
-            Alert.alert(
-                'Oop',
-                'Please set your password',
-                [
-                    {text: 'OK'},
-                ], {
-                    cancelable: false,
-                }
-            )
+            this.setState({
+                showInfo: true
+            });
         } else {
 
             this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
         }
+    }
+    removeInfo = () => {
+        console.log('called')
+        this.setState({
+            showInfo: false,
+        });
+
     }
 
     render() {
@@ -166,6 +162,18 @@ export default class Signup extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <View style={styles.infoWrapper}>
+
+                        {this.state.showInfo ?
+                            <TouchableOpacity activeOpacity={.5} onPress={this.removeInfo}>
+
+                                <Fade>
+                                    <Text style={styles.infoText}>Sign in fail, please try again.</Text>
+                                </Fade>
+                            </TouchableOpacity> : null}
+
+                    </View>
+
                 </View>
             </View>
         );
@@ -188,23 +196,24 @@ let styles = StyleSheet.create({
     },
 
     circleIcon: {
-        backgroundColor: colors.white,
-        width: 150,
-        height: 150,
-        borderRadius: 150 / 2,
+        // backgroundColor: colors.white,
+        width: 120,
+        height: 120,
+        borderRadius: 120 / 2,
         alignItems: "center",
         justifyContent: "center",
     },
 
     wrapper: {
-        paddingVertical: 30,
         marginHorizontal: 10,
+        marginBottom: 10,
     },
     footerWrap: {
-        // backgroundColor: "transparent",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        padding: 0,
+        margin: 0,
     },
     inputWrap: {
         flexDirection: "row",
@@ -237,7 +246,7 @@ let styles = StyleSheet.create({
         marginTop: 30,
         marginHorizontal: 10,
         borderWidth: 1,
-        borderColor:colors.grey5,
+        borderColor: colors.grey5,
         borderRadius: 5,
     },
     buttonText: {
@@ -256,5 +265,14 @@ let styles = StyleSheet.create({
     linkText: {
         color: colors.primary1,
         marginLeft: 5,
-    }
+    },
+    infoWrapper: {
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        marginHorizontal: 10,
+
+    },
+    infoText: {
+        color: colors.white,
+    },
 })

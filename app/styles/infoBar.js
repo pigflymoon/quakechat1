@@ -9,7 +9,6 @@ export default{
         backgroundColor: colors.orange6,
         paddingVertical: 10,
         alignItems: "center",
-        // marginTop: 30,
         marginHorizontal: 10,
         borderWidth: 1,
         borderColor: colors.orange2,
