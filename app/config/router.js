@@ -59,16 +59,49 @@ export const SettingsStack = StackNavigator({
     }
 });
 
-export const Tabs = TabNavigator({
+export const ChatRoomStack = StackNavigator({
     ChatRoom: {
         screen: ChatRoom,
         navigationOptions: {
-            tabBarLabel: 'ChatRoom',
-            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+            title: 'ChatRoom'
         },
     },
+});
+
+
+export const NewsStack = StackNavigator({
     News: {
         screen: News,
+        navigationOptions: {
+            title: 'News'
+        },
+    },
+});
+export const mapStack = StackNavigator({
+    Map: {
+        screen: QuakesMap,
+        navigationOptions: {
+            title: 'Quakes Map'
+        },
+    },
+});
+export const Tabs = TabNavigator({
+    // ChatRoom: {
+    //     screen: ChatRoom,
+    //     navigationOptions: {
+    //         tabBarLabel: 'ChatRoom',
+    //         tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+    //     },
+    // },
+    ChatRoom: {
+        screen: ChatRoomStack,
+        navigationOptions: {
+            tabBarLabel: 'ChatRoom',
+            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+        }
+    },
+    News: {
+        screen: NewsStack,
         navigationOptions: {
             tabBarLabel: 'News',
             tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
@@ -91,7 +124,7 @@ export const Tabs = TabNavigator({
     },
 
     Map: {
-        screen: QuakesMap,
+        screen: mapStack,
 
         navigationOptions: {
             tabBarLabel: 'Map',

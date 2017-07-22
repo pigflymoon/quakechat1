@@ -37,8 +37,8 @@ export default class ChatRoom extends Component {
     render() {
         return (
             <Router barButtonIconStyle={chat.barButtonIconStyle}>
-                <Scene key='root' style={{paddingTop: Platform.OS === 'ios' ? 64 : 54}}>
-                    <Scene key='chat' title='Chat' component={ChatGroup} hideNavBar={false} hideBackImage={true}
+                <Scene key='root'>
+                    <Scene key='chat'  component={ChatGroup} hideNavBar={false} hideBackImage={true}
                            renderRightButton={
                                () => <TouchableOpacity
                                    onPress={this.signout}>
