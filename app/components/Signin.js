@@ -158,26 +158,34 @@ export default class LoginScreen extends Component {
                                 <Text style={styles.buttonText}>Sign In</Text>
                             </View>
                         </TouchableOpacity>
-                        {this.state.showInfo ?
-                            <TouchableOpacity activeOpacity={.5} onPress={this.removeInfo}>
-
-                            <Fade style={{width: 250, height: 50, backgroundColor: 'powderblue'}} >
-                                <Text style={{fontSize: 28, textAlign: 'center', margin: 10}}>Fading in</Text>
-                            </Fade>
-                            </TouchableOpacity>: null}
 
 
                     </View>
                     <View style={styles.container}>
                         <View style={styles.footerWrap}>
+
                             <Text style={styles.accountText}>Don't have an account?</Text>
                             <TouchableOpacity activeOpacity={.5} onPress={this.signup}>
                                 <View>
                                     <Text style={styles.linkText}>Sign Up</Text>
                                 </View>
                             </TouchableOpacity>
+
                         </View>
                     </View>
+                    <View style={styles.infoWrapper}>
+
+                        {this.state.showInfo ?
+                            <TouchableOpacity activeOpacity={.5} onPress={this.removeInfo}>
+
+                                <Fade>
+                                    <Text style={styles.infoText}>Sign in fail, please try again.</Text>
+                                </Fade>
+                            </TouchableOpacity> : null}
+
+                    </View>
+
+
                 </View>
             </View>
         );
@@ -200,23 +208,30 @@ const styles = StyleSheet.create({
     },
 
     circleIcon: {
-        backgroundColor: colors.white,
-        width: 150,
-        height: 150,
-        borderRadius: 150 / 2,
+        // backgroundColor: colors.white,
+        width: 120,
+        height: 120,
+        borderRadius: 120 / 2,
         alignItems: "center",
         justifyContent: "center",
     },
 
     wrapper: {
-        paddingVertical: 30,
         marginHorizontal: 10,
+        marginBottom: 10,
     },
     footerWrap: {
-        // backgroundColor: "transparent",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        padding: 0,
+        margin: 0,
+    },
+    infoWrapper: {
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        marginHorizontal: 10,
+
     },
     inputWrap: {
         flexDirection: "row",
@@ -268,18 +283,6 @@ const styles = StyleSheet.create({
     linkText: {
         color: colors.primary1,
         marginLeft: 5,
-    },
-    infoBar: {
-        backgroundColor: colors.orange6,
-        paddingVertical: 10,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 30,
-        marginHorizontal: 10,
-        borderWidth: 1,
-        borderColor: colors.orange2,
-        borderRadius: 5,
-
     },
     infoText: {
         color: colors.white,

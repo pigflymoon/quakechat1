@@ -3,9 +3,10 @@ import React, {Component} from 'react';
 import {
     Animated,
     Easing,
+    StyleSheet,
 } from 'react-native';
-import colors from '../styles/colors';
 
+import infoBar from '../styles/infoBar';
 export default class Fade extends Component {
     constructor(props) {
         super(props);
@@ -19,7 +20,7 @@ export default class Fade extends Component {
             this.state.fadeAnim,                      // 动画中的变量值
             {
                 toValue: 1,                             // 透明度最终变为1，即完全不透明
-                duration: 4000, // 动画时间
+                duration: 2500, // 动画时间
                 easing: Easing.linear // 缓动函数
             }
         ).start();                                  // 开始执行动画
@@ -28,10 +29,11 @@ export default class Fade extends Component {
     render() {
         return (
             <Animated.View                            // 可动画化的视图组件
-                style={{
-                    ...this.props.style,
-                    opacity: this.state.fadeAnim,          // 将透明度指定为动画变量值
-                }}
+                style={[infoBar.infoBar,
+                    {opacity: this.state.fadeAnim,          // 将透明度指定为动画变量值
+                }]
+
+                }
             >
                 {this.props.children}
             </Animated.View>
