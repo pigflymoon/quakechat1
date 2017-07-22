@@ -9,7 +9,8 @@ import {
 import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
 import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+import quakeStyle from '../styles/quake';
+
 import {bind} from '../utils/utils';
 
 const {width} = Dimensions.get('window');
@@ -44,14 +45,13 @@ export default class QuakesMap extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={quakeStyle.quakesContainer}>
                 <QuakeMap type="SliderMap"
                           nps_source={nps_url} level={this.state.level}
                 />
 
                 <View>
-
-                    <QuakeSlider style={styles.label}
+                    <QuakeSlider style={quakeStyle.sliderLabel}
                                  onChooseLevel={this.handleChooseLevel}
                                  minimumValue={1}
                                  maximumValue={8}
@@ -62,17 +62,3 @@ export default class QuakesMap extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'space-between',
-        backgroundColor: colors.grey6,
-    },
-    map: {
-        width: SCREEN_WIDTH,
-    },
-    label: {
-        width: SCREEN_WIDTH,
-    }
-})

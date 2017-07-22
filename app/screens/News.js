@@ -105,14 +105,3 @@ export default class News extends Component {
     }
 
 }
-
-const styles = StyleSheet.create({
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    picker: {
-        width: 100,
-    },
-});

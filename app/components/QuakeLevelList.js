@@ -13,6 +13,9 @@ import {
 
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
+import quakeStyle from '../styles/quake';
+
+
 import axios from 'axios';
 import {bind, colorByMmi} from '../utils/utils';
 // import PushNotification from 'react-native-push-notification';
@@ -289,7 +292,7 @@ export default class QuakeLevelList extends Component {
                               }}
                               title={`NZST: ${quake.properties.time}`}
                               subtitle={
-                                  <View style={styles.info}>
+                                  <View style={quakeStyle.info}>
                                       <Text>Magnitude: {quake.properties.magnitude}</Text>
                                       <Text>Depth: {quake.properties.depth}</Text>
                                       <Text>Locality: {quake.properties.locality}</Text>
@@ -305,13 +308,3 @@ export default class QuakeLevelList extends Component {
     }
 
 }
-
-const styles = StyleSheet.create({
-    info: {
-        flex: 1,
-        alignItems: 'flex-start',
-        flexDirection: 'column',
-        paddingTop: 10,
-    },
-
-});

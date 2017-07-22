@@ -118,5 +118,3 @@ export default class Settings extends Component {
     }
 
 }
-
-const styles = StyleSheet.create({});

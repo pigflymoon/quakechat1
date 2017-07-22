@@ -5,6 +5,7 @@ import {
     StyleSheet,
     View,
 } from 'react-native';
+import slider from '../styles/slider';
 
 
 export default  class QuakeSlider extends Component {
@@ -23,7 +24,7 @@ export default  class QuakeSlider extends Component {
     render() {
         return (
             <View>
-                <Text style={styles.text}>
+                <Text style={slider.text}>
                     MMI: {this.state.value && +this.state.value.toFixed(1)}
                 </Text>
                 <Slider
@@ -36,20 +37,6 @@ export default  class QuakeSlider extends Component {
         );
     }
 }
-
-
-var styles = StyleSheet.create({
-    slider: {
-        height: 10,
-        margin: 10,
-    },
-    text: {
-        fontSize: 14,
-        textAlign: 'center',
-        fontWeight: '500',
-        paddingTop: 10,
-    },
-});
 
 
 

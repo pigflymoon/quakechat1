@@ -16,6 +16,7 @@ import Signup from '../components/Signup';
 import ChatGroup from '../components/ChatGroup';
 import VerifyEmail from '../components/VerifyEmail';
 import ResetPassword from '../components/ResetPassword';
+import chat from '../styles/chat';
 
 export default class ChatRoom extends Component {
     constructor(props) {
@@ -35,9 +36,7 @@ export default class ChatRoom extends Component {
 
     render() {
         return (
-            <Router navigationBarStyle={styles.navBar} titleStyle={styles.navBarTitle}
-                    barButtonTextStyle={styles.barButtonTextStyle} barButtonIconStyle={styles.barButtonIconStyle}
-            >
+            <Router barButtonIconStyle={chat.barButtonIconStyle}>
                 <Scene key='root' style={{paddingTop: Platform.OS === 'ios' ? 64 : 54}}>
                     <Scene key='chat' title='Chat' component={ChatGroup} hideNavBar={false} hideBackImage={true}
                            renderRightButton={
@@ -61,9 +60,3 @@ export default class ChatRoom extends Component {
             ;
     }
 }
-
-const styles = StyleSheet.create({
-    barButtonIconStyle: {
-        tintColor: 'rgb(255,255,255)'
-    },
-});

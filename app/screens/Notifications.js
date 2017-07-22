@@ -15,7 +15,6 @@ import {
 import {List, ListItem} from 'react-native-elements';
 
 import colors from '../styles/colors';
-import {bind} from '../utils/utils';
 
 
 export default class Notifications extends Component {
@@ -91,18 +90,3 @@ export default class Notifications extends Component {
     }
 
 }
-
-const styles = StyleSheet.create({
-    rightTitleView: {
-        // flexDirection: 'row',
-
-        width: 100,
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-    },
-    switch: {
-        // marginLeft: 20,
-        // marginBottom: 10,
-        // alignSelf: 'flex-end',
-    }
-});

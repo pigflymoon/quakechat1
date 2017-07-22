@@ -99,4 +99,7 @@ export default{
     infoText: {
         color: colors.white,
     },
+    barButtonIconStyle: {
+        tintColor: 'rgb(255,255,255)'
+    },
 }

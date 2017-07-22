@@ -52,13 +52,3 @@ export  default class QuakeLevelTab extends Component {
 
     };
 }
-
-var styles = StyleSheet.create({
-    text: {
-        fontSize: 14,
-        textAlign: 'center',
-        fontWeight: '500',
-        margin: 10,
-    },
-
-});

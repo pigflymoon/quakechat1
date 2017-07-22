@@ -9,8 +9,9 @@ import {
 import MapView from 'react-native-maps';
 import axios from 'axios';
 import CustomCallout from './CustomCallout'
-import colors from '../styles/colors';
-import fonts from '../styles/fonts';
+
+import map from '../styles/map';
+
 import {colorByMmi} from '../utils/utils';
 const {width, height} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
@@ -132,7 +133,7 @@ export default class QuakeMap extends Component {
 
         return (
             <MapView
-                style={styles.map}
+                style={map.map}
                 scrollEnabled={true}
                 zoomEnabled={true}
                 pitchEnabled={false}
@@ -145,7 +146,7 @@ export default class QuakeMap extends Component {
                 }}>
 
                 {this.state.markers.map((marker, index) => (
-                    <MapView.Marker style={styles.marker}
+                    <MapView.Marker style={map.marker}
                                     coordinate={marker.coordinates}
                                     key={`marker-${index}`}
                                     pinColor={colorByMmi(marker.mmi)}
@@ -155,16 +156,16 @@ export default class QuakeMap extends Component {
                         <MapView.Callout tooltip>
                             <CustomCallout  >
                                 <Text
-                                    style={styles.info}>{`Time: ${marker.time}`}
+                                    style={map.info}>{`Time: ${marker.time}`}
                                 </Text>
                                 <Text
-                                    style={styles.info}>{`Locality:${marker.locality}`}
+                                    style={map.info}>{`Locality:${marker.locality}`}
                                 </Text>
                                 <Text
-                                    style={styles.info}>{`Depth: ${marker.depth}`}
+                                    style={map.info}>{`Depth: ${marker.depth}`}
                                 </Text>
                                 <Text
-                                    style={styles.info}>{`mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
+                                    style={map.info}>{`mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
                                 </Text>
                             </CustomCallout>
                         </MapView.Callout>
@@ -190,7 +191,7 @@ export default class QuakeMap extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={map.container}>
                 {this.state.loading ?
                     this.renderLoading()
                     : this.renderPosts()}
@@ -199,18 +200,3 @@ export default class QuakeMap extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: colors.grey6,
-    },
-    map: {
-        width: SCREEN_WIDTH,
-        flexGrow: 3
-    },
-    info: {
-        // width: SCREEN_WIDTH,
-        fontSize: 12,
-    }
-})
