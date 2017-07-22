@@ -18,7 +18,7 @@ import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Fade from './Fade';
+import AnimatedInfo from './AnimatedInfo';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
 
@@ -33,7 +33,6 @@ export default class LoginScreen extends Component {
             names: [],
             showInfo: false,
         };
-
 
     }
 
@@ -93,21 +92,18 @@ export default class LoginScreen extends Component {
         this.setState({email: text});
     }
 
-
     setPassword = (text) => {
         this.setState({password: text});
     }
 
     handleResetPassword = () => {
         Actions.resetPassword();
-
     }
-    removeInfo = () => {
-        console.log('called')
-        this.setState({
-            showInfo: false,
-        });
 
+    handleInfo = (showInfo) => {
+        this.setState({
+            showInfo: showInfo
+        })
     }
 
     render() {
@@ -116,7 +112,7 @@ export default class LoginScreen extends Component {
                 <View style={chat.background} resizeMode="cover">
                     <View style={chat.markWrap}>
                         <View style={chat.circleIcon}>
-                            <Icon name="sign-in" size={75} color={colors.primary1} />
+                            <Icon name="sign-in" size={75} color={colors.primary1}/>
                         </View>
 
                     </View>
@@ -173,17 +169,12 @@ export default class LoginScreen extends Component {
                         </View>
                     </View>
                     <View style={chat.infoWrapper}>
-
                         {this.state.showInfo ?
-                            <TouchableOpacity activeOpacity={.5} onPress={this.removeInfo}>
-
-                                <Fade>
-                                    <Text style={chat.infoText}>Sign in fail, please try again.</Text>
-                                </Fade>
-                            </TouchableOpacity> : null}
-
+                            <AnimatedInfo showInfo={this.handleInfo}>
+                                <Text style={chat.infoText}>Sign in fail, please try again.</Text>
+                            </AnimatedInfo>
+                            : null}
                     </View>
-
 
                 </View>
             </View>

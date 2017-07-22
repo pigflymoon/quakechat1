@@ -18,7 +18,7 @@ import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
-import Fade from './Fade';
+import AnimatedInfo from './AnimatedInfo';
 
 export default class ResetPassword extends Component {
     constructor(props) {
@@ -58,6 +58,12 @@ export default class ResetPassword extends Component {
             console.log('Error', error);
         });
 
+    }
+
+    handleInfo = (showInfo) => {
+        this.setState({
+            showInfo: showInfo
+        })
     }
 
     render() {
@@ -104,15 +110,11 @@ export default class ResetPassword extends Component {
                         </View>
                     </View>
                     <View style={chat.infoWrapper}>
-
                         {this.state.showInfo ?
-                            <TouchableOpacity activeOpacity={.5} onPress={this.removeInfo}>
-
-                                <Fade>
-                                    <Text style={chat.infoText}>Sign in fail, please try again.</Text>
-                                </Fade>
-                            </TouchableOpacity> : null}
-
+                            <AnimatedInfo showInfo={this.handleInfo}>
+                                <Text style={chat.infoText}>Sign in fail, please try again.</Text>
+                            </AnimatedInfo>
+                            : null}
                     </View>
 
                 </View>

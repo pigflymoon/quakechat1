@@ -17,7 +17,7 @@ import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Fade from './Fade';
+import AnimatedInfo from './AnimatedInfo';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
 
@@ -88,14 +88,11 @@ export default class Signup extends Component {
             this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
         }
     }
-    removeInfo = () => {
-        console.log('called')
+    handleInfo = (showInfo) => {
         this.setState({
-            showInfo: false,
-        });
-
+            showInfo: showInfo
+        })
     }
-
     render() {
         return (
             <View style={chat.container}>
@@ -162,15 +159,11 @@ export default class Signup extends Component {
                         </View>
                     </View>
                     <View style={chat.infoWrapper}>
-
                         {this.state.showInfo ?
-                            <TouchableOpacity activeOpacity={.5} onPress={this.removeInfo}>
-
-                                <Fade>
-                                    <Text style={chat.infoText}>Sign in fail, please try again.</Text>
-                                </Fade>
-                            </TouchableOpacity> : null}
-
+                            <AnimatedInfo showInfo={this.handleInfo}>
+                                <Text style={chat.infoText}>Sign in fail, please try again.</Text>
+                            </AnimatedInfo>
+                            : null}
                     </View>
 
                 </View>
