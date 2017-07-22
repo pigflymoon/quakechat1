@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import PushNotification from 'react-native-push-notification';
-
+import NetInfoChecking from '../utils/NetInfoChecking';
 import {bind} from '../utils/utils';
 
 
@@ -22,7 +22,6 @@ export default class Settings extends Component {
         super(props, context);
         this.state = {
             isLoading: false,
-
         };
 
         bind(this)('renderLoadingView', 'handleAppStateChange');
@@ -61,7 +60,7 @@ export default class Settings extends Component {
             }).done();
 
 
-        }else if(appState === 'active'){
+        } else if (appState === 'active') {
             PushNotification.setApplicationIconBadgeNumber(0);
             console.log('notification clear:');
         }
@@ -101,6 +100,7 @@ export default class Settings extends Component {
 
         return (
             <ScrollView>
+                <NetInfoChecking/>
                 <List>
                     <ListItem
                         title={`Notifications`}
