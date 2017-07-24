@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import {bind} from '../utils/utils';
+
 import QuakeLevelTab from '../components/QuakeLevelTab';
 import QuakeLevelList from '../components/QuakeLevelList';
 
@@ -26,10 +27,13 @@ export default class QuakesList extends Component {
         this.state = {
             level: 0,
             refreshing: false,
+            isConnected: false,
+
         };
 
         bind(this)('handleQuakeLevel', 'handleRefreshData', 'getRefreshData')
     }
+
 
     getRefreshData() {
         this.setState({
@@ -59,6 +63,7 @@ export default class QuakesList extends Component {
                         onRefresh={this.getRefreshData}
                     />}
             >
+
                 <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel}/>
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
                                 nps_source={nps_url}

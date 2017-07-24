@@ -3,21 +3,17 @@ import {
     Text,
     View,
     ScrollView,
-    Linking,
-    Icon,
-    StyleSheet,
     AppState,
-    Picker,
-    Platform,
     AsyncStorage
 
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import quakeStyle from '../styles/quake';
+import NetInfoChecking from '../utils/NetInfoChecking';
 
 
 import axios from 'axios';
-import {bind, colorByMmi} from '../utils/utils';
+import {colorByMmi} from '../utils/utils';
 // import PushNotification from 'react-native-push-notification';
 var quakes;
 
@@ -32,10 +28,23 @@ export default class QuakeLevelList extends Component {
             isRefreshing: false,
 
         };
-        bind(this)('renderLoadingView');
 
         // this.handleAppStateChange = this.handleAppStateChange.bind(this);
 
+    }
+
+
+    connectChecking = (isConnected) => {
+        this.setState({isConnected: isConnected});
+    }
+
+
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextState.isConnected;
+        if (isConnected) {
+            return true;
+        }
+        return false;
     }
 
     fetchApiData(url, refresh) {
@@ -172,13 +181,16 @@ export default class QuakeLevelList extends Component {
 
     componentDidMount() {
         console.log('level list called')
-        if (this.state.dataSource.length <= 0) {
-            this.fetchQuakes();
-        }
+        if (this.state.isConnected) {
 
-        if (this.props.refreshing) {
-            this.fetchQuakes();
+            if (this.state.dataSource.length <= 0) {
+                this.fetchQuakes();
+            }
 
+            if (this.props.refreshing) {
+                this.fetchQuakes();
+
+            }
         }
 
         // //Every half hour call data api.
@@ -264,7 +276,7 @@ export default class QuakeLevelList extends Component {
 
     }
 
-    renderLoadingView() {
+    renderLoadingView = () => {
         return (
             <Text>Loading...</Text>
         )
@@ -282,6 +294,8 @@ export default class QuakeLevelList extends Component {
 
         return (
             <List>
+                <NetInfoChecking connectCheck={this.connectChecking}/>
+
                 {this.state.dataSource.map((quake, index) => (
                     <ListItem key={`list-${index}`}
                               leftIcon={{
