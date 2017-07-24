@@ -8,7 +8,8 @@ export default{
 
     },
     text: {
-        color: colors.primary1
+        color: colors.grey2,
+        fontSize: 16,
     }
 
 }
