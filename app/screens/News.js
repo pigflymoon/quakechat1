@@ -13,6 +13,8 @@ import {List, ListItem} from 'react-native-elements';
 import axios from 'axios';
 
 import {bind} from '../utils/utils';
+import NetInfoChecking from '../utils/NetInfoChecking';
+
 
 var news;
 
@@ -24,11 +26,26 @@ export default class News extends Component {
             dataSource: [],
             isLoading: false,
             seconds: 5,
+            isConnected: null,
         };
         bind(this)('renderLoadingView', 'goToURL');
     }
 
+    connectChecking = (isConnected) => {
+        this.setState({isConnected: isConnected});
+    }
+
     componentDidMount() {
+        console.log('did mount called?')
+        if (this.state.isConnected) {
+            this.fetchNews();
+
+        }
+
+
+    }
+
+    fetchApiData = () => {
         if (this.state.dataSource.length <= 0) {
             axios.get(`https://api.geonet.org.nz/news/geonet`)
                 .then(res => {
@@ -63,6 +80,23 @@ export default class News extends Component {
 
         }
     }
+    fetchNews = (isConnected) => {
+
+        if (isConnected) {
+            this.fetchApiData()
+        }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('shouldComponentUpdate called')
+        var isConnected = nextState.isConnected;
+        // isConnected = false;//test no network
+        if (isConnected) {
+            this.fetchNews(true);
+            return true;
+        }
+        return false;
+    }
 
 
     renderLoadingView() {
@@ -83,6 +117,7 @@ export default class News extends Component {
         });
     }
 
+
     render() {
         if (this.state.isLoading) {
             return this.renderLoadingView();
@@ -90,6 +125,7 @@ export default class News extends Component {
 
         return (
             <ScrollView>
+                <NetInfoChecking connectCheck={this.connectChecking} isConnected={this.state.isConnected}/>
                 <List>
                     {this.state.dataSource.map((news, index) => (
                         <ListItem

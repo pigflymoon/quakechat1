@@ -14,40 +14,39 @@ export default class NetInfoChecking extends Component {
         super(props, context);
         this.state = {
             isLoading: false,
-            isConnected: false,
+            isConnected: null,
             connectionInfo: null,
         };
     }
 
     componentDidMount() {
-        //检测网络是否连接
-
-
-        NetInfo.isConnected.fetch().then(isConnected => {
-            console.log('First, is ' + (isConnected ? 'online' : 'offline'));
-        });
-        function handleFirstConnectivityChange(isConnected) {
-            console.log('Then, is ' + (isConnected ? 'online' : 'offline'));
-            NetInfo.isConnected.removeEventListener(
-                'change',
-                handleFirstConnectivityChange
-            );
-            if (!isConnected) {
-                Alert.alert(
-                    'Network unavailable',
-                    'The Internet connection appears to be offline',
-                    [
-                        {text: 'OK'},
-                    ],
-                    {cancelable: false}
-                )
-            }
-
-        }
+        //check
         NetInfo.isConnected.addEventListener(
             'change',
-            handleFirstConnectivityChange
+            this.handleConnectivityChange
         );
+        NetInfo.isConnected.fetch().done(
+            (isConnected) => {
+                this.setState({isConnected: isConnected});
+
+                console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+
+            }
+        );
+    }
+
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener(
+            'change',
+            this.handleConnectivityChange
+        );
+    }
+
+    handleConnectivityChange = (isConnected) => {
+        console.log('Then, is ' + isConnected);
+
+        this.setState({isConnected: isConnected});
+        this.props.connectCheck(isConnected);
     }
 
     render() {

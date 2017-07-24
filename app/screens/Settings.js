@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import PushNotification from 'react-native-push-notification';
-import NetInfoChecking from '../utils/NetInfoChecking';
 import {bind} from '../utils/utils';
 
 
@@ -100,7 +99,7 @@ export default class Settings extends Component {
 
         return (
             <ScrollView>
-                <NetInfoChecking/>
+
                 <List>
                     <ListItem
                         title={`Notifications`}
