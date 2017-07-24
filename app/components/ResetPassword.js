@@ -1,19 +1,14 @@
 import React, {Component} from 'react';
 import {
-    AppRegistry,
-    StyleSheet,
     Text,
     View,
-    Image,
-    Dimensions,
     TextInput,
-    Button,
     TouchableOpacity,
-    Alert,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
 import firebase from 'firebase';
+import NetInfoChecking from '../utils/NetInfoChecking';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
@@ -28,8 +23,24 @@ export default class ResetPassword extends Component {
             email: '',
             password: '',
             showInfo: false,
+            isConnected: false,
+
         };
     }
+
+    connectChecking = (isConnected) => {
+        this.setState({isConnected: isConnected});
+    }
+
+
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextState.isConnected;
+        if (isConnected) {
+            return true;
+        }
+        return false;
+    }
+
 
     setEmail = (text) => {
         this.setState({email: text});
@@ -40,23 +51,26 @@ export default class ResetPassword extends Component {
     }
 
     handleResetPassword = () => {
-        if (!this.state.email) {
-            this.setState({
-                showInfo: true
+        if (this.state.isConnected) {
+            if (!this.state.email) {
+                this.setState({
+                    showInfo: true
+                });
+            }
+            var auth = firebase.auth();
+            var emailAddress = this.state.email;
+            console.log('emailAddress', emailAddress)
+            auth.sendPasswordResetEmail(emailAddress).then(function () {
+                // Email sent.
+                console.log('reset password sent to the emailAddress');
+
+                Actions.signin();
+            }, function (error) {
+                // An error happened.
+                console.log('Error', error);
             });
         }
-        var auth = firebase.auth();
-        var emailAddress = this.state.email;
-        console.log('emailAddress', emailAddress)
-        auth.sendPasswordResetEmail(emailAddress).then(function () {
-            // Email sent.
-            console.log('reset password sent to the emailAddress');
 
-            Actions.signin();
-        }, function (error) {
-            // An error happened.
-            console.log('Error', error);
-        });
 
     }
 
@@ -69,6 +83,8 @@ export default class ResetPassword extends Component {
     render() {
         return (
             <View style={chat.container}>
+                <NetInfoChecking connectCheck={this.connectChecking}/>
+
                 <View style={chat.background}>
                     <View style={[chat.markWrap]}>
                         <View style={chat.circleIcon}>
