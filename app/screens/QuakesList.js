@@ -28,11 +28,9 @@ export default class QuakesList extends Component {
 
 
     getRefreshData = () => {
-        if (this.props.screenProps) {
-            this.setState({
-                refreshing: true
-            });
-        } else {
+        console.log('screenProps', this.props.scrrenProps)
+        if (!this.props.screenProps) {
+            console.log('alert')
             Alert.alert(
                 'Network unavailable',
                 'The Internet connection appears to be offline',
@@ -41,6 +39,13 @@ export default class QuakesList extends Component {
                 ],
                 {cancelable: false}
             )
+            this.setState({
+                refreshing: false
+            });
+        } else {
+            this.setState({
+                refreshing: true
+            });
         }
 
     }
