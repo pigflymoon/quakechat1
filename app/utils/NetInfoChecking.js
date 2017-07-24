@@ -14,7 +14,7 @@ export default class NetInfoChecking extends Component {
         super(props, context);
         this.state = {
             isLoading: false,
-            isConnected: null,
+            isConnected: false,
             connectionInfo: null,
         };
     }
@@ -43,10 +43,23 @@ export default class NetInfoChecking extends Component {
     }
 
     handleConnectivityChange = (isConnected) => {
-        console.log('Then, is ' + isConnected);
+        isConnected = false;//test no network
+        if (!isConnected) {
+            Alert.alert(
+                'Network unavailable',
+                'The Internet connection appears to be offline',
+                [
+                    {text: 'OK'},
+                ],
+                {cancelable: false}
+            )
+        }else{
+            console.log('Then, is ' + isConnected);
 
-        this.setState({isConnected: isConnected});
-        this.props.connectCheck(isConnected);
+            this.setState({isConnected: isConnected});
+            this.props.connectCheck(isConnected);
+        }
+
     }
 
     render() {

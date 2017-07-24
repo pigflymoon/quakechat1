@@ -77,22 +77,22 @@ export const NewsStack = StackNavigator({
         },
     },
 });
-export const mapStack = StackNavigator({
+export const mapsStack = StackNavigator({
     Map: {
         screen: QuakesMap,
         navigationOptions: {
-            title: 'Quakes Map'
+            title: 'News'
         },
     },
 });
 export const Tabs = TabNavigator({
-    News: {
-        screen: NewsStack,
-        navigationOptions: {
-            tabBarLabel: 'News',
-            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
-        },
-    },
+    // ChatRoom: {
+    //     screen: ChatRoom,
+    //     navigationOptions: {
+    //         tabBarLabel: 'ChatRoom',
+    //         tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+    //     },
+    // },
     ChatRoom: {
         screen: ChatRoomStack,
         navigationOptions: {
@@ -100,7 +100,13 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
         }
     },
-
+    News: {
+        screen: NewsStack,
+        navigationOptions: {
+            tabBarLabel: 'News',
+            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+        },
+    },
 
     Settings: {
         screen: SettingsStack,
@@ -113,15 +119,16 @@ export const Tabs = TabNavigator({
         screen: QuakesListStack,
         navigationOptions: {
             tabBarLabel: 'Quakes',
-            tabBarIcon: ({tintColor}) => <Icon name="bolt" type='font-awesome' size={35} color={tintColor}/>,
+            tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
 
     Map: {
-        screen: mapStack,
+        screen: QuakesMap,
 
         navigationOptions: {
             tabBarLabel: 'Map',
+            title: 'QuakesMap',
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
         },
     },

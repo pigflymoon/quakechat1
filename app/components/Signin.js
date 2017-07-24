@@ -22,6 +22,8 @@ import AnimatedInfo from './AnimatedInfo';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
 
+import NetInfoChecking from '../utils/NetInfoChecking';
+
 export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
@@ -32,10 +34,23 @@ export default class LoginScreen extends Component {
             name: '',
             names: [],
             showInfo: false,
+            isConnected: false,
         };
-
     }
 
+
+    connectChecking = (isConnected) => {
+        this.setState({isConnected: isConnected});
+    }
+
+
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextState.isConnected;
+        if (isConnected) {
+            return true;
+        }
+        return false;
+    }
 
     signup = () => {
         Actions.signup();
@@ -44,46 +59,49 @@ export default class LoginScreen extends Component {
     handleSignin = (e) => {
         var self = this;
         e.preventDefault()
-        if (!this.state.email) {
-            this.setState({
-                showInfo: true
-            });
-        }
+        if (this.state.isConnected) {
+            console.log('connected')
+            if (!this.state.email) {
+                this.setState({
+                    showInfo: true
+                });
+            }
 
-        firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(function (user) {
-                firebaseApp.auth().onAuthStateChanged(function (user) {
-                    if (user) {
-                        console.log('********** In Sign in moudle********* ', user, ' is signed in');
-                        Actions.chat();
-                    } else {
-                        console.log('error')
-                    }
+            firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+                .then(function (user) {
+                    firebaseApp.auth().onAuthStateChanged(function (user) {
+                        if (user) {
+                            console.log('********** In Sign in moudle********* ', user, ' is signed in');
+                            Actions.chat();
+                        } else {
+                            console.log('error')
+                        }
+                    })
                 })
-            })
-            .catch(function (error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                switch (errorCode) {
-                    case 'auth/invalid-email':
-                    case 'auth/user-disabled':
-                    case 'auth/user-not-found':
-                    case 'auth/wrong-password':
-                        self.setState({
-                            showInfo: true
-                        });
-                        break;
-                    default:
-                        self.setState({
-                            showInfo: true
-                        });
+                .catch(function (error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    switch (errorCode) {
+                        case 'auth/invalid-email':
+                        case 'auth/user-disabled':
+                        case 'auth/user-not-found':
+                        case 'auth/wrong-password':
+                            self.setState({
+                                showInfo: true
+                            });
+                            break;
+                        default:
+                            self.setState({
+                                showInfo: true
+                            });
 
 
-                }
+                    }
 
-                console.log(error);
-            });
+                    console.log(error);
+                });
+        }
 
 
     }
@@ -109,6 +127,8 @@ export default class LoginScreen extends Component {
     render() {
         return (
             <View style={chat.container}>
+                <NetInfoChecking connectCheck={this.connectChecking}/>
+
                 <View style={chat.background} resizeMode="cover">
                     <View style={chat.markWrap}>
                         <View style={chat.circleIcon}>

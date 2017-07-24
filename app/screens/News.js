@@ -76,7 +76,6 @@ export default class News extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         var isConnected = nextState.isConnected;
-        // isConnected = false;//test no network
         if (isConnected) {
             this.fetchNews(true);
             return true;
