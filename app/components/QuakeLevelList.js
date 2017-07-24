@@ -4,11 +4,13 @@ import {
     View,
     ScrollView,
     AppState,
-    AsyncStorage
+    AsyncStorage,
+    Alert
 
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import quakeStyle from '../styles/quake';
+import showInfo from '../styles/showInfo';
 
 import axios from 'axios';
 import {colorByMmi} from '../utils/utils';
@@ -130,6 +132,7 @@ export default class QuakeLevelList extends Component {
                     console.log('Not refresh data');
                 });
         }
+
 
     }
 
@@ -275,6 +278,12 @@ export default class QuakeLevelList extends Component {
             <Text>Loading...</Text>
         )
     }
+    renderOffline = () => {
+        return (
+            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
+
+        )
+    }
 
     onQuakeDetail = (isConnected, quake) => {
         this.props.navigation.navigate('Detail', {isConnected, ...quake});
@@ -283,9 +292,13 @@ export default class QuakeLevelList extends Component {
 
     render() {
         var isConnected = this.props.isConnected;
+        if (!isConnected) {
+            return this.renderOffline();
+        }
         if (this.state.isLoading) {
             return this.renderLoadingView();
         }
+
 
         return (
             <List>

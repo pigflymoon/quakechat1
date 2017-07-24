@@ -6,6 +6,8 @@ import {
     Linking,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
+import showInfo from '../styles/showInfo';
+
 import axios from 'axios';
 
 var news;
@@ -97,8 +99,18 @@ export default class News extends Component {
         }
     }
 
+    renderOffline = () => {
+        return (
+            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
+
+        )
+    }
 
     render() {
+        var isConnected = this.props.screenProps;
+        if (!isConnected) {
+            return this.renderOffline();
+        }
         if (this.state.isLoading) {
             return this.renderLoadingView();
         }

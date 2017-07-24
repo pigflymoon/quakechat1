@@ -4,15 +4,9 @@ import {
     View,
     ScrollView,
     Linking,
-    Icon,
-    StyleSheet,
-    AppState,
-    Picker,
-    Platform,
-    RefreshControl
+    RefreshControl,
+    Alert,
 } from 'react-native';
-
-import {bind} from '../utils/utils';
 
 import QuakeLevelTab from '../components/QuakeLevelTab';
 import QuakeLevelList from '../components/QuakeLevelList';
@@ -27,33 +21,44 @@ export default class QuakesList extends Component {
         this.state = {
             level: 0,
             refreshing: false,
+            isConnected: false,
         };
 
-        bind(this)('handleQuakeLevel', 'handleRefreshData', 'getRefreshData')
     }
 
 
-    getRefreshData() {
-        this.setState({
-            refreshing: true
-        });
+    getRefreshData = () => {
+        if (this.props.screenProps) {
+            this.setState({
+                refreshing: true
+            });
+        } else {
+            Alert.alert(
+                'Network unavailable',
+                'The Internet connection appears to be offline',
+                [
+                    {text: 'OK'},
+                ],
+                {cancelable: false}
+            )
+        }
+
     }
 
 
-    handleRefreshData(value) {
+    handleRefreshData = (value) => {
         this.setState({
             refreshing: value
         });
     }
 
-    handleQuakeLevel(level) {
+    handleQuakeLevel = (level) => {
         this.setState({
             level: level
         })
     }
 
     render() {
-        console.log('quake list',this.props.screenProps)
         return (
             <ScrollView
                 refreshControl={

@@ -10,6 +10,7 @@ import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
+import showInfo from '../styles/showInfo';
 
 import {bind} from '../utils/utils';
 
@@ -43,7 +44,18 @@ export default class QuakesMap extends Component {
         }
     }
 
+    renderOffline = () => {
+        return (
+            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
+
+        )
+    }
+
     render() {
+        var isConnected = this.props.screenProps;
+        if (!isConnected) {
+            return this.renderOffline();
+        }
         return (
             <View style={quakeStyle.quakesContainer}>
                 <QuakeMap type="SliderMap"

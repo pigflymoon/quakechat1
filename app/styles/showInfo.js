@@ -1,0 +1,14 @@
+import colors from '../styles/colors';
+export default{
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 50,
+
+    },
+    text: {
+        color: colors.primary1
+    }
+
+}
