@@ -7,9 +7,29 @@ import quakeStyle from '../styles/quake';
 import QuakeMap from '../components/QuakeMap';
 
 export default class QuakeDetail extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isConnected: this.props.navigation.state.params.isConnected,
+        };
+    }
+
     onQuakeQuality = (quake) => {
         this.props.navigation.navigate('Quality', quake);
     };
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //
+    //     var isConnected = nextProps.navigation.state.params.isConnected
+    //     console.log('should update',isConnected)
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
     render() {
         const {geometry, properties, utime} = this.props.navigation.state.params;
         return (
@@ -17,7 +37,8 @@ export default class QuakeDetail extends Component {
 
                 <ScrollView style={StyleSheet.absoluteFill}
                             contentContainerStyle={quakeStyle.scrollview}>
-                    <QuakeMap style={quakeStyle.map} mapInfo={this.props.navigation.state.params}/>
+                    <QuakeMap style={quakeStyle.map} mapInfo={this.props.navigation.state.params}
+                              isConnected={this.state.isConnected}/>
 
 
                     <List style={quakeStyle.detail}>

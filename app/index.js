@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
     NetInfo,
+    Alert,
 } from 'react-native';
 import {Root} from './config/router';
 

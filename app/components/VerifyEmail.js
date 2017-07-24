@@ -26,20 +26,14 @@ export default class ConfirmEmail extends Component {
 
         };
     }
-
-    connectChecking = (isConnected) => {
-        this.setState({isConnected: isConnected});
-    }
-
-
     shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextState.isConnected;
+        var isConnected = nextProps.screenProps;//update netinfo
         if (isConnected) {
+            this.setState({isConnected: isConnected});
             return true;
         }
         return false;
     }
-
 
     handleVerifyEmail = () => {
         let interval = null;
@@ -110,7 +104,6 @@ export default class ConfirmEmail extends Component {
         return (
 
             <View style={chat.container}>
-                <NetInfoChecking connectCheck={this.connectChecking}/>
 
                 {this.state.isLoading ? (
                         <View style={chat.loading}>

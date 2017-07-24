@@ -32,18 +32,16 @@ export default class LoginScreen extends Component {
     }
 
 
-    connectChecking = (isConnected) => {
-        this.setState({isConnected: isConnected});
-    }
-
 
     shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextState.isConnected;
+        var isConnected = nextProps.screenProps;//update netinfo
         if (isConnected) {
+            this.setState({isConnected: isConnected});
             return true;
         }
         return false;
     }
+
 
     signup = () => {
         Actions.signup();

@@ -47,7 +47,9 @@ export default class QuakesMap extends Component {
         return (
             <View style={quakeStyle.quakesContainer}>
                 <QuakeMap type="SliderMap"
-                          nps_source={nps_url} level={this.state.level}
+                          nps_source={nps_url}
+                          level={this.state.level}
+                          isConnected={this.props.screenProps}
                 />
 
                 <View>

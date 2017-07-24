@@ -125,7 +125,6 @@ export const Tabs = TabNavigator({
 
     Map: {
         screen: QuakesMap,
-
         navigationOptions: {
             tabBarLabel: 'Map',
             title: 'QuakesMap',

@@ -27,8 +27,6 @@ export default class QuakesList extends Component {
         this.state = {
             level: 0,
             refreshing: false,
-            isConnected: false,
-
         };
 
         bind(this)('handleQuakeLevel', 'handleRefreshData', 'getRefreshData')
@@ -55,6 +53,7 @@ export default class QuakesList extends Component {
     }
 
     render() {
+        console.log('quake list',this.props.screenProps)
         return (
             <ScrollView
                 refreshControl={
@@ -68,7 +67,10 @@ export default class QuakesList extends Component {
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
                                 nps_source={nps_url}
                                 refreshing={this.state.refreshing}
-                                level={this.state.level}/>
+                                level={this.state.level}
+                                isConnected={this.props.screenProps}
+
+                />
             </ScrollView>
         )
     }

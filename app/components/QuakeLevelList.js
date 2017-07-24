@@ -9,8 +9,6 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import quakeStyle from '../styles/quake';
-import NetInfoChecking from '../utils/NetInfoChecking';
-
 
 import axios from 'axios';
 import {colorByMmi} from '../utils/utils';
@@ -27,27 +25,12 @@ export default class QuakeLevelList extends Component {
             timestamp: 0,
             isRefreshing: false,
             isConnected: false,
-
-
         };
 
         // this.handleAppStateChange = this.handleAppStateChange.bind(this);
 
     }
 
-
-    connectChecking = (isConnected) => {
-        this.setState({isConnected: isConnected});
-    }
-
-
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextState.isConnected;
-        if (isConnected) {
-            return true;
-        }
-        return false;
-    }
 
     fetchApiData(url, refresh) {
         if (refresh == 'refreshing') {
@@ -174,16 +157,25 @@ export default class QuakeLevelList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextpropr refreshing is ', nextProps.refreshing)
+        console.log('nextprop refreshing is ', nextProps.refreshing)
         // if (!nextProps.refreshing) return;
         this.fetchQuakes(nextProps);
 
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.isConnected;
+        this.setState({isConnected: isConnected});
+        if (isConnected) {
+            console.log('fetch quakes')
+            return true;
+        }
+        return false;
+    }
 
     componentDidMount() {
-        console.log('level list called')
-        if (this.state.isConnected) {
+        console.log('level list this.props.screenProps', this.props.isConnected)
+        if (this.props.isConnected) {
 
             if (this.state.dataSource.length <= 0) {
                 this.fetchQuakes();
@@ -284,12 +276,13 @@ export default class QuakeLevelList extends Component {
         )
     }
 
-    onQuakeDetail = (quake) => {
-        this.props.navigation.navigate('Detail', {...quake});
+    onQuakeDetail = (isConnected, quake) => {
+        this.props.navigation.navigate('Detail', {isConnected, ...quake});
     };
 
 
     render() {
+        var isConnected = this.props.isConnected;
         if (this.state.isLoading) {
             return this.renderLoadingView();
         }
@@ -314,7 +307,7 @@ export default class QuakeLevelList extends Component {
                                   </View>
                               }
 
-                              onPress={() => this.onQuakeDetail(quake)}
+                              onPress={() => this.onQuakeDetail(isConnected, quake)}
                     />
                 ))}
             </List>

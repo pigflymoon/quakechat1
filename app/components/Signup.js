@@ -29,15 +29,10 @@ export default class Signup extends Component {
             isConnected: false,
         };
     }
-
-    connectChecking = (isConnected) => {
-        this.setState({isConnected: isConnected});
-    }
-
-
     shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextState.isConnected;
+        var isConnected = nextProps.screenProps;//update netinfo
         if (isConnected) {
+            this.setState({isConnected: isConnected});
             return true;
         }
         return false;
