@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-    StyleSheet,
     Text,
     View,
     Dimensions
@@ -9,6 +8,7 @@ import {
 import MapView from 'react-native-maps';
 import axios from 'axios';
 import CustomCallout from './CustomCallout'
+import NetInfoChecking from '../utils/NetInfoChecking';
 
 import map from '../styles/map';
 
@@ -31,12 +31,24 @@ export default class QuakeMap extends Component {
         this.state = {
             markers: [],
             loading: true,
-            error: null
+            error: null,
+            isConnected: false,
+
         };
-
-
     }
 
+    connectChecking = (isConnected) => {
+        this.setState({isConnected: isConnected});
+    }
+
+
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextState.isConnected;
+        if (isConnected) {
+            return true;
+        }
+        return false;
+    }
     componentWillReceiveProps(nextProps) {
         if (this.props.type && this.props.type == "SliderMap") {
             this.loadMapInfo(nextProps)
@@ -46,12 +58,15 @@ export default class QuakeMap extends Component {
 
     componentDidMount() {
         console.log('map called')
-        if (this.props.type && this.props.type == "SliderMap") {
-            this.loadMapInfo("");
-        } else {
-            // console.log('detail map');
-            this.loadFeatures("");
+        if (this.state.isConnected) {
+            if (this.props.type && this.props.type == "SliderMap") {
+                this.loadMapInfo("");
+            } else {
+                // console.log('detail map');
+                this.loadFeatures("");
+            }
         }
+
 
     }
 
@@ -145,6 +160,7 @@ export default class QuakeMap extends Component {
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA,
                 }}>
+                <NetInfoChecking connectCheck={this.connectChecking}/>
 
                 {this.state.markers.map((marker, index) => (
                     <MapView.Marker style={map.marker}
