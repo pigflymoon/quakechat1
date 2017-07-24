@@ -8,8 +8,6 @@ import {
 import {List, ListItem} from 'react-native-elements';
 import axios from 'axios';
 
-import NetInfoChecking from '../utils/NetInfoChecking';
-
 var news;
 
 export default class News extends Component {
@@ -19,12 +17,8 @@ export default class News extends Component {
         this.state = {
             dataSource: [],
             isLoading: false,
-            isConnected: null,
+            isConnected: false,
         };
-    }
-
-    connectChecking = (isConnected) => {
-        this.setState({isConnected: isConnected});
     }
 
     fetchApiData = () => {
@@ -68,22 +62,6 @@ export default class News extends Component {
         }
     }
 
-    componentDidMount() {
-        if (this.state.isConnected) {
-            this.fetchNews(true);
-        }
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextState.isConnected;
-        if (isConnected) {
-            this.fetchNews(true);
-            return true;
-        }
-        return false;
-    }
-
-
     renderLoadingView = () => {
         return (
             <ScrollView>
@@ -103,14 +81,28 @@ export default class News extends Component {
     }
 
 
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.screenProps;//update netinfo
+        if (isConnected) {
+            this.fetchNews(true);
+            return true;
+        }
+        return false;
+    }
+
+    componentDidMount() {
+        if (this.props.screenProps) {//check netinfo
+            this.fetchNews(true);
+        }
+    }
+
+
     render() {
         if (this.state.isLoading) {
             return this.renderLoadingView();
         }
-
         return (
             <ScrollView>
-                <NetInfoChecking connectCheck={this.connectChecking}/>
                 <List>
                     {this.state.dataSource.map((news, index) => (
                         <ListItem

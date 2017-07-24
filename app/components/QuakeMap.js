@@ -42,13 +42,7 @@ export default class QuakeMap extends Component {
     }
 
 
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextState.isConnected;
-        if (isConnected) {
-            return true;
-        }
-        return false;
-    }
+
     componentWillReceiveProps(nextProps) {
         if (this.props.type && this.props.type == "SliderMap") {
             this.loadMapInfo(nextProps)
@@ -68,6 +62,14 @@ export default class QuakeMap extends Component {
         }
 
 
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextState.isConnected;
+        console.log('map net is connected?',isConnected)
+        if (isConnected) {
+            return true;
+        }
+        return false;
     }
 
     loadMapInfo(nextProps) {
@@ -160,7 +162,6 @@ export default class QuakeMap extends Component {
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA,
                 }}>
-                <NetInfoChecking connectCheck={this.connectChecking}/>
 
                 {this.state.markers.map((marker, index) => (
                     <MapView.Marker style={map.marker}

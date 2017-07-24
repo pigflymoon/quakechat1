@@ -296,7 +296,6 @@ export default class QuakeLevelList extends Component {
 
         return (
             <List>
-                <NetInfoChecking connectCheck={this.connectChecking}/>
 
                 {this.state.dataSource.map((quake, index) => (
                     <ListItem key={`list-${index}`}

@@ -106,7 +106,6 @@ export default class Signup extends Component {
     render() {
         return (
             <View style={chat.container}>
-                <NetInfoChecking connectCheck={this.connectChecking}/>
 
                 <View style={chat.background}>
                     <View style={[chat.markWrap]}>

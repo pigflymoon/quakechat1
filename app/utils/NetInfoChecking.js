@@ -43,7 +43,7 @@ export default class NetInfoChecking extends Component {
     }
 
     handleConnectivityChange = (isConnected) => {
-        isConnected = false;//test no network
+        // isConnected = false;//test no network
         if (!isConnected) {
             Alert.alert(
                 'Network unavailable',
@@ -53,12 +53,12 @@ export default class NetInfoChecking extends Component {
                 ],
                 {cancelable: false}
             )
-        }else{
+        }
             console.log('Then, is ' + isConnected);
 
             this.setState({isConnected: isConnected});
             this.props.connectCheck(isConnected);
-        }
+
 
     }
 
