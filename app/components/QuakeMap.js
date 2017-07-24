@@ -9,6 +9,7 @@ import MapView from 'react-native-maps';
 import axios from 'axios';
 import CustomCallout from './CustomCallout'
 import NetInfoChecking from '../utils/NetInfoChecking';
+import showInfo from '../styles/showInfo';
 
 import map from '../styles/map';
 
@@ -202,7 +203,18 @@ export default class QuakeMap extends Component {
         );
     }
 
+    renderOffline = () => {
+        return (
+            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
+
+        )
+    }
+
     render() {
+        // var isConnected = this.props.screenProps;
+        if (this.state.isConnected) {
+            return this.renderOffline();
+        }
         return (
             <View style={map.container}>
                 {this.state.loading ?
