@@ -1,17 +1,10 @@
 import React, {Component} from 'react';
 import {
-    AppRegistry,
-    StyleSheet,
     Text,
     View,
-    Image,
-    Dimensions,
     TextInput,
-    Button,
     TouchableOpacity,
-    Alert,
     Animated,
-    Easing,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
