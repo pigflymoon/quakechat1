@@ -79,6 +79,7 @@ export default class ChatGroup extends Component {
     }
 
     componentDidMount() {
+        console.log('chat group called')
         this.setState({
             signin: true
         });
@@ -91,6 +92,10 @@ export default class ChatGroup extends Component {
             });
         });
 
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('chat should upload');
+        return false;
     }
 
     componentWillUnmount() {

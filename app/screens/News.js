@@ -3,18 +3,12 @@ import {
     Text,
     View,
     ScrollView,
-    StyleSheet,
     Linking,
-    AppState,
-    Picker,
-    Platform
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import axios from 'axios';
 
-import {bind} from '../utils/utils';
 import NetInfoChecking from '../utils/NetInfoChecking';
-
 
 var news;
 
@@ -25,24 +19,12 @@ export default class News extends Component {
         this.state = {
             dataSource: [],
             isLoading: false,
-            seconds: 5,
             isConnected: null,
         };
-        bind(this)('renderLoadingView', 'goToURL');
     }
 
     connectChecking = (isConnected) => {
         this.setState({isConnected: isConnected});
-    }
-
-    componentDidMount() {
-        console.log('did mount called?')
-        if (this.state.isConnected) {
-            this.fetchNews();
-
-        }
-
-
     }
 
     fetchApiData = () => {
@@ -61,34 +43,38 @@ export default class News extends Component {
                         isLoading: false
                     })
                 });
-            this.timer = setInterval(() => {
-                axios.get(`https://api.geonet.org.nz/news/geonet`)
-                    .then(res => {
-                        news = res.data.feed.map(function (item) {
-                            if (item.published) {
-                                item.published = item.published.slice(0, 10).replace(/-/g, "-")
-                            }
-
-                            return item;
-                        });
-                        this.setState({
-                            dataSource: news,
-                            isLoading: false
-                        })
-                    });
-            }, 1000 * 60 * 60 * 24);
+            // this.timer = setInterval(() => {
+            //     axios.get(`https://api.geonet.org.nz/news/geonet`)
+            //         .then(res => {
+            //             news = res.data.feed.map(function (item) {
+            //                 if (item.published) {
+            //                     item.published = item.published.slice(0, 10).replace(/-/g, "-")
+            //                 }
+            //
+            //                 return item;
+            //             });
+            //             this.setState({
+            //                 dataSource: news,
+            //                 isLoading: false
+            //             })
+            //         });
+            // }, 1000 * 60 * 60 * 24);
 
         }
     }
     fetchNews = (isConnected) => {
-
         if (isConnected) {
             this.fetchApiData()
         }
     }
 
+    componentDidMount() {
+        if (this.state.isConnected) {
+            this.fetchNews(true);
+        }
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('shouldComponentUpdate called')
         var isConnected = nextState.isConnected;
         // isConnected = false;//test no network
         if (isConnected) {
@@ -99,7 +85,7 @@ export default class News extends Component {
     }
 
 
-    renderLoadingView() {
+    renderLoadingView = () => {
         return (
             <ScrollView>
                 <Text>Loading...</Text>
@@ -107,7 +93,7 @@ export default class News extends Component {
         )
     }
 
-    goToURL(url) {
+    goToURL = (url) => {
         Linking.canOpenURL(url).then(supported => {
             if (supported) {
                 Linking.openURL(url);
@@ -125,7 +111,7 @@ export default class News extends Component {
 
         return (
             <ScrollView>
-                <NetInfoChecking connectCheck={this.connectChecking} isConnected={this.state.isConnected}/>
+                <NetInfoChecking connectCheck={this.connectChecking}/>
                 <List>
                     {this.state.dataSource.map((news, index) => (
                         <ListItem
@@ -139,5 +125,4 @@ export default class News extends Component {
             </ScrollView>
         )
     }
-
 }

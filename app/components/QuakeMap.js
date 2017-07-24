@@ -45,6 +45,7 @@ export default class QuakeMap extends Component {
     }
 
     componentDidMount() {
+        console.log('map called')
         if (this.props.type && this.props.type == "SliderMap") {
             this.loadMapInfo("");
         } else {

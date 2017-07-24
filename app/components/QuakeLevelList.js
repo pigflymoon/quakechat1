@@ -171,7 +171,7 @@ export default class QuakeLevelList extends Component {
 
 
     componentDidMount() {
-        // console.log('in the app QuakesList data', this.state.dataSource.length);
+        console.log('level list called')
         if (this.state.dataSource.length <= 0) {
             this.fetchQuakes();
         }
