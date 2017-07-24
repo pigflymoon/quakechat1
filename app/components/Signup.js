@@ -1,20 +1,14 @@
 import React, {Component} from 'react'
 import {
-    AppRegistry,
-    StyleSheet,
     Text,
     View,
-    Image,
     TextInput,
     TouchableOpacity,
-    Alert,
-    TouchableHighlight,
-    ActivityIndicator,
-    Dimensions
 } from 'react-native'
 
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
+import NetInfoChecking from '../utils/NetInfoChecking';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
@@ -32,8 +26,21 @@ export default class Signup extends Component {
             name: '',
             isLoading: false,
             showInfo: false,
+            isConnected: false,
+        };
+    }
+
+    connectChecking = (isConnected) => {
+        this.setState({isConnected: isConnected});
+    }
+
+
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextState.isConnected;
+        if (isConnected) {
+            return true;
         }
-        ;
+        return false;
     }
 
     handleSignin = () => {
@@ -74,28 +81,33 @@ export default class Signup extends Component {
 
     handleSignup = (e) => {
         e.preventDefault();
+        if (this.state.isConnected) {
+            if (!this.state.email) {
+                this.setState({
+                    showInfo: true
+                });
+            } else if (!this.state.password) {
+                this.setState({
+                    showInfo: true
+                });
+            } else {
 
-        if (!this.state.email) {
-            this.setState({
-                showInfo: true
-            });
-        } else if (!this.state.password) {
-            this.setState({
-                showInfo: true
-            });
-        } else {
-
-            this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
+                this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
+            }
         }
+
     }
     handleInfo = (showInfo) => {
         this.setState({
             showInfo: showInfo
         })
     }
+
     render() {
         return (
             <View style={chat.container}>
+                <NetInfoChecking connectCheck={this.connectChecking}/>
+
                 <View style={chat.background}>
                     <View style={[chat.markWrap]}>
                         <View style={chat.circleIcon}>
