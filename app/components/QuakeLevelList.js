@@ -26,6 +26,8 @@ export default class QuakeLevelList extends Component {
             isLoading: true,
             timestamp: 0,
             isRefreshing: false,
+            isConnected: false,
+
 
         };
 
