@@ -24,7 +24,6 @@ export default class QuakeLevelList extends Component {
         this.state = {
             dataSource: [],
             isLoading: true,
-            timestamp: 0,
             isRefreshing: false,
             isConnected: false,
         };
@@ -32,117 +31,68 @@ export default class QuakeLevelList extends Component {
 
     }
 
+    getList = (url,refresh) => {
+        axios.get(url)
+            .then(res => {
+                const filterData = [];
+                var timestamp = {};
+                quakes = res.data.features.reduce((array, value) => {
+                    // if condition is our filter
+                    if (value.properties.mmi >= 2) {
+                        // what happens inside the filter is the map
+                        let time = value.properties.time;
+                        var utime = new Date(time);
+                        utime = new Date(utime.toUTCString().slice(0, -4));
+                        utime = utime.toString().split('GMT')[0];
+
+                        time = new Date(time);
+                        let notificationDate = time.toString();
+                        console.log('notificationDate', notificationDate)
+                        var notificationTime = time.getTime();
+
+
+                        time = time.toString().split('GMT')[0];
+
+                        value.utime = utime;
+                        value.properties.time = time;
+                        value.properties.magnitude = value.properties.magnitude.toFixed(1);
+                        value.properties.depth = value.properties.depth.toFixed(1) + ' km';
+                        if (value.properties.mmi >= 2.8) {
+                            // AppState.addEventListener('change', this.handleAppStateChange);
+                            timestamp['time' + notificationTime] = {
+                                date: notificationDate,
+                                time: time,
+                                magnitude: value.properties.magnitude,
+                                location: value.properties.locality
+
+                            };
+                        }
+                        array.push(value);
+                    }
+                    return array;
+                }, filterData)
+
+                AsyncStorage.setItem("notification", JSON.stringify(timestamp));
+
+                this.setState({
+                    dataSource: quakes,
+                    isLoading: false,
+                })
+                console.log('refresh',refresh)
+                if(refresh){
+                    this.props.onRefreshData(false);
+                    // console.log('refresh data');
+                }
+                // console.log('Not refresh data');
+            });
+    }
 
     fetchApiData(url, refresh) {
         if (refresh == 'refreshing') {
-            axios.get(url)
-                .then(res => {
-                    const filterData = [];
-                    var timestamp = {};
-                    quakes = res.data.features.reduce((array, value) => {
-                        // if condition is our filter
-                        if (value.properties.mmi >= 2) {
-                            // what happens inside the filter is the map
-                            let time = value.properties.time;
-                            var utime = new Date(time);
-
-                            utime = new Date(utime.toUTCString().slice(0, -4));
-                            utime = utime.toString().split('GMT')[0];
-
-                            time = new Date(time);
-                            let notificationDate = time;
-                            console.log('notificationDate', notificationDate)
-                            var notificationTime = time.getTime();
-
-
-                            time = time.toString().split('GMT')[0];
-
-                            value.utime = utime;
-                            value.properties.time = time;
-                            value.properties.magnitude = value.properties.magnitude.toFixed(1);
-                            value.properties.depth = value.properties.depth.toFixed(1) + ' km';
-                            if (value.properties.mmi >= 2.8) {
-                                // AppState.addEventListener('change', this.handleAppStateChange);
-
-
-                                timestamp['time' + notificationTime] = {
-                                    date: notificationDate,
-                                    time: time,
-                                    magnitude: value.properties.magnitude,
-                                    location: value.properties.locality
-
-                                };
-
-                            }
-                            array.push(value);
-
-                        }
-
-                        return array;
-                    }, filterData)
-                    // AsyncStorage.setItem("notification", JSON.stringify(timestamp));
-                    // console.log('get items', AsyncStorage.getItem("notification"))
-                    this.setState({
-                        timestamp: timestamp,
-                        dataSource: quakes,
-                        isLoading: false,
-                    })
-
-                    this.props.onRefreshData(false);
-                    console.log('is refreshing data');
-                });
+            // console.log('refeshing')
+           this.getList(url,true)
         } else {
-            axios.get(url)
-                .then(res => {
-                    const filterData = [];
-                    var timestamp = {};
-                    quakes = res.data.features.reduce((array, value) => {
-                        // if condition is our filter
-                        if (value.properties.mmi >= 2) {
-                            // what happens inside the filter is the map
-                            let time = value.properties.time;
-                            var utime = new Date(time);
-                            utime = new Date(utime.toUTCString().slice(0, -4));
-                            utime = utime.toString().split('GMT')[0];
-
-                            time = new Date(time);
-                            let notificationDate = time.toString();
-                            console.log('notificationDate', notificationDate)
-                            var notificationTime = time.getTime();
-
-
-                            time = time.toString().split('GMT')[0];
-
-                            value.utime = utime;
-                            value.properties.time = time;
-                            value.properties.magnitude = value.properties.magnitude.toFixed(1);
-                            value.properties.depth = value.properties.depth.toFixed(1) + ' km';
-                            if (value.properties.mmi >= 2.8) {
-                                // AppState.addEventListener('change', this.handleAppStateChange);
-                                timestamp['time' + notificationTime] = {
-                                    date: notificationDate,
-                                    time: time,
-                                    magnitude: value.properties.magnitude,
-                                    location: value.properties.locality
-
-                                };
-                            }
-                            array.push(value);
-
-                        }
-
-                        return array;
-                    }, filterData)
-                    AsyncStorage.setItem("notification", JSON.stringify(timestamp));
-                    console.log('get items', timestamp)
-
-                    this.setState({
-                        timestamp: timestamp,
-                        dataSource: quakes,
-                        isLoading: false,
-                    })
-                    console.log('Not refresh data');
-                });
+            this.getList(url,false)
         }
 
 
@@ -155,7 +105,7 @@ export default class QuakeLevelList extends Component {
 
 
         if (nextProps) {
-            console.log('props refreshing is ', nextProps.refreshing)
+            console.log('props refreshing is ', nextProps.refreshing,(nextProps.refreshing == true))
             if (nextProps.refreshing == true) {
                 url = url + nextProps.level;
                 this.fetchApiData(url, 'refreshing');
@@ -237,9 +187,9 @@ export default class QuakeLevelList extends Component {
                     //
                     var isNotified = (value === "true");
                     if (isNotified) {
-                        if (Object.keys(this.state.timestamp).length > 0) {
-                            var timestamp;
-                            AsyncStorage.getItem("notification").then((value) => {
+                        var timestamp;
+                        AsyncStorage.getItem("notification").then((value) => {
+                            if (value) {
                                 console.log('notification', value);
 
                                 timestamp = JSON.parse(value);
@@ -258,23 +208,12 @@ export default class QuakeLevelList extends Component {
                                     });
 
                                 }
-                            }).done();
+                            }
 
+                        }).done();
 
-                        }
                     }
 
-
-                    //
-                    // if (isNotified) {
-                    //     PushNotification.localNotificationSchedule({
-                    //         message: "My Notification Message",
-                    //         date: date,
-                    //         number: 2,
-                    //         playSound: isSilent,
-                    //
-                    //     });
-                    // }
                 })
 
             }).done();
@@ -282,6 +221,7 @@ export default class QuakeLevelList extends Component {
 
         } else if (appState === 'active') {
             PushNotification.setApplicationIconBadgeNumber(0);
+            AsyncStorage.setItem("notification", '');
             console.log('notification clear:');
         }
 
