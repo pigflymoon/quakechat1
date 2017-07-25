@@ -31,68 +31,111 @@ export default class QuakeLevelList extends Component {
 
     }
 
-    getList = (url,refresh) => {
+    getList = (url, refresh) => {
         axios.get(url)
             .then(res => {
-                const filterData = [];
-                var timestamp = {};
-                quakes = res.data.features.reduce((array, value) => {
-                    // if condition is our filter
-                    if (value.properties.mmi >= 2) {
-                        // what happens inside the filter is the map
-                        let time = value.properties.time;
-                        var utime = new Date(time);
-                        utime = new Date(utime.toUTCString().slice(0, -4));
-                        utime = utime.toString().split('GMT')[0];
 
-                        time = new Date(time);
-                        let notificationDate = time.toString();
-                        console.log('notificationDate', notificationDate)
-                        var notificationTime = time.getTime();
+                // AsyncStorage.getItem("lastNotificationTime", lastNotificationTime);
+                AsyncStorage.getItem("lastNotificationTime").then((lastNotificationTimeItem) => {
+                    const filterData = [];
+                    var timestamp = {};
+                    let lastNotificationTime;
+                    lastNotificationTime = lastNotificationTimeItem;
+                    console.log('lastNotificationTime ', lastNotificationTime)
+                    quakes = res.data.features.reduce((array, value) => {
+                        // if condition is our filter
+                        if (value.properties.mmi >= 2) {
+                            // what happens inside the filter is the map
+                            let time = value.properties.time;
+                            var utime = new Date(time);
+                            utime = new Date(utime.toUTCString().slice(0, -4));
+                            utime = utime.toString().split('GMT')[0];
+
+                            time = new Date(time);
+                            let notificationDate = time.toString();
+
+                            var notificationTime = time.getTime();
 
 
-                        time = time.toString().split('GMT')[0];
+                            time = time.toString().split('GMT')[0];
 
-                        value.utime = utime;
-                        value.properties.time = time;
-                        value.properties.magnitude = value.properties.magnitude.toFixed(1);
-                        value.properties.depth = value.properties.depth.toFixed(1) + ' km';
-                        if (value.properties.mmi >= 2.8) {
-                            // AppState.addEventListener('change', this.handleAppStateChange);
-                            timestamp['time' + notificationTime] = {
-                                date: notificationDate,
-                                time: time,
-                                magnitude: value.properties.magnitude,
-                                location: value.properties.locality
+                            value.utime = utime;
+                            value.properties.time = time;
+                            value.properties.magnitude = value.properties.magnitude.toFixed(1);
+                            value.properties.depth = value.properties.depth.toFixed(1) + ' km';
+                            if (value.properties.mmi >= 2.8) {
+                                // AppState.addEventListener('change', this.handleAppStateChange);
 
-                            };
+                                // AsyncStorage.getItem("lastNotificationTime").then((lastNotificationTime) => {
+
+                                // if (Object.keys(lastNotificationTime).length === 0 && lastNotificationTime.constructor === Object) {
+                                //     timestamp['time' + notificationTime] = {
+                                //         notificationTime: notificationTime.toString(),
+                                //         date: notificationDate,
+                                //         time: time,
+                                //         magnitude: value.properties.magnitude,
+                                //         location: value.properties.locality
+                                //
+                                //     };
+                                //     console.log('first time called')
+                                // } else {
+
+                                // lastNotificationTime = lastNotificationTime;
+                                console.log('lastNotificationTime  is', lastNotificationTime)
+                                if (notificationTime > lastNotificationTime) {
+                                    timestamp['time' + notificationTime] = {
+                                        notificationTime: notificationTime.toString(),
+                                        date: notificationDate,
+                                        time: time,
+                                        magnitude: value.properties.magnitude,
+                                        location: value.properties.locality
+
+                                    };
+                                }
+                                console.log(timestamp)
+                                // }
+
+
+                                // }).done();
+
+                            }
+                            array.push(value);
                         }
-                        array.push(value);
+
+
+                        return array;
+                    }, filterData)
+                    if (timestamp.length > 0) {
+                        console.log('notification is not null')
+                        AsyncStorage.setItem("notification", JSON.stringify(timestamp));
+                    }else{
+                        AsyncStorage.setItem("notification", 'noData');
                     }
-                    return array;
-                }, filterData)
+                    this.setState({
+                        dataSource: quakes,
+                        isLoading: false,
+                    })
 
-                AsyncStorage.setItem("notification", JSON.stringify(timestamp));
+                    if (refresh) {
+                        this.props.onRefreshData(false);
+                        // console.log('refresh data');
+                    }
+                }).done();
 
-                this.setState({
-                    dataSource: quakes,
-                    isLoading: false,
-                })
-                console.log('refresh',refresh)
-                if(refresh){
-                    this.props.onRefreshData(false);
-                    // console.log('refresh data');
-                }
-                // console.log('Not refresh data');
+                // if (timestamp) {
+                //     AsyncStorage.setItem("notification", JSON.stringify(timestamp));
+                // }
+
+
             });
     }
 
     fetchApiData(url, refresh) {
         if (refresh == 'refreshing') {
             // console.log('refeshing')
-           this.getList(url,true)
+            this.getList(url, true)
         } else {
-            this.getList(url,false)
+            this.getList(url, false)
         }
 
 
@@ -105,7 +148,7 @@ export default class QuakeLevelList extends Component {
 
 
         if (nextProps) {
-            console.log('props refreshing is ', nextProps.refreshing,(nextProps.refreshing == true))
+            // console.log('props refreshing is ', nextProps.refreshing, (nextProps.refreshing == true))
             if (nextProps.refreshing == true) {
                 url = url + nextProps.level;
                 this.fetchApiData(url, 'refreshing');
@@ -122,7 +165,7 @@ export default class QuakeLevelList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextprop refreshing is ', nextProps.refreshing)
+        // console.log('nextprop refreshing is ', nextProps.refreshing)
         // if (!nextProps.refreshing) return;
         this.fetchQuakes(nextProps);
 
@@ -132,14 +175,14 @@ export default class QuakeLevelList extends Component {
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
         if (isConnected) {
-            console.log('fetch quakes')
+            // console.log('fetch quakes')
             return true;
         }
         return false;
     }
 
     componentDidMount() {
-        console.log('level list this.props.screenProps', this.props.isConnected)
+        // console.log('level list this.props.screenProps', this.props.isConnected)
         AppState.addEventListener('change', this.handleAppStateChange);
 
         if (this.props.isConnected) {
@@ -177,37 +220,45 @@ export default class QuakeLevelList extends Component {
 
 
         if (appState === 'background') {
-            console.log('background notified')
-            let date = new Date(Date.now() + (5 * 1000));
-            AsyncStorage.getItem("isNotified").then((value) => {
+            // console.log('background notified')
+            // let date = new Date(Date.now() + (5 * 1000));
+            AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
 
-                AsyncStorage.getItem("isSilent").then((value) => {
-                    var isSilent = (value === "true");
+                AsyncStorage.getItem("isSilent").then((isSlientValue) => {
+                    var isSilent = (isSlientValue === "true");
 
                     //
-                    var isNotified = (value === "true");
+                    var isNotified = (isNotifiedValue === "true");
                     if (isNotified) {
                         var timestamp;
-                        AsyncStorage.getItem("notification").then((value) => {
-                            if (value) {
-                                console.log('notification', value);
+                        AsyncStorage.getItem("notification").then((notificationValue) => {
+                            console.log('notificationValue******')
 
-                                timestamp = JSON.parse(value);
+                            if (notificationValue =='noData') {
+                                console.log('notification is empty')
+                                return false;
+                            } else {
+                                console.log('notification', notificationValue);
+
+                                timestamp = JSON.parse(notificationValue);
+                                let lastNotificationTime = timestamp[Object.keys(timestamp)[0]].notificationTime;
+
                                 for (var k in timestamp) {
                                     let time = new Date(timestamp[k]);
-                                    let date1 = timestamp[k].date;
+                                    let date = new Date(timestamp[k].date);
                                     let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
-                                    console.log('notified', new Date(date1))
-                                    console.log('date', typeof(date))
+
+
                                     PushNotification.localNotificationSchedule({
                                         message: message,
-                                        date: new Date(date1),
+                                        date: date,
                                         number: 0,
                                         playSound: isSilent,
 
                                     });
 
                                 }
+                                AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());
                             }
 
                         }).done();
@@ -221,7 +272,7 @@ export default class QuakeLevelList extends Component {
 
         } else if (appState === 'active') {
             PushNotification.setApplicationIconBadgeNumber(0);
-            AsyncStorage.setItem("notification", '');
+            // AsyncStorage.setItem("notification", '');
             console.log('notification clear:');
         }
 
@@ -229,7 +280,7 @@ export default class QuakeLevelList extends Component {
             // (required) Called when a remote or local notification is opened or received
             onNotification: function (notification) {
                 PushNotification.setApplicationIconBadgeNumber(0);
-                console.log('NOTIFICATION:', notification);
+                // console.log('NOTIFICATION:', notification);
             },
         });
     }
