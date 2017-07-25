@@ -14,7 +14,7 @@ import showInfo from '../styles/showInfo';
 
 import axios from 'axios';
 import {colorByMmi} from '../utils/utils';
-// import PushNotification from 'react-native-push-notification';
+import PushNotification from 'react-native-push-notification';
 var quakes;
 
 export default class QuakeLevelList extends Component {
@@ -29,7 +29,6 @@ export default class QuakeLevelList extends Component {
             isConnected: false,
         };
 
-        // this.handleAppStateChange = this.handleAppStateChange.bind(this);
 
     }
 
@@ -46,10 +45,13 @@ export default class QuakeLevelList extends Component {
                             // what happens inside the filter is the map
                             let time = value.properties.time;
                             var utime = new Date(time);
+
                             utime = new Date(utime.toUTCString().slice(0, -4));
                             utime = utime.toString().split('GMT')[0];
 
                             time = new Date(time);
+                            let notificationDate = time;
+                            console.log('notificationDate', notificationDate)
                             var notificationTime = time.getTime();
 
 
@@ -61,12 +63,16 @@ export default class QuakeLevelList extends Component {
                             value.properties.depth = value.properties.depth.toFixed(1) + ' km';
                             if (value.properties.mmi >= 2.8) {
                                 // AppState.addEventListener('change', this.handleAppStateChange);
+
+
                                 timestamp['time' + notificationTime] = {
+                                    date: notificationDate,
                                     time: time,
                                     magnitude: value.properties.magnitude,
                                     location: value.properties.locality
 
                                 };
+
                             }
                             array.push(value);
 
@@ -74,7 +80,8 @@ export default class QuakeLevelList extends Component {
 
                         return array;
                     }, filterData)
-
+                    // AsyncStorage.setItem("notification", JSON.stringify(timestamp));
+                    // console.log('get items', AsyncStorage.getItem("notification"))
                     this.setState({
                         timestamp: timestamp,
                         dataSource: quakes,
@@ -99,6 +106,8 @@ export default class QuakeLevelList extends Component {
                             utime = utime.toString().split('GMT')[0];
 
                             time = new Date(time);
+                            let notificationDate = time.toString();
+                            console.log('notificationDate', notificationDate)
                             var notificationTime = time.getTime();
 
 
@@ -111,6 +120,7 @@ export default class QuakeLevelList extends Component {
                             if (value.properties.mmi >= 2.8) {
                                 // AppState.addEventListener('change', this.handleAppStateChange);
                                 timestamp['time' + notificationTime] = {
+                                    date: notificationDate,
                                     time: time,
                                     magnitude: value.properties.magnitude,
                                     location: value.properties.locality
@@ -123,6 +133,8 @@ export default class QuakeLevelList extends Component {
 
                         return array;
                     }, filterData)
+                    AsyncStorage.setItem("notification", JSON.stringify(timestamp));
+                    console.log('get items', timestamp)
 
                     this.setState({
                         timestamp: timestamp,
@@ -178,6 +190,8 @@ export default class QuakeLevelList extends Component {
 
     componentDidMount() {
         console.log('level list this.props.screenProps', this.props.isConnected)
+        AppState.addEventListener('change', this.handleAppStateChange);
+
         if (this.props.isConnected) {
 
             if (this.state.dataSource.length <= 0) {
@@ -190,6 +204,7 @@ export default class QuakeLevelList extends Component {
             }
         }
 
+
         // //Every half hour call data api.
         // this.timer = setInterval(() => {
         //     this.fetchQuakes();
@@ -200,78 +215,85 @@ export default class QuakeLevelList extends Component {
     }
 
     componentWillUnmount() {
-        // AppState.removeEventListener('change', this.handleAppStateChange);
+        AppState.removeEventListener('change', this.handleAppStateChange);
+
     }
 
     /**
      * notifications
      * */
-
-    handleAppStateChange(appState) {
+    handleAppStateChange = (appState) => {
+        console.log('called?')
 
 
         if (appState === 'background') {
+            console.log('background notified')
+            let date = new Date(Date.now() + (5 * 1000));
+            AsyncStorage.getItem("isNotified").then((value) => {
 
-            if (Object.keys(this.state.timestamp).length > 0) {
-                var timestamp = this.state.timestamp;
+                AsyncStorage.getItem("isSilent").then((value) => {
+                    var isSilent = (value === "true");
 
-                for (var k in timestamp) {
-                    // let date = new Date(timestamp[k]);
-                    let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
                     //
-                    // PushNotification.localNotificationSchedule({
-                    //     message: message,
-                    //     date: new Date(),
-                    //     number: 0,
-                    //     userInteraction: true
+                    var isNotified = (value === "true");
+                    if (isNotified) {
+                        if (Object.keys(this.state.timestamp).length > 0) {
+                            var timestamp;
+                            AsyncStorage.getItem("notification").then((value) => {
+                                console.log('notification', value);
+
+                                timestamp = JSON.parse(value);
+                                for (var k in timestamp) {
+                                    let time = new Date(timestamp[k]);
+                                    let date1 = timestamp[k].date;
+                                    let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
+                                    console.log('notified', new Date(date1))
+                                    console.log('date', typeof(date))
+                                    PushNotification.localNotificationSchedule({
+                                        message: message,
+                                        date: new Date(date1),
+                                        number: 0,
+                                        playSound: isSilent,
+
+                                    });
+
+                                }
+                            }).done();
+
+
+                        }
+                    }
+
+
                     //
-                    // });
+                    // if (isNotified) {
+                    //     PushNotification.localNotificationSchedule({
+                    //         message: "My Notification Message",
+                    //         date: date,
+                    //         number: 2,
+                    //         playSound: isSilent,
+                    //
+                    //     });
+                    // }
+                })
 
-                }
-
-                //PushNotification.scheduleLocalNotification(notification);
-                this.setState({
-                    timestamp: {},
-                    // notification: true
-                });
-                //var isNotified, isSilent, notification;
-                /*
-                 AsyncStorage.getItem("isNotified").then((value) => {
-                 var val = (value === "true");
-                 isNotified = val;
-                 console.log('is notified', isNotified)
-                 if (isNotified) {
-                 for (var k in timestamp) {
-                 // let date = new Date(timestamp[k]);
-                 let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
-
-                 notification = PushNotification.localNotificationSchedule({
-                 message: message,
-                 date: new Date(),
-                 number: 0,
-                 userInteraction: true
-
-                 });
-
-                 }
-
-                 PushNotification.scheduleLocalNotification(notification);
-                 this.setState({
-                 timestamp: {},
-                 // notification: true
-                 });
-                 }
+            }).done();
 
 
-                 }).done();
-
-                 */
-            }
-
-
+        } else if (appState === 'active') {
+            PushNotification.setApplicationIconBadgeNumber(0);
+            console.log('notification clear:');
         }
 
+        PushNotification.configure({
+            // (required) Called when a remote or local notification is opened or received
+            onNotification: function (notification) {
+                PushNotification.setApplicationIconBadgeNumber(0);
+                console.log('NOTIFICATION:', notification);
+            },
+        });
     }
+
 
     renderLoadingView = () => {
         return (
