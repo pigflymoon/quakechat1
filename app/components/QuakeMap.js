@@ -40,8 +40,8 @@ export default class QuakeMap extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         var isConnected = nextProps.isConnected;
-        this.setState({isConnected: isConnected});
         if (isConnected) {
+            this.setState({isConnected: isConnected});
             return true;
         }
         return false;
@@ -55,12 +55,11 @@ export default class QuakeMap extends Component {
     }
 
     componentDidMount() {
-        console.log('map called',this.props.isConnected)
+        this.setState({isConnected: this.props.isConnected})
         if (this.props.isConnected) {
             if (this.props.type && this.props.type == "SliderMap") {
                 this.loadMapInfo("");
             } else {
-                // console.log('detail map');
                 this.loadFeatures("");
             }
         }
@@ -116,8 +115,6 @@ export default class QuakeMap extends Component {
     loadFeatures() {
         markersData = [];
         let post = this.props.mapInfo;
-
-        console.log('post', post);
         var marker = {
             locality: post.properties.locality,
             time: post.properties.time,
@@ -128,10 +125,8 @@ export default class QuakeMap extends Component {
                 longitude: post.geometry.coordinates[0],
                 latitude: post.geometry.coordinates[1]
             }
-
         };
         markersData.push(marker);
-
         this.setState({
                 markers: markersData,
                 loading: false,
@@ -211,8 +206,7 @@ export default class QuakeMap extends Component {
     }
 
     render() {
-        // var isConnected = this.props.screenProps;
-        if (this.state.isConnected) {
+        if (!this.state.isConnected) {
             return this.renderOffline();
         }
         return (

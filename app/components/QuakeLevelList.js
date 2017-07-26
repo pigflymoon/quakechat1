@@ -78,7 +78,6 @@ export default class QuakeLevelList extends Component {
                                         location: value.properties.locality
 
                                     };
-                                    console.log('timestamp is',Object.keys(timestamp).length)
                                 }
                             }
                             array.push(value);
@@ -92,8 +91,7 @@ export default class QuakeLevelList extends Component {
                         console.log('notification is  null')
                         AsyncStorage.setItem("notification", 'noData');
                     }
-                    console.log('quakes are', quakes)
-                    console.log('filterData',filterData)
+
                     this.setState({
                         dataSource: quakes,
                         isLoading: false,

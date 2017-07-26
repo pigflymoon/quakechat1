@@ -44,35 +44,26 @@ export default class QuakesMap extends Component {
         }
     }
 
-    renderOffline = () => {
-        return (
-            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
-
-        )
-    }
-
     render() {
-        var isConnected = this.props.screenProps;
-        if (!isConnected) {
-            return this.renderOffline();
-        }
-        return (
-            <View style={quakeStyle.quakesContainer}>
-                <QuakeMap type="SliderMap"
-                          nps_source={nps_url}
-                          level={this.state.level}
-                          isConnected={this.props.screenProps}
-                />
 
-                <View>
-                    <QuakeSlider style={quakeStyle.sliderLabel}
-                                 onChooseLevel={this.handleChooseLevel}
-                                 minimumValue={1}
-                                 maximumValue={8}
-                                 step={1}
+            return (
+                <View style={quakeStyle.quakesContainer}>
+                    <QuakeMap type="SliderMap"
+                              nps_source={nps_url}
+                              level={this.state.level}
+                              isConnected={this.props.screenProps}
                     />
+
+                    <View>
+                        <QuakeSlider style={quakeStyle.sliderLabel}
+                                     onChooseLevel={this.handleChooseLevel}
+                                     minimumValue={1}
+                                     maximumValue={8}
+                                     step={1}
+                        />
+                    </View>
                 </View>
-            </View>
-        )
-    }
+            )
+        }
+
 }
