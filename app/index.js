@@ -26,6 +26,11 @@ export default class App extends Component {
     }
 
     componentDidMount() {
+        // PushNotification.configure({
+        //     onNotification: function(notification) {
+        //         console.log( 'NOTIFICATION:', notification );
+        //     },
+        // });
         //check
         NetInfo.isConnected.addEventListener(
             'change',
