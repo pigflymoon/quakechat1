@@ -11,7 +11,7 @@ import {
     AsyncStorage,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
-// import PushNotification from 'react-native-push-notification';
+import colors from '../styles/colors';
 import {bind} from '../utils/utils';
 
 
@@ -21,63 +21,56 @@ export default class Settings extends Component {
         super(props, context);
         this.state = {
             isLoading: false,
+            isNotified: true,
+            isSilent: true,
         };
 
         bind(this)('renderLoadingView');
     }
 
-    // componentDidMount() {
-    //     AppState.addEventListener('change', this.handleAppStateChange);
-    //
-    // }
-    //
-    // componentWillUnmount() {
-    //     AppState.removeEventListener('change', this.handleAppStateChange);
-    // }
 
-    // handleAppStateChange(appState) {
-    //     console.log('called?')
-    //
-    //
-    //     if (appState === 'background') {
-    //         let date = new Date(Date.now() + (5 * 1000));
-    //         AsyncStorage.getItem("isNotified").then((value) => {
-    //             var isNotified = (value === "true");
-    //             AsyncStorage.getItem("isSilent").then((value) => {
-    //                 var isSilent = (value === "true");
-    //                 if (isNotified) {
-    //                     PushNotification.localNotificationSchedule({
-    //                         message: "My Notification Message",
-    //                         date: date,
-    //                         number: 2,
-    //                         playSound: isSilent,
-    //
-    //                     });
-    //                 }
-    //             })
-    //
-    //         }).done();
-    //
-    //
-    //     } else if (appState === 'active') {
-    //         PushNotification.setApplicationIconBadgeNumber(0);
-    //         console.log('notification clear:');
-    //     }
-    //
-    //     PushNotification.configure({
-    //         // (required) Called when a remote or local notification is opened or received
-    //         onNotification: function (notification) {
-    //             PushNotification.setApplicationIconBadgeNumber(0);
-    //             console.log('NOTIFICATION:', notification);
-    //         },
-    //     });
-    //
-    // }
+    componentDidMount() {
+        console.log('is notified', this.state.isNotified)
 
-    onNotifications = () => {
-        console.log('navigation', this.props)
-        this.props.navigation.navigate('Notifications', {});
-    };
+        AsyncStorage.getItem("isNotified").then((value) => {
+            console.log('first is notified', value)
+
+            if (value) {
+                var val = (value === "true");
+                console.log('val is ', val)
+                this.setState({"isNotified": val});
+            }else{
+                console.log('set state to item ')
+                AsyncStorage.setItem("isNotified", this.state.isNotified.toString());
+            }
+
+        }).done();
+        //
+        AsyncStorage.getItem("isSilent").then((value) => {
+            if (value) {
+                var val = (value === "true");
+                this.setState({"isSilent": val});
+            }
+
+        }).done();
+
+    }
+
+    toggleNotificationSwitch = (value) => {
+        AsyncStorage.setItem("isNotified", value.toString());
+        this.setState({"isNotified": value});
+        AsyncStorage.getItem("isNotified").then((value) => {
+            var val = (value === "true");
+            this.setState({"isNotified": val});
+        }).done();
+
+    }
+    toggleDisturbSwitch = (value) => {
+        AsyncStorage.setItem("isSilent", value.toString());
+        this.setState({"isSilent": value});
+
+    }
+
 
     onAbout = () => {
         this.props.navigation.navigate('About', {});
@@ -102,8 +95,23 @@ export default class Settings extends Component {
 
                 <List>
                     <ListItem
+                        hideChevron
                         title={`Notifications`}
-                        onPress={() => this.onNotifications()}
+                        switchOnTintColor={colors.primary1}
+                        switchButton
+                        onSwitch={this.toggleNotificationSwitch}
+                        switched={this.state.isNotified}
+
+                    />
+                    <ListItem
+                        hideChevron
+                        title={`Do not disturb`}
+                        switchOnTintColor={colors.primary1}
+                        subtitle={'Notification that arrive during 22:00 to 8:00 will be silenced'}
+                        subtitleStyle={{marginRight: 10, fontWeight: 'normal'}}
+                        switchButton
+                        onSwitch={this.toggleDisturbSwitch}
+                        switched={this.state.isSilent}
 
                     />
                     <ListItem
