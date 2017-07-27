@@ -84,6 +84,15 @@ export const Tabs = TabNavigator({
     //         tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
     //     },
     // },
+    Map: {
+        screen: QuakesMap,
+        navigationOptions: {
+            tabBarLabel: 'Map',
+            title: 'QuakesMap',
+            tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
+        },
+    },
+
     ChatRoom: {
         screen: ChatRoomStack,
         navigationOptions: {
@@ -114,14 +123,6 @@ export const Tabs = TabNavigator({
         },
     },
 
-    Map: {
-        screen: QuakesMap,
-        navigationOptions: {
-            tabBarLabel: 'Map',
-            title: 'QuakesMap',
-            tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
-        },
-    },
 
 
 });

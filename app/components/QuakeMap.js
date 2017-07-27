@@ -8,7 +8,6 @@ import {
 import MapView from 'react-native-maps';
 import axios from 'axios';
 import CustomCallout from './CustomCallout'
-import NetInfoChecking from '../utils/NetInfoChecking';
 import showInfo from '../styles/showInfo';
 
 import map from '../styles/map';
@@ -39,6 +38,7 @@ export default class QuakeMap extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
+        console.log('map net work is update ',nextProps.isConnected)
         var isConnected = nextProps.isConnected;
         if (isConnected) {
             this.setState({isConnected: isConnected});
@@ -206,7 +206,8 @@ export default class QuakeMap extends Component {
     }
 
     render() {
-        if (!this.state.isConnected) {
+          var isConnected = this.props.isConnected;
+        if (!isConnected) {
             return this.renderOffline();
         }
         return (
