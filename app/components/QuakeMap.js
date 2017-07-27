@@ -174,7 +174,7 @@ export default class QuakeMap extends Component {
                                     onPress={(data) => {
                                         var coord = data.nativeEvent.coordinate;
                                         coord.latitude += 0.006;
-                                        this.refs.MapView.animateToRegion({ latitude: coord.latitude, longitude: coord.longitude, latitudeDelta: 0.015, longitudeDelta: 0.012 }, 1500);
+                                        this.refs.MapView.animateToRegion({ latitude: coord.latitude, longitude: coord.longitude, latitudeDelta: 1.5, longitudeDelta: 1.2 }, 1500);
                                     }}
 
                     >
