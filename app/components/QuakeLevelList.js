@@ -34,8 +34,6 @@ export default class QuakeLevelList extends Component {
     getList = (url, refresh) => {
         axios.get(url)
             .then(res => {
-
-                // AsyncStorage.getItem("lastNotificationTime", lastNotificationTime);
                 AsyncStorage.getItem("lastNotificationTime").then((lastNotificationTimeItem) => {
                     const filterData = [];
                     var timestamp = {};
@@ -164,11 +162,7 @@ export default class QuakeLevelList extends Component {
     }
 
     componentDidMount() {
-        PushNotification.configure({
-            onNotification: function(notification) {
-                console.log( 'NOTIFICATION:', notification );
-            },
-        });
+
         // console.log('level list this.props.screenProps', this.props.isConnected)
         AppState.addEventListener('change', this.handleAppStateChange);
 
@@ -210,7 +204,7 @@ export default class QuakeLevelList extends Component {
             // console.log('background notified')
             // let date = new Date(Date.now() + (5 * 1000));
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
-                console.log('background isnotified',isNotifiedValue)
+                console.log('background isnotified', isNotifiedValue)
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
                     var isSilent = (isSlientValue === "true");
 
@@ -219,10 +213,10 @@ export default class QuakeLevelList extends Component {
                     if (isNotified) {
                         var timestamp;
                         AsyncStorage.getItem("notification").then((notificationValue) => {
-                            console.log('*********notificationValue******')
+                            console.log('*********notificationValue******', notificationValue)
 
                             if (notificationValue === 'noData' || notificationValue == null) {
-                                // console.log('notification is empty')
+                                console.log('notification is empty')
                                 return false;
                             } else {
                                 console.log('backgound notification value is ', notificationValue);
@@ -260,7 +254,7 @@ export default class QuakeLevelList extends Component {
         } else if (appState === 'active') {
             PushNotification.setApplicationIconBadgeNumber(0);
             // AsyncStorage.setItem("notification", '');//clear notification
-            AsyncStorage.removeItem("notification");
+            // AsyncStorage.removeItem("notification");
             // console.log('notification clear:');
         }
 

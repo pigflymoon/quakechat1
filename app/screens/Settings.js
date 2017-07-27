@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import colors from '../styles/colors';
-// import PushNotification from 'react-native-push-notification';
 import {bind} from '../utils/utils';
+import PushController from '../components/PushController';
 
 
 export default class Settings extends Component {
@@ -120,6 +120,7 @@ export default class Settings extends Component {
                         onPress={() => this.onAbout()}
 
                     />
+                    <PushController />
                 </List>
             </ScrollView>
         )

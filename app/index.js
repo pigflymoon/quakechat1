@@ -4,6 +4,7 @@ import {
     Alert,
 } from 'react-native';
 import {Root} from './config/router';
+// import PushNotification from 'react-native-push-notification';
 
 export default class App extends Component {
 
@@ -26,11 +27,6 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        // PushNotification.configure({
-        //     onNotification: function(notification) {
-        //         console.log( 'NOTIFICATION:', notification );
-        //     },
-        // });
         //check
         NetInfo.isConnected.addEventListener(
             'change',
