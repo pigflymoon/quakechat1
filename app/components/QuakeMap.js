@@ -36,6 +36,7 @@ export default class QuakeMap extends Component {
             isConnected: false,
             marker1: true,
             marker2: false,
+            pincolor: colorByMmi(2),
 
         };
     }
@@ -138,6 +139,11 @@ export default class QuakeMap extends Component {
         );
     }
 
+    handleMarker(marker, e) {
+        console.log(text);
+        this.setState({pincolor:colorByMmi(5)})
+    }
+
     renderPosts() {
         if (this.state.error) {
             return this.renderError();
@@ -145,11 +151,14 @@ export default class QuakeMap extends Component {
 
         return (
             <MapView
+                ref="MapView"
                 style={map.map}
                 scrollEnabled={true}
                 zoomEnabled={true}
                 pitchEnabled={false}
                 rotateEnabled={false}
+                showsScale
+                loadingEnabled={true}
                 initialRegion={{
                     latitude: LATITUDE,
                     longitude: LONGITUDE,
@@ -162,13 +171,15 @@ export default class QuakeMap extends Component {
                                     coordinate={marker.coordinates}
                                     key={`marker-${index}`}
                                     pinColor={colorByMmi(marker.mmi)}
-
-                                    onPress={() => this.setState({marker1: !this.state.marker1})}
-
+                                    onPress={(data) => {
+                                        var coord = data.nativeEvent.coordinate;
+                                        coord.latitude += 0.006;
+                                        this.refs.MapView.animateToRegion({ latitude: coord.latitude, longitude: coord.longitude, latitudeDelta: 0.015, longitudeDelta: 0.012 }, 1500);
+                                    }}
 
                     >
-                        <MapView.Callout tooltip>
-                            <CustomCallout  >
+                        <MapView.Callout tooltip={true}>
+                            <CustomCallout>
                                 <Text
                                     style={map.info}>{`Time: ${marker.time}`}
                                 </Text>

@@ -15,8 +15,7 @@ class CustomCallout extends Component {
                         {this.props.children}
                     </View>
                 </View>
-                {/*<View style={callout.arrowBorder}/>*/}
-                {/*<View style={callout.arrow}/>*/}
+
             </View>
         );
     }
