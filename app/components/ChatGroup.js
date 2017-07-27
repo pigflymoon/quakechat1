@@ -69,7 +69,8 @@ export default class ChatGroup extends Component {
     }
 
     sendMessage(message) {
-        for (let i = 0; i < message.length; i++) {
+        console.log('messsage',message)
+            for (let i = 0; i < message.length; i++) {
             this.messagesRef.push({
                 text: message[i].text,
                 user: message[i].user,
@@ -93,10 +94,7 @@ export default class ChatGroup extends Component {
         });
 
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('chat should upload');
-        return false;
-    }
+
 
     componentWillUnmount() {
         if (this.messagesRef) {

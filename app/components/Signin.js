@@ -17,7 +17,7 @@ import chat from '../styles/chat';
 
 import NetInfoChecking from '../utils/NetInfoChecking';
 
-export default class LoginScreen extends Component {
+export default class Signin extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,12 +29,14 @@ export default class LoginScreen extends Component {
             showInfo: false,
             isConnected: false,
         };
+        console.log('sign in this.props);',this.props);
     }
 
 
 
     shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.screenProps;//update netinfo
+        var isConnected = nextProps.isConnected;//update netinfo
+        console.log('sign in isConnected',isConnected)
         if (isConnected) {
             this.setState({isConnected: isConnected});
             return true;
@@ -50,8 +52,11 @@ export default class LoginScreen extends Component {
     handleSignin = (e) => {
         var self = this;
         e.preventDefault()
-        if (this.state.isConnected) {
-            console.log('connected')
+        console.log(' signin connected',this.props.isConnected)
+
+        if (this.props.isConnected) {
+            console.log(' signin is connected')
+
             if (!this.state.email) {
                 this.setState({
                     showInfo: true

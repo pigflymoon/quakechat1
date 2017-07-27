@@ -19,6 +19,8 @@ import chat from '../styles/chat';
 export default class ChatRoom extends Component {
     constructor(props) {
         super(props);
+        console.log('this.props);',this.props);
+
     }
 
     signout = () => {
@@ -30,9 +32,10 @@ export default class ChatRoom extends Component {
     }
 
     render() {
+
         return (
             <Router barButtonIconStyle={chat.barButtonIconStyle}>
-                <Scene key='root'>
+                <Scene key='root' passProps={true} isConnected={this.props.screenProps}>
                     <Scene key='chat' component={ChatGroup} hideNavBar={false} hideBackImage={true}
                            renderRightButton={
                                () => <TouchableOpacity
@@ -42,7 +45,7 @@ export default class ChatRoom extends Component {
                            }
                     />
                     <Scene key='signin' title='Sign in' component={Signin} hideNavBar={true}/>
-                    <Scene key='resetPassword' title='Reset Password' component={ResetPassword} hideNavBar={true}/>
+                    <Scene key='resetPassword' title='Reset Password'  component={ResetPassword} hideNavBar={true}/>
                     <Scene key='signup' title='Sign up' component={Signup} hideNavBar={true}/>
                     <Scene key='verifyEmail' title='verifyEmail' component={VerifyEmail}/>
                 </Scene>
