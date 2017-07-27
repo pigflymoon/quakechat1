@@ -7,14 +7,16 @@ const {width, height} = Dimensions.get("window");
 export default{
     container: {
         flexDirection: 'column',
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
+        backgroundColor: colors.orange1,
+
     },
     bubble: {
         width: 300,
-        padding: 15,
+        // padding: 15,
         // height: 100,
         flexDirection: 'column',
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
         backgroundColor: colors.blue1,
         // paddingHorizontal: 20,
         // paddingVertical: 12,

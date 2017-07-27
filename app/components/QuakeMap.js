@@ -20,7 +20,8 @@ const LATITUDE = -39.900557;
 const LONGITUDE = 172.885971;
 const LATITUDE_DELTA = 18;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
+import flagBlueImg from '../images/flag-blue.png';
+import flagPinkImg from '../images/flag-pink.png';
 
 var markersData = [];
 
@@ -33,12 +34,14 @@ export default class QuakeMap extends Component {
             loading: true,
             error: null,
             isConnected: false,
+            marker1: true,
+            marker2: false,
 
         };
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('map net work is update ',nextProps.isConnected)
+        console.log('map net work is update ', nextProps.isConnected)
         var isConnected = nextProps.isConnected;
         if (isConnected) {
             this.setState({isConnected: isConnected});
@@ -160,6 +163,8 @@ export default class QuakeMap extends Component {
                                     key={`marker-${index}`}
                                     pinColor={colorByMmi(marker.mmi)}
 
+                                    onPress={() => this.setState({marker1: !this.state.marker1})}
+
 
                     >
                         <MapView.Callout tooltip>
@@ -206,7 +211,7 @@ export default class QuakeMap extends Component {
     }
 
     render() {
-          var isConnected = this.props.isConnected;
+        var isConnected = this.props.isConnected;
         if (!isConnected) {
             return this.renderOffline();
         }

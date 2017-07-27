@@ -17,5 +17,10 @@ export default{
     },
     info: {
         fontSize: 12,
+    },
+    marker: {
+        width: 5,
+        height: 5,
     }
+
 }
