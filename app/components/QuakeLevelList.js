@@ -253,7 +253,7 @@ export default class QuakeLevelList extends Component {
 
         } else if (appState === 'active') {
             PushNotification.setApplicationIconBadgeNumber(0);
-            // AsyncStorage.setItem("notification", '');//clear notification
+            AsyncStorage.setItem("notification", '');//clear notification
             // AsyncStorage.removeItem("notification");
             // console.log('notification clear:');
         }
