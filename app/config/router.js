@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from 'react-native';
 import {TabNavigator, StackNavigator} from 'react-navigation';
 import {Icon} from 'react-native-elements';
 
@@ -13,6 +14,7 @@ import Signin from '../screens/Signin';
 import Signup from '../screens/Signup';
 import About from '../screens/About';
 import Settings from '../screens/Settings';
+import firebaseApp from '../config/FirebaseConfig';
 
 const QuakesListScreen = ({navigation, screenProps}) => (
     <QuakesList navigation={navigation} screenProps={screenProps}/>
@@ -29,6 +31,34 @@ const ChatGroupScreen = ({navigation, screenProps}) => (
 const SigninScreen = ({navigation, screenProps}) => (
     <Signin navigation={navigation} screenProps={screenProps}/>
 );
+
+ChatGroupScreen.navigationOptions = props => {
+    const {navigation} = props;
+    const {state, setParams} = navigation;
+    const {params} = state;
+    return {
+        headerTitle: `${params.name}'s live chat!`,
+        // Render a button on the right side of the header.
+        // When pressed switches the screen to edit mode.
+        headerRight: (
+            <Button
+                title={'Sign out'}
+                onPress={() => {
+                    console.log('Sign out')
+                    firebaseApp.auth().signOut().then(function () {
+                        console.log('Sign out')
+                        navigation.navigate('Signin');
+                    }).catch(function (error) {
+                        console.log('sign out error', error);
+                    })
+
+                }}
+
+
+            />
+        ),
+    };
+};
 const SignupScreen = ({navigation, screenProps}) => (
     <Signup navigation={navigation} screenProps={screenProps}/>
 );

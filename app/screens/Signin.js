@@ -68,10 +68,10 @@ export default class Signin extends Component {
                 .then(function (user) {
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
-                            console.log('********** In Sign in moudle********* ', user, ' is signed in');
+                            console.log(user);
                             // Actions.chat();
                             console.log('*******todo')
-                            self.props.navigation.navigate('ChatGroup');
+                            self.props.navigation.navigate('ChatGroup', { name: user.displayName });
                         } else {
                             console.log('error')
                         }
