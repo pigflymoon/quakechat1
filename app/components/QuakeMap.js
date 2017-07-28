@@ -156,7 +156,7 @@ export default class QuakeMap extends Component {
     }
     onQuakeDetail = (isConnected, quake) => {
         console.log('quake',quake)
-        this.props.navigation.navigate('Detail', {isConnected, ...quake});
+        // this.props.navigation.navigate('Detail', {isConnected, ...quake});
     };
 
     renderPosts() {
