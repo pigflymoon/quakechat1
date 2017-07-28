@@ -72,7 +72,13 @@ export const mapsStack = StackNavigator({
     Map: {
         screen: QuakesMap,
         navigationOptions: {
-            title: 'News'
+            title: 'Quakes Map'
+        },
+        Detail: {
+            screen: QuakeDetail,
+            navigationOptions: ({navigation}) => ({
+                title: 'Quake Detail'
+            }),
         },
     },
 });
@@ -85,10 +91,10 @@ export const Tabs = TabNavigator({
     //     },
     // },
     Map: {
-        screen: QuakesMap,
+        screen: mapsStack,
         navigationOptions: {
             tabBarLabel: 'Map',
-            title: 'QuakesMap',
+            title: 'Quakes Map',
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
         },
     },
@@ -122,7 +128,6 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
-
 
 
 });

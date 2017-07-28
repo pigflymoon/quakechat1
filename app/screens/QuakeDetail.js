@@ -31,6 +31,8 @@ export default class QuakeDetail extends Component {
     // }
 
     render() {
+        console.log('detail')
+        console.log(this.props.navigation.state.params)
         const {geometry, properties, utime} = this.props.navigation.state.params;
         return (
             <View style={quakeStyle.container}>

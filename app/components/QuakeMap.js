@@ -39,6 +39,7 @@ export default class QuakeMap extends Component {
             pincolor: colorByMmi(2),
 
         };
+        console.log('navigate',this.props.navigation)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -139,10 +140,24 @@ export default class QuakeMap extends Component {
         );
     }
 
-    handleMarker(marker, e) {
-        console.log(text);
-        this.setState({pincolor:colorByMmi(5)})
+    handleMarker = (data) => {
+        // console.log(text);
+        var coord = data.nativeEvent.coordinate;
+        coord.latitude += 0.006;
+        this.refs.MapView.animateToRegion({
+            latitude: coord.latitude,
+            longitude: coord.longitude,
+            latitudeDelta: 1.5,
+            longitudeDelta: 1.2
+        }, 1500);
+        // this.props.navigation.navigate('Quality', 'test');
+
+
     }
+    onQuakeDetail = (isConnected, quake) => {
+        console.log('quake',quake)
+        this.props.navigation.navigate('Detail', {isConnected, ...quake});
+    };
 
     renderPosts() {
         if (this.state.error) {
@@ -172,13 +187,12 @@ export default class QuakeMap extends Component {
                                     key={`marker-${index}`}
                                     pinColor={colorByMmi(marker.mmi)}
                                     onPress={(data) => {
-                                        var coord = data.nativeEvent.coordinate;
-                                        coord.latitude += 0.006;
-                                        this.refs.MapView.animateToRegion({ latitude: coord.latitude, longitude: coord.longitude, latitudeDelta: 1.5, longitudeDelta: 1.2 }, 1500);
+                                        this.handleMarker(data)
+
                                     }}
 
                     >
-                        <MapView.Callout tooltip={true}>
+                        <MapView.Callout tooltip={true}   onPress={() => this.onQuakeDetail(true, marker)}>
                             <CustomCallout>
                                 <Text
                                     style={map.info}>{`Time: ${marker.time}`}

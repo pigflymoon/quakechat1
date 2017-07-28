@@ -52,6 +52,7 @@ export default class QuakesMap extends Component {
                               nps_source={nps_url}
                               level={this.state.level}
                               isConnected={this.props.screenProps}
+                              navigation={this.props.navigation}
                     />
 
                     <View>

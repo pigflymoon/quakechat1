@@ -44,12 +44,14 @@ export default class QuakeLevelList extends Component {
                         // if condition is our filter
                         if (value.properties.mmi >= 2) {
                             // what happens inside the filter is the map
-
-                            let utime = new Date(time);
-                            utime = new Date(utime.toUTCString().slice(0, -4));
-                            utime = utime.toString().split('GMT')[0];
-
                             let time = value.properties.time;
+                            var utime = new Date(time);
+                            utime = new Date(utime.toUTCString().slice(0, -4));
+                            console.log('utime',utime)
+                            utime = utime.toString().split('GMT')[0];
+                            console.log('utime',utime)
+
+
                             time = new Date(time);
                             let notificationDate = time.toString();//for show notification message
                             let notificationTime = time.getTime();//for notification time
