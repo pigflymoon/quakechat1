@@ -40,7 +40,7 @@ export default class QuakeMap extends Component {
             pincolor: colorByMmi(2),
 
         };
-        console.log('navigate', this.props.navigation)
+        // console.log('navigate', this.props.navigation)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -115,7 +115,7 @@ export default class QuakeMap extends Component {
     }
 
     handleMarker = (data) => {
-        // console.log(text);
+        console.log('marker clicked');
         var coord = data.nativeEvent.coordinate;
         coord.latitude += 0.006;
         this.refs.MapView.animateToRegion({
@@ -130,7 +130,7 @@ export default class QuakeMap extends Component {
     }
     onQuakeDetail = (isConnected, quake) => {
         console.log('quake', quake)
-        // this.props.navigation.navigate('Detail', {isConnected, ...quake});
+        this.props.navigation.navigate('Detail', {isConnected, quake});
     };
 
     renderPosts() {
@@ -164,9 +164,10 @@ export default class QuakeMap extends Component {
                                         this.handleMarker(data)
 
                                     }}
+                                    onCalloutPress={() => this.onQuakeDetail(true, quake)}
 
                     >
-                        <MapView.Callout tooltip={true} onPress={() => this.onQuakeDetail(true, quake)}>
+                        <MapView.Callout tooltip={true} >
                             <CustomCallout>
                                 <Text
                                     style={map.info}>{`Time: ${quake.time}`}
