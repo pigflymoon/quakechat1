@@ -190,7 +190,10 @@ export default class QuakeMap extends Component {
                                     style={map.info}>{`Depth: ${marker.depth}`}
                                 </Text>
                                 <Text
-                                    style={map.info}>{`mmi:${marker.mmi} Magnitude: ${marker.magnitude}`}
+                                    style={map.info}>{`Magnitude: ${marker.magnitude}`}
+                                </Text>
+                                <Text
+                                    style={map.info}>{`mmi:${marker.mmi}`}
                                 </Text>
                             </CustomCallout>
                         </MapView.Callout>

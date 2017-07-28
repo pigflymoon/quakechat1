@@ -16,7 +16,10 @@ export default{
         flexGrow: 3
     },
     info: {
+        backgroundColor: colors.white,
         fontSize: 12,
+        marginVertical: 5,
+        padding: 5,
     },
     marker: {
         width: 5,

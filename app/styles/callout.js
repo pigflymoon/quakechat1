@@ -12,16 +12,21 @@ export default{
     bubble: {
         width: 300,
         padding: 15,
-        height: 100,
+        // height: 100,
         flexDirection: 'column',
         alignSelf: 'flex-start',
         backgroundColor: colors.blue1,
-        // paddingHorizontal: 20,
-        // paddingVertical: 12,
-        borderRadius: 6,
+        opacity: 0.8,
+        // // paddingHorizontal: 20,
+        // // paddingVertical: 12,
+        borderRadius: 10,
+
         borderColor: colors.blue2,
         borderWidth: 0.5,
+
+
     },
+
     amount: {
         flex: 1,
     },
