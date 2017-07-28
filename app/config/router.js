@@ -7,27 +7,47 @@ import QuakesList from '../screens/QuakesList';
 import QuakesMap from '../screens/QuakesMap';
 import QuakeDetail from '../screens/QuakeDetail';
 import QuakeQuality from '../screens/QuakeQuality';
-import ChatRoom from '../screens/ChatRoom';
+import ChatGroup from '../screens/ChatGroup';
+import Chat from '../screens/Chat';
+import Signin from '../screens/Signin';
+import Signup from '../screens/Signup';
 import About from '../screens/About';
-
 import Settings from '../screens/Settings';
 
-const QuakesListScreen = ({navigation,screenProps}) => (
-    <QuakesList navigation={navigation} screenProps={screenProps} />
+const QuakesListScreen = ({navigation, screenProps}) => (
+    <QuakesList navigation={navigation} screenProps={screenProps}/>
 );
-const QuakesMapScreen = ({navigation,screenProps}) => (
-    <QuakesMap navigation={navigation} screenProps={screenProps} />
+const QuakesMapScreen = ({navigation, screenProps}) => (
+    <QuakesMap navigation={navigation} screenProps={screenProps}/>
 );
-const ChatRoomScreen = ({navigation,screenProps}) => (
-    <ChatRoom navigation={navigation} screenProps={screenProps} />
+const ChatScreen = ({navigation, screenProps}) => (
+    <Chat navigation={navigation} screenProps={screenProps}/>
 );
-const NewsScreen = ({navigation,screenProps}) => (
-    <News navigation={navigation} screenProps={screenProps} />
+const ChatGroupScreen = ({navigation, screenProps}) => (
+    <ChatGroup navigation={navigation} screenProps={screenProps}/>
 );
-const SettingsScreen = ({navigation,screenProps}) => (
-    <Settings navigation={navigation} screenProps={screenProps} />
+const SigninScreen = ({navigation, screenProps}) => (
+    <Signin navigation={navigation} screenProps={screenProps}/>
+);
+const SignupScreen = ({navigation, screenProps}) => (
+    <Signup navigation={navigation} screenProps={screenProps}/>
+);
+const NewsScreen = ({navigation, screenProps}) => (
+    <News navigation={navigation} screenProps={screenProps}/>
+);
+const SettingsScreen = ({navigation, screenProps}) => (
+    <Settings navigation={navigation} screenProps={screenProps}/>
 );
 const TabNav = TabNavigator({
+    Chat: {
+        screen: ChatScreen,
+        path: '/chat',
+        navigationOptions: {
+            title: 'Chat Room',
+            tabBarLabel: 'ChatRoom',
+            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+        },
+    },
     Quakes: {
         screen: QuakesListScreen,
         path: '/',
@@ -46,15 +66,7 @@ const TabNav = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
         },
     },
-    Chat: {
-        screen: ChatRoomScreen,
-        path: '/chat',
-        navigationOptions: {
-            title: 'Chat Room',
-            tabBarLabel: 'ChatRoom',
-            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
-        },
-    },
+
     News: {
         screen: NewsScreen,
         path: '/news',
@@ -86,6 +98,43 @@ export const StacksOverTabs = StackNavigator({
             title:`${navigation.state.params.publicID}'s detail`;
         },
     },
+    SignIn: {
+        screen: SigninScreen,
+        path: '/sigin',
+        navigationOptions: ({navigation}) => {
+            title:`Sign In`;
+        },
+    },
+    SignUp: {
+        screen: SignupScreen,
+        path: '/sigup',
+        navigationOptions: ({navigation}) => {
+            title:`Sign Up`;
+        },
+    },
+    ChatGroup: {
+        screen: ChatGroupScreen,
+        path: '/chatroom',
+        navigationOptions: ({navigation}) => {
+            title:`Chat Room`;
+        },
+    },
+    // ResetPassword:{
+    //     screen: ResetPassword,
+    //     path: '/resetpassword/:userid',
+    //     navigationOptions: ({navigation}) => {
+    //         title:`Reset Password`;
+    //     },
+    // },
+    // VerifyEmail:{
+    //     screen: VerifyEmail,
+    //     path: '/verfigyemail/:userid',
+    //     navigationOptions: ({navigation}) => {
+    //         title:`Verify Email`;
+    //     },
+    // },
+
+
     Quality: {
         screen: QuakeQuality,
         path: '/quality/',
