@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const fetchQuakesByApi = (url) => {
+export const fetchQuakesByApi = (url,callback) => {
     axios.get(url)
         .then(function (result) {
             let quakesData = result.data.features;
@@ -24,12 +24,14 @@ export const fetchQuakesByApi = (url) => {
                     coordinates: {
                         longitude: quake.geometry.coordinates[0],
                         latitude: quake.geometry.coordinates[1]
-                    }
+                    },
+                    quality:quake.properties.quality
                 };
 
                 quakesArray.push(quake);
             } //for
             console.log('quakesArray in utils',quakesArray)
-            return quakesArray;
+            callback(quakesArray);
+
         }); //then
 }

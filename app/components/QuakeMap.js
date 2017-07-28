@@ -31,7 +31,7 @@ export default class QuakeMap extends Component {
         super(props);
 
         this.state = {
-            markers: [],
+            quakes: [],
             loading: true,
             error: null,
             isConnected: false,
@@ -74,23 +74,27 @@ export default class QuakeMap extends Component {
 
 
     loadMapInfo(nextProps) {
-        let self = this
-        let url = self.props.nps_source
+        let self = this;
+        let url = self.props.nps_source;
+        console.log('level',self.props.level);
 
         if (nextProps) {
             url = url + nextProps.level;
         } else {
             url = url + self.props.level;
         }
-        let quakesArray = fetchQuakesByApi(url);
-        console.log('quakesArray',quakesArray)
+        //callback to get quakes
+        fetchQuakesByApi(url,function (quakes) {
+            console.log('quakes',quakes);
+            self.setState({
+                    quakes: quakes,
+                    loading: false,
+                    error: null
+                }
+            );
+        })
 
-        this.setState({
-                markers: quakesArray,
-                loading: false,
-                error: null
-            }
-        );
+
 
 
     }
@@ -99,21 +103,11 @@ export default class QuakeMap extends Component {
         markersData = [];
 
         let post = this.props.mapInfo;
-        console.log('mapInfo',post)
-        var marker = {
-            locality: post.properties.locality,
-            time: post.properties.time,
-            depth: post.properties.depth,
-            magnitude: post.properties.magnitude,
-            mmi: post.properties.mmi,
-            coordinates: {
-                longitude: post.geometry.coordinates[0],
-                latitude: post.geometry.coordinates[1]
-            }
-        };
-        markersData.push(marker);
+        console.log(post)
+        var marker = post.quake
+        markersData.push(post.quake);
         this.setState({
-                markers: markersData,
+                quakes: markersData,
                 loading: false,
                 error: null
             }
@@ -161,33 +155,33 @@ export default class QuakeMap extends Component {
                     longitudeDelta: LONGITUDE_DELTA,
                 }}>
 
-                {this.state.markers.map((marker, index) => (
+                {this.state.quakes.map((quake, index) => (
                     <MapView.Marker style={map.marker}
-                                    coordinate={marker.coordinates}
-                                    key={`marker-${index}`}
-                                    pinColor={colorByMmi(marker.mmi)}
+                                    coordinate={quake.coordinates}
+                                    key={`quake-${index}`}
+                                    pinColor={colorByMmi(quake.mmi)}
                                     onPress={(data) => {
                                         this.handleMarker(data)
 
                                     }}
 
                     >
-                        <MapView.Callout tooltip={true} onPress={() => this.onQuakeDetail(true, marker)}>
+                        <MapView.Callout tooltip={true} onPress={() => this.onQuakeDetail(true, quake)}>
                             <CustomCallout>
                                 <Text
-                                    style={map.info}>{`Time: ${marker.time}`}
+                                    style={map.info}>{`Time: ${quake.time}`}
                                 </Text>
                                 <Text
-                                    style={map.info}>{`Locality:${marker.locality}`}
+                                    style={map.info}>{`Locality:${quake.locality}`}
                                 </Text>
                                 <Text
-                                    style={map.info}>{`Depth: ${marker.depth}`}
+                                    style={map.info}>{`Depth: ${quake.depth}`}
                                 </Text>
                                 <Text
-                                    style={map.info}>{`Magnitude: ${marker.magnitude}`}
+                                    style={map.info}>{`Magnitude: ${quake.magnitude}`}
                                 </Text>
                                 <Text
-                                    style={map.info}>{`mmi:${marker.mmi}`}
+                                    style={map.info}>{`mmi:${quake.mmi}`}
                                 </Text>
                             </CustomCallout>
                         </MapView.Callout>

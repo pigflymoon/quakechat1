@@ -13,8 +13,11 @@ import quakeStyle from '../styles/quake';
 import showInfo from '../styles/showInfo';
 
 import axios from 'axios';
-import {colorByMmi} from '../utils/utils';
 import PushNotification from 'react-native-push-notification';
+
+import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
+import {colorByMmi} from '../utils/utils';
+
 var quakes;
 
 export default class QuakeLevelList extends Component {
@@ -22,8 +25,8 @@ export default class QuakeLevelList extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            dataSource: [],
-            isLoading: true,
+            quakes: [],
+            loading: true,
             isRefreshing: false,
             isConnected: false,
         };
@@ -96,7 +99,7 @@ export default class QuakeLevelList extends Component {
 
                     this.setState({
                         dataSource: quakes,
-                        isLoading: false,
+                        loading: false,
                     })
 
                     if (refresh) {
@@ -129,14 +132,41 @@ export default class QuakeLevelList extends Component {
             // console.log('props refreshing is ', nextProps.refreshing, (nextProps.refreshing == true))
             if (nextProps.refreshing == true) {
                 url = url + nextProps.level;
-                this.fetchApiData(url, 'refreshing');
+                // this.fetchApiData(url, 'refreshing');
+                fetchQuakesByApi(url, function (quakes) {
+                    self.setState({
+                            quakes: quakes,
+                            loading: false,
+                            error: null
+                        }
+                    );
+                    this.props.onRefreshData(false);
+                });
+
+
             } else {
                 url = url + nextProps.level;
-                this.fetchApiData(url, 'notRefreshing');
+                fetchQuakesByApi(url, function (quakes) {
+                    self.setState({
+                            quakes: quakes,
+                            loading: false,
+                            error: null
+                        }
+                    );
+                });
+                // this.fetchApiData(url, 'notRefreshing');
             }
         } else {
             url = url + self.props.level;
-            this.fetchApiData(url, 'notRefreshing');
+            fetchQuakesByApi(url, function (quakes) {
+                self.setState({
+                        quakes: quakes,
+                        loading: false,
+                        error: null
+                    }
+                );
+            });
+            // this.fetchApiData(url, 'notRefreshing');
         }
 
 
@@ -166,7 +196,7 @@ export default class QuakeLevelList extends Component {
 
         if (this.props.isConnected) {
 
-            if (this.state.dataSource.length <= 0) {
+            if (this.state.quakes.length <= 0) {
                 this.fetchQuakes();
             }
 
@@ -273,7 +303,7 @@ export default class QuakeLevelList extends Component {
     }
 
     onQuakeDetail = (isConnected, quake) => {
-        this.props.navigation.navigate('Detail', {isConnected, ...quake});
+        this.props.navigation.navigate('Detail', {isConnected, quake});
     };
 
 
@@ -282,7 +312,7 @@ export default class QuakeLevelList extends Component {
         if (!isConnected) {
             return this.renderOffline();
         }
-        if (this.state.isLoading) {
+        if (this.state.loading) {
             return this.renderLoadingView();
         }
 
@@ -290,20 +320,20 @@ export default class QuakeLevelList extends Component {
         return (
             <List>
 
-                {this.state.dataSource.map((quake, index) => (
+                {this.state.quakes.map((quake, index) => (
                     <ListItem key={`list-${index}`}
                               leftIcon={{
                                   name: 'map-marker',
                                   type: 'font-awesome',
                                   size: 35,
-                                  color: colorByMmi(quake.properties.mmi)
+                                  color: colorByMmi(quake.mmi)
                               }}
-                              title={`NZST: ${quake.properties.time}`}
+                              title={`NZST: ${quake.time}`}
                               subtitle={
                                   <View style={quakeStyle.info}>
-                                      <Text>Magnitude: {quake.properties.magnitude}</Text>
-                                      <Text>Depth: {quake.properties.depth}</Text>
-                                      <Text>Locality: {quake.properties.locality}</Text>
+                                      <Text>Magnitude: {quake.magnitude}</Text>
+                                      <Text>Depth: {quake.depth}</Text>
+                                      <Text>Locality: {quake.locality}</Text>
                                   </View>
                               }
 

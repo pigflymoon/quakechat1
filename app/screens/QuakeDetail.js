@@ -32,8 +32,9 @@ export default class QuakeDetail extends Component {
 
     render() {
         // console.log('detail')
-        // console.log(this.props.navigation.state.params)
-        const {geometry, properties, utime} = this.props.navigation.state.params;
+        console.log(this.props.navigation.state.params)
+        const {quake} = this.props.navigation.state.params;
+        // console.log(quake);
         return (
             <View style={quakeStyle.container}>
 
@@ -46,46 +47,52 @@ export default class QuakeDetail extends Component {
                     <List style={quakeStyle.detail}>
                         <ListItem
                             title="Universal Time"
-                            rightTitle={utime}
+                            rightTitle={quake.utime}
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Time"
-                            rightTitle={properties.time}
+                            rightTitle={quake.time}
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Magnitude"
-                            rightTitle={properties.magnitude}
+                            rightTitle={quake.magnitude}
+                            rightTitleStyle={quakeStyle.rightTitle}
+                            hideChevron
+                        />
+                        <ListItem
+                            title="Depth"
+                            rightTitle={quake.depth}
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Latitude"
-                            rightTitle={(geometry.coordinates)[1].toFixed(2)}
+                            rightTitle={`${(quake.coordinates).latitude}`}
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Longitude"
-                            rightTitle={(geometry.coordinates)[0].toFixed(2)}
+                            rightTitle={`${(quake.coordinates).longitude}`}
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Location"
-                            rightTitle={properties.locality}
+                            rightTitle={quake.locality}
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Quality"
-                            rightTitle={properties.quality}
+                            rightTitle={quake.quality}
                             rightTitleStyle={quakeStyle.linkTitle}
                             hideChevron
-                            onPress={() => this.onQuakeQuality(properties.quality)}
+                            onPress={() => this.onQuakeQuality(quake.quality)}
                         />
 
                     </List>
