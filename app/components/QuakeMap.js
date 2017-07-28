@@ -13,6 +13,8 @@ import showInfo from '../styles/showInfo';
 import map from '../styles/map';
 
 import {colorByMmi} from '../utils/utils';
+import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
+
 const {width, height} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
@@ -20,8 +22,7 @@ const LATITUDE = -39.900557;
 const LONGITUDE = 172.885971;
 const LATITUDE_DELTA = 18;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-import flagBlueImg from '../images/flag-blue.png';
-import flagPinkImg from '../images/flag-pink.png';
+
 
 var markersData = [];
 
@@ -39,11 +40,11 @@ export default class QuakeMap extends Component {
             pincolor: colorByMmi(2),
 
         };
-        console.log('navigate',this.props.navigation)
+        console.log('navigate', this.props.navigation)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('map net work is update ', nextProps.isConnected)
+        // console.log('map net work is update ', nextProps.isConnected)
         var isConnected = nextProps.isConnected;
         if (isConnected) {
             this.setState({isConnected: isConnected});
@@ -63,6 +64,7 @@ export default class QuakeMap extends Component {
         this.setState({isConnected: this.props.isConnected})
         if (this.props.isConnected) {
             if (this.props.type && this.props.type == "SliderMap") {
+                // console.log('slidermap')
                 this.loadMapInfo("");
             } else {
                 this.loadFeatures("");
@@ -80,35 +82,11 @@ export default class QuakeMap extends Component {
         } else {
             url = url + self.props.level;
         }
-        axios.get(url)
-            .then(function (result) {
-                // console.log('slider map  and url', url)
-                markersData = [];
-                for (let post of result.data.features) {
-                    let time = post.properties.time;
-                    time = new Date(time);
-                    time = time.toString().split('GMT')[0];
-                    var marker = {
-                        locality: post.properties.locality,
-                        time: time,
-                        depth: post.properties.depth.toFixed(1) + ' km',
-                        magnitude: post.properties.magnitude.toFixed(1),
-                        mmi: post.properties.mmi,
-                        coordinates: {
-                            longitude: post.geometry.coordinates[0],
-                            latitude: post.geometry.coordinates[1]
-                        }
-
-                    };
-                    markersData.push(marker);
-                } // for
-
-                // markersData['coordinates'] = coordinates;
-                // console.log('markersData', markersData)
-            }); //then
+        let quakesArray = fetchQuakesByApi(url);
+        console.log('quakesArray',quakesArray)
 
         this.setState({
-                markers: markersData,
+                markers: quakesArray,
                 loading: false,
                 error: null
             }
@@ -119,7 +97,9 @@ export default class QuakeMap extends Component {
 
     loadFeatures() {
         markersData = [];
+
         let post = this.props.mapInfo;
+        console.log('mapInfo',post)
         var marker = {
             locality: post.properties.locality,
             time: post.properties.time,
@@ -155,7 +135,7 @@ export default class QuakeMap extends Component {
 
     }
     onQuakeDetail = (isConnected, quake) => {
-        console.log('quake',quake)
+        console.log('quake', quake)
         // this.props.navigation.navigate('Detail', {isConnected, ...quake});
     };
 
@@ -192,7 +172,7 @@ export default class QuakeMap extends Component {
                                     }}
 
                     >
-                        <MapView.Callout tooltip={true}   onPress={() => this.onQuakeDetail(true, marker)}>
+                        <MapView.Callout tooltip={true} onPress={() => this.onQuakeDetail(true, marker)}>
                             <CustomCallout>
                                 <Text
                                     style={map.info}>{`Time: ${marker.time}`}

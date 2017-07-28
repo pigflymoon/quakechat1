@@ -29,14 +29,14 @@ export default class Signin extends Component {
             showInfo: false,
             isConnected: false,
         };
-        console.log('sign in this.props);',this.props);
+        // console.log('sign in this.props);',this.props);
     }
 
 
 
     shouldComponentUpdate(nextProps, nextState) {
         var isConnected = nextProps.isConnected;//update netinfo
-        console.log('sign in isConnected',isConnected)
+        // console.log('sign in isConnected',isConnected)
         if (isConnected) {
             this.setState({isConnected: isConnected});
             return true;
@@ -52,10 +52,10 @@ export default class Signin extends Component {
     handleSignin = (e) => {
         var self = this;
         e.preventDefault()
-        console.log(' signin connected',this.props.isConnected)
+        // console.log(' signin connected',this.props.isConnected)
 
         if (this.props.isConnected) {
-            console.log(' signin is connected')
+            // console.log(' signin is connected')
 
             if (!this.state.email) {
                 this.setState({
@@ -67,7 +67,7 @@ export default class Signin extends Component {
                 .then(function (user) {
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
-                            console.log('********** In Sign in moudle********* ', user, ' is signed in');
+                            // console.log('********** In Sign in moudle********* ', user, ' is signed in');
                             Actions.chat();
                         } else {
                             console.log('error')

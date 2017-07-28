@@ -16,9 +16,9 @@ export default class App extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('called')
+        // console.log('called')
         var isConnected = nextState.isConnected;
-        console.log('called', isConnected)
+        // console.log('called', isConnected)
         if (isConnected) {
             this.setState({isConnected: isConnected});
             return true;
@@ -35,7 +35,7 @@ export default class App extends Component {
         NetInfo.isConnected.fetch().done(
             (isConnected) => {
                 this.setState({isConnected: isConnected});
-                console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+                // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
 
             }
         );
@@ -60,7 +60,7 @@ export default class App extends Component {
                 {cancelable: false}
             )
         }
-        console.log('Then, is ' + isConnected);
+        // console.log('Then, is ' + isConnected);
         this.setState({isConnected: isConnected});
     }
 

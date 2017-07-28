@@ -13,7 +13,7 @@ axios.get(url)
 
                 time = new Date(time);
                 let notificationDate = time.toString();
-                console.log('notificationDate', notificationDate)
+                // console.log('notificationDate', notificationDate)
                 var notificationTime = time.getTime();
 
 
@@ -40,12 +40,12 @@ axios.get(url)
             return array;
         }, filterData)
         AsyncStorage.setItem("notification", JSON.stringify(timestamp));
-        console.log('get items', timestamp)
+        // console.log('get items', timestamp)
 
         this.setState({
             timestamp: timestamp,
             dataSource: quakes,
             isLoading: false,
         })
-        console.log('Not refresh data');
+        // console.log('Not refresh data');
     });

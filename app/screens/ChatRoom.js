@@ -19,7 +19,7 @@ import chat from '../styles/chat';
 export default class ChatRoom extends Component {
     constructor(props) {
         super(props);
-        console.log('this.props);',this.props);
+        // console.log('this.props);',this.props);
 
     }
 

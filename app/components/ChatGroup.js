@@ -24,7 +24,7 @@ export default class ChatGroup extends Component {
 
     componentWillMount() {
         var user = firebase.auth().currentUser;
-        console.log('*******in Chat Group ********* and current user is ', user)
+        // console.log('*******in Chat Group ********* and current user is ', user)
         if (user) {
             this.setUid(user.uid);
             this.setName(user.displayName);
@@ -69,7 +69,7 @@ export default class ChatGroup extends Component {
     }
 
     sendMessage(message) {
-        console.log('messsage',message)
+        // console.log('messsage',message)
             for (let i = 0; i < message.length; i++) {
             this.messagesRef.push({
                 text: message[i].text,
@@ -80,7 +80,7 @@ export default class ChatGroup extends Component {
     }
 
     componentDidMount() {
-        console.log('chat group called')
+        // console.log('chat group called')
         this.setState({
             signin: true
         });

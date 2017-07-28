@@ -29,7 +29,7 @@ export default class NetInfoChecking extends Component {
             (isConnected) => {
                 this.setState({isConnected: isConnected});
 
-                console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+                // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
 
             }
         );
@@ -54,7 +54,7 @@ export default class NetInfoChecking extends Component {
                 {cancelable: false}
             )
         }
-            console.log('Then, is ' + isConnected);
+            // console.log('Then, is ' + isConnected);
 
             this.setState({isConnected: isConnected});
             this.props.connectCheck(isConnected);

@@ -47,15 +47,11 @@ export default class QuakeLevelList extends Component {
                             let time = value.properties.time;
                             var utime = new Date(time);
                             utime = new Date(utime.toUTCString().slice(0, -4));
-                            console.log('utime',utime)
                             utime = utime.toString().split('GMT')[0];
-                            console.log('utime',utime)
-
 
                             time = new Date(time);
                             let notificationDate = time.toString();//for show notification message
                             let notificationTime = time.getTime();//for notification time
-
 
                             time = time.toString().split('GMT')[0];
 
@@ -68,8 +64,8 @@ export default class QuakeLevelList extends Component {
                              */
 
                             if (value.properties.mmi >= 2.8) {
-                                console.log('notificationTime is', (notificationTime))
-                                console.log('lastNotificationTime is', lastNotificationTime)
+                                // console.log('notificationTime is', (notificationTime))
+                                // console.log('lastNotificationTime is', lastNotificationTime)
                                 if (lastNotificationTime) {
                                     lastNotificationTime = parseInt(lastNotificationTime)
                                 } else {
@@ -199,14 +195,14 @@ export default class QuakeLevelList extends Component {
      * notifications
      * */
     handleAppStateChange = (appState) => {
-        console.log('called?')
+        // console.log('called?')
 
 
         if (appState === 'background') {
             // console.log('background notified')
             // let date = new Date(Date.now() + (5 * 1000));
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
-                console.log('background isnotified', isNotifiedValue)
+                // console.log('background isnotified', isNotifiedValue)
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
                     var isSilent = (isSlientValue === "true");
 
@@ -215,13 +211,13 @@ export default class QuakeLevelList extends Component {
                     if (isNotified) {
                         var timestamp;
                         AsyncStorage.getItem("notification").then((notificationValue) => {
-                            console.log('*********notificationValue******', notificationValue)
+                            // console.log('*********notificationValue******', notificationValue)
 
                             if (notificationValue === 'noData' || notificationValue == null) {
-                                console.log('notification is empty')
+                                // console.log('notification is empty')
                                 return false;
                             } else {
-                                console.log('backgound notification value is ', notificationValue);
+                                // console.log('backgound notification value is ', notificationValue);
 
                                 timestamp = JSON.parse(notificationValue);
                                 let lastNotificationTime = timestamp[Object.keys(timestamp)[0]].notificationTime;//get latest notification time from notification

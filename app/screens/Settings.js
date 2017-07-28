@@ -31,17 +31,17 @@ export default class Settings extends Component {
 
 
     componentDidMount() {
-        console.log('is notified', this.state.isNotified)
+        // console.log('is notified', this.state.isNotified)
 
         AsyncStorage.getItem("isNotified").then((value) => {
-            console.log('first is notified', value)
+            // console.log('first is notified', value)
 
             if (value) {
                 var val = (value === "true");
-                console.log('val is ', val)
+                // console.log('val is ', val)
                 this.setState({"isNotified": val});
             }else{
-                console.log('set state to item ')
+                // console.log('set state to item ')
                 AsyncStorage.setItem("isNotified", this.state.isNotified.toString());
             }
 
