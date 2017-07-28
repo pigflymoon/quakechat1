@@ -23,12 +23,12 @@ export default class QuakesList extends Component {
             refreshing: false,
             isConnected: false,
         };
+        console.log('list',this.props)
 
     }
 
 
     getRefreshData = () => {
-        console.log('screenProps', this.props.scrrenProps)
         if (!this.props.screenProps) {
             console.log('alert')
             Alert.alert(
@@ -64,6 +64,7 @@ export default class QuakesList extends Component {
     }
 
     render() {
+        console.log('this.props.screenProps',this.props.screenProps)
         return (
             <ScrollView
                 refreshControl={

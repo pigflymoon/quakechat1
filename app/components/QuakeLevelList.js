@@ -193,7 +193,7 @@ export default class QuakeLevelList extends Component {
 
         // console.log('level list this.props.screenProps', this.props.isConnected)
         AppState.addEventListener('change', this.handleAppStateChange);
-
+        console.log('levelist',this.props.isConnected)
         if (this.props.isConnected) {
 
             if (this.state.quakes.length <= 0) {

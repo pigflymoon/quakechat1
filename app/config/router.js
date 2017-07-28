@@ -11,132 +11,93 @@ import ChatRoom from '../screens/ChatRoom';
 import About from '../screens/About';
 
 import Settings from '../screens/Settings';
-export const QuakesListStack = StackNavigator({
-    List: {
-        screen: QuakesList,
-        navigationOptions: {
-            title: 'Quakes List'
-        },
-    },
 
-    Detail: {
-        screen: QuakeDetail,
-        navigationOptions: ({navigation}) => ({
-            title: 'Quake Detail'
-        }),
-    },
-    Quality: {
-        screen: QuakeQuality,
-        navigationOptions: ({navigation}) => ({
-            title: 'Quake Quality'
-        }),
-    },
-});
-
-export const SettingsStack = StackNavigator({
-    Settings: {
-        screen: Settings,
+const QuakesListScreen = ({navigation,screenProps}) => (
+    <QuakesList navigation={navigation} screenProps={screenProps} />
+);
+const QuakesMapScreen = ({navigation,screenProps}) => (
+    <QuakesMap navigation={navigation} screenProps={screenProps} />
+);
+const ChatRoomScreen = ({navigation,screenProps}) => (
+    <ChatRoom navigation={navigation} screenProps={screenProps} />
+);
+const NewsScreen = ({navigation,screenProps}) => (
+    <News navigation={navigation} screenProps={screenProps} />
+);
+const SettingsScreen = ({navigation,screenProps}) => (
+    <Settings navigation={navigation} screenProps={screenProps} />
+);
+const TabNav = TabNavigator({
+    Quakes: {
+        screen: QuakesListScreen,
+        path: '/',
         navigationOptions: {
-            title: 'Settings'
-        },
-    },
-    About: {
-        screen: About,
-        navigationOptions: ({navigation}) => ({
-            title: 'About'
-        })
-
-
-    }
-});
-
-export const ChatRoomStack = StackNavigator({
-    ChatRoom: {
-        screen: ChatRoom,
-        navigationOptions: {
-            title: 'ChatRoom'
-        },
-    },
-});
-
-
-export const NewsStack = StackNavigator({
-    News: {
-        screen: News,
-        navigationOptions: {
-            title: 'News'
-        },
-    },
-});
-export const mapsStack = StackNavigator({
-    Map: {
-        screen: QuakesMap,
-        navigationOptions: {
-            title: 'Quakes Map'
-        },
-        Detail: {
-            screen: QuakeDetail,
-            navigationOptions: ({navigation}) => ({
-                title: 'Quake Detail'
-            }),
-        },
-    },
-});
-export const Tabs = TabNavigator({
-    // ChatRoom: {
-    //     screen: ChatRoom,
-    //     navigationOptions: {
-    //         tabBarLabel: 'ChatRoom',
-    //         tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
-    //     },
-    // },
-    Map: {
-        screen: mapsStack,
-        navigationOptions: {
-            tabBarLabel: 'Map',
-            title: 'Quakes Map',
-            tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
-        },
-    },
-
-    ChatRoom: {
-        screen: ChatRoomStack,
-        navigationOptions: {
-            tabBarLabel: 'ChatRoom',
-            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
-        }
-    },
-    News: {
-        screen: NewsStack,
-        navigationOptions: {
-            tabBarLabel: 'News',
-            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
-        },
-    },
-
-    Settings: {
-        screen: SettingsStack,
-        navigationOptions: {
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
-        }
-    },
-    List: {
-        screen: QuakesListStack,
-        navigationOptions: {
+            title: 'Quakes List',
             tabBarLabel: 'Quakes',
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
-
+    Map: {
+        screen: QuakesMapScreen,
+        path: '/map',
+        navigationOptions: {
+            title: 'Quakes Map',
+            tabBarLabel: 'Map',
+            tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
+        },
+    },
+    Chat: {
+        screen: ChatRoomScreen,
+        path: '/chat',
+        navigationOptions: {
+            title: 'Chat Room',
+            tabBarLabel: 'ChatRoom',
+            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+        },
+    },
+    News: {
+        screen: NewsScreen,
+        path: '/news',
+        navigationOptions: {
+            title: 'News',
+            tabBarLabel: 'News',
+            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+        },
+    },
+    Settings: {
+        screen: SettingsScreen,
+        path: '/settings',
+        navigationOptions: {
+            title: 'Settings',
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
+        },
+    }
 
 });
-
-export const Root = StackNavigator({
-    Tabs: {
-        screen: Tabs,
+export const StacksOverTabs = StackNavigator({
+    TabNav: {
+        screen: TabNav,
     },
-}, {
-    mode: 'modal',
-    headerMode: 'none',
-})
+    Detail: {
+        screen: QuakeDetail,
+        path: '/quake/:publicID',
+        navigationOptions: ({navigation}) => {
+            title:`${navigation.state.params.publicID}'s detail`;
+        },
+    },
+    Quality: {
+        screen: QuakeQuality,
+        path: '/quality/',
+        navigationOptions: ({navigation}) => {
+            title:`Quake Quality`;
+        },
+    },
+    About: {
+        screen: About,
+        path: '/about/',
+        navigationOptions: ({navigation}) => {
+            title:`About`;
+        },
+    }
+});

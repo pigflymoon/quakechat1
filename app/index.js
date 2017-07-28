@@ -3,7 +3,7 @@ import {
     NetInfo,
     Alert,
 } from 'react-native';
-import {Root} from './config/router';
+import {StacksOverTabs} from './config/router';
 // import PushNotification from 'react-native-push-notification';
 
 export default class App extends Component {
@@ -60,11 +60,11 @@ export default class App extends Component {
                 {cancelable: false}
             )
         }
-        // console.log('Then, is ' + isConnected);
+        console.log('Then, is ' + isConnected);
         this.setState({isConnected: isConnected});
     }
 
     render() {
-        return <Root screenProps={this.state.isConnected}/>
+        return <StacksOverTabs screenProps={this.state.isConnected}/>
     }
 }
