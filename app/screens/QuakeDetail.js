@@ -31,7 +31,7 @@ export default class QuakeDetail extends Component {
     // }
 
     render() {
-        // console.log('detail')
+        console.log('detail navigation')
         console.log(this.props.navigation.state.params)
         const {quake} = this.props.navigation.state.params;
         // console.log(quake);

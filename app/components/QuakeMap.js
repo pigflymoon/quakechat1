@@ -76,7 +76,7 @@ export default class QuakeMap extends Component {
     loadMapInfo(nextProps) {
         let self = this;
         let url = self.props.nps_source;
-        console.log('level',self.props.level);
+        console.log('level', self.props.level);
 
         if (nextProps) {
             url = url + nextProps.level;
@@ -84,8 +84,8 @@ export default class QuakeMap extends Component {
             url = url + self.props.level;
         }
         //callback to get quakes
-        fetchQuakesByApi(url,function (quakes) {
-            console.log('quakes',quakes);
+        fetchQuakesByApi(url, function (quakes) {
+            console.log('quakes', quakes);
             self.setState({
                     quakes: quakes,
                     loading: false,
@@ -93,8 +93,6 @@ export default class QuakeMap extends Component {
                 }
             );
         })
-
-
 
 
     }
@@ -128,9 +126,9 @@ export default class QuakeMap extends Component {
 
 
     }
-    onQuakeDetail = (isConnected, quake) => {
+    onQuakeDetail = (isConnected, quake, backScreen) => {
         console.log('quake', quake)
-        this.props.navigation.navigate('Detail', {isConnected, quake});
+        this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
     };
 
     renderPosts() {
@@ -164,10 +162,10 @@ export default class QuakeMap extends Component {
                                         this.handleMarker(data)
 
                                     }}
-                                    onCalloutPress={() => this.onQuakeDetail(true, quake)}
+                                    onCalloutPress={() => this.onQuakeDetail(true, quake, 'Map')}
 
                     >
-                        <MapView.Callout tooltip={true} >
+                        <MapView.Callout tooltip={true}>
                             <CustomCallout>
                                 <Text
                                     style={map.info}>{`Time: ${quake.time}`}
