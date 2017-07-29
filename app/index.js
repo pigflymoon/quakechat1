@@ -3,7 +3,7 @@ import {
     NetInfo,
     Alert,
 } from 'react-native';
-import {StacksOverTabs} from './config/router';
+import {StacksInTabs} from './config/router';
 // import {TabNav} from './config/router';
 // import PushNotification from 'react-native-push-notification';
 
@@ -66,6 +66,6 @@ export default class App extends Component {
     }
 
     render() {
-        return <StacksOverTabs screenProps={this.state.isConnected}/>
+        return <StacksInTabs screenProps={this.state.isConnected}/>
     }
 }

@@ -7,7 +7,7 @@ import firebaseApp from '../config/FirebaseConfig';
 
 import {GiftedChat} from 'react-native-gifted-chat';
 
-export default class ChatGroup extends Component {
+export default class ChatRoom extends Component {
     uid = '';
     messagesRef = null;
 
@@ -122,10 +122,10 @@ export default class ChatGroup extends Component {
 
 }
 
-ChatGroup.defaultProps = {
+ChatRoom.defaultProps = {
     name: 'John Smith',
 };
 
-ChatGroup.propTypes = {
+ChatRoom.propTypes = {
     name: React.PropTypes.string,
 };
