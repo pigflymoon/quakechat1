@@ -176,7 +176,7 @@ const QuakesListTab = StackNavigator({
         path: '/',
         key: 'Quakes',
         navigationOptions: {
-            title: 'Welcome',
+            title: 'Quakes',
         },
     },
     Detail: {
@@ -184,7 +184,7 @@ const QuakesListTab = StackNavigator({
         path: '',
         key: 'Detail',
         navigationOptions: ({navigation}) => ({
-            title: `${navigation.state.params}'s detail`
+            title: `Quake Detail`
         }),
     },
     Quality: {
