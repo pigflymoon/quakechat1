@@ -7,17 +7,17 @@ import {
     Animated,
 } from 'react-native';
 
-import {Actions} from 'react-native-router-flux';
+// import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AnimatedInfo from './AnimatedInfo';
+import AnimatedInfo from '../components/AnimatedInfo';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
 
 import NetInfoChecking from '../utils/NetInfoChecking';
 
-export default class Signin extends Component {
+export default class SignIn extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -29,33 +29,34 @@ export default class Signin extends Component {
             showInfo: false,
             isConnected: false,
         };
-        // console.log('sign in this.props);',this.props);
+        console.log('sign in this.props);',this.props);
     }
 
 
 
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.isConnected;//update netinfo
-        // console.log('sign in isConnected',isConnected)
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.isConnected;//update netinfo
+    //     // console.log('sign in isConnected',isConnected)
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
 
     signup = () => {
-        Actions.signup();
+        // Actions.signup();
+        console.log('*******todo')
     }
 
-    handleSignin = (e) => {
+    handleSignIn = (e) => {
         var self = this;
         e.preventDefault()
         // console.log(' signin connected',this.props.isConnected)
 
-        if (this.props.isConnected) {
-            // console.log(' signin is connected')
+        // if (this.props.screenProps) {
+            console.log(' signin is connected')
 
             if (!this.state.email) {
                 this.setState({
@@ -67,9 +68,12 @@ export default class Signin extends Component {
                 .then(function (user) {
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
-                            // console.log('********** In Sign in moudle********* ', user, ' is signed in');
-                            Actions.chat();
+                            console.log(user);
+                            // Actions.chat();
+                            console.log('*******todo')
+                            self.props.navigation.navigate('ChatGroup', { name: user.displayName });
                         } else {
+                            console.log('come back')
                             console.log('error')
                         }
                     })
@@ -97,7 +101,7 @@ export default class Signin extends Component {
 
                     console.log(error);
                 });
-        }
+        // }
 
 
     }
@@ -111,10 +115,11 @@ export default class Signin extends Component {
     }
 
     handleResetPassword = () => {
-        Actions.resetPassword();
+        // Actions.resetPassword();
     }
 
     handleInfo = (showInfo) => {
+        console.log('showinfo')
         this.setState({
             showInfo: showInfo
         })
@@ -163,7 +168,7 @@ export default class Signin extends Component {
                                 <Text style={chat.forgotPasswordText}>Forgot Password?</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>
+                        <TouchableOpacity activeOpacity={.5} onPress={this.handleSignIn}>
                             <View style={chat.button}>
                                 <Text style={chat.buttonText}>Sign In</Text>
                             </View>

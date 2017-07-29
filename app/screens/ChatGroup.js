@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
-import {Actions} from 'react-native-router-flux';
-
+// import {Actions} from 'react-native-router-flux';
+import { NavigationActions } from 'react-navigation'
 import firebase from 'firebase';  // Initialize Firebase
 import firebaseApp from '../config/FirebaseConfig';
 
@@ -23,17 +23,8 @@ export default class ChatGroup extends Component {
     }
 
     componentWillMount() {
-        var user = firebase.auth().currentUser;
-        // console.log('*******in Chat Group ********* and current user is ', user)
-        if (user) {
-            this.setUid(user.uid);
-            this.setName(user.displayName);
-        } else {
-            // Actions.signin();
-            console.log('*******todo')
-            this.props.navigation.navigate('Sigin');
 
-        }
+
     }
 
 
@@ -84,6 +75,26 @@ export default class ChatGroup extends Component {
 
     componentDidMount() {
         // console.log('chat group called')
+        //
+
+
+        // var user = firebase.auth().currentUser;
+        // console.log('*******in Chat Group ********* and current user is ', user)
+        // if (user) {
+        //     console.log('hi user',user)
+        //     this.setUid(user.uid);
+        //     this.setName(user.displayName);
+        // } else {
+        //     console.log('*******todo')
+        //     const resetAction = NavigationActions.reset({
+        //         index: 0,
+        //         actions: [
+        //             NavigationActions.navigate({ routeName: 'SignIn'})
+        //         ]
+        //     })
+        //     this.props.navigation.dispatch(resetAction);
+        // }
+        //
         this.setState({
             signin: true
         });

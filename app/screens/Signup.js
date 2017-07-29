@@ -39,7 +39,7 @@ export default class Signup extends Component {
         return false;
     }
 
-    handleSignin = () => {
+    handleSignIn = () => {
         // Actions.signin();
         console.log('*******todo')
     }
@@ -160,7 +160,7 @@ export default class Signup extends Component {
                     <View style={chat.container}>
                         <View style={chat.footerWrap}>
                             <Text style={chat.accountText}>Already have an account?</Text>
-                            <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>
+                            <TouchableOpacity activeOpacity={.5} onPress={this.handleSignIn}>
                                 <View>
                                     <Text style={chat.linkText}>Sign In</Text>
                                 </View>

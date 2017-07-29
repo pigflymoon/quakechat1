@@ -1,6 +1,8 @@
 import React from 'react';
 import {Button} from 'react-native';
 import {TabNavigator, StackNavigator} from 'react-navigation';
+import {NavigationActions} from 'react-navigation'
+
 import {Icon} from 'react-native-elements';
 
 import News from '../screens/News';
@@ -9,8 +11,7 @@ import QuakesMap from '../screens/QuakesMap';
 import QuakeDetail from '../screens/QuakeDetail';
 import QuakeQuality from '../screens/QuakeQuality';
 import ChatGroup from '../screens/ChatGroup';
-import Chat from '../screens/Chat';
-import Signin from '../screens/Signin';
+import SignIn from '../screens/SignIn';
 import Signup from '../screens/Signup';
 import About from '../screens/About';
 import Settings from '../screens/Settings';
@@ -22,38 +23,41 @@ const QuakesListScreen = ({navigation, screenProps}) => (
 const QuakesMapScreen = ({navigation, screenProps}) => (
     <QuakesMap navigation={navigation} screenProps={screenProps}/>
 );
-const ChatScreen = ({navigation, screenProps}) => (
-    <Chat navigation={navigation} screenProps={screenProps}/>
-);
+
 const ChatGroupScreen = ({navigation, screenProps}) => (
     <ChatGroup navigation={navigation} screenProps={screenProps}/>
 );
-const SigninScreen = ({navigation, screenProps}) => (
-    <Signin navigation={navigation} screenProps={screenProps}/>
+const SignInScreen = ({navigation, screenProps}) => (
+    <SignIn navigation={navigation} screenProps={screenProps}/>
 );
 
 ChatGroupScreen.navigationOptions = props => {
     const {navigation} = props;
     const {state, setParams} = navigation;
     const {params} = state;
+    console.log(props)
     return {
-        headerTitle: `${params.name}'s live chat!`,
+        headerTitle: `live chat!`,
         // Render a button on the right side of the header.
-        // When pressed switches the screen to edit mode.
+        // When pressed signout navigate to signin
+        title: '',
         headerRight: (
             <Button
                 title={'Sign out'}
                 onPress={() => {
                     firebaseApp.auth().signOut().then(function () {
                         console.log('Sign out')
-                        navigation.navigate('Signin');
+                        const backAction = NavigationActions.back({
+                            key: 'SignIn'
+                        })
+                        props.navigation.dispatch(backAction)
+
+
                     }).catch(function (error) {
                         console.log('sign out error', error);
                     })
 
                 }}
-
-
             />
         ),
     };
@@ -67,16 +71,8 @@ const NewsScreen = ({navigation, screenProps}) => (
 const SettingsScreen = ({navigation, screenProps}) => (
     <Settings navigation={navigation} screenProps={screenProps}/>
 );
-const TabNav = TabNavigator({
-    Chat: {
-        screen: ChatScreen,
-        path: '/chat',
-        navigationOptions: {
-            title: 'Chat Room',
-            tabBarLabel: 'ChatRoom',
-            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
-        },
-    },
+export const TabNav = TabNavigator({
+
     Quakes: {
         screen: QuakesListScreen,
         path: '/',
@@ -84,6 +80,15 @@ const TabNav = TabNavigator({
             title: 'Quakes List',
             tabBarLabel: 'Quakes',
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
+        },
+    },
+    ChatGroup: {
+        screen: ChatGroupScreen,
+        path: '/chat',
+        navigationOptions: {
+            title: 'Chat Room',
+            tabBarLabel: 'ChatRoom',
+            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
         },
     },
     Map: {
@@ -120,15 +125,23 @@ export const StacksOverTabs = StackNavigator({
     TabNav: {
         screen: TabNav,
     },
-    Detail: {
-        screen: QuakeDetail,
-        path: '/quake/:publicID',
+    About: {
+        screen: About,
+        path: '/about/',
         navigationOptions: ({navigation}) => {
-            title:`${navigation.state.params.publicID}'s detail`;
+            title:`About`;
         },
     },
+    Detail: {
+        screen: QuakeDetail,
+        path: '/quake/',
+        navigationOptions: ({navigation}) => {
+            title:`${navigation.state.params}'s detail`;
+        },
+    },
+
     SignIn: {
-        screen: SigninScreen,
+        screen: SignInScreen,
         path: '/sigin',
         navigationOptions: ({navigation}) => {
             title:`Sign In`;
@@ -171,11 +184,5 @@ export const StacksOverTabs = StackNavigator({
             title:`Quake Quality`;
         },
     },
-    About: {
-        screen: About,
-        path: '/about/',
-        navigationOptions: ({navigation}) => {
-            title:`About`;
-        },
-    }
+
 });

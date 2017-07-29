@@ -4,6 +4,7 @@ import {
     Alert,
 } from 'react-native';
 import {StacksOverTabs} from './config/router';
+// import {TabNav} from './config/router';
 // import PushNotification from 'react-native-push-notification';
 
 export default class App extends Component {
