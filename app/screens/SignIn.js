@@ -7,7 +7,8 @@ import {
     Animated,
 } from 'react-native';
 
-// import {Actions} from 'react-native-router-flux';
+import {NavigationActions} from 'react-navigation';
+
 import firebaseApp from '../config/FirebaseConfig';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -45,9 +46,12 @@ export default class SignIn extends Component {
     // }
 
 
-    signup = () => {
-        // Actions.signup();
-        console.log('*******todo')
+    handleSignUp = () => {
+        const navigateAction = NavigationActions.navigate({
+            routeName: 'SignUp',
+            params: {},
+        });
+        this.props.navigation.dispatch(navigateAction);
     }
 
     handleSignIn = (e) => {
@@ -180,7 +184,7 @@ export default class SignIn extends Component {
                         <View style={chat.footerWrap}>
 
                             <Text style={chat.accountText}>Don't have an account?</Text>
-                            <TouchableOpacity activeOpacity={.5} onPress={this.signup}>
+                            <TouchableOpacity activeOpacity={.5} onPress={this.handleSignUp}>
                                 <View>
                                     <Text style={chat.linkText}>Sign Up</Text>
                                 </View>

@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
 } from 'react-native'
 
-// import {Actions} from 'react-native-router-flux';
+import {NavigationActions} from 'react-navigation';
+
 import firebaseApp from '../config/FirebaseConfig';
 import NetInfoChecking from '../utils/NetInfoChecking';
 
@@ -39,9 +40,13 @@ export default class Signup extends Component {
         return false;
     }
 
+
     handleSignIn = () => {
-        // Actions.signin();
-        console.log('*******todo')
+        const navigateAction = NavigationActions.navigate({
+            routeName: 'SignIn',
+            params: {},
+        });
+        this.props.navigation.dispatch(navigateAction);
     }
 
     setEmail = (text) => {

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
-// import {Actions} from 'react-native-router-flux';
 import {NavigationActions} from 'react-navigation'
 import firebase from 'firebase';  // Initialize Firebase
 import firebaseApp from '../config/FirebaseConfig';
@@ -74,10 +73,6 @@ export default class ChatRoom extends Component {
     }
 
     componentDidMount() {
-        // console.log('chat group called')
-        //
-
-
         var user = firebase.auth().currentUser;
         console.log('*******in Chat Group ********* and current user is ', user)
         if (user) {
@@ -91,16 +86,7 @@ export default class ChatRoom extends Component {
                 routeName: 'SignIn',
                 params: {},
             });
-            this.props.navigation.dispatch(navigateAction)
-
-            // const resetAction = NavigationActions.reset({
-            //     index: 0,
-            //     actions: [
-            //         NavigationActions.navigate({ routeName: 'SignIn'})
-            //     ]
-            // })
-            // this.props.navigation.dispatch(resetAction)
-
+            this.props.navigation.dispatch(navigateAction);
         }
 
         this.setState({
@@ -136,18 +122,9 @@ export default class ChatRoom extends Component {
                     name: this.getName()
                 }}
             />
-
-
         );
     }
 
 
 }
 
-ChatRoom.defaultProps = {
-    name: 'John Smith',
-};
-
-ChatRoom.propTypes = {
-    name: React.PropTypes.string,
-};

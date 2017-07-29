@@ -60,7 +60,7 @@ ChatRoomScreen.navigationOptions = props => {
                     firebaseApp.auth().signOut().then(function () {
                         console.log('Sign out')
                         const backAction = NavigationActions.back({
-                           
+
 
                         })
                         props.navigation.dispatch(backAction)
@@ -94,6 +94,17 @@ SignInScreen.navigationOptions = props => {
 const SignupScreen = ({navigation, screenProps}) => (
     <Signup navigation={navigation} screenProps={screenProps}/>
 );
+SignupScreen.navigationOptions = props => {
+    const {navigation} = props;
+    const {state, setParams} = navigation;
+    const {params} = state;
+    console.log(props)
+    return {
+        headerTitle: 'Sign Up',
+        headerLeft: null,
+
+    };
+};
 /**
  * For QuakesMapTab
  * @param navigation
