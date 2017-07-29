@@ -89,7 +89,8 @@ export default class QuakeMap extends Component {
             self.setState({
                     quakes: quakes,
                     loading: false,
-                    error: null
+                    error: null,
+                    mapType: 'Map'
                 }
             );
         })
@@ -107,7 +108,8 @@ export default class QuakeMap extends Component {
         this.setState({
                 quakes: markersData,
                 loading: false,
-                error: null
+                error: null,
+                mapType: 'detail'
             }
         );
     }
@@ -128,14 +130,18 @@ export default class QuakeMap extends Component {
     }
     onQuakeDetail = (isConnected, quake, backScreen) => {
         // console.log('quake', quake)
-        this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
+        if (backScreen == 'Map') {
+            this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
+
+        } else {
+            return false;
+        }
     };
 
     renderPosts() {
         if (this.state.error) {
             return this.renderError();
         }
-
         return (
             <MapView
                 ref="MapView"
@@ -162,7 +168,7 @@ export default class QuakeMap extends Component {
                                         this.handleMarker(data)
 
                                     }}
-                                    onCalloutPress={() => this.onQuakeDetail(true, quake, 'Map')}
+                                    onCalloutPress={() => this.onQuakeDetail(true, quake, this.state.mapType)}
 
                     >
                         <MapView.Callout tooltip={true}>
