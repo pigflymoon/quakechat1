@@ -44,7 +44,6 @@ ChatGroupScreen.navigationOptions = props => {
             <Button
                 title={'Sign out'}
                 onPress={() => {
-                    console.log('Sign out')
                     firebaseApp.auth().signOut().then(function () {
                         console.log('Sign out')
                         navigation.navigate('Signin');

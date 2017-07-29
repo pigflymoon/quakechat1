@@ -33,6 +33,7 @@ export default class Chat extends Component {
 
     render() {
         var user = firebase.auth().currentUser;
+        console.log('chat ',user)
         if (user) {
             return (<ChatGroup navigation={this.props.navigation} screenProps={this.props.screenProps} />)
         } else {

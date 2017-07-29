@@ -30,7 +30,7 @@ export const fetchQuakesByApi = (url,callback) => {
 
                 quakesArray.push(quake);
             } //for
-            console.log('quakesArray in utils',quakesArray)
+            // console.log('quakesArray in utils',quakesArray)
             callback(quakesArray);
 
         }); //then

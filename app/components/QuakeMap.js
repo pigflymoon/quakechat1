@@ -85,7 +85,7 @@ export default class QuakeMap extends Component {
         }
         //callback to get quakes
         fetchQuakesByApi(url, function (quakes) {
-            console.log('quakes', quakes);
+            // console.log('quakes', quakes);
             self.setState({
                     quakes: quakes,
                     loading: false,
@@ -113,7 +113,7 @@ export default class QuakeMap extends Component {
     }
 
     handleMarker = (data) => {
-        console.log('marker clicked');
+        // console.log('marker clicked');
         var coord = data.nativeEvent.coordinate;
         coord.latitude += 0.006;
         this.refs.MapView.animateToRegion({
@@ -127,7 +127,7 @@ export default class QuakeMap extends Component {
 
     }
     onQuakeDetail = (isConnected, quake, backScreen) => {
-        console.log('quake', quake)
+        // console.log('quake', quake)
         this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
     };
 
