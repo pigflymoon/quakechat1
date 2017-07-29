@@ -60,7 +60,8 @@ ChatRoomScreen.navigationOptions = props => {
                     firebaseApp.auth().signOut().then(function () {
                         console.log('Sign out')
                         const backAction = NavigationActions.back({
-                            key: 'SignIn'
+                           
+
                         })
                         props.navigation.dispatch(backAction)
 
@@ -78,6 +79,18 @@ const SignInScreen = ({navigation, screenProps}) => (
     <SignIn navigation={navigation} screenProps={screenProps}/>
 );
 
+
+SignInScreen.navigationOptions = props => {
+    const {navigation} = props;
+    const {state, setParams} = navigation;
+    const {params} = state;
+    console.log(props)
+    return {
+        headerTitle: 'Sign In',
+        headerLeft: null,
+
+    };
+};
 const SignupScreen = ({navigation, screenProps}) => (
     <Signup navigation={navigation} screenProps={screenProps}/>
 );
@@ -116,6 +129,7 @@ const QuakesListTab = StackNavigator({
     Quakes: {
         screen: QuakesScreen,
         path: '/',
+        key:'Quakes',
         navigationOptions: {
             title: 'Welcome',
         },
@@ -123,6 +137,7 @@ const QuakesListTab = StackNavigator({
     Detail: {
         screen: DetailScreen,
         path: '',
+        key:'Detail',
         navigationOptions: ({navigation}) => ({
             title: `${navigation.state.params}'s detail`
         }),
@@ -130,6 +145,7 @@ const QuakesListTab = StackNavigator({
     Quality: {
         screen: QualityScreen,
         path: '/quality/',
+        key:'Quality',
         navigationOptions: ({navigation}) => ({
             title: `Quake Quality`,
         }),
@@ -139,15 +155,16 @@ const ChatTab = StackNavigator({
     ChatRoom: {
         screen: ChatRoomScreen,
         path: '/chat',
+        key:'ChatRoom',
         navigationOptions: {
             title: 'Chat Room',
-            tabBarLabel: 'ChatRoom',
-            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+
         },
     },
     SignIn: {
         screen: SignInScreen,
         path: '/sigin',
+        // key:'SignIn',
         navigationOptions: ({navigation}) => {
             title:`Sign In`;
         },
@@ -155,50 +172,48 @@ const ChatTab = StackNavigator({
     SignUp: {
         screen: SignupScreen,
         path: '/sigup',
+        key:'SignUp',
         navigationOptions: ({navigation}) => {
             title:`Sign Up`;
         },
     },
 });
-
 const QuakesMapTab = StackNavigator({
     Map: {
         screen: MapScreen,
         path: '/map',
+        key:'Map',
         navigationOptions: {
             title: 'Quakes Map',
-            tabBarLabel: 'Map',
-            tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
+
         },
     },
 });
-
 const NewsTab = StackNavigator({
     News: {
         screen: NewsScreen,
         path: '/news',
+        key:'News',
         navigationOptions: {
             title: 'News',
-            tabBarLabel: 'News',
-            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+
         },
     },
 });
-
-
 const SettingsTab = StackNavigator({
     Settings: {
         screen: SettingsScreen,
         path: '/settings',
+        key:'Settings',
         navigationOptions: {
             title: 'Settings',
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
         },
     },
     About: {
         screen: AboutScreen,
         path: '/about/',
+        key:'About',
+
         navigationOptions: ({navigation}) => {
             title:`About`;
         },

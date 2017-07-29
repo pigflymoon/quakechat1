@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
 // import {Actions} from 'react-native-router-flux';
-import { NavigationActions } from 'react-navigation'
+import {NavigationActions} from 'react-navigation'
 import firebase from 'firebase';  // Initialize Firebase
 import firebaseApp from '../config/FirebaseConfig';
 
@@ -64,7 +64,7 @@ export default class ChatRoom extends Component {
 
     sendMessage(message) {
         // console.log('messsage',message)
-            for (let i = 0; i < message.length; i++) {
+        for (let i = 0; i < message.length; i++) {
             this.messagesRef.push({
                 text: message[i].text,
                 user: message[i].user,
@@ -78,23 +78,31 @@ export default class ChatRoom extends Component {
         //
 
 
-        // var user = firebase.auth().currentUser;
-        // console.log('*******in Chat Group ********* and current user is ', user)
-        // if (user) {
-        //     console.log('hi user',user)
-        //     this.setUid(user.uid);
-        //     this.setName(user.displayName);
-        // } else {
-        //     console.log('*******todo')
-        //     const resetAction = NavigationActions.reset({
-        //         index: 0,
-        //         actions: [
-        //             NavigationActions.navigate({ routeName: 'SignIn'})
-        //         ]
-        //     })
-        //     this.props.navigation.dispatch(resetAction);
-        // }
-        //
+        var user = firebase.auth().currentUser;
+        console.log('*******in Chat Group ********* and current user is ', user)
+        if (user) {
+            console.log('hi user', user)
+            this.setUid(user.uid);
+            this.setName(user.displayName);
+        } else {
+            console.log(this.props.navigation)
+
+            const navigateAction = NavigationActions.navigate({
+                routeName: 'SignIn',
+                params: {},
+            });
+            this.props.navigation.dispatch(navigateAction)
+
+            // const resetAction = NavigationActions.reset({
+            //     index: 0,
+            //     actions: [
+            //         NavigationActions.navigate({ routeName: 'SignIn'})
+            //     ]
+            // })
+            // this.props.navigation.dispatch(resetAction)
+
+        }
+
         this.setState({
             signin: true
         });

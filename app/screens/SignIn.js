@@ -73,7 +73,7 @@ export default class SignIn extends Component {
                             console.log('*******todo')
                             self.props.navigation.navigate('ChatRoom', { name: user.displayName });
                         } else {
-                            console.log('come back')
+                            console.log('go to sign in')
                             console.log('error')
                         }
                     })
