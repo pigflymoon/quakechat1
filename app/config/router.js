@@ -42,28 +42,34 @@ const QualityScreen = ({navigation, screenProps}) => (
  * @param screenProps
  * @constructor
  */
+
 const ChatRoomScreen = ({navigation, screenProps}) => (
     <ChatRoom navigation={navigation} screenProps={screenProps}/>
 );
-
 ChatRoomScreen.navigationOptions = props => {
     const {navigation} = props;
     const {state, setParams} = navigation;
     const {params} = state;
-    console.log(props)
+    // console.log('chatroomscreen navigation option called!!************')
+    // console.log(props)
     return {
-        headerTitle: `live chat!`,
+        headerTitle: `Live Chat`,
         // Render a button on the right side of the header.
         // When pressed signout navigate to signin
-        title: '',
+        headerLeft: null,
         headerRight: (
             <Button
                 title={'Sign out'}
                 onPress={() => {
                     firebaseApp.auth().signOut().then(function () {
                         console.log('Sign out')
-                        const backAction = NavigationActions.back({})
-                        props.navigation.dispatch(backAction)
+                        const navigateAction = NavigationActions.navigate({
+                            routeName: 'SignIn',
+                            params: {},
+                        });
+                        console.log('props.navigation sign out')
+                        console.log(props.navigation)
+                        props.navigation.dispatch(navigateAction);
 
 
                     }).catch(function (error) {
@@ -75,6 +81,7 @@ ChatRoomScreen.navigationOptions = props => {
         ),
     };
 };
+
 const SignInScreen = ({navigation, screenProps}) => (
     <SignIn navigation={navigation} screenProps={screenProps}/>
 );
@@ -84,7 +91,8 @@ SignInScreen.navigationOptions = props => {
     const {navigation} = props;
     const {state, setParams} = navigation;
     const {params} = state;
-    console.log(props)
+    // console.log('SignInScreen navigation option called!!************')
+    // console.log(props)
     return {
         headerTitle: 'Sign In',
         headerLeft: null,
@@ -189,6 +197,14 @@ const QuakesListTab = StackNavigator({
     },
 });
 const ChatTab = StackNavigator({
+    SignIn: {
+        screen: SignInScreen,
+        path: '/sigin',
+        // key:'SignIn',
+        navigationOptions: ({navigation}) => {
+            title:`Sign In`;
+        },
+    },
     ChatRoom: {
         screen: ChatRoomScreen,
         path: '/chat',
@@ -196,14 +212,6 @@ const ChatTab = StackNavigator({
         navigationOptions: {
             title: 'Chat Room',
 
-        },
-    },
-    SignIn: {
-        screen: SignInScreen,
-        path: '/sigin',
-        // key:'SignIn',
-        navigationOptions: ({navigation}) => {
-            title:`Sign In`;
         },
     },
     SignUp: {
@@ -231,6 +239,18 @@ const ChatTab = StackNavigator({
         },
     },
 });
+
+const navigateOnce = (getStateForAction) => (action, state) => {
+    const {type, routeName} = action;
+    return (
+        state &&
+        type === NavigationActions.NAVIGATE &&
+        routeName === state.routes[state.routes.length - 1].routeName
+    ) ? null : getStateForAction(action, state);
+    // you might want to replace 'null' with 'state' if you're using redux (see comments below)
+};
+
+ChatTab.router.getStateForAction = navigateOnce(ChatTab.router.getStateForAction);
 const QuakesMapTab = StackNavigator({
     Map: {
         screen: MapScreen,

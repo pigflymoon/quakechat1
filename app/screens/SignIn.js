@@ -30,7 +30,7 @@ export default class SignIn extends Component {
             showInfo: false,
             isConnected: false,
         };
-        console.log('sign in this.props);',this.props);
+        // console.log('sign in this.props);',this.props);
     }
 
 
@@ -72,10 +72,17 @@ export default class SignIn extends Component {
                 .then(function (user) {
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
-                            console.log(user);
+                            // console.log(user);
                             // Actions.chat();
-                            console.log('*******todo')
-                            self.props.navigation.navigate('ChatRoom', { name: user.displayName });
+                            // console.log(self.props)
+                            // self.props.navigation.navigate('ChatRoom', { name: user.displayName });
+                            const navigateAction = NavigationActions.navigate({
+                                routeName: 'ChatRoom',
+                                params: {},
+                            });
+                            console.log('props.navigation sign in')
+                            console.log(self.props.navigation)
+                            self.props.navigation.dispatch(navigateAction);
                         } else {
                             console.log('go to sign in')
                             console.log('error')
