@@ -84,7 +84,7 @@ export default class Signup extends Component {
 
     handleSignup = (e) => {
         e.preventDefault();
-        if (this.state.isConnected) {
+        // if (this.state.isConnected) {
             if (!this.state.email) {
                 this.setState({
                     showInfo: true
@@ -97,10 +97,11 @@ export default class Signup extends Component {
 
                 this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
             }
-        }
+        // }
 
     }
     handleInfo = (showInfo) => {
+        console.log('showinfo')
         this.setState({
             showInfo: showInfo
         })

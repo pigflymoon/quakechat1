@@ -119,7 +119,11 @@ export default class SignIn extends Component {
     }
 
     handleResetPassword = () => {
-        // Actions.resetPassword();
+        const navigateAction = NavigationActions.navigate({
+            routeName: 'ResetPassword',
+            params: {},
+        });
+        this.props.navigation.dispatch(navigateAction);
     }
 
     handleInfo = (showInfo) => {

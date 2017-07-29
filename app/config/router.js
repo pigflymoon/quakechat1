@@ -13,8 +13,11 @@ import QuakeQuality from '../screens/QuakeQuality';
 import ChatRoom from '../screens/ChatRoom';
 import SignIn from '../screens/SignIn';
 import Signup from '../screens/Signup';
+import ResetPassword from '../screens/ResetPassword';
+import VerifyEmail from '../screens/VerifyEmail';
 import About from '../screens/About';
 import Settings from '../screens/Settings';
+
 import firebaseApp from '../config/FirebaseConfig';
 
 /**
@@ -59,10 +62,7 @@ ChatRoomScreen.navigationOptions = props => {
                 onPress={() => {
                     firebaseApp.auth().signOut().then(function () {
                         console.log('Sign out')
-                        const backAction = NavigationActions.back({
-
-
-                        })
+                        const backAction = NavigationActions.back({})
                         props.navigation.dispatch(backAction)
 
 
@@ -98,9 +98,35 @@ SignupScreen.navigationOptions = props => {
     const {navigation} = props;
     const {state, setParams} = navigation;
     const {params} = state;
-    console.log(props)
     return {
         headerTitle: 'Sign Up',
+        headerLeft: null,
+
+    };
+};
+const ResetPasswordScreen = ({navigation, screenProps}) => (
+    <ResetPassword navigation={navigation} screenProps={screenProps}/>
+);
+ResetPasswordScreen.navigationOptions = props => {
+    const {navigation} = props;
+    const {state, setParams} = navigation;
+    const {params} = state;
+    return {
+        headerTitle: 'Reset Password',
+        headerLeft: null,
+
+    };
+};
+
+const VerifyEmailScreen = ({navigation, screenProps}) => (
+    <VerifyEmail navigation={navigation} screenProps={screenProps}/>
+);
+VerifyEmailScreen.navigationOptions = props => {
+    const {navigation} = props;
+    const {state, setParams} = navigation;
+    const {params} = state;
+    return {
+        headerTitle: 'Verify Email',
         headerLeft: null,
 
     };
@@ -140,7 +166,7 @@ const QuakesListTab = StackNavigator({
     Quakes: {
         screen: QuakesScreen,
         path: '/',
-        key:'Quakes',
+        key: 'Quakes',
         navigationOptions: {
             title: 'Welcome',
         },
@@ -148,7 +174,7 @@ const QuakesListTab = StackNavigator({
     Detail: {
         screen: DetailScreen,
         path: '',
-        key:'Detail',
+        key: 'Detail',
         navigationOptions: ({navigation}) => ({
             title: `${navigation.state.params}'s detail`
         }),
@@ -156,7 +182,7 @@ const QuakesListTab = StackNavigator({
     Quality: {
         screen: QualityScreen,
         path: '/quality/',
-        key:'Quality',
+        key: 'Quality',
         navigationOptions: ({navigation}) => ({
             title: `Quake Quality`,
         }),
@@ -166,7 +192,7 @@ const ChatTab = StackNavigator({
     ChatRoom: {
         screen: ChatRoomScreen,
         path: '/chat',
-        key:'ChatRoom',
+        key: 'ChatRoom',
         navigationOptions: {
             title: 'Chat Room',
 
@@ -183,9 +209,25 @@ const ChatTab = StackNavigator({
     SignUp: {
         screen: SignupScreen,
         path: '/sigup',
-        key:'SignUp',
+        key: 'SignUp',
         navigationOptions: ({navigation}) => {
             title:`Sign Up`;
+        },
+    },
+    ResetPassword: {
+        screen: ResetPasswordScreen,
+        path: '/reset',
+        key: 'Reset',
+        navigationOptions: ({navigation}) => {
+            title:`Reset Password`;
+        },
+    },
+    VerifyEmail: {
+        screen: VerifyEmailScreen,
+        path: '/verify',
+        key: 'Verify',
+        navigationOptions: ({navigation}) => {
+            title:`Verify Email`;
         },
     },
 });
@@ -193,7 +235,7 @@ const QuakesMapTab = StackNavigator({
     Map: {
         screen: MapScreen,
         path: '/map',
-        key:'Map',
+        key: 'Map',
         navigationOptions: {
             title: 'Quakes Map',
 
@@ -204,7 +246,7 @@ const NewsTab = StackNavigator({
     News: {
         screen: NewsScreen,
         path: '/news',
-        key:'News',
+        key: 'News',
         navigationOptions: {
             title: 'News',
 
@@ -215,7 +257,7 @@ const SettingsTab = StackNavigator({
     Settings: {
         screen: SettingsScreen,
         path: '/settings',
-        key:'Settings',
+        key: 'Settings',
         navigationOptions: {
             title: 'Settings',
         },
@@ -223,7 +265,7 @@ const SettingsTab = StackNavigator({
     About: {
         screen: AboutScreen,
         path: '/about/',
-        key:'About',
+        key: 'About',
 
         navigationOptions: ({navigation}) => {
             title:`About`;
