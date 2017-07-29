@@ -72,7 +72,8 @@ export default class SignIn extends Component {
                 .then(function (user) {
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
-                            // console.log(user);
+                            console.log('sign in user is ');
+                            console.log(user);
                             // Actions.chat();
                             // console.log(self.props)
                             // self.props.navigation.navigate('ChatRoom', { name: user.displayName });

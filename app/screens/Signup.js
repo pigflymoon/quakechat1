@@ -31,6 +31,7 @@ export default class Signup extends Component {
             isConnected: false,
         };
     }
+
     shouldComponentUpdate(nextProps, nextState) {
         var isConnected = nextProps.screenProps;//update netinfo
         if (isConnected) {
@@ -73,6 +74,11 @@ export default class Signup extends Component {
                     });
 
                     // Actions.verifyEmail({user: user, email: email});
+                    const navigateAction = NavigationActions.navigate({
+                        routeName: 'VerifyEmail',
+                        params: {user: user, email: email},
+                    });
+                    self.props.navigation.dispatch(navigateAction);
                     console.log('*******todo')
                 }, error => {
                     console.log('registerUserAndWaitEmailVerification: createUserWithEmailAndPassword failed ! ' + error.message + ' (' + error.code + ')');
@@ -85,18 +91,18 @@ export default class Signup extends Component {
     handleSignup = (e) => {
         e.preventDefault();
         // if (this.state.isConnected) {
-            if (!this.state.email) {
-                this.setState({
-                    showInfo: true
-                });
-            } else if (!this.state.password) {
-                this.setState({
-                    showInfo: true
-                });
-            } else {
+        if (!this.state.email) {
+            this.setState({
+                showInfo: true
+            });
+        } else if (!this.state.password) {
+            this.setState({
+                showInfo: true
+            });
+        } else {
 
-                this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
-            }
+            this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
+        }
         // }
 
     }
@@ -176,7 +182,7 @@ export default class Signup extends Component {
                     <View style={chat.infoWrapper}>
                         {this.state.showInfo ?
                             <AnimatedInfo showInfo={this.handleInfo}>
-                                <Text style={chat.infoText}>Sign in fail, please try again.</Text>
+                                <Text style={chat.infoText}>Sign up fail, please try again.</Text>
                             </AnimatedInfo>
                             : null}
                     </View>

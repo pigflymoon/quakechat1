@@ -197,6 +197,7 @@ const QuakesListTab = StackNavigator({
     },
 });
 const ChatTab = StackNavigator({
+
     SignIn: {
         screen: SignInScreen,
         path: '/sigin',
@@ -222,14 +223,6 @@ const ChatTab = StackNavigator({
             title:`Sign Up`;
         },
     },
-    ResetPassword: {
-        screen: ResetPasswordScreen,
-        path: '/reset',
-        key: 'Reset',
-        navigationOptions: ({navigation}) => {
-            title:`Reset Password`;
-        },
-    },
     VerifyEmail: {
         screen: VerifyEmailScreen,
         path: '/verify',
@@ -238,6 +231,15 @@ const ChatTab = StackNavigator({
             title:`Verify Email`;
         },
     },
+    ResetPassword: {
+        screen: ResetPasswordScreen,
+        path: '/reset',
+        key: 'Reset',
+        navigationOptions: ({navigation}) => {
+            title:`Reset Password`;
+        },
+    },
+
 });
 
 const navigateOnce = (getStateForAction) => (action, state) => {
@@ -295,15 +297,6 @@ const SettingsTab = StackNavigator({
 
 export const StacksInTabs = TabNavigator(
     {
-        QuakesListTab: {
-            screen: QuakesListTab,
-            path: '/',
-            navigationOptions: {
-                title: 'Quakes List',
-                tabBarLabel: 'Quakes',
-                tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
-            },
-        },
         ChatTab: {
             screen: ChatTab,
             path: '/chat',
@@ -313,6 +306,16 @@ export const StacksInTabs = TabNavigator(
                 tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
             },
         },
+        QuakesListTab: {
+            screen: QuakesListTab,
+            path: '/',
+            navigationOptions: {
+                title: 'Quakes List',
+                tabBarLabel: 'Quakes',
+                tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
+            },
+        },
+
         QuakesMapTab: {
             screen: QuakesMapTab,
             path: '/map',

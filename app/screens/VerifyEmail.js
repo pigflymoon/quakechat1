@@ -7,7 +7,8 @@ import {
     ActivityIndicator,
 } from 'react-native';
 
-import {Actions} from 'react-native-router-flux';
+import {NavigationActions} from 'react-navigation';
+
 import firebaseApp from '../config/FirebaseConfig';
 import NetInfoChecking from '../utils/NetInfoChecking';
 
@@ -18,28 +19,40 @@ import chat from '../styles/chat';
 export default class ConfirmEmail extends Component {
     constructor(props) {
         super(props);
+        const { user,email } = this.props.navigation.state.params;
+        console.log('passed',email)
         this.state = {
             signin: false,
             isLoading: false,
-            user: this.props.user,
+            user: user,
             isConnected: false,
+            showInfo: false,
+
 
         };
+
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.screenProps;//update netinfo
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.screenProps;//update netinfo
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     handleVerifyEmail = () => {
         let interval = null;
         var self = this;
-        var user = this.state.user
-        if (this.state.isConnected) {
+        var user = this.state.user;
+        console.log('user')
+        console.log(user)
+        // if (!email) {
+        //     this.setState({
+        //         showInfo: true
+        //     });
+        // }
+        // if (this.state.isConnected) {
             user.sendEmailVerification().then(
                 // setTimeout(
                 () => {
@@ -64,9 +77,15 @@ export default class ConfirmEmail extends Component {
                                             isLoading: false
                                         });
                                         console.log('to sign in? user', user)
+                                        console.log('interval cleared???', interval)
                                         if (user && user.emailVerified) {
                                             console.log('auth state changed user emailVerified', user.emailVerified);
-                                            Actions.chat({name: self.state.name});
+                                            // Actions.chat({name: self.state.name});
+                                            const navigateAction = NavigationActions.navigate({
+                                                routeName: 'ChatRoom',
+                                                params: {name: self.state.name},
+                                            });
+                                            self.props.navigation.dispatch(navigateAction);
                                             clearInterval(interval);
                                             interval = null;
                                         } else {
@@ -96,11 +115,25 @@ export default class ConfirmEmail extends Component {
                     console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
 
                 })
-        }
+        // }
 
     }
+    handleInfo = (showInfo) => {
+        this.setState({
+            showInfo: showInfo
+        })
+    }
+    componentWillUnmount() {
+
+        console.log('interval')
+        console.log(this.interval)
+    }
+
 
     render() {
+        // const { navigate } = this.props.navigation;
+        const { user,email } = this.props.navigation.state.params;
+
         return (
 
             <View style={chat.container}>
@@ -117,7 +150,7 @@ export default class ConfirmEmail extends Component {
                                 </View>
 
                             </View>
-                            <View style={chat.wrapper}>
+                            <View style={[chat.wrapper,chat.verifyWrapper]}>
                                 <View style={chat.inputWrap}>
                                     <View style={chat.iconWrap}>
                                         <Icon name="envelope-o" size={20} style={chat.icon}/>
@@ -127,7 +160,7 @@ export default class ConfirmEmail extends Component {
                                         placeholderTextColor={colors.white}
                                         style={chat.input}
                                         onChangeText={(text) => this.setEmail(text)}
-                                        value={this.props.email}
+                                        value={email}
                                     />
                                 </View>
                                 <TouchableOpacity activeOpacity={.5} onPress={this.handleVerifyEmail}>
@@ -135,6 +168,13 @@ export default class ConfirmEmail extends Component {
                                         <Text style={chat.buttonText}>Confirm</Text>
                                     </View>
                                 </TouchableOpacity>
+                            </View>
+                            <View style={chat.infoWrapper}>
+                                {this.state.showInfo ?
+                                    <AnimatedInfo showInfo={this.handleInfo}>
+                                        <Text style={chat.infoText}>Sign in fail, please try again.</Text>
+                                    </AnimatedInfo>
+                                    : null}
                             </View>
 
                         </View>
