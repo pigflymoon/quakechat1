@@ -30,6 +30,7 @@ export default class Signup extends Component {
             showInfo: false,
             isConnected: false,
         };
+
     }
 
     shouldComponentUpdate(nextProps, nextState) {

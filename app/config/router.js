@@ -88,18 +88,19 @@ const SignInScreen = ({navigation, screenProps}) => (
 );
 
 
-// SignInScreen.navigationOptions = props => {
-//     const {navigation} = props;
-//     const {state, setParams} = navigation;
-//     const {params} = state;
-//     // console.log('SignInScreen navigation option called!!************')
-//     // console.log(props)
-//     return {
-//         headerTitle: 'Sign In',
-//         headerLeft: null,
-//
-//     };
-// };
+SignInScreen.navigationOptions = props => {
+    const {navigation} = props;
+    const {state, setParams} = navigation;
+    const {params} = state;
+    // console.log('SignInScreen navigation option called!!************')
+    console.log(props)
+    return {
+        title: 'Sign In',
+        headerTitle: 'Sign In',
+        headerLeft: null,
+
+    };
+};
 const SignupScreen = ({navigation, screenProps}) => (
     <Signup navigation={navigation} screenProps={screenProps}/>
 );
@@ -197,51 +198,51 @@ const QuakesListTab = StackNavigator({
         }),
     },
 });
-const ChatTab = StackNavigator({
-
-    SignIn: {
-        screen: SignInScreen,
-        path: '/sigin',
-        // key:'SignIn',
-        navigationOptions: {
-            title: 'Sign In',
-        },
-    },
-    ChatRoom: {
-        screen: ChatRoomScreen,
-        path: '/chat',
-        key: 'ChatRoom',
-        navigationOptions: {
-            title: 'Chat Room',
-
-        },
-    },
-    SignUp: {
-        screen: SignupScreen,
-        path: '/sigup',
-        key: 'SignUp',
-        navigationOptions: {
-            title: 'Sign Up',
-        },
-    },
-    VerifyEmail: {
-        screen: VerifyEmailScreen,
-        path: '/verify',
-        key: 'Verify',
-        navigationOptions: {
-            title: 'Verify Email',
-        },
-    },
-    ResetPassword: {
-        screen: ResetPasswordScreen,
-        path: '/reset',
-        key: 'Reset',
-        navigationOptions: {
-            title: 'Reset Password',
-        },
-    },
-
-});
+// const ChatTab = StackNavigator({
+//
+//     SignIn: {
+//         screen: SignInScreen,
+//         path: '/sigin',
+//         // key:'SignIn',
+//         navigationOptions: {
+//             title: 'Sign In',
+//         },
+//     },
+//     ChatRoom: {
+//         screen: ChatRoomScreen,
+//         path: '/chat',
+//         key: 'ChatRoom',
+//         navigationOptions: {
+//             title: 'Chat Room',
+//
+//         },
+//     },
+//     SignUp: {
+//         screen: SignupScreen,
+//         path: '/sigup',
+//         key: 'SignUp',
+//         navigationOptions: {
+//             title: 'Sign Up',
+//         },
+//     },
+//     VerifyEmail: {
+//         screen: VerifyEmailScreen,
+//         path: '/verify',
+//         key: 'Verify',
+//         navigationOptions: {
+//             title: 'Verify Email',
+//         },
+//     },
+//     ResetPassword: {
+//         screen: ResetPasswordScreen,
+//         path: '/reset',
+//         key: 'Reset',
+//         navigationOptions: {
+//             title: 'Reset Password',
+//         },
+//     },
+//
+// });
 
 const navigateOnce = (getStateForAction) => (action, state) => {
     const {type, routeName} = action;
@@ -253,7 +254,7 @@ const navigateOnce = (getStateForAction) => (action, state) => {
     // you might want to replace 'null' with 'state' if you're using redux (see comments below)
 };
 
-ChatTab.router.getStateForAction = navigateOnce(ChatTab.router.getStateForAction);
+// ChatTab.router.getStateForAction = navigateOnce(ChatTab.router.getStateForAction);
 const QuakesMapTab = StackNavigator({
     Map: {
         screen: MapScreen,
@@ -296,6 +297,84 @@ const SettingsTab = StackNavigator({
     },
 });
 
+const SignupTab = StackNavigator({
+    Signup: {
+        screen: SignupScreen,
+        path: '/',
+        key: '',
+        navigationOptions: {
+            title: 'Sign Up',
+        },
+    },
+    VerifyEmail: {
+        screen: VerifyEmailScreen,
+        path: '',
+        key: '',
+        navigationOptions: ({navigation}) => ({
+            title: `Verify Email`
+        }),
+    },
+
+});
+export const ChatTab = TabNavigator(
+    {
+        SignIn: {
+            screen: SignInScreen,
+            path: '/',
+            navigationOptions: {
+                title: 'Sign In',
+                tabBarVisible: false,
+                // tabBarLabel: 'ChatRoom',
+                // tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+            },
+        },
+        SignUp: {
+            screen: SignupTab,
+            path: '/',
+            navigationOptions: {
+                title: 'Sign Up',
+                tabBarVisible: false,
+                // tabBarLabel: 'ChatRoom',
+                // tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+            },
+        },
+        ChatRoom: {
+            screen: ChatRoomScreen,
+            path: '/',
+            navigationOptions: {
+                title: 'Chat Room',
+                tabBarVisible: false,
+                // tabBarLabel: 'ChatRoom',
+                // tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+            },
+        },
+        // VerifyEmail: {
+        //     screen: VerifyEmailScreen,
+        //     path: '/',
+        //     navigationOptions: {
+        //         title: 'Verify Email',
+        //         tabBarVisible: false,
+        //         // tabBarLabel: 'ChatRoom',
+        //         // tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+        //     },
+        // },
+        ResetPassword: {
+            screen: ResetPasswordScreen,
+            path: '/',
+            navigationOptions: {
+                title: 'Reset Password',
+                tabBarVisible: false,
+                // tabBarLabel: 'ChatRoom',
+                // tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+            },
+        }
+    }, {
+        animationEnabled: true,
+        swipeEnabled: true,
+    }
+);
+
+
 export const StacksInTabs = TabNavigator(
     {
         ChatTab: {
@@ -304,6 +383,7 @@ export const StacksInTabs = TabNavigator(
             navigationOptions: {
                 title: 'Chat Room',
                 tabBarLabel: 'ChatRoom',
+                tabBarVisible: true,
                 tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
             },
         },
