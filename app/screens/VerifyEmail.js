@@ -50,7 +50,8 @@ export default class ConfirmEmail extends Component {
         var user = this.state.user;
         console.log('user')
         console.log(user)
-        clearInterval(interval);
+
+        // clearInterval(interval);
         // if (!email) {
         //     this.setState({
         //         showInfo: true
@@ -67,36 +68,51 @@ export default class ConfirmEmail extends Component {
                 interval = setInterval(() => {
                     console.log('interval called?', user)
                     console.log('user.emailVerified?', user.emailVerified);
+
                     user.reload().then(
                         () => {
                             console.log('sign up user', user);
                             if (interval && user.emailVerified) {
-                                clearInterval(interval);
+                                // clearInterval(interval);
                                 // interval = null;
 
                                 console.log('email sent');
 
                                 firebaseApp.auth().onAuthStateChanged((user) => {
-                                    self.setState({
-                                        isLoading: false
-                                    });
-                                    console.log('to sign in? user', user)
-                                    console.log('interval cleared???', interval)
-                                    if (user && user.emailVerified) {
-                                        console.log('auth state changed user emailVerified', user.emailVerified);
-                                        // Actions.chat({name: self.state.name});
-                                        const navigateAction = NavigationActions.navigate({
-                                            routeName: 'ChatRoom',
-                                            params: {name: self.state.name},
-                                        });
-                                        self.props.navigation.dispatch(navigateAction);
-                                        clearInterval(interval);
-                                        // interval = null;
-                                    } else {
+                                    clearInterval(interval);
+                                    console.log(' self.props.navigation', self.props.navigation)
+                                    if (user) {
                                         self.setState({
                                             isLoading: false
                                         });
+                                        console.log('to sign in? user', user)
+
+
+                                        console.log('interval cleared???', interval)
+                                        if (user && user.emailVerified) {
+                                            console.log('auth state changed user emailVerified', user.emailVerified);
+                                            // Actions.chat({name: self.state.name});
+
+                                            console.log('interval cleared??? email verified', interval)
+                                            clearInterval(interval);
+                                            // if(interval){
+                                            const navigateAction = NavigationActions.navigate({
+                                                routeName: 'ChatRoom',
+                                                params: {name: self.state.name},
+                                            });
+
+                                            self.props.navigation.dispatch(navigateAction);
+                                            // }
+
+
+                                            // interval = null;
+                                        } else {
+                                            self.setState({
+                                                isLoading: false
+                                            });
+                                        }
                                     }
+
                                 });
 
                             } else {
@@ -107,13 +123,14 @@ export default class ConfirmEmail extends Component {
                         }, error => {
                             if (interval) {
                                 clearInterval(interval);
-                                // interval = null;
+                                interval = null;
                                 console.log('interval registerUserAndWaitEmailVerification: reload failed ! ' + error.message + ' (' + error.code + ')');
 
                             }
                         }
                     );
                 }, 1000 * 30);
+                // clearInterval(interval);
 
             }, error => {
                 console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
@@ -130,8 +147,8 @@ export default class ConfirmEmail extends Component {
 
     componentWillUnmount() {
 
-        interval && clearInterval(interval);
-        console.log('interval',interval)
+        clearInterval(interval);
+        console.log('interval', interval)
     }
 
 
