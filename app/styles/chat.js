@@ -32,6 +32,10 @@ export default{
         marginHorizontal: 10,
         marginBottom: 10,
     },
+    verifyWrapper:{
+        flex:2
+    },
+
     footerWrap: {
         flexDirection: "row",
         alignItems: "center",

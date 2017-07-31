@@ -29,14 +29,16 @@ export default class Signup extends Component {
             isConnected: false,
         };
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.screenProps;//update netinfo
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.isConnected;//from root scene props
+    //     console.log(' update isConnected?',isConnected)
+    //
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     handleSignin = () => {
         Actions.signin();
@@ -76,7 +78,8 @@ export default class Signup extends Component {
 
     handleSignup = (e) => {
         e.preventDefault();
-        if (this.state.isConnected) {
+        if (this.props.isConnected) {
+            console.log('hi sign up')
             if (!this.state.email) {
                 this.setState({
                     showInfo: true

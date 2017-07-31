@@ -4,6 +4,7 @@ import {
     View,
     TextInput,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -28,18 +29,18 @@ export default class ResetPassword extends Component {
         };
     }
 
-    connectChecking = (isConnected) => {
-        this.setState({isConnected: isConnected});
-    }
-
-
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextState.isConnected;
-        if (isConnected) {
-            return true;
-        }
-        return false;
-    }
+    // connectChecking = (isConnected) => {
+    //     this.setState({isConnected: isConnected});
+    // }
+    //
+    //
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextState.isConnected;
+    //     if (isConnected) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
 
     setEmail = (text) => {
@@ -51,7 +52,7 @@ export default class ResetPassword extends Component {
     }
 
     handleResetPassword = () => {
-        if (this.state.isConnected) {
+        if (this.props.isConnected) {
             if (!this.state.email) {
                 this.setState({
                     showInfo: true
@@ -63,7 +64,14 @@ export default class ResetPassword extends Component {
             auth.sendPasswordResetEmail(emailAddress).then(function () {
                 // Email sent.
                 console.log('reset password sent to the emailAddress');
-
+                Alert.alert(
+                    'Success',
+                    `Reset password sent to the emailAddress,please check your email ${emailAddress}`,
+                    [
+                        {text: 'OK'},
+                    ],
+                    {cancelable: false}
+                )
                 Actions.signin();
             }, function (error) {
                 // An error happened.

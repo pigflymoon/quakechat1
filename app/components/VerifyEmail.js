@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     ActivityIndicator,
+    Alert,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
@@ -14,7 +15,7 @@ import NetInfoChecking from '../utils/NetInfoChecking';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
-
+let interval = null;
 export default class ConfirmEmail extends Component {
     constructor(props) {
         super(props);
@@ -26,20 +27,24 @@ export default class ConfirmEmail extends Component {
 
         };
     }
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.screenProps;//update netinfo
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
-    }
 
-    handleVerifyEmail = () => {
-        let interval = null;
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.isConnected;//from root scene props
+    //     console.log(' update isConnected?',isConnected)
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
+    handleVerifyEmail = (e) => {
+
         var self = this;
         var user = this.state.user
-        if (this.state.isConnected) {
+        e.preventDefault();
+        // console.log('isConnected?',this.state.isConnected)
+        if (this.props.isConnected) {
             user.sendEmailVerification().then(
                 // setTimeout(
                 () => {
@@ -63,7 +68,8 @@ export default class ConfirmEmail extends Component {
                                         self.setState({
                                             isLoading: false
                                         });
-                                        console.log('to sign in? user', user)
+                                        clearInterval(interval);
+                                        console.log('to sign in? user interval', user,interval)
                                         if (user && user.emailVerified) {
                                             console.log('auth state changed user emailVerified', user.emailVerified);
                                             Actions.chat({name: self.state.name});
@@ -96,8 +102,22 @@ export default class ConfirmEmail extends Component {
                     console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
 
                 })
+        } else {
+            Alert.alert(
+                'Network unavailable',
+                'The Internet connection appears to be offline',
+                [
+                    {text: 'OK'},
+                ],
+                {cancelable: false}
+            )
         }
 
+    }
+
+    componentWillUnmount() {
+        interval && clearInterval(interval);
+        console.log('clear interval')
     }
 
     render() {
@@ -117,7 +137,7 @@ export default class ConfirmEmail extends Component {
                                 </View>
 
                             </View>
-                            <View style={chat.wrapper}>
+                            <View style={[chat.wrapper, chat.verifyWrapper]}>
                                 <View style={chat.inputWrap}>
                                     <View style={chat.iconWrap}>
                                         <Icon name="envelope-o" size={20} style={chat.icon}/>

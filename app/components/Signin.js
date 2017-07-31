@@ -34,15 +34,15 @@ export default class Signin extends Component {
 
 
 
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.isConnected;//update netinfo
-        // console.log('sign in isConnected',isConnected)
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.isConnected;//update netinfo
+    //     console.log('sign in isConnected',isConnected)
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
 
     signup = () => {
@@ -53,6 +53,7 @@ export default class Signin extends Component {
         var self = this;
         e.preventDefault()
         // console.log(' signin connected',this.props.isConnected)
+        console.log('isConnected?',this.state.isConnected)
 
         if (this.props.isConnected) {
             // console.log(' signin is connected')
