@@ -142,7 +142,7 @@ export default class QuakeLevelList extends Component {
 
 
         if (appState === 'background') {
-            // console.log('background notified')
+            console.log('background')
             // let date = new Date(Date.now() + (5 * 1000));
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 // console.log('background isnotified', isNotifiedValue)
