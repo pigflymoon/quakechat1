@@ -59,7 +59,7 @@ export default class QuakesMap extends Component {
                         <QuakeSlider style={quakeStyle.sliderLabel}
                                      onChooseLevel={this.handleChooseLevel}
                                      minimumValue={1}
-                                     maximumValue={8}
+                                     maximumValue={7}
                                      step={1}
                         />
                     </View>

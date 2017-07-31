@@ -9,6 +9,7 @@ import {
     Picker,
     Platform,
     AsyncStorage,
+    Item,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import colors from '../styles/colors';
@@ -24,6 +25,12 @@ export default class Settings extends Component {
             isLoading: false,
             isNotified: true,
             isSilent: true,
+            user: 'All',
+            // values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
+            // value: 'Not selected',
+            // selectedIndex: 0,
+            // showIndexValue: ''
+
         };
 
         bind(this)('renderLoadingView');
@@ -40,7 +47,7 @@ export default class Settings extends Component {
                 var val = (value === "true");
                 // console.log('val is ', val)
                 this.setState({"isNotified": val});
-            }else{
+            } else {
                 // console.log('set state to item ')
                 AsyncStorage.setItem("isNotified", this.state.isNotified.toString());
             }
@@ -76,6 +83,32 @@ export default class Settings extends Component {
     onAbout = () => {
         this.props.navigation.navigate('About', {});
     };
+
+    updateUser = (user) => {
+        let showRules = ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'];
+
+        this.setState({user: user}, function () {
+            for (let rule of showRules) {
+                if (this.state.user === rule) {
+                    let index = showRules.indexOf(rule);
+                    let value = ( index == 0 ) ? 0 : (index + 2);
+                    console.log(`rule ${rule} : index`, value);
+                }
+
+            }
+        })
+
+
+        // let selectedIndex = (event.nativeEvent.selectedSegmentIndex), showIndexValue;
+        // showIndexValue = selectedIndex;
+        // if (showIndexValue > 0) {
+        //     showIndexValue = showIndexValue + 2;
+        // }
+        // this.setState({
+        //     selectedIndex: selectedIndex,
+        //     showIndexValue: showIndexValue
+        // });
+    }
 
     renderLoadingView() {
         return (
@@ -115,11 +148,27 @@ export default class Settings extends Component {
                         switched={this.state.isSilent}
 
                     />
+
+                    <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
+                        <Picker.Item label="All" value="All"/>
+                        <Picker.Item label="Weak+" value="Weak+"/>
+                        <Picker.Item label="Light+" value="Light+"/>
+                        <Picker.Item label="Moderate+" value="Moderate+"/>
+                        <Picker.Item label="Strong+" value="Strong+"/>
+                        <Picker.Item label="Severe+" value="Severe+"/>
+                    </Picker>
+                    <ListItem
+                        title="Notification Rules"
+                        rightTitle={this.state.user}
+
+                        hideChevron
+                    />
                     <ListItem
                         title={`About`}
                         onPress={() => this.onAbout()}
 
                     />
+
                     <PushController />
                 </List>
             </ScrollView>
