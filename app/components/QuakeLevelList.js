@@ -140,7 +140,7 @@ export default class QuakeLevelList extends Component {
                             error: null
                         }
                     );
-                    this.props.onRefreshData(false);
+                   nextProps.onRefreshData(false);
                 });
 
 
@@ -166,6 +166,7 @@ export default class QuakeLevelList extends Component {
                     }
                 );
             });
+            self.props.onRefreshData(false);
             // this.fetchApiData(url, 'notRefreshing');
         }
 
