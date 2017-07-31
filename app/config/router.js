@@ -68,7 +68,8 @@ ChatRoomScreen.navigationOptions = props => {
                             params: {},
                         });
                         console.log('props.navigation sign out')
-                        console.log(props.navigation)
+                        console.log('params.timer', params.timer)
+                        clearInterval(params.timer);
                         props.navigation.dispatch(navigateAction);
 
 
@@ -87,31 +88,31 @@ const SignInScreen = ({navigation, screenProps}) => (
 );
 
 
-SignInScreen.navigationOptions = props => {
-    const {navigation} = props;
-    const {state, setParams} = navigation;
-    const {params} = state;
-    // console.log('SignInScreen navigation option called!!************')
-    // console.log(props)
-    return {
-        headerTitle: 'Sign In',
-        headerLeft: null,
-
-    };
-};
+// SignInScreen.navigationOptions = props => {
+//     const {navigation} = props;
+//     const {state, setParams} = navigation;
+//     const {params} = state;
+//     // console.log('SignInScreen navigation option called!!************')
+//     // console.log(props)
+//     return {
+//         headerTitle: 'Sign In',
+//         headerLeft: null,
+//
+//     };
+// };
 const SignupScreen = ({navigation, screenProps}) => (
     <Signup navigation={navigation} screenProps={screenProps}/>
 );
-SignupScreen.navigationOptions = props => {
-    const {navigation} = props;
-    const {state, setParams} = navigation;
-    const {params} = state;
-    return {
-        headerTitle: 'Sign Up',
-        headerLeft: null,
-
-    };
-};
+// SignupScreen.navigationOptions = props => {
+//     const {navigation} = props;
+//     const {state, setParams} = navigation;
+//     const {params} = state;
+//     return {
+//         headerTitle: 'Sign Up',
+//         headerLeft: null,
+//
+//     };
+// };
 const ResetPasswordScreen = ({navigation, screenProps}) => (
     <ResetPassword navigation={navigation} screenProps={screenProps}/>
 );
@@ -129,16 +130,16 @@ ResetPasswordScreen.navigationOptions = props => {
 const VerifyEmailScreen = ({navigation, screenProps}) => (
     <VerifyEmail navigation={navigation} screenProps={screenProps}/>
 );
-VerifyEmailScreen.navigationOptions = props => {
-    const {navigation} = props;
-    const {state, setParams} = navigation;
-    const {params} = state;
-    return {
-        headerTitle: 'Verify Email',
-        headerLeft: null,
-
-    };
-};
+// VerifyEmailScreen.navigationOptions = props => {
+//     const {navigation} = props;
+//     const {state, setParams} = navigation;
+//     const {params} = state;
+//     return {
+//         headerTitle: 'Verify Email',
+//         headerLeft: null,
+//
+//     };
+// };
 /**
  * For QuakesMapTab
  * @param navigation
@@ -202,8 +203,8 @@ const ChatTab = StackNavigator({
         screen: SignInScreen,
         path: '/sigin',
         // key:'SignIn',
-        navigationOptions: ({navigation}) => {
-            title:`Sign In`;
+        navigationOptions: {
+            title: 'Sign In',
         },
     },
     ChatRoom: {
@@ -219,24 +220,24 @@ const ChatTab = StackNavigator({
         screen: SignupScreen,
         path: '/sigup',
         key: 'SignUp',
-        navigationOptions: ({navigation}) => {
-            title:`Sign Up`;
+        navigationOptions: {
+            title: 'Sign Up',
         },
     },
     VerifyEmail: {
         screen: VerifyEmailScreen,
         path: '/verify',
         key: 'Verify',
-        navigationOptions: ({navigation}) => {
-            title:`Verify Email`;
+        navigationOptions: {
+            title: 'Verify Email',
         },
     },
     ResetPassword: {
         screen: ResetPasswordScreen,
         path: '/reset',
         key: 'Reset',
-        navigationOptions: ({navigation}) => {
-            title:`Reset Password`;
+        navigationOptions: {
+            title: 'Reset Password',
         },
     },
 

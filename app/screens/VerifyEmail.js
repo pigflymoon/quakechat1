@@ -17,6 +17,7 @@ import colors from '../styles/colors';
 import chat from '../styles/chat';
 let interval = null;
 
+
 export default class ConfirmEmail extends Component {
     constructor(props) {
         super(props);
@@ -62,12 +63,14 @@ export default class ConfirmEmail extends Component {
             // setTimeout(
             () => {
                 self.setState({
-                    isLoading: true
+                    isLoading: true,
+                    timerID: '',
                 });
 
                 interval = setInterval(() => {
                     console.log('interval called?', user)
                     console.log('user.emailVerified?', user.emailVerified);
+
 
                     user.reload().then(
                         () => {
@@ -79,7 +82,7 @@ export default class ConfirmEmail extends Component {
                                 console.log('email sent');
 
                                 firebaseApp.auth().onAuthStateChanged((user) => {
-                                    clearInterval(interval);
+
                                     console.log(' self.props.navigation', self.props.navigation)
                                     if (user) {
                                         self.setState({
@@ -88,17 +91,21 @@ export default class ConfirmEmail extends Component {
                                         console.log('to sign in? user', user)
 
 
-                                        console.log('interval cleared???', interval)
+                                        interval = null;
+                                        clearInterval(this.state.timerID);
+                                        this.setState({timerID: null});
+                                        console.log('interval cleared???', this.state.timerID)
                                         if (user && user.emailVerified) {
+
                                             console.log('auth state changed user emailVerified', user.emailVerified);
                                             // Actions.chat({name: self.state.name});
 
                                             console.log('interval cleared??? email verified', interval)
-                                            clearInterval(interval);
+                                            // window.clearInterval(interval);
                                             // if(interval){
                                             const navigateAction = NavigationActions.navigate({
                                                 routeName: 'ChatRoom',
-                                                params: {name: self.state.name},
+                                                params: {name: self.state.name, timer: this.state.timerID},
                                             });
 
                                             self.props.navigation.dispatch(navigateAction);
@@ -130,6 +137,8 @@ export default class ConfirmEmail extends Component {
                         }
                     );
                 }, 1000 * 30);
+                this.setState({timerID: interval})
+                console.log('interval outside ',interval)
                 // clearInterval(interval);
 
             }, error => {

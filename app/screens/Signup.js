@@ -43,11 +43,14 @@ export default class Signup extends Component {
 
 
     handleSignIn = () => {
-        const navigateAction = NavigationActions.navigate({
-            routeName: 'SignIn',
-            params: {},
-        });
-        this.props.navigation.dispatch(navigateAction);
+        // const navigateAction = NavigationActions.navigate({
+        //     routeName: 'SignIn',
+        //     params: {},
+        // });
+        // this.props.navigation.dispatch(navigateAction);
+        //
+        this.props.navigation.navigate('SignIn', {});
+
     }
 
     setEmail = (text) => {
