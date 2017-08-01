@@ -53,25 +53,18 @@ export default class ConfirmEmail extends Component {
                     });
 
                     interval = setInterval(() => {
-                        console.log('interval called?', user)
-                        console.log('user.emailVerified?', user.emailVerified);
                         user.reload().then(
                             () => {
-                                console.log('sign up user', user);
                                 if (interval && user.emailVerified) {
                                     clearInterval(interval);
                                     interval = null;
-
-                                    console.log('email sent');
 
                                     firebaseApp.auth().onAuthStateChanged((user) => {
                                         self.setState({
                                             isLoading: false
                                         });
                                         clearInterval(interval);
-                                        console.log('to sign in? user interval', user,interval)
                                         if (user && user.emailVerified) {
-                                            console.log('auth state changed user emailVerified', user.emailVerified);
                                             Actions.chat({name: self.state.name});
                                             clearInterval(interval);
                                             interval = null;

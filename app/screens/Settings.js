@@ -27,10 +27,6 @@ export default class Settings extends Component {
             isSilent: true,
             rule: 'All',
             ruleValue: '0',
-            // values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
-            // value: 'Not selected',
-            // selectedIndex: 0,
-            // showIndexValue: ''
 
         };
         AsyncStorage.setItem('ruleValue',"0");
@@ -95,22 +91,11 @@ export default class Settings extends Component {
                     let value = ( index == 0 ) ? 0 : (index + 2);
                     AsyncStorage.setItem('ruleValue',value.toString());
                     this.setState({ruleValue: value});
-                    console.log(`rule ${rule} : index`, value);
                 }
 
             }
         })
 
-
-        // let selectedIndex = (event.nativeEvent.selectedSegmentIndex), showIndexValue;
-        // showIndexValue = selectedIndex;
-        // if (showIndexValue > 0) {
-        //     showIndexValue = showIndexValue + 2;
-        // }
-        // this.setState({
-        //     selectedIndex: selectedIndex,
-        //     showIndexValue: showIndexValue
-        // });
     }
 
     renderLoadingView() {
@@ -169,7 +154,6 @@ export default class Settings extends Component {
                     <ListItem
                         title={`About`}
                         onPress={() => this.onAbout()}
-
                     />
 
                     <PushController />

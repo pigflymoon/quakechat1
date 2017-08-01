@@ -21,13 +21,6 @@ export default class About extends Component {
 
     constructor(props, context) {
         super(props, context);
-
-    }
-
-
-    componentDidMount() {
-
-
     }
 
     render() {

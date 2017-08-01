@@ -19,8 +19,6 @@ import chat from '../styles/chat';
 export default class ChatRoom extends Component {
     constructor(props) {
         super(props);
-        // console.log('this.props);',this.props);
-
     }
 
     signout = () => {
@@ -32,7 +30,6 @@ export default class ChatRoom extends Component {
     }
 
     render() {
-
         return (
             <Router barButtonIconStyle={chat.barButtonIconStyle}>
                 <Scene key='root' passProps={true} isConnected={this.props.screenProps}>

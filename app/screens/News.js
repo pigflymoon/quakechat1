@@ -58,6 +58,7 @@ export default class News extends Component {
 
         }
     }
+
     fetchNews = (isConnected) => {
         if (isConnected) {
             this.fetchApiData()
@@ -102,7 +103,6 @@ export default class News extends Component {
     renderOffline = () => {
         return (
             <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
-
         )
     }
 

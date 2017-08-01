@@ -28,7 +28,6 @@ export default class QuakeQuality extends Component {
                 </Card>
 
             </View>
-
         )
     }
 }
