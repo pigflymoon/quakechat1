@@ -8,8 +8,7 @@ export const fetchQuakesByApi = (url, callback) => {
             let quakesData = result.data.features;
             let quakesArray = [],
                 notificationQuakes = [],
-                lastNotificationTime = 0,
-                notificationRule = 0;
+                lastNotificationTime = 0;
 
             for (let quake of quakesData) {
                 let time = quake.properties.time;
@@ -39,11 +38,7 @@ export const fetchQuakesByApi = (url, callback) => {
                     quality: quake.properties.quality
                 };
                 AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
-                    // if(lastNotifiedValue ==0)
-                    // AsyncStorage.getItem("ruleValue").then((value) => {
-                    //     notificationRule = value;
 
-                    console.log('saved time ', (lastNotifiedValue))
                     if (lastNotifiedValue === null) {
                         lastNotificationTime = 0;
                     } else {
@@ -51,8 +46,6 @@ export const fetchQuakesByApi = (url, callback) => {
                     }
 
                     if (notifiedTime >= lastNotificationTime) {
-
-
                         let notificationQuake = {
                             mmi:quake.properties.mmi,
                             timeStamp: timeStamp,
