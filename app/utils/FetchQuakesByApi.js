@@ -11,9 +11,7 @@ export const fetchQuakesByApi = (url, callback) => {
                 lastNotificationTime = 0,
                 notificationRule = 0;
 
-            AsyncStorage.getItem("ruleValue").then((value) => {
-                notificationRule = value;
-            });
+
 
 
             for (let quake of quakesData) {
@@ -46,6 +44,8 @@ export const fetchQuakesByApi = (url, callback) => {
                 };
                 AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
                     // if(lastNotifiedValue ==0)
+                    // AsyncStorage.getItem("ruleValue").then((value) => {
+                    //     notificationRule = value;
 
                     console.log('saved time ', (lastNotifiedValue))
                     if (lastNotifiedValue === null) {
@@ -55,10 +55,13 @@ export const fetchQuakesByApi = (url, callback) => {
                     }
                     console.log('notifiedTime',notifiedTime)
                     console.log('lastNotificationTime',lastNotificationTime)
-                    if (quake.properties.mmi >= notificationRule && notifiedTime >= lastNotificationTime) {
+                    console.log('quake.properties.mmi',quake.properties.mmi)
+                    console.log('notificationRule',notificationRule)
+                    if (notifiedTime >= lastNotificationTime) {
 
 
                         let notificationQuake = {
+                            mmi:quake.properties.mmi,
                             timeStamp: timeStamp,
                             time: time,
                             message: `${time} happened ${quake.properties.magnitude.toFixed(1)} earthquake in ${quake.properties.locality}`,
@@ -68,7 +71,7 @@ export const fetchQuakesByApi = (url, callback) => {
                         notificationQuakes.push(notificationQuake);
                     }
                     console.log('notificationQuakes', notificationQuakes)
-
+                    // }).done();
                 }).done();
                 quakesArray.push(quakeData);
 

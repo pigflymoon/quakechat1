@@ -148,6 +148,7 @@ export default class QuakeLevelList extends Component {
 
         if (appState === 'background') {
             console.log('background')
+            var lastIndex = [];
             // let date = new Date(Date.now() + (5 * 1000));
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 // console.log('background isnotified', isNotifiedValue)
@@ -160,24 +161,39 @@ export default class QuakeLevelList extends Component {
 
                         let notificationQuakes = this.state.notificationQuakes;
                         console.log('background notificationQuakes', notificationQuakes)
-                        if (notificationQuakes.length > 0) {
-                            for (k in notificationQuakes) {
-                                PushNotification.localNotificationSchedule({
-                                    message: notificationQuakes[k].message,
-                                    date: new Date(notificationQuakes[k].time),//(Date.now() + (5 * 1000)),//(notificationQuakes[k].time),
-                                    number: 0,
-                                    playSound: isSilent,
+                        AsyncStorage.getItem("ruleValue").then((value) => {
+                            let notificationRule = value;
 
-                                });
-                                // console.log('notified', new Date(notificationQuakes[0].time))
+
+                            if (notificationQuakes.length > 0) {
+                                for (k in notificationQuakes) {
+                                    if (notificationRule <= notificationQuakes[k].mmi) {
+                                        PushNotification.localNotificationSchedule({
+                                            message: notificationQuakes[k].message,
+                                            date: new Date(notificationQuakes[k].time),//(Date.now() + (5 * 1000)),//(notificationQuakes[k].time),
+                                            number: 0,
+                                            playSound: isSilent,
+
+                                        });
+                                        console.log('k',k)
+                                        lastIndex.push(k);
+                                    }
+
+                                    // console.log('notified', new Date(notificationQuakes[0].time))
+                                }
+                                console.log('lastIndex', lastIndex)
+
+                                if (lastIndex.length <= 0) {
+                                    console.log('No new notification')
+                                } else {
+                                    let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
+                                    AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());
+
+                                }
+                            } else {
+                                console.log('No new notification')
                             }
-                            let lastNotificationTime = notificationQuakes[0].timeStamp;
-                            console.log('save ', lastNotificationTime)
-                            AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());
-                        } else {
-                            console.log('No new notification')
-                        }
-
+                        });
 
                         // AsyncStorage.getItem("notification").then((notificationValue) => {
                         //     // console.log('*********notificationValue******', notificationValue)
