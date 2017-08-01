@@ -149,18 +149,13 @@ export default class QuakeLevelList extends Component {
         if (appState === 'background') {
             console.log('background')
             var lastIndex = [];
-            // let date = new Date(Date.now() + (5 * 1000));
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
-                // console.log('background isnotified', isNotifiedValue)
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
                     var isSilent = (isSlientValue === "true");
-
-                    //
                     var isNotified = (isNotifiedValue === "true");
                     if (isNotified) {
 
                         let notificationQuakes = this.state.notificationQuakes;
-                        console.log('background notificationQuakes', notificationQuakes)
                         AsyncStorage.getItem("ruleValue").then((value) => {
                             let notificationRule = value;
 
@@ -175,18 +170,16 @@ export default class QuakeLevelList extends Component {
                                             playSound: isSilent,
 
                                         });
-                                        console.log('k',k)
                                         lastIndex.push(k);
                                     }
 
-                                    // console.log('notified', new Date(notificationQuakes[0].time))
                                 }
-                                console.log('lastIndex', lastIndex)
 
                                 if (lastIndex.length <= 0) {
                                     console.log('No new notification')
                                 } else {
                                     let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
+                                    console.log('lastNotificationTime',lastNotificationTime)
                                     AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());
 
                                 }
@@ -195,37 +188,6 @@ export default class QuakeLevelList extends Component {
                             }
                         });
 
-                        // AsyncStorage.getItem("notification").then((notificationValue) => {
-                        //     // console.log('*********notificationValue******', notificationValue)
-                        //
-                        //     if (notificationValue === 'noData' || notificationValue == null) {
-                        //         // console.log('notification is empty')
-                        //         return false;
-                        //     } else {
-                        //         // console.log('backgound notification value is ', notificationValue);
-                        //
-                        //         timestamp = JSON.parse(notificationValue);
-                        //         let lastNotificationTime = timestamp[Object.keys(timestamp)[0]].notificationTime;//get latest notification time from notification
-                        //
-                        //         for (var k in timestamp) {
-                        //             let time = new Date(timestamp[k]);
-                        //             let date = new Date(timestamp[k].date);
-                        //             let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
-                        //
-                        //
-                        //             PushNotification.localNotificationSchedule({
-                        //                 message: message,
-                        //                 date: date,
-                        //                 number: 0,
-                        //                 playSound: isSilent,
-                        //
-                        //             });
-                        //
-                        //         }
-                        //         AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());//save latest notification time in lastNotificationTime
-                        //     }
-                        //
-                        // }).done();
 
                     }
 
@@ -236,7 +198,7 @@ export default class QuakeLevelList extends Component {
 
         } else if (appState === 'active') {
             PushNotification.setApplicationIconBadgeNumber(0);
-            AsyncStorage.setItem("notification", '');//clear notification
+            // AsyncStorage.setItem("notification", '');//clear notification
             // AsyncStorage.removeItem("notification");
             // console.log('notification clear:');
         }

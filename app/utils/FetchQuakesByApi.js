@@ -11,9 +11,6 @@ export const fetchQuakesByApi = (url, callback) => {
                 lastNotificationTime = 0,
                 notificationRule = 0;
 
-
-
-
             for (let quake of quakesData) {
                 let time = quake.properties.time;
 
@@ -27,7 +24,6 @@ export const fetchQuakesByApi = (url, callback) => {
 
                 let timeStamp = time.getTime();
                 time = time.toString().split('GMT')[0];
-                // console.log('timeStamp', timeStamp)
 
                 var quakeData = {
                     utime: utime,
@@ -53,10 +49,7 @@ export const fetchQuakesByApi = (url, callback) => {
                     } else {
                         lastNotificationTime = parseInt(lastNotifiedValue)
                     }
-                    console.log('notifiedTime',notifiedTime)
-                    console.log('lastNotificationTime',lastNotificationTime)
-                    console.log('quake.properties.mmi',quake.properties.mmi)
-                    console.log('notificationRule',notificationRule)
+
                     if (notifiedTime >= lastNotificationTime) {
 
 
@@ -76,7 +69,6 @@ export const fetchQuakesByApi = (url, callback) => {
                 quakesArray.push(quakeData);
 
             } //for
-            // console.log('quakesArray in utils', quakesArray)
             callback(quakesArray, notificationQuakes);
 
         }); //then
