@@ -157,8 +157,28 @@ export default class QuakeLevelList extends Component {
                     //
                     var isNotified = (isNotifiedValue === "true");
                     if (isNotified) {
-                        var timestamp;
-                        console.log('notified', this.state.notificationQuakes)
+
+                        let notificationQuakes = this.state.notificationQuakes;
+                        console.log('background notificationQuakes', notificationQuakes)
+                        if (notificationQuakes.length > 0) {
+                            for (k in notificationQuakes) {
+                                PushNotification.localNotificationSchedule({
+                                    message: notificationQuakes[k].message,
+                                    date: new Date(notificationQuakes[k].time),//(Date.now() + (5 * 1000)),//(notificationQuakes[k].time),
+                                    number: 0,
+                                    playSound: isSilent,
+
+                                });
+                                // console.log('notified', new Date(notificationQuakes[0].time))
+                            }
+                            let lastNotificationTime = notificationQuakes[0].timeStamp;
+                            console.log('save ', lastNotificationTime)
+                            AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());
+                        } else {
+                            console.log('No new notification')
+                        }
+
+
                         // AsyncStorage.getItem("notification").then((notificationValue) => {
                         //     // console.log('*********notificationValue******', notificationValue)
                         //

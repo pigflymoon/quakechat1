@@ -7,24 +7,29 @@ export const fetchQuakesByApi = (url, callback) => {
         .then(function (result) {
             let quakesData = result.data.features;
             let quakesArray = [],
-                // notificationQuakes = [],
                 notificationQuakes = [],
+                lastNotificationTime = 0,
                 notificationRule = 0;
 
             AsyncStorage.getItem("ruleValue").then((value) => {
                 notificationRule = value;
             });
+
+
             for (let quake of quakesData) {
                 let time = quake.properties.time;
+
                 let utime = new Date(time);
 
                 utime = new Date(utime.toUTCString().slice(0, -4));
                 utime = utime.toString().split('GMT')[0];
 
                 time = new Date(time);
+                let notifiedTime = time.getTime();
+
                 let timeStamp = time.getTime();
                 time = time.toString().split('GMT')[0];
-                console.log('timeStamp', timeStamp)
+                // console.log('timeStamp', timeStamp)
 
                 var quakeData = {
                     utime: utime,
@@ -39,23 +44,36 @@ export const fetchQuakesByApi = (url, callback) => {
                     },
                     quality: quake.properties.quality
                 };
+                AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
+                    // if(lastNotifiedValue ==0)
+
+                    console.log('saved time ', (lastNotifiedValue))
+                    if (lastNotifiedValue === null) {
+                        lastNotificationTime = 0;
+                    } else {
+                        lastNotificationTime = parseInt(lastNotifiedValue)
+                    }
+                    console.log('notifiedTime',notifiedTime)
+                    console.log('lastNotificationTime',lastNotificationTime)
+                    if (quake.properties.mmi >= notificationRule && notifiedTime >= lastNotificationTime) {
 
 
-                if (quake.properties.mmi >= notificationRule) {
-
-                    let notificationQuake = {
-                        timeStamp: timeStamp,
-                        time: time,
-                        message: `${time} happened ${quake.properties.magnitude.toFixed(1)} earthquake in ${quake.properties.locality}`,
+                        let notificationQuake = {
+                            timeStamp: timeStamp,
+                            time: time,
+                            message: `${time} happened ${quake.properties.magnitude.toFixed(1)} earthquake in ${quake.properties.locality}`,
 
 
-                    };
-                    notificationQuakes.push(notificationQuake);
-                }
+                        };
+                        notificationQuakes.push(notificationQuake);
+                    }
+                    console.log('notificationQuakes', notificationQuakes)
 
+                }).done();
                 quakesArray.push(quakeData);
+
             } //for
-            console.log('quakesArray in utils', quakesArray)
+            // console.log('quakesArray in utils', quakesArray)
             callback(quakesArray, notificationQuakes);
 
         }); //then
