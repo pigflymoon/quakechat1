@@ -25,14 +25,15 @@ export default class Settings extends Component {
             isLoading: false,
             isNotified: true,
             isSilent: true,
-            user: 'All',
+            rule: 'All',
+            ruleValue: '0',
             // values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
             // value: 'Not selected',
             // selectedIndex: 0,
             // showIndexValue: ''
 
         };
-
+        AsyncStorage.setItem('ruleValue',"0");
         bind(this)('renderLoadingView');
     }
 
@@ -92,6 +93,8 @@ export default class Settings extends Component {
                 if (this.state.user === rule) {
                     let index = showRules.indexOf(rule);
                     let value = ( index == 0 ) ? 0 : (index + 2);
+                    AsyncStorage.setItem('ruleValue',value.toString());
+                    this.setState({ruleValue: value});
                     console.log(`rule ${rule} : index`, value);
                 }
 

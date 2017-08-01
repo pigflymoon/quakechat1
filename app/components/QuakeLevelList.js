@@ -29,6 +29,7 @@ export default class QuakeLevelList extends Component {
             loading: true,
             isRefreshing: false,
             isConnected: false,
+            notificationQuakes: [],
         };
 
 
@@ -45,22 +46,25 @@ export default class QuakeLevelList extends Component {
             if (nextProps.refreshing == true) {
                 url = url + nextProps.level;
                 // this.fetchApiData(url, 'refreshing');
-                fetchQuakesByApi(url, function (quakes) {
+                fetchQuakesByApi(url, function (quakes, notificationQuakes) {
+
                     self.setState({
                             quakes: quakes,
+                            notificationQuakes: notificationQuakes,
                             loading: false,
                             error: null
                         }
                     );
-                   nextProps.onRefreshData(false);
+                    nextProps.onRefreshData(false);
                 });
 
 
             } else {
                 url = url + nextProps.level;
-                fetchQuakesByApi(url, function (quakes) {
+                fetchQuakesByApi(url, function (quakes, notificationQuakes) {
                     self.setState({
                             quakes: quakes,
+                            notificationQuakes: notificationQuakes,
                             loading: false,
                             error: null
                         }
@@ -70,9 +74,10 @@ export default class QuakeLevelList extends Component {
             }
         } else {
             url = url + self.props.level;
-            fetchQuakesByApi(url, function (quakes) {
+            fetchQuakesByApi(url, function (quakes, notificationQuakes) {
                 self.setState({
                         quakes: quakes,
+                        notificationQuakes: notificationQuakes,
                         loading: false,
                         error: null
                     }
@@ -153,37 +158,38 @@ export default class QuakeLevelList extends Component {
                     var isNotified = (isNotifiedValue === "true");
                     if (isNotified) {
                         var timestamp;
-                        AsyncStorage.getItem("notification").then((notificationValue) => {
-                            // console.log('*********notificationValue******', notificationValue)
-
-                            if (notificationValue === 'noData' || notificationValue == null) {
-                                // console.log('notification is empty')
-                                return false;
-                            } else {
-                                // console.log('backgound notification value is ', notificationValue);
-
-                                timestamp = JSON.parse(notificationValue);
-                                let lastNotificationTime = timestamp[Object.keys(timestamp)[0]].notificationTime;//get latest notification time from notification
-
-                                for (var k in timestamp) {
-                                    let time = new Date(timestamp[k]);
-                                    let date = new Date(timestamp[k].date);
-                                    let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
-
-
-                                    PushNotification.localNotificationSchedule({
-                                        message: message,
-                                        date: date,
-                                        number: 0,
-                                        playSound: isSilent,
-
-                                    });
-
-                                }
-                                AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());//save latest notification time in lastNotificationTime
-                            }
-
-                        }).done();
+                        console.log('notified', this.state.notificationQuakes)
+                        // AsyncStorage.getItem("notification").then((notificationValue) => {
+                        //     // console.log('*********notificationValue******', notificationValue)
+                        //
+                        //     if (notificationValue === 'noData' || notificationValue == null) {
+                        //         // console.log('notification is empty')
+                        //         return false;
+                        //     } else {
+                        //         // console.log('backgound notification value is ', notificationValue);
+                        //
+                        //         timestamp = JSON.parse(notificationValue);
+                        //         let lastNotificationTime = timestamp[Object.keys(timestamp)[0]].notificationTime;//get latest notification time from notification
+                        //
+                        //         for (var k in timestamp) {
+                        //             let time = new Date(timestamp[k]);
+                        //             let date = new Date(timestamp[k].date);
+                        //             let message = `${timestamp[k].time} happened ${timestamp[k].magnitude} earthquake in ${timestamp[k].location}`;
+                        //
+                        //
+                        //             PushNotification.localNotificationSchedule({
+                        //                 message: message,
+                        //                 date: date,
+                        //                 number: 0,
+                        //                 playSound: isSilent,
+                        //
+                        //             });
+                        //
+                        //         }
+                        //         AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());//save latest notification time in lastNotificationTime
+                        //     }
+                        //
+                        // }).done();
 
                     }
 

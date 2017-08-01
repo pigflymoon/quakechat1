@@ -1,10 +1,19 @@
 import axios from 'axios';
-
-export const fetchQuakesByApi = (url,callback) => {
+import {
+    AsyncStorage,
+} from 'react-native';
+export const fetchQuakesByApi = (url, callback) => {
     axios.get(url)
         .then(function (result) {
             let quakesData = result.data.features;
-            let quakesArray = [];
+            let quakesArray = [],
+                // notificationQuakes = [],
+                notificationQuakes = [],
+                notificationRule = 0;
+
+            AsyncStorage.getItem("ruleValue").then((value) => {
+                notificationRule = value;
+            });
             for (let quake of quakesData) {
                 let time = quake.properties.time;
                 let utime = new Date(time);
@@ -13,8 +22,11 @@ export const fetchQuakesByApi = (url,callback) => {
                 utime = utime.toString().split('GMT')[0];
 
                 time = new Date(time);
+                let timeStamp = time.getTime();
                 time = time.toString().split('GMT')[0];
-                var quake = {
+                console.log('timeStamp', timeStamp)
+
+                var quakeData = {
                     utime: utime,
                     time: time,
                     locality: quake.properties.locality,
@@ -25,13 +37,26 @@ export const fetchQuakesByApi = (url,callback) => {
                         longitude: quake.geometry.coordinates[0],
                         latitude: quake.geometry.coordinates[1]
                     },
-                    quality:quake.properties.quality
+                    quality: quake.properties.quality
                 };
 
-                quakesArray.push(quake);
+
+                if (quake.properties.mmi >= notificationRule) {
+
+                    let notificationQuake = {
+                        timeStamp: timeStamp,
+                        time: time,
+                        message: `${time} happened ${quake.properties.magnitude.toFixed(1)} earthquake in ${quake.properties.locality}`,
+
+
+                    };
+                    notificationQuakes.push(notificationQuake);
+                }
+
+                quakesArray.push(quakeData);
             } //for
-            console.log('quakesArray in utils',quakesArray)
-            callback(quakesArray);
+            console.log('quakesArray in utils', quakesArray)
+            callback(quakesArray, notificationQuakes);
 
         }); //then
 }
