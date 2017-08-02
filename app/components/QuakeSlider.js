@@ -4,6 +4,7 @@ import {
     Text,
     StyleSheet,
     View,
+    Alert,
 } from 'react-native';
 import slider from '../styles/slider';
 
@@ -21,6 +22,12 @@ export default  class QuakeSlider extends Component {
         value: this.props.value,
     };
 
+    handlerSlide = (value) => {
+        this.setState({value: value});
+        this.props.onChooseLevel(value);
+    }
+
+
     render() {
         return (
             <View>
@@ -28,11 +35,7 @@ export default  class QuakeSlider extends Component {
                     MMI: {this.state.value && +this.state.value.toFixed(1)}
                 </Text>
                 <Slider
-                    {...this.props}
-                    onValueChange={(value) => {
-                        this.setState({value: value});
-                        this.props.onChooseLevel(value);
-                    }}/>
+                    onValueChange={this.handlerSlide}/>
             </View>
         );
     }

@@ -10,15 +10,11 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import quakeStyle from '../styles/quake';
-import showInfo from '../styles/showInfo';
 
-import axios from 'axios';
 import PushNotification from 'react-native-push-notification';
 
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 import {colorByMmi} from '../utils/utils';
-
-var quakes;
 
 export default class QuakeLevelList extends Component {
 
@@ -31,15 +27,15 @@ export default class QuakeLevelList extends Component {
             isConnected: false,
             notificationQuakes: [],
         };
-
-
     }
 
+    /**
+     *
+     * @param nextProps
+     */
     fetchQuakes(nextProps) {
-
-        let self = this
-        let url = self.props.nps_source
-
+        let self = this;
+        let url = self.props.nps_source;
 
         if (nextProps) {
             // console.log('props refreshing is ', nextProps.refreshing, (nextProps.refreshing == true))
@@ -57,8 +53,6 @@ export default class QuakeLevelList extends Component {
                     );
                     nextProps.onRefreshData(false);
                 });
-
-
             } else {
                 url = url + nextProps.level;
                 fetchQuakesByApi(url, function (quakes, notificationQuakes) {
@@ -70,7 +64,6 @@ export default class QuakeLevelList extends Component {
                         }
                     );
                 });
-                // this.fetchApiData(url, 'notRefreshing');
             }
         } else {
             url = url + self.props.level;
@@ -84,10 +77,7 @@ export default class QuakeLevelList extends Component {
                 );
             });
             self.props.onRefreshData(false);
-            // this.fetchApiData(url, 'notRefreshing');
         }
-
-
     }
 
     componentWillReceiveProps(nextProps) {
@@ -113,14 +103,12 @@ export default class QuakeLevelList extends Component {
         AppState.addEventListener('change', this.handleAppStateChange);
 
         if (this.props.isConnected) {
-
             if (this.state.quakes.length <= 0) {
                 this.fetchQuakes();
             }
 
             if (this.props.refreshing) {
                 this.fetchQuakes();
-
             }
         }
 
@@ -140,8 +128,9 @@ export default class QuakeLevelList extends Component {
     }
 
     /**
-     * notifications
-     * */
+     *
+     * @param appState
+     */
     handleAppStateChange = (appState) => {
         // console.log('called?')
 
@@ -179,7 +168,7 @@ export default class QuakeLevelList extends Component {
                                     console.log('No new notification')
                                 } else {
                                     let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
-                                    console.log('lastNotificationTime',lastNotificationTime)
+                                    console.log('lastNotificationTime', lastNotificationTime)
                                     AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());
 
                                 }
@@ -205,34 +194,28 @@ export default class QuakeLevelList extends Component {
 
 
     }
-
-
+    /**
+     *
+     * @returns {XML}
+     */
     renderLoadingView = () => {
         return (
             <Text>Loading...</Text>
         )
     }
-    renderOffline = () => {
-        return (
-            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
-
-        )
-    }
-
+    /**
+     *
+     * @param isConnected
+     * @param quake
+     */
     onQuakeDetail = (isConnected, quake) => {
         this.props.navigation.navigate('Detail', {isConnected, quake});
     };
 
-
     render() {
-        var isConnected = this.props.isConnected;
-        if (!isConnected) {
-            return this.renderOffline();
-        }
         if (this.state.loading) {
             return this.renderLoadingView();
         }
-
 
         return (
             <List>

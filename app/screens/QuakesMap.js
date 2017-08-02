@@ -4,7 +4,8 @@ import {
     View,
     ScrollView,
     Dimensions,
-    StyleSheet
+    StyleSheet,
+    Alert,
 } from 'react-native';
 import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
@@ -24,9 +25,19 @@ export default class QuakesMap extends Component {
         super(props);
 
         this.state = {
-            level: 1
+            level: 1,
+            isConnected: false,
         };
         bind(this)('handleChooseLevel')
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.screenProps;//update netinfo
+        if (isConnected) {
+            this.setState({isConnected: isConnected});
+            return true;
+        }
+        return false;
     }
 
     handleChooseLevel(stat) {
@@ -42,29 +53,50 @@ export default class QuakesMap extends Component {
         } else {
             this.setState({level: 7})
         }
+
+    }
+
+    renderOffline = () => {
+        return (
+            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
+
+        )
+    }
+    renderQuakes = () => {
+        return (
+            <View style={quakeStyle.quakesContainer}>
+                <QuakeMap type="SliderMap"
+                          nps_source={nps_url}
+                          level={this.state.level}
+                          isConnected={this.props.screenProps}
+                          navigation={this.props.navigation}
+                />
+
+                <View>
+                    <QuakeSlider style={quakeStyle.sliderLabel}
+                                 onChooseLevel={this.handleChooseLevel}
+                                 minimumValue={1}
+                                 maximumValue={7}
+                                 step={1}
+                                 isConnected={this.props.screenProps}
+
+
+                    />
+                </View>
+            </View>
+        )
+
     }
 
     render() {
-
-            return (
-                <View style={quakeStyle.quakesContainer}>
-                    <QuakeMap type="SliderMap"
-                              nps_source={nps_url}
-                              level={this.state.level}
-                              isConnected={this.props.screenProps}
-                              navigation={this.props.navigation}
-                    />
-
-                    <View>
-                        <QuakeSlider style={quakeStyle.sliderLabel}
-                                     onChooseLevel={this.handleChooseLevel}
-                                     minimumValue={1}
-                                     maximumValue={7}
-                                     step={1}
-                        />
-                    </View>
-                </View>
-            )
+        var isConnected = this.props.screenProps;
+        console.log('map isConnected', isConnected)
+        if (!isConnected) {
+            return this.renderOffline();
         }
+
+        return this.renderQuakes();
+
+    }
 
 }

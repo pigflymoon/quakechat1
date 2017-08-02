@@ -10,6 +10,7 @@ import {
 
 import QuakeLevelTab from '../components/QuakeLevelTab';
 import QuakeLevelList from '../components/QuakeLevelList';
+import showInfo from '../styles/showInfo';
 
 let nps_url = "https://api.geonet.org.nz/quake?MMI=";
 
@@ -22,6 +23,15 @@ export default class QuakesList extends Component {
             refreshing: false,
             isConnected: false,
         };
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.screenProps;//update netinfo
+        if (isConnected) {
+            this.setState({isConnected: isConnected});
+            return true;
+        }
+        return false;
     }
 
     getRefreshData = () => {
@@ -58,7 +68,14 @@ export default class QuakesList extends Component {
         })
     }
 
-    render() {
+    renderOffline = () => {
+        return (
+            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
+
+        )
+    }
+
+    renderList = () => {
         return (
             <ScrollView
                 refreshControl={
@@ -76,6 +93,17 @@ export default class QuakesList extends Component {
                 />
             </ScrollView>
         )
+    }
+
+    render() {
+        var isConnected = this.props.screenProps;
+        if (!isConnected) {
+            return this.renderOffline();
+        }
+        if (this.state.loading) {
+            return this.renderLoadingView();
+        }
+        return this.renderList();
     }
 }
 
