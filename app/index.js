@@ -49,7 +49,7 @@ export default class App extends Component {
     }
 
     handleConnectivityChange = (isConnected) => {
-        // isConnected = false;//test no network
+        //isConnected = false;//test no network
         if (!isConnected) {
             Alert.alert(
                 'Network unavailable',
