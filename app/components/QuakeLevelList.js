@@ -163,7 +163,7 @@ export default class QuakeLevelList extends Component {
                                     }
 
                                 }
-
+                                console.log('real notification', lastIndex);
                                 if (lastIndex.length <= 0) {
                                     console.log('No new notification')
                                 } else {
