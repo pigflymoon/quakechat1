@@ -34,15 +34,15 @@ export default class Signin extends Component {
 
 
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.isConnected;//update netinfo
-    //     console.log('sign in isConnected',isConnected)
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.isConnected;//update netinfo
+        console.log('sign in isConnected',isConnected)
+        if (isConnected) {
+            this.setState({isConnected: isConnected});
+            return true;
+        }
+        return false;
+    }
 
 
     signup = () => {

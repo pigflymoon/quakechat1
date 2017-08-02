@@ -29,16 +29,16 @@ export default class Signup extends Component {
             isConnected: false,
         };
     }
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.isConnected;//from root scene props
-    //     console.log(' update isConnected?',isConnected)
-    //
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.isConnected;//from root scene props
+        console.log(' update isConnected?',isConnected)
+
+        if (isConnected) {
+            this.setState({isConnected: isConnected});
+            return true;
+        }
+        return false;
+    }
 
     handleSignin = () => {
         Actions.signin();
