@@ -1,4 +1,3 @@
-// FadeInView.js
 import React, {Component} from 'react';
 import {
     Animated,
@@ -7,6 +6,7 @@ import {
 } from 'react-native';
 
 import infoBar from '../styles/infoBar';
+
 export default class AnimatedInfo extends Component {
     constructor(props) {
         super(props);
@@ -51,7 +51,6 @@ export default class AnimatedInfo extends Component {
                     {
                         opacity: this.state.fadeAnim,          // 将透明度指定为动画变量值
                     }]
-
                 }
             >
                 {this.props.children}

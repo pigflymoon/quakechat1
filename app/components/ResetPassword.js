@@ -29,18 +29,14 @@ export default class ResetPassword extends Component {
         };
     }
 
-    // connectChecking = (isConnected) => {
-    //     this.setState({isConnected: isConnected});
-    // }
-    //
-    //
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextState.isConnected;
-    //     if (isConnected) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.isConnected;//update netinfo
+        if (isConnected) {
+            this.setState({isConnected: isConnected});
+            return true;
+        }
+        return false;
+    }
 
 
     setEmail = (text) => {
@@ -60,7 +56,6 @@ export default class ResetPassword extends Component {
             }
             var auth = firebase.auth();
             var emailAddress = this.state.email;
-            console.log('emailAddress', emailAddress)
             auth.sendPasswordResetEmail(emailAddress).then(function () {
                 // Email sent.
                 console.log('reset password sent to the emailAddress');
@@ -135,7 +130,7 @@ export default class ResetPassword extends Component {
                     <View style={chat.infoWrapper}>
                         {this.state.showInfo ?
                             <AnimatedInfo showInfo={this.handleInfo}>
-                                <Text style={chat.infoText}>Sign in fail, please try again.</Text>
+                                <Text style={chat.infoText}>Reset password fail, please try again.</Text>
                             </AnimatedInfo>
                             : null}
                     </View>

@@ -31,8 +31,6 @@ export default class Signup extends Component {
     }
     shouldComponentUpdate(nextProps, nextState) {
         var isConnected = nextProps.isConnected;//from root scene props
-        console.log(' update isConnected?',isConnected)
-
         if (isConnected) {
             this.setState({isConnected: isConnected});
             return true;
@@ -170,7 +168,7 @@ export default class Signup extends Component {
                     <View style={chat.infoWrapper}>
                         {this.state.showInfo ?
                             <AnimatedInfo showInfo={this.handleInfo}>
-                                <Text style={chat.infoText}>Sign in fail, please try again.</Text>
+                                <Text style={chat.infoText}>Sign up fail, please try again.</Text>
                             </AnimatedInfo>
                             : null}
                     </View>

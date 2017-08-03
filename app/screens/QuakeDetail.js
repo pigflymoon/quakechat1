@@ -11,7 +11,7 @@ export default class QuakeDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isConnected: this.props.navigation.state.params.isConnected,
+            isConnected: false,
         };
     }
 
@@ -19,30 +19,24 @@ export default class QuakeDetail extends Component {
         this.props.navigation.navigate('Quality', quake);
     };
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //
-    //     var isConnected = nextProps.navigation.state.params.isConnected
-    //     console.log('should update',isConnected)
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.navigation.state.params.isConnected
+        if (isConnected) {
+            this.setState({isConnected: isConnected});
+            return true;
+        }
+        return false;
+    }
 
     render() {
-        console.log('detail navigation')
-        console.log(this.props.navigation.state.params)
-        const {quake} = this.props.navigation.state.params;
-        // console.log(quake);
+        const {isConnected,quake} = this.props.navigation.state.params;
         return (
             <View style={quakeStyle.container}>
 
                 <ScrollView style={StyleSheet.absoluteFill}
                             contentContainerStyle={quakeStyle.scrollview}>
                     <QuakeMap style={quakeStyle.map} mapInfo={this.props.navigation.state.params}
-                              isConnected={this.state.isConnected}/>
-
+                              isConnected={isConnected}/>
 
                     <List style={quakeStyle.detail}>
                         <ListItem
@@ -94,10 +88,7 @@ export default class QuakeDetail extends Component {
                             hideChevron
                             onPress={() => this.onQuakeQuality(quake.quality)}
                         />
-
                     </List>
-
-
                 </ScrollView>
             </View>
         )

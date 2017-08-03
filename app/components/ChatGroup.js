@@ -24,7 +24,6 @@ export default class ChatGroup extends Component {
 
     componentWillMount() {
         var user = firebase.auth().currentUser;
-        // console.log('*******in Chat Group ********* and current user is ', user)
         if (user) {
             this.setUid(user.uid);
             this.setName(user.displayName);
@@ -80,7 +79,6 @@ export default class ChatGroup extends Component {
     }
 
     componentDidMount() {
-        // console.log('chat group called')
         this.setState({
             signin: true
         });
@@ -114,18 +112,7 @@ export default class ChatGroup extends Component {
                     name: this.getName()
                 }}
             />
-
-
         );
     }
 
-
 }
-
-ChatGroup.defaultProps = {
-    name: 'John Smith',
-};
-
-ChatGroup.propTypes = {
-    name: React.PropTypes.string,
-};

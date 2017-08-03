@@ -15,7 +15,7 @@ import PushNotification from 'react-native-push-notification';
 
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 import {colorByMmi} from '../utils/utils';
-
+var timer;
 export default class QuakeLevelList extends Component {
 
     constructor(props, context) {
@@ -80,9 +80,7 @@ export default class QuakeLevelList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // if (!nextProps.refreshing) return;
         this.fetchQuakes(nextProps);
-
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -109,7 +107,7 @@ export default class QuakeLevelList extends Component {
 
 
         // //Every half hour call data api.
-        // this.timer = setInterval(() => {
+        // timer = setInterval(() => {
         //     this.fetchQuakes();
         //     console.log('6min!')
         // }, 1000 * 60);
@@ -119,7 +117,7 @@ export default class QuakeLevelList extends Component {
 
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
-
+        // clearInterval(timer);
     }
 
     /**
@@ -226,7 +224,7 @@ export default class QuakeLevelList extends Component {
                                   </View>
                               }
 
-                              onPress={() => this.onQuakeDetail(isConnected, quake)}
+                              onPress={() => this.onQuakeDetail(this.state.isConnected, quake)}
                     />
                 ))}
             </List>

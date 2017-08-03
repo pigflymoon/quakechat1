@@ -23,12 +23,11 @@ export default{
     },
     map: {
         flexGrow: 2,
-        flexBasis: 200,
+        flexBasis: 400,
     },
     detail: {
         flexGrow: 1,
-        flexBasis: 200,
-
+        flexBasis: 100,
     },
     rightTitle: {
         color: colors.grey1,

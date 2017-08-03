@@ -23,7 +23,6 @@ const LONGITUDE = 172.885971;
 const LATITUDE_DELTA = 18;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-
 var markersData = [];
 
 export default class QuakeMap extends Component {
@@ -40,11 +39,9 @@ export default class QuakeMap extends Component {
             pincolor: colorByMmi(2),
 
         };
-        // console.log('navigate', this.props.navigation)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        // console.log('map net work is update ', nextProps.isConnected)
         var isConnected = nextProps.isConnected;
         if (isConnected) {
             this.setState({isConnected: isConnected});
@@ -57,14 +54,12 @@ export default class QuakeMap extends Component {
         if (this.props.type && this.props.type == "SliderMap") {
             this.loadMapInfo(nextProps)
         }
-
     }
 
     componentDidMount() {
         this.setState({isConnected: this.props.isConnected})
         if (this.props.isConnected) {
             if (this.props.type && this.props.type == "SliderMap") {
-                // console.log('slidermap')
                 this.loadMapInfo("");
             } else {
                 this.loadFeatures("");
@@ -92,15 +87,12 @@ export default class QuakeMap extends Component {
                 }
             );
         })
-
-
     }
 
     loadFeatures() {
         markersData = [];
 
         let post = this.props.mapInfo;
-        var marker = post.quake
         markersData.push(post.quake);
         this.setState({
                 quakes: markersData,
@@ -120,9 +112,6 @@ export default class QuakeMap extends Component {
             latitudeDelta: 1.5,
             longitudeDelta: 1.2
         }, 1500);
-        // this.props.navigation.navigate('Quality', 'test');
-
-
     }
     onQuakeDetail = (isConnected, quake, backScreen) => {
         if (backScreen == 'Map') {
@@ -209,7 +198,6 @@ export default class QuakeMap extends Component {
     renderOffline = () => {
         return (
             <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
-
         )
     }
 

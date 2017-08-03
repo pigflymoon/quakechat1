@@ -35,6 +35,7 @@ export default  class QuakeSlider extends Component {
                     MMI: {this.state.value && +this.state.value.toFixed(1)}
                 </Text>
                 <Slider
+                    {...this.props}
                     onValueChange={this.handlerSlide}/>
             </View>
         );

@@ -28,22 +28,20 @@ export default class ConfirmEmail extends Component {
         };
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.isConnected;//from root scene props
-    //     console.log(' update isConnected?',isConnected)
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.isConnected;//update netinfo
+        if (isConnected) {
+            this.setState({isConnected: isConnected});
+            return true;
+        }
+        return false;
+    }
 
     handleVerifyEmail = (e) => {
 
         var self = this;
         var user = this.state.user
         e.preventDefault();
-        // console.log('isConnected?',this.state.isConnected)
         if (this.props.isConnected) {
             user.sendEmailVerification().then(
                 // setTimeout(
@@ -110,7 +108,6 @@ export default class ConfirmEmail extends Component {
 
     componentWillUnmount() {
         interval && clearInterval(interval);
-        console.log('clear interval')
     }
 
     render() {

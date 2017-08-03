@@ -28,9 +28,6 @@ export default class NetInfoChecking extends Component {
         NetInfo.isConnected.fetch().done(
             (isConnected) => {
                 this.setState({isConnected: isConnected});
-
-                // console.log('First, is ' + (isConnected ? 'online' : 'offline'));
-
             }
         );
     }
