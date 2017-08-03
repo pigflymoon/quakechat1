@@ -62,7 +62,6 @@ export const fetchQuakesByApi = (url, callback) => {
                     quakesArray.push(quakeData);
 
                 } //for
-                console.log('notificationQuakes', notificationQuakes)
 
                 callback(quakesArray, notificationQuakes);
 

@@ -76,7 +76,6 @@ export default class QuakeMap extends Component {
     loadMapInfo(nextProps) {
         let self = this;
         let url = self.props.nps_source;
-        console.log('level', self.props.level);
 
         if (nextProps) {
             url = url + nextProps.level;
@@ -85,7 +84,6 @@ export default class QuakeMap extends Component {
         }
         //callback to get quakes
         fetchQuakesByApi(url, function (quakes) {
-            console.log('quakes', quakes);
             self.setState({
                     quakes: quakes,
                     loading: false,
@@ -102,7 +100,6 @@ export default class QuakeMap extends Component {
         markersData = [];
 
         let post = this.props.mapInfo;
-        console.log(post)
         var marker = post.quake
         markersData.push(post.quake);
         this.setState({
@@ -115,7 +112,6 @@ export default class QuakeMap extends Component {
     }
 
     handleMarker = (data) => {
-        console.log('marker clicked');
         var coord = data.nativeEvent.coordinate;
         coord.latitude += 0.006;
         this.refs.MapView.animateToRegion({
@@ -129,7 +125,6 @@ export default class QuakeMap extends Component {
 
     }
     onQuakeDetail = (isConnected, quake, backScreen) => {
-        // console.log('quake', quake)
         if (backScreen == 'Map') {
             this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
 

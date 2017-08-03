@@ -54,12 +54,8 @@ export default class NetInfoChecking extends Component {
                 {cancelable: false}
             )
         }
-            // console.log('Then, is ' + isConnected);
-
             this.setState({isConnected: isConnected});
             this.props.connectCheck(isConnected);
-
-
     }
 
     render() {

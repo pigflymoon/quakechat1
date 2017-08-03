@@ -64,11 +64,9 @@ class Backend {
     }
 
     signup(email, password) {
-        console.log('email', email, 'password', password)
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error, userData) {
             // Handle Errors here.
             if (error) {
-                console.log('error', error)
                 switch (error.code) {
                     case "auth/email-already-in-use":
                         alert("there already exists an account with the given email address.");
@@ -100,8 +98,6 @@ class Backend {
     signin(email, password,callback) {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(function (user) {
-                console.log('email is',email,'password','password')
-                console.log('user is ', user);
                 callback(user);
                 return user;
             })

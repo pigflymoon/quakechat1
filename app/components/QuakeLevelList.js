@@ -38,7 +38,6 @@ export default class QuakeLevelList extends Component {
         let url = self.props.nps_source;
 
         if (nextProps) {
-            // console.log('props refreshing is ', nextProps.refreshing, (nextProps.refreshing == true))
             if (nextProps.refreshing == true) {
                 url = url + nextProps.level;
                 // this.fetchApiData(url, 'refreshing');
@@ -81,7 +80,6 @@ export default class QuakeLevelList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log('nextprop refreshing is ', nextProps.refreshing)
         // if (!nextProps.refreshing) return;
         this.fetchQuakes(nextProps);
 
@@ -91,15 +89,12 @@ export default class QuakeLevelList extends Component {
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
         if (isConnected) {
-            // console.log('fetch quakes')
             return true;
         }
         return false;
     }
 
     componentDidMount() {
-
-        // console.log('level list this.props.screenProps', this.props.isConnected)
         AppState.addEventListener('change', this.handleAppStateChange);
 
         if (this.props.isConnected) {
@@ -132,11 +127,7 @@ export default class QuakeLevelList extends Component {
      * @param appState
      */
     handleAppStateChange = (appState) => {
-        // console.log('called?')
-
-
         if (appState === 'background') {
-            console.log('background')
             var lastIndex = [];
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
@@ -163,12 +154,10 @@ export default class QuakeLevelList extends Component {
                                     }
 
                                 }
-                                console.log('real notification', lastIndex);
                                 if (lastIndex.length <= 0) {
                                     console.log('No new notification')
                                 } else {
                                     let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
-                                    console.log('lastNotificationTime', lastNotificationTime)
                                     AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());
 
                                 }

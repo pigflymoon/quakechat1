@@ -90,7 +90,6 @@ export default class QuakesMap extends Component {
 
     render() {
         var isConnected = this.props.screenProps;
-        console.log('map isConnected', isConnected)
         if (!isConnected) {
             return this.renderOffline();
         }

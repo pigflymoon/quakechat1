@@ -35,9 +35,7 @@ export default class QuakesList extends Component {
     }
 
     getRefreshData = () => {
-        console.log('screenProps', this.props.screenProps)
         if (!this.props.screenProps) {
-            console.log('alert')
             Alert.alert(
                 'Network unavailable',
                 'The Internet connection appears to be offline',
