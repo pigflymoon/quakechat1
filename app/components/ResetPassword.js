@@ -9,7 +9,6 @@ import {
 
 import {Actions} from 'react-native-router-flux';
 import firebase from 'firebase';
-import NetInfoChecking from '../utils/NetInfoChecking';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';

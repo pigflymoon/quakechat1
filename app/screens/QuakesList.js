@@ -34,24 +34,24 @@ export default class QuakesList extends Component {
         return false;
     }
 
+
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+    }
+
     getRefreshData = () => {
-        if (!this.props.screenProps) {
-            Alert.alert(
-                'Network unavailable',
-                'The Internet connection appears to be offline',
-                [
-                    {text: 'OK'},
-                ],
-                {cancelable: false}
-            )
+        // this.state.isConnected = false;
+        console.log(this.state.isConnected);
+        if (!this.state.isConnected) {
             this.setState({
                 refreshing: false
             });
         } else {
             this.setState({
-                refreshing: true
+                refreshing: true,
             });
         }
+
     }
 
     handleRefreshData = (value) => {

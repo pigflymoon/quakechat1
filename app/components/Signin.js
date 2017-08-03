@@ -15,8 +15,6 @@ import AnimatedInfo from './AnimatedInfo';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
 
-import NetInfoChecking from '../utils/NetInfoChecking';
-
 export default class Signin extends Component {
     constructor(props) {
         super(props);

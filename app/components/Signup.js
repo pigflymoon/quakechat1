@@ -8,7 +8,6 @@ import {
 
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
-import NetInfoChecking from '../utils/NetInfoChecking';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
