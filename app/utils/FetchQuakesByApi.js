@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
     AsyncStorage,
+    Alert,
 } from 'react-native';
 export const fetchQuakesByApi = (url, callback) => {
     AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
@@ -40,24 +41,24 @@ export const fetchQuakesByApi = (url, callback) => {
                     };
                     // AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
 
-                        if (lastNotifiedValue === null) {
-                            lastNotificationTime = 0;
-                        } else {
-                            lastNotificationTime = parseInt(lastNotifiedValue)
-                        }
+                    if (lastNotifiedValue === null) {
+                        lastNotificationTime = 0;
+                    } else {
+                        lastNotificationTime = parseInt(lastNotifiedValue)
+                    }
 
-                        if (notifiedTime >= lastNotificationTime) {
-                            let notificationQuake = {
-                                mmi:quake.properties.mmi,
-                                timeStamp: timeStamp,
-                                time: time,
-                                message: `${time} happened ${quake.properties.magnitude.toFixed(1)} earthquake in ${quake.properties.locality}`,
+                    if (notifiedTime >= lastNotificationTime) {
+                        let notificationQuake = {
+                            mmi: quake.properties.mmi,
+                            timeStamp: timeStamp,
+                            time: time,
+                            message: `${time} happened ${quake.properties.magnitude.toFixed(1)} earthquake in ${quake.properties.locality}`,
 
 
-                            };
-                            notificationQuakes.push(notificationQuake);
-                        }
-                        // }).done();
+                        };
+                        notificationQuakes.push(notificationQuake);
+                    }
+                    // }).done();
                     // }).done();
                     quakesArray.push(quakeData);
 
@@ -65,7 +66,18 @@ export const fetchQuakesByApi = (url, callback) => {
 
                 callback(quakesArray, notificationQuakes);
 
-            }); //then
+            })//then
+            .catch(error => {
+                Alert.alert(
+                    'Network unavailable',
+                    `The Internet connection appears to be offline`,
+                    [
+                        {text: 'OK'},
+                    ],
+                    {cancelable: false}
+                )
+            });
+
     }).done();
 
 }

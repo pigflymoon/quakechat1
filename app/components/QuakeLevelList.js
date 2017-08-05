@@ -77,12 +77,15 @@ export default class QuakeLevelList extends Component {
             });
             self.props.onRefreshData(false);
         }
+
+
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isConnected) {
             this.fetchQuakes(nextProps);
         } else {
+            // nextProps.onRefreshData(false);
             Alert.alert(
                 'Network unavailable',
                 'The Internet connection appears to be offline',
