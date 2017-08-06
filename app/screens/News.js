@@ -4,6 +4,8 @@ import {
     View,
     ScrollView,
     Linking,
+    RefreshControl,
+    Alert,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import showInfo from '../styles/showInfo';
@@ -19,8 +21,22 @@ export default class News extends Component {
         this.state = {
             dataSource: [],
             isLoading: false,
+            refreshing: false,
             isConnected: false,
         };
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.screenProps;//update netinfo
+        this.setState({isConnected: isConnected});
+        if (isConnected) {
+            return true;
+        } else {
+            this.setState({
+                refreshing: false
+            });
+            return false;
+        }
     }
 
     fetchApiData = () => {
@@ -36,8 +52,19 @@ export default class News extends Component {
                     });
                     this.setState({
                         dataSource: news,
-                        isLoading: false
+                        isLoading: false,
+                        refreshing:false,
                     })
+                })
+                .catch(error => {
+                    Alert.alert(
+                        'Network unavailable',
+                        `The Internet connection appears to be offline`,
+                        [
+                            {text: 'OK'},
+                        ],
+                        {cancelable: false}
+                    )
                 });
             // this.timer = setInterval(() => {
             //     axios.get(`https://api.geonet.org.nz/news/geonet`)
@@ -100,6 +127,26 @@ export default class News extends Component {
         }
     }
 
+    getRefreshData = () => {
+        // this.state.isConnected = false;
+        console.log(this.state.isConnected);
+        if (!this.state.isConnected) {
+            this.setState({
+                refreshing: false
+            });
+        } else {
+            this.setState({
+                refreshing: true,
+            });
+        }
+
+    }
+
+    // handleRefreshData = (value) => {
+    //     this.setState({
+    //         refreshing: value
+    //     });
+    // }
     renderOffline = () => {
         return (
             <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
@@ -116,7 +163,13 @@ export default class News extends Component {
             return this.renderLoadingView();
         }
         return (
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this.getRefreshData}
+                    />}
+            >
                 <List>
                     {this.state.dataSource.map((news, index) => (
                         <ListItem

@@ -28,28 +28,20 @@ export default class QuakesList extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         var isConnected = nextProps.screenProps;//update netinfo
         this.setState({isConnected: isConnected});
-        if (!isConnected) {
+        if (isConnected) {
+            return true;
+        } else {
             this.setState({
                 refreshing: false
             });
-        }
-        // this.setState({
-        //     refreshing: isConnected
-        // });
-        if (isConnected) {
-
-            return true;
-        }else{
-
             return false;
         }
-
     }
 
 
     componentWillReceiveProps(nextProps) {
-        console.log('QuakesList',nextProps);
-        if(!nextProps.screenProps){
+        console.log('QuakesList', nextProps);
+        if (!nextProps.screenProps) {
             this.setState({
                 refreshing: false,
             });
