@@ -15,6 +15,7 @@ import {List, ListItem} from 'react-native-elements';
 import colors from '../styles/colors';
 import {bind} from '../utils/utils';
 import PushController from '../components/PushController';
+import quakeStyle from '../styles/quake';
 
 
 export default class Settings extends Component {
@@ -29,7 +30,7 @@ export default class Settings extends Component {
             ruleValue: '0',
 
         };
-        AsyncStorage.setItem('ruleValue',"0");
+        AsyncStorage.setItem('ruleValue', "0");
         bind(this)('renderLoadingView');
     }
 
@@ -81,15 +82,15 @@ export default class Settings extends Component {
         this.props.navigation.navigate('About', {});
     };
 
-    updateUser = (user) => {
+    updateRule = (rule) => {
         let showRules = ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'];
 
-        this.setState({user: user}, function () {
+        this.setState({rule: rule}, function () {
             for (let rule of showRules) {
-                if (this.state.user === rule) {
+                if (this.state.rule === rule) {
                     let index = showRules.indexOf(rule);
                     let value = ( index == 0 ) ? 0 : (index + 2);
-                    AsyncStorage.setItem('ruleValue',value.toString());
+                    AsyncStorage.setItem('ruleValue', value.toString());
                     this.setState({ruleValue: value});
                 }
 
@@ -137,7 +138,7 @@ export default class Settings extends Component {
 
                     />
 
-                    <Picker selectedValue={this.state.user} onValueChange={this.updateUser}>
+                    <Picker selectedValue={this.state.rule} onValueChange={this.updateRule}>
                         <Picker.Item label="All" value="All"/>
                         <Picker.Item label="Weak+" value="Weak+"/>
                         <Picker.Item label="Light+" value="Light+"/>
@@ -147,8 +148,8 @@ export default class Settings extends Component {
                     </Picker>
                     <ListItem
                         title="Notification Rules"
-                        rightTitle={this.state.user}
-
+                        rightTitle={this.state.rule}
+                        rightTitleStyle={quakeStyle.rightTitle}
                         hideChevron
                     />
                     <ListItem
