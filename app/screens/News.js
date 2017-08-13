@@ -40,7 +40,6 @@ export default class News extends Component {
     }
 
     fetchApiData = () => {
-        if (this.state.dataSource.length <= 0) {
             axios.get(`https://api.geonet.org.nz/news/geonet`)
                 .then(res => {
                     news = res.data.feed.map(function (item) {
@@ -83,7 +82,6 @@ export default class News extends Component {
             //         });
             // }, 1000 * 60 * 60 * 24);
 
-        }
     }
 
     fetchNews = (isConnected) => {
@@ -128,8 +126,6 @@ export default class News extends Component {
     }
 
     getRefreshData = () => {
-        // this.state.isConnected = false;
-        console.log(this.state.isConnected);
         if (!this.state.isConnected) {
             this.setState({
                 refreshing: false
@@ -138,15 +134,11 @@ export default class News extends Component {
             this.setState({
                 refreshing: true,
             });
+            this.fetchNews(true);
         }
 
     }
 
-    // handleRefreshData = (value) => {
-    //     this.setState({
-    //         refreshing: value
-    //     });
-    // }
     renderOffline = () => {
         return (
             <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
