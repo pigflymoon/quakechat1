@@ -59,7 +59,6 @@ export default class ShareInfo extends Component {
 
     render() {
       var shareOptions = this.props.shareOptions;
-      console.log('visible',this.props.visible);
         return (
             <ShareSheet visible={this.props.visible} onCancel={this.onCancel.bind(this)}>
                 <Button iconSrc={{uri: TWITTER_ICON}}
