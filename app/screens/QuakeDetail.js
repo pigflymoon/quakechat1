@@ -13,18 +13,17 @@ import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import navigationStyle from '../styles/navigation';
 import {Icon, Header} from 'react-native-elements';
-import Share, {ShareSheet, Button} from 'react-native-share';
+
 import QuakeMap from '../components/QuakeMap';
 import ShareInfo from '../components/ShareInfo';
-var shareOptions;
-var visible = false;
+
+
 export default class QuakeDetail extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             isConnected: false,
-            visible: false,
         };
     }
 
@@ -45,21 +44,17 @@ export default class QuakeDetail extends Component {
 
     render() {
         const {isConnected, quake,share} = this.props.navigation.state.params;
-        console.log('navigation', this.props.navigation)
-        // const { state, setParams } = navigation;
-        // const { visible } = state;
-        console.log('param',this.props.navigation.state.params)
         var time = quake.time;
         var magnitude = quake.magnitude;
         var locality = quake.locality;
         var message = `${time} happened ${magnitude} earthquake in ${locality}`;
-        shareOptions = {
+        var shareOptions = {
             title: "Quake Chat",
             message: message,
             url: "http://facebook.github.io/react-native/",
-            subject: "Share Link" //  for email
+            subject: `${magnitude} earthquake` //  for email
         };
-        // Share.open(shareOptions);
+
         return (
             <View style={quakeStyle.container}>
 
@@ -131,14 +126,14 @@ QuakeDetail.navigationOptions = props => {
     const {navigation} = props;
     const {state, setParams} = navigation;
     const {params} = state;
-
+    const {share} = params;
     return {
         // Render a button on the right side of the header.
 
         headerRight: (
             <Icon name='share' type='font-awesome' size={18} color={colors.primary1} style={navigationStyle.rightTitle}
                   onPress={() =>
-                      setParams({share: props.navigation.state.params.share === true ? false : true})
+                      setParams({share: share === true ? false : true})
                   }
             />
 

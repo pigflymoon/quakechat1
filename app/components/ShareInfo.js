@@ -6,11 +6,10 @@ import {
     Text,
     Clipboard,
     ToastAndroid,
-    AlertIOS
+    AlertIOS,
+    Platform,
 } from 'react-native';
-import {List, ListItem} from 'react-native-elements';
-import colors from '../styles/colors';
-import quakeStyle from '../styles/quake';
+
 import navigationStyle from '../styles/navigation';
 import {Icon} from 'react-native-elements';
 import Share, {ShareSheet, Button} from 'react-native-share';
@@ -67,7 +66,7 @@ export default class ShareInfo extends Component {
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign(shareOptions, {
+                                Share.shareSingle(Object.assign({},shareOptions, {
                                     "social": "twitter"
                                 }));
                             }, 300);
@@ -76,7 +75,7 @@ export default class ShareInfo extends Component {
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign(shareOptions, {
+                                Share.shareSingle(Object.assign({},shareOptions, {
                                     "social": "facebook"
                                 }));
                             }, 300);
@@ -85,7 +84,7 @@ export default class ShareInfo extends Component {
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign(shareOptions, {
+                                Share.shareSingle(Object.assign({},shareOptions, {
                                     "social": "whatsapp"
                                 }));
                             }, 300);
@@ -94,7 +93,7 @@ export default class ShareInfo extends Component {
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign(shareOptions, {
+                                Share.shareSingle(Object.assign({},shareOptions, {
                                     "social": "googleplus"
                                 }));
                             }, 300);
@@ -103,7 +102,7 @@ export default class ShareInfo extends Component {
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign(shareOptions, {
+                                Share.shareSingle(Object.assign({},shareOptions, {
                                     "social": "email"
                                 }));
                             }, 300);
