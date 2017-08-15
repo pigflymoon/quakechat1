@@ -210,8 +210,8 @@ export default class QuakeLevelList extends Component {
      * @param isConnected
      * @param quake
      */
-    onQuakeDetail = (isConnected, quake) => {
-        this.props.navigation.navigate('Detail', {isConnected, quake});
+    onQuakeDetail = (isConnected, quake, share) => {
+        this.props.navigation.navigate('Detail', {isConnected, quake, share});
     };
 
     render() {
@@ -239,7 +239,7 @@ export default class QuakeLevelList extends Component {
                                   </View>
                               }
 
-                              onPress={() => this.onQuakeDetail(this.state.isConnected, quake)}
+                              onPress={() => this.onQuakeDetail(this.state.isConnected, quake, false)}
                     />
                 ))}
             </List>
