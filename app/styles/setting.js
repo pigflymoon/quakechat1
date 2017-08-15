@@ -11,6 +11,13 @@ export default{
     },
     text: {
         paddingVertical: 10,
+    },
+    link: {
+        color: colors.primary1,
+    },
+    image: {
+        width: '50%',
+        height: '60%',
     }
 
 }

@@ -82,6 +82,10 @@ export default class Settings extends Component {
         this.props.navigation.navigate('About', {});
     };
 
+    onLinks = () => {
+        this.props.navigation.navigate('Links', {});
+    };
+
     updateRule = (rule) => {
         let showRules = ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'];
 
@@ -156,7 +160,10 @@ export default class Settings extends Component {
                         title={`About`}
                         onPress={() => this.onAbout()}
                     />
-
+                    <ListItem
+                        title={`Links`}
+                        onPress={() => this.onLinks()}
+                    />
                     <PushController />
                 </List>
             </ScrollView>

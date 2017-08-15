@@ -10,6 +10,7 @@ import QuakeDetail from '../screens/QuakeDetail';
 import QuakeQuality from '../screens/QuakeQuality';
 import ChatRoom from '../screens/ChatRoom';
 import About from '../screens/About';
+import Links from '../screens/Links';
 import Settings from '../screens/Settings';
 
 export const QuakesListStack = StackNavigator({
@@ -47,8 +48,12 @@ export const SettingsStack = StackNavigator({
         navigationOptions: ({navigation}) => ({
             title: 'About'
         })
-
-
+    },
+    Links: {
+        screen: Links,
+        navigationOptions: ({navigation}) => ({
+            title: 'Links'
+        })
     }
 });
 
@@ -85,13 +90,6 @@ export const mapsStack = StackNavigator({
     },
 });
 export const Tabs = TabNavigator({
-    List: {
-        screen: QuakesListStack,
-        navigationOptions: {
-            tabBarLabel: 'Quakes',
-            tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
-        },
-    },
     Settings: {
         screen: SettingsStack,
         navigationOptions: {
@@ -99,6 +97,14 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
         }
     },
+    List: {
+        screen: QuakesListStack,
+        navigationOptions: {
+            tabBarLabel: 'Quakes',
+            tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
+        },
+    },
+
 
     News: {
         screen: NewsStack,
