@@ -26,6 +26,7 @@ export default class QuakeLevelList extends Component {
             isRefreshing: false,
             isConnected: false,
             notificationQuakes: [],
+            appState: AppState.currentState
         };
     }
 
@@ -139,8 +140,15 @@ export default class QuakeLevelList extends Component {
      *
      * @param appState
      */
-    handleAppStateChange = (appState) => {
-        if (appState === 'background') {
+    handleAppStateChange = (nextAppState) => {
+        if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+            PushNotification.setApplicationIconBadgeNumber(0);
+            // AsyncStorage.setItem("notification", '');//clear notification
+            // AsyncStorage.removeItem("notification");
+            // console.log('notification clear:');
+            this.setState({appState: nextAppState});
+
+        } else  {
             var lastIndex = [];
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
@@ -186,12 +194,6 @@ export default class QuakeLevelList extends Component {
 
             }).done();
 
-
-        } else if (appState === 'active') {
-            PushNotification.setApplicationIconBadgeNumber(0);
-            // AsyncStorage.setItem("notification", '');//clear notification
-            // AsyncStorage.removeItem("notification");
-            // console.log('notification clear:');
         }
 
 

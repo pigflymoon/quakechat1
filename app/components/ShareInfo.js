@@ -48,24 +48,25 @@ export default class ShareInfo extends Component {
             visible: false,
         };
     }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({visible: nextProps.visible});
+    }
+
     onCancel = () => {
         console.log("CANCEL")
         this.setState({visible: false});
     }
-    onOpen = () => {
-        console.log("OPEN")
-        this.setState({visible: true});
-    }
 
     render() {
-      var shareOptions = this.props.shareOptions;
+        var shareOptions = this.props.shareOptions;
         return (
-            <ShareSheet visible={this.props.visible} onCancel={this.onCancel.bind(this)}>
+            <ShareSheet visible={this.state.visible} onCancel={this.onCancel.bind(this)}>
                 <Button iconSrc={{uri: TWITTER_ICON}}
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign({},shareOptions, {
+                                Share.shareSingle(Object.assign({}, shareOptions, {
                                     "social": "twitter"
                                 }));
                             }, 300);
@@ -74,25 +75,16 @@ export default class ShareInfo extends Component {
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign({},shareOptions, {
+                                Share.shareSingle(Object.assign({}, shareOptions, {
                                     "social": "facebook"
                                 }));
                             }, 300);
                         }}>Facebook</Button>
-                <Button iconSrc={{uri: WHATSAPP_ICON}}
-                        onPress={() => {
-                            this.onCancel();
-                            setTimeout(() => {
-                                Share.shareSingle(Object.assign({},shareOptions, {
-                                    "social": "whatsapp"
-                                }));
-                            }, 300);
-                        }}>Whatsapp</Button>
                 <Button iconSrc={{uri: GOOGLE_PLUS_ICON}}
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign({},shareOptions, {
+                                Share.shareSingle(Object.assign({}, shareOptions, {
                                     "social": "googleplus"
                                 }));
                             }, 300);
@@ -101,7 +93,7 @@ export default class ShareInfo extends Component {
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign({},shareOptions, {
+                                Share.shareSingle(Object.assign({}, shareOptions, {
                                     "social": "email"
                                 }));
                             }, 300);
