@@ -66,9 +66,9 @@ export default class ShareInfo extends Component {
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.shareSingle(Object.assign({}, shareOptions, {
+                                Share.shareSingle(Object.assign(shareOptions, {
                                     "social": "twitter"
-                                }));
+                                })).catch((err) => { err && console.log(err); });
                             }, 300);
                         }}>Twitter</Button>
                 <Button iconSrc={{uri: FACEBOOK_ICON}}
@@ -77,7 +77,7 @@ export default class ShareInfo extends Component {
                             setTimeout(() => {
                                 Share.shareSingle(Object.assign({}, shareOptions, {
                                     "social": "facebook"
-                                }));
+                                })).catch((err) => { err && console.log(err); });
                             }, 300);
                         }}>Facebook</Button>
                 <Button iconSrc={{uri: GOOGLE_PLUS_ICON}}
@@ -86,7 +86,7 @@ export default class ShareInfo extends Component {
                             setTimeout(() => {
                                 Share.shareSingle(Object.assign({}, shareOptions, {
                                     "social": "googleplus"
-                                }));
+                                })).catch((err) => { err && console.log(err); });
                             }, 300);
                         }}>Google +</Button>
                 <Button iconSrc={{uri: EMAIL_ICON}}
@@ -95,7 +95,7 @@ export default class ShareInfo extends Component {
                             setTimeout(() => {
                                 Share.shareSingle(Object.assign({}, shareOptions, {
                                     "social": "email"
-                                }));
+                                })).catch((err) => { err && console.log(err); });
                             }, 300);
                         }}>Email</Button>
                 <Button
@@ -106,9 +106,9 @@ export default class ShareInfo extends Component {
                             if (typeof shareOptions["url"] !== undefined) {
                                 Clipboard.setString(shareOptions["url"]);
                                 if (Platform.OS === "android") {
-                                    ToastAndroid.show('Link copiado al portapapeles', ToastAndroid.SHORT);
+                                    ToastAndroid.show('Link copied to clipboard', ToastAndroid.SHORT);
                                 } else if (Platform.OS === "ios") {
-                                    AlertIOS.alert('Link copiado al portapapeles');
+                                    AlertIOS.alert('Link copied to clipboard');
                                 }
                             }
                         }, 300);
@@ -117,7 +117,7 @@ export default class ShareInfo extends Component {
                         onPress={() => {
                             this.onCancel();
                             setTimeout(() => {
-                                Share.open(shareOptions)
+                                Share.open(shareOptions).catch((err) => { err && console.log(err); })
                             }, 300);
                         }}>More</Button>
             </ShareSheet>
