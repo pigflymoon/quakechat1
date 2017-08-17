@@ -4,20 +4,15 @@ import {
     View,
     StyleSheet,
     Text,
-    Clipboard,
-    ToastAndroid,
-    AlertIOS,
-    TouchableHighlight,
     Share,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import navigationStyle from '../styles/navigation';
-import {Icon, Header} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 
 import QuakeMap from '../components/QuakeMap';
-
 
 export default class QuakeDetail extends Component {
 
@@ -32,32 +27,38 @@ export default class QuakeDetail extends Component {
         this.props.navigation.navigate('Quality', quake);
     };
 
+    componentDidMount() {
+        this.props.navigation.setParams({handleShare: this.shareText})
+    }
 
-    _shareMessage() {
-        Share.share({
-            message: 'React Native | A framework for building native apps using React'
-        })
-            .then(this._showResult)
+    shouldComponentUpdate(nextProps, nextState) {
+        var isConnected = nextProps.navigation.state.params.isConnected
+        if (isConnected) {
+            this.setState({isConnected: isConnected});
+            return true;
+        }
+        return false;
+    }
+
+    shareMessage = (shareMessage) => {
+        Share.share(shareMessage)
+            .then(this.showResult)
             .catch((error) => this.setState({result: 'error: ' + error.message}));
     }
 
-    _shareText() {
-        Share.share({
-            message: 'A framework for building native apps using React',
-            url: 'http://facebook.github.io/react-native/',
-            title: 'React Native'
-        }, {
+    shareText = (shareText) => {
+        Share.share(shareText, {
             dialogTitle: 'Share React Native website',
             excludedActivityTypes: [
                 'com.apple.UIKit.activity.PostToTwitter'
             ],
             tintColor: 'green'
         })
-            .then(this._showResult)
+            .then(this.showResult)
             .catch((error) => this.setState({result: 'error: ' + error.message}));
     }
 
-    _showResult(result) {
+    showResult = (result) => {
         if (result.action === Share.sharedAction) {
             if (result.activityType) {
                 this.setState({result: 'shared with an activityType: ' + result.activityType});
@@ -69,29 +70,8 @@ export default class QuakeDetail extends Component {
         }
     }
 
-
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.navigation.state.params.isConnected
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
-    }
-
-
     render() {
-        const {isConnected, quake, share} = this.props.navigation.state.params;
-        var time = quake.time;
-        var magnitude = quake.magnitude;
-        var locality = quake.locality;
-        var message = `${time} happened ${magnitude} earthquake in ${locality}`;
-        var shareOptions = {
-            title: "Quake Chat",
-            message: message,
-            url: "http://facebook.github.io/react-native/",
-            subject: `${magnitude} earthquake` //  for email
-        };
+        const {isConnected, quake} = this.props.navigation.state.params;
 
         return (
             <View style={quakeStyle.container}>
@@ -144,30 +124,14 @@ export default class QuakeDetail extends Component {
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
-                        {/*<ListItem*/}
-                            {/*title="Quality"*/}
-                            {/*rightTitle={quake.quality}*/}
-                            {/*rightTitleStyle={quakeStyle.linkTitle}*/}
-                            {/*hideChevron*/}
-                            {/*onPress={() => this.onQuakeQuality(quake.quality)}*/}
-                        {/*/>*/}
+                        <ListItem
+                            title="Quality"
+                            rightTitle={quake.quality}
+                            rightTitleStyle={quakeStyle.linkTitle}
+                            hideChevron
+                            onPress={() => this.onQuakeQuality(quake.quality)}
+                        />
                     </List>
-                    <View>
-                        <TouchableHighlight
-                            onPress={this._shareMessage}>
-                            <View >
-                                <Text>Click to share message</Text>
-                            </View>
-                        </TouchableHighlight>
-                        <TouchableHighlight
-                            onPress={this._shareText}>
-                            <View >
-                                <Text>Click to share message, URL and title</Text>
-                            </View>
-                        </TouchableHighlight>
-                        <Text>{this.state.result}</Text>
-                    </View>
-
                 </ScrollView>
             </View>
         )
@@ -175,18 +139,30 @@ export default class QuakeDetail extends Component {
 }
 
 QuakeDetail.navigationOptions = props => {
-    const {navigation} = props;
-    const {state, setParams} = navigation;
-    const {params} = state;
-    const {share} = params;
+    const {quake} = props.navigation.state.params;
+    const {params = {}} = props.navigation.state
+    var time = quake.time;
+    var magnitude = quake.magnitude;
+    var locality = quake.locality;
+    var message = `${time} happened ${magnitude} earthquake in ${locality} by @QuakeChat `;
+    var shareText = {
+        title: "Quake Chat",
+        message: message,
+        url: "https://github.com/pigflymoon/quakechat",
 
+    };
+
+    console.log('props', props)
     return {
         // Render a button on the right side of the header.
 
         headerRight: (
             <Icon name='share' type='font-awesome' size={18} color={colors.primary1} style={navigationStyle.rightTitle}
-                  onPress={() =>
-                      setParams({share: true})
+                  onPress={() => {
+
+                      params.handleShare(shareText);
+                  }
+
                   }
             />
 
