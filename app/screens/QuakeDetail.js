@@ -59,13 +59,10 @@ export default class QuakeDetail extends Component {
     }
 
     showResult = (result) => {
-        console.log('hi')
         if (result.action === Share.sharedAction) {
-            console.log('hello')
             if (result.activityType) {
                 this.setState({result: 'shared with an activityType: ' + result.activityType});
             } else {
-                console.log('hello shared')
                 this.setState({result: 'shared'});
             }
         } else if (result.action === Share.dismissedAction) {
@@ -155,14 +152,12 @@ QuakeDetail.navigationOptions = props => {
 
     };
 
-    console.log('props', props)
     return {
         // Render a button on the right side of the header.
 
         headerRight: (
             <Icon name='share' type='font-awesome' size={18} color={colors.primary1} style={navigationStyle.rightTitle}
                   onPress={() => {
-
                       params.handleShare(shareText);
                   }
 
