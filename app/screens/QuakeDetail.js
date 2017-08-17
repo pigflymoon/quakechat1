@@ -49,9 +49,9 @@ export default class QuakeDetail extends Component {
     shareText = (shareText) => {
         Share.share(shareText, {
             dialogTitle: 'Share React Native website',
-            excludedActivityTypes: [
-                'com.apple.UIKit.activity.PostToTwitter'
-            ],
+            // excludedActivityTypes: [
+            //     'com.apple.UIKit.activity.PostToTwitter'
+            // ],
             tintColor: 'green'
         })
             .then(this.showResult)
@@ -59,10 +59,13 @@ export default class QuakeDetail extends Component {
     }
 
     showResult = (result) => {
+        console.log('hi')
         if (result.action === Share.sharedAction) {
+            console.log('hello')
             if (result.activityType) {
                 this.setState({result: 'shared with an activityType: ' + result.activityType});
             } else {
+                console.log('hello shared')
                 this.setState({result: 'shared'});
             }
         } else if (result.action === Share.dismissedAction) {
