@@ -6,6 +6,7 @@ export const bind = (context) => (...methods) => (methods.forEach(method => cont
 export const colorByMmi = (mmi) => {
     switch (mmi) {
         case -1:
+        case 0: return colors.orange1
         case 1:
         case 2:
             return colors.orange2
