@@ -120,7 +120,10 @@ export default class QuakeLevelList extends Component {
                 this.fetchQuakes();
             }
         }
-
+        this.interval = setInterval(() => {
+            this.fetchQuakes();
+            console.log('called interval')
+        }, 1000 * 10);
 
         // //Every half hour call data api.
         // timer = setInterval(() => {
@@ -134,6 +137,9 @@ export default class QuakeLevelList extends Component {
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
         // clearInterval(timer);
+        console.log('unmount',this.interval)
+        this.interval && clearInterval(this.interval);
+        console.log('unmount',this.interval)
     }
 
     /**
@@ -148,7 +154,7 @@ export default class QuakeLevelList extends Component {
             // console.log('notification clear:');
             this.setState({appState: nextAppState});
 
-        } else  {
+        } else {
             var lastIndex = [];
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {

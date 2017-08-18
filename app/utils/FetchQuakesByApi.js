@@ -7,6 +7,7 @@ export const fetchQuakesByApi = (url, callback) => {
     AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
         axios.get(url)
             .then(function (result) {
+                console.log('fetch data!')
                 let quakesData = result.data.features;
                 let quakesArray = [],
                     notificationQuakes = [],
