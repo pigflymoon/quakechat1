@@ -90,13 +90,6 @@ export const mapsStack = StackNavigator({
     },
 });
 export const Tabs = TabNavigator({
-    Settings: {
-        screen: SettingsStack,
-        navigationOptions: {
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
-        }
-    },
     List: {
         screen: QuakesListStack,
         navigationOptions: {
@@ -104,8 +97,13 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
-
-
+    Settings: {
+        screen: SettingsStack,
+        navigationOptions: {
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
+        }
+    },
     News: {
         screen: NewsStack,
         navigationOptions: {

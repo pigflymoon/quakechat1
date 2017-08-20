@@ -93,7 +93,9 @@ export default class QuakeMap extends Component {
         markersData = [];
 
         let post = this.props.mapInfo;
+
         markersData.push(post.quake);
+        console.log('markersData', markersData)
         this.setState({
                 quakes: markersData,
                 loading: false,
@@ -106,15 +108,19 @@ export default class QuakeMap extends Component {
     handleMarker = (data) => {
         var coord = data.nativeEvent.coordinate;
         coord.latitude += 0.006;
-        this.refs.MapView.animateToRegion({
-            latitude: coord.latitude,
-            longitude: coord.longitude,
-            latitudeDelta: 1.5,
-            longitudeDelta: 1.2
-        }, 1500);
+        console.log('coord', coord)
+        this.refs.MapView.animateToRegion(
+            {
+                latitude: coord.latitude,
+                longitude: coord.longitude,
+                latitudeDelta: 1.5,
+                longitudeDelta: 1.2
+            },
+            1500);
     }
     onQuakeDetail = (isConnected, quake, backScreen) => {
         if (backScreen == 'Map') {
+            console.log('quake', quake)
             this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
 
         } else {
@@ -137,7 +143,7 @@ export default class QuakeMap extends Component {
                 rotateEnabled={false}
                 showsScale
                 loadingEnabled={true}
-                initialRegion={{
+                region={{
                     latitude: LATITUDE,
                     longitude: LONGITUDE,
                     latitudeDelta: LATITUDE_DELTA,

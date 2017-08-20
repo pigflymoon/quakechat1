@@ -11,7 +11,7 @@ import {
 import QuakeLevelTab from '../components/QuakeLevelTab';
 import QuakeLevelList from '../components/QuakeLevelList';
 import showInfo from '../styles/showInfo';
-
+import quakeStyle from '../styles/quake';
 let nps_url = "https://api.geonet.org.nz/quake?MMI=";
 
 export default class QuakesList extends Component {
@@ -87,6 +87,7 @@ export default class QuakesList extends Component {
     renderList = () => {
         return (
             <ScrollView
+                style={quakeStyle.container}
                 refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}

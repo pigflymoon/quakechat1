@@ -5,7 +5,8 @@ import {
     ScrollView,
     AppState,
     AsyncStorage,
-    Alert
+    Alert,
+    FlatList
 
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
@@ -34,7 +35,9 @@ export default class QuakeLevelList extends Component {
      *
      * @param nextProps
      */
-    fetchQuakes(nextProps) {
+
+
+    async fetchQuakes(nextProps) {
         let self = this;
         let url = self.props.nps_source;
 
@@ -120,10 +123,10 @@ export default class QuakeLevelList extends Component {
                 this.fetchQuakes();
             }
         }
-        this.interval = setInterval(() => {
-            this.fetchQuakes();
-            console.log('called interval')
-        }, 1000 * 10);
+        // this.interval = setInterval(() => {
+        //     this.fetchQuakes();
+        //     console.log('called interval')
+        // }, 1000 * 60);
 
         // //Every half hour call data api.
         // timer = setInterval(() => {
@@ -137,9 +140,9 @@ export default class QuakeLevelList extends Component {
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
         // clearInterval(timer);
-        console.log('unmount',this.interval)
+        console.log('unmount', this.interval)
         this.interval && clearInterval(this.interval);
-        console.log('unmount',this.interval)
+        console.log('unmount', this.interval)
     }
 
     /**
@@ -222,35 +225,44 @@ export default class QuakeLevelList extends Component {
         this.props.navigation.navigate('Detail', {isConnected, quake});
     };
 
+    keyExtractor = (item, index) => `list-${index}`;
+    renderItem = ({item,index}) => (
+        <ListItem key={`item-${index}`}
+                  leftIcon={{
+                      name: 'map-marker',
+                      type: 'font-awesome',
+                      size: 35,
+                      color: colorByMmi(item.mmi)
+                  }}
+                  title={`NZST: ${item.time}`}
+                  subtitle={
+                      <View style={quakeStyle.info}>
+                          <Text>Magnitude: {item.magnitude}</Text>
+                          <Text>Depth: {item.depth}</Text>
+                          <Text>Locality: {item.locality}</Text>
+                      </View>
+                  }
+
+                  onPress={() => this.onQuakeDetail(this.state.isConnected, item)}
+        />
+
+)
+
     render() {
         if (this.state.loading) {
             return this.renderLoadingView();
         }
 
         return (
-            <List>
 
-                {this.state.quakes.map((quake, index) => (
-                    <ListItem key={`list-${index}`}
-                              leftIcon={{
-                                  name: 'map-marker',
-                                  type: 'font-awesome',
-                                  size: 35,
-                                  color: colorByMmi(quake.mmi)
-                              }}
-                              title={`NZST: ${quake.time}`}
-                              subtitle={
-                                  <View style={quakeStyle.info}>
-                                      <Text>Magnitude: {quake.magnitude}</Text>
-                                      <Text>Depth: {quake.depth}</Text>
-                                      <Text>Locality: {quake.locality}</Text>
-                                  </View>
-                              }
 
-                              onPress={() => this.onQuakeDetail(this.state.isConnected, quake)}
-                    />
-                ))}
-            </List>
+                <FlatList
+                    data={this.state.quakes}
+                    renderItem={this.renderItem}
+                    keyExtractor={this.keyExtractor}
+
+                />
+
 
         )
     }
