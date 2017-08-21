@@ -31,14 +31,18 @@ export default class QuakeDetail extends Component {
         this.props.navigation.setParams({handleShare: this.shareText})
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.navigation.state.params.isConnected
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
+        this.setState({isConnected: isConnected});
     }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.navigation.state.params.isConnected
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     shareMessage = (shareMessage) => {
         Share.share(shareMessage)

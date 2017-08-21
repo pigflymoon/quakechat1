@@ -86,6 +86,8 @@ export default class QuakeLevelList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        var isConnected = nextProps.isConnected;
+        this.setState({isConnected: isConnected});
         if (nextProps.isConnected) {
             this.fetchQuakes(nextProps);
         } else {
@@ -102,14 +104,14 @@ export default class QuakeLevelList extends Component {
 
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.isConnected;
-        this.setState({isConnected: isConnected});
-        if (isConnected) {
-            return true;
-        }
-        return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.isConnected;
+    //     this.setState({isConnected: isConnected});
+    //     if (isConnected) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
@@ -226,7 +228,7 @@ export default class QuakeLevelList extends Component {
     };
 
     keyExtractor = (item, index) => `list-${index}`;
-    renderItem = ({item,index}) => (
+    renderItem = ({item, index}) => (
         <ListItem key={`item-${index}`}
                   leftIcon={{
                       name: 'map-marker',
@@ -246,7 +248,7 @@ export default class QuakeLevelList extends Component {
                   onPress={() => this.onQuakeDetail(this.state.isConnected, item)}
         />
 
-)
+    )
 
     render() {
         if (this.state.loading) {
@@ -254,16 +256,11 @@ export default class QuakeLevelList extends Component {
         }
 
         return (
-
-
-                <FlatList
-                    data={this.state.quakes}
-                    renderItem={this.renderItem}
-                    keyExtractor={this.keyExtractor}
-
-                />
-
-
+            <FlatList
+                data={this.state.quakes}
+                renderItem={this.renderItem}
+                keyExtractor={this.keyExtractor}
+            />
         )
     }
 

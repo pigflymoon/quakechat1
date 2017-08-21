@@ -6,10 +6,12 @@ import {
     Linking,
     RefreshControl,
     Alert,
+    FlatList,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import showInfo from '../styles/showInfo';
-
+import listStyle from '../styles/list';
+import Config from '../config/ApiConfig';
 import axios from 'axios';
 
 var news;
@@ -19,68 +21,79 @@ export default class News extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            dataSource: [],
+            news: [],
             isLoading: false,
             refreshing: false,
             isConnected: false,
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.screenProps;//update netinfo
         this.setState({isConnected: isConnected});
-        if (isConnected) {
-            return true;
-        } else {
+        if (!nextProps.screenProps) {
             this.setState({
-                refreshing: false
+                refreshing: false,
             });
-            return false;
         }
+
+
     }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.screenProps;//update netinfo
+    //     this.setState({isConnected: isConnected});
+    //     if (isConnected) {
+    //         return true;
+    //     } else {
+    //         this.setState({
+    //             refreshing: false
+    //         });
+    //         return false;
+    //     }
+    // }
 
     fetchApiData = () => {
-            axios.get(`https://api.geonet.org.nz/news/geonet`)
-                .then(res => {
-                    news = res.data.feed.map(function (item) {
-                        if (item.published) {
-                            item.published = item.published.slice(0, 10).replace(/-/g, "-")
-                        }
+        axios.get(Config.api.news_url)
+            .then(res => {
+                news = res.data.feed.map(function (item) {
+                    if (item.published) {
+                        item.published = item.published.slice(0, 10).replace(/-/g, "-")
+                    }
 
-                        return item;
-                    });
-                    this.setState({
-                        dataSource: news,
-                        isLoading: false,
-                        refreshing:false,
-                    })
-                })
-                .catch(error => {
-                    Alert.alert(
-                        'Network unavailable',
-                        `The Internet connection appears to be offline`,
-                        [
-                            {text: 'OK'},
-                        ],
-                        {cancelable: false}
-                    )
+                    return item;
                 });
-            // this.timer = setInterval(() => {
-            //     axios.get(`https://api.geonet.org.nz/news/geonet`)
-            //         .then(res => {
-            //             news = res.data.feed.map(function (item) {
-            //                 if (item.published) {
-            //                     item.published = item.published.slice(0, 10).replace(/-/g, "-")
-            //                 }
-            //
-            //                 return item;
-            //             });
-            //             this.setState({
-            //                 dataSource: news,
-            //                 isLoading: false
-            //             })
-            //         });
-            // }, 1000 * 60 * 60 * 24);
+                this.setState({
+                    news: news,
+                    isLoading: false,
+                    refreshing: false,
+                })
+            })
+            .catch(error => {
+                Alert.alert(
+                    'Network unavailable',
+                    `The Internet connection appears to be offline`,
+                    [
+                        {text: 'OK'},
+                    ],
+                    {cancelable: false}
+                )
+            });
+        // this.timer = setInterval(() => {
+        //     axios.get(`https://api.geonet.org.nz/news/geonet`)
+        //         .then(res => {
+        //             news = res.data.feed.map(function (item) {
+        //                 if (item.published) {
+        //                     item.published = item.published.slice(0, 10).replace(/-/g, "-")
+        //                 }
+        //
+        //                 return item;
+        //             });
+        //             this.setState({
+        //                 news: news,
+        //                 isLoading: false
+        //             })
+        //         });
+        // }, 1000 * 60 * 60 * 24);
 
     }
 
@@ -108,16 +121,16 @@ export default class News extends Component {
         });
     }
 
-
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.screenProps;//update netinfo
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            this.fetchNews(true);
-            return true;
-        }
-        return false;
-    }
+    //
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.screenProps;//update netinfo
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         this.fetchNews(true);
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     componentDidMount() {
         if (this.props.screenProps) {//check netinfo
@@ -145,6 +158,18 @@ export default class News extends Component {
         )
     }
 
+
+    keyExtractor = (item, index) => `list-${index}`;
+    renderItem = ({item, index}) => (
+        <ListItem
+            key={`list-${index}`}
+            title={item.title}
+            subtitle={item.published}
+            onPress={() => this.goToURL(item.link)}
+        />
+
+    )
+
     render() {
         var isConnected = this.props.screenProps;
 
@@ -156,22 +181,18 @@ export default class News extends Component {
         }
         return (
             <ScrollView
+                style={listStyle.container}
                 refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}
                         onRefresh={this.getRefreshData}
                     />}
             >
-                <List>
-                    {this.state.dataSource.map((news, index) => (
-                        <ListItem
-                            key={`list-${index}`}
-                            title={news.title}
-                            subtitle={news.published}
-                            onPress={() => this.goToURL(news.link)}
-                        />
-                    ))}
-                </List>
+                <FlatList
+                    data={this.state.news}
+                    renderItem={this.renderItem}
+                    keyExtractor={this.keyExtractor}
+                />
             </ScrollView>
         )
     }

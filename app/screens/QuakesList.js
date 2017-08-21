@@ -11,8 +11,9 @@ import {
 import QuakeLevelTab from '../components/QuakeLevelTab';
 import QuakeLevelList from '../components/QuakeLevelList';
 import showInfo from '../styles/showInfo';
-import quakeStyle from '../styles/quake';
-let nps_url = "https://api.geonet.org.nz/quake?MMI=";
+import listStyle from '../styles/list';
+import Config from '../config/ApiConfig';
+// let nps_url = "https://api.geonet.org.nz/quake?MMI=";
 
 export default class QuakesList extends Component {
 
@@ -25,22 +26,24 @@ export default class QuakesList extends Component {
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.screenProps;//update netinfo
-        this.setState({isConnected: isConnected});
-        if (isConnected) {
-            return true;
-        } else {
-            this.setState({
-                refreshing: false
-            });
-            return false;
-        }
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.screenProps;//update netinfo
+    //     this.setState({isConnected: isConnected});
+    //     if (isConnected) {
+    //         return true;
+    //     } else {
+    //         this.setState({
+    //             refreshing: false
+    //         });
+    //         return false;
+    //     }
+    // }
 
 
     componentWillReceiveProps(nextProps) {
         console.log('QuakesList', nextProps);
+        var isConnected = nextProps.screenProps;//update netinfo
+        this.setState({isConnected: isConnected});
         if (!nextProps.screenProps) {
             this.setState({
                 refreshing: false,
@@ -87,7 +90,7 @@ export default class QuakesList extends Component {
     renderList = () => {
         return (
             <ScrollView
-                style={quakeStyle.container}
+                style={listStyle.container}
                 refreshControl={
                     <RefreshControl
                         refreshing={this.state.refreshing}
@@ -96,7 +99,7 @@ export default class QuakesList extends Component {
             >
                 <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel}/>
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
-                                nps_source={nps_url}
+                                nps_source={Config.api.quakes_url}
                                 refreshing={this.state.refreshing}
                                 level={this.state.level}
                                 isConnected={this.props.screenProps}

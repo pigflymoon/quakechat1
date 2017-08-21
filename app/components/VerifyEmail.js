@@ -26,16 +26,21 @@ export default class ConfirmEmail extends Component {
 
         };
     }
+    //
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.isConnected;//update netinfo
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
-    shouldComponentUpdate(nextProps, nextState) {
+
+    componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;//update netinfo
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
+        this.setState({isConnected: isConnected});
     }
-
     handleVerifyEmail = (e) => {
 
         var self = this;

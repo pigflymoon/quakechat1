@@ -31,14 +31,20 @@ export default class QuakesMap extends Component {
         bind(this)('handleChooseLevel')
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+
+    componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.screenProps;//update netinfo
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
+        this.setState({isConnected: isConnected});
     }
+    //
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.screenProps;//update netinfo
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     handleChooseLevel(stat) {
         // console.log('stat level is ',stat);

@@ -28,15 +28,19 @@ export default class ResetPassword extends Component {
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.isConnected;//update netinfo
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.isConnected;//update netinfo
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
+    componentWillReceiveProps(nextProps) {
+        var isConnected = nextProps.isConnected;//update netinfo
+        this.setState({isConnected: isConnected});
+    }
 
     setEmail = (text) => {
         this.setState({email: text});

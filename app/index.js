@@ -14,15 +14,22 @@ export default class App extends Component {
             isConnected: false,
         };
     }
+    //
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextState.isConnected;
+    //     this.setState({isConnected: isConnected});
+    //     if (isConnected) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextState.isConnected;
+    componentWillReceiveProps(nextProps) {
+        console.log('QuakesList', nextProps);
+        var isConnected = nextProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
-        if (isConnected) {
-            return true;
-        }
-        return false;
     }
+
 
     componentDidMount() {
         //check

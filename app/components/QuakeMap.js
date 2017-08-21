@@ -41,16 +41,18 @@ export default class QuakeMap extends Component {
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        var isConnected = nextProps.isConnected;
-        if (isConnected) {
-            this.setState({isConnected: isConnected});
-            return true;
-        }
-        return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     var isConnected = nextProps.isConnected;
+    //     if (isConnected) {
+    //         this.setState({isConnected: isConnected});
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     componentWillReceiveProps(nextProps) {
+        var isConnected = nextProps.isConnected;//update netinfo
+        this.setState({isConnected: isConnected});
         if (this.props.type && this.props.type == "SliderMap") {
             this.loadMapInfo(nextProps)
         }
