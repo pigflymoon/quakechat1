@@ -10,6 +10,7 @@ import {
 
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
+import QuakeItem from './QuakeItem';
 import quakeStyle from '../styles/quake';
 
 import PushNotification from 'react-native-push-notification';
@@ -31,16 +32,20 @@ export default class QuakeLevelList extends Component {
         };
     }
 
+
+    stopTimer() {
+        console.log('stop timer');
+        this.interval && clearInterval(this.interval);
+    }
+
     /**
      *
      * @param nextProps
      */
-
-
     async fetchQuakes(nextProps) {
         let self = this;
         let url = self.props.nps_source;
-
+        console.time('testTimer');
         if (nextProps) {
             if (nextProps.refreshing == true) {
                 url = url + nextProps.level;
@@ -55,6 +60,7 @@ export default class QuakeLevelList extends Component {
                         }
                     );
                     nextProps.onRefreshData(false);
+                    // this.stopTimer();
                 });
             } else {
                 url = url + nextProps.level;
@@ -67,6 +73,7 @@ export default class QuakeLevelList extends Component {
                         }
                     );
                 });
+                // this.stopTimer();
             }
         } else {
             url = url + self.props.level;
@@ -80,11 +87,15 @@ export default class QuakeLevelList extends Component {
                 );
             });
             self.props.onRefreshData(false);
+            // this.stopTimer();
         }
 
 
     }
-
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log(' will update?',nextState.quakes !== this.state.quakes)
+    //     return nextState.quakes !== this.state.quakes
+    // }
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
@@ -104,6 +115,10 @@ export default class QuakeLevelList extends Component {
 
     }
 
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('will update?',nextState.quakes !== this.state.quakes)
+    //     return nextState.quakes !== this.state.quakes;
+    // }
     // shouldComponentUpdate(nextProps, nextState) {
     //     var isConnected = nextProps.isConnected;
     //     this.setState({isConnected: isConnected});
@@ -125,10 +140,13 @@ export default class QuakeLevelList extends Component {
                 this.fetchQuakes();
             }
         }
-        // this.interval = setInterval(() => {
-        //     this.fetchQuakes();
-        //     console.log('called interval')
-        // }, 1000 * 60);
+
+        this.interval = setInterval(() => {
+            console.log('called interval')
+            this.fetchQuakes();
+
+        }, 1000 * 10);
+
 
         // //Every half hour call data api.
         // timer = setInterval(() => {
@@ -139,12 +157,17 @@ export default class QuakeLevelList extends Component {
 
     }
 
+    componentDidUpdate() {
+        console.timeEnd('testTimer');
+    }
+
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
+        this.stopTimer();
         // clearInterval(timer);
-        console.log('unmount', this.interval)
-        this.interval && clearInterval(this.interval);
-        console.log('unmount', this.interval)
+        // console.log('unmount', this.interval)
+        // // this.interval && clearInterval(this.interval);
+        // console.log('unmount', this.interval)
     }
 
     /**
@@ -256,11 +279,14 @@ export default class QuakeLevelList extends Component {
         }
 
         return (
-            <FlatList
-                data={this.state.quakes}
-                renderItem={this.renderItem}
-                keyExtractor={this.keyExtractor}
-            />
+            <List>
+
+                {this.state.quakes.map((quake, index) => (
+                    <QuakeItem key={`list-${index}`} navigation={this.props.navigation} quake={quake}
+                               isConnected={this.state.isConnected}/>
+
+                ))}
+            </List>
         )
     }
 

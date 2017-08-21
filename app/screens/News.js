@@ -12,6 +12,7 @@ import {List, ListItem} from 'react-native-elements';
 import showInfo from '../styles/showInfo';
 import listStyle from '../styles/list';
 import Config from '../config/ApiConfig';
+import NewsItem from '../components/NewsItem';
 import axios from 'axios';
 
 var news;
@@ -39,6 +40,7 @@ export default class News extends Component {
 
 
     }
+
     // shouldComponentUpdate(nextProps, nextState) {
     //     var isConnected = nextProps.screenProps;//update netinfo
     //     this.setState({isConnected: isConnected});
@@ -111,16 +113,6 @@ export default class News extends Component {
         )
     }
 
-    goToURL = (url) => {
-        Linking.canOpenURL(url).then(supported => {
-            if (supported) {
-                Linking.openURL(url);
-            } else {
-                console.log('Don\'t know how to open URI: ' + url);
-            }
-        });
-    }
-
     //
     // shouldComponentUpdate(nextProps, nextState) {
     //     var isConnected = nextProps.screenProps;//update netinfo
@@ -158,18 +150,6 @@ export default class News extends Component {
         )
     }
 
-
-    keyExtractor = (item, index) => `list-${index}`;
-    renderItem = ({item, index}) => (
-        <ListItem
-            key={`list-${index}`}
-            title={item.title}
-            subtitle={item.published}
-            onPress={() => this.goToURL(item.link)}
-        />
-
-    )
-
     render() {
         var isConnected = this.props.screenProps;
 
@@ -188,11 +168,11 @@ export default class News extends Component {
                         onRefresh={this.getRefreshData}
                     />}
             >
-                <FlatList
-                    data={this.state.news}
-                    renderItem={this.renderItem}
-                    keyExtractor={this.keyExtractor}
-                />
+                <List>
+                    {this.state.news.map((news, index) => (
+                        <NewsItem key={`news-${index}`} news={news}/>
+                    ))}
+                </List>
             </ScrollView>
         )
     }
