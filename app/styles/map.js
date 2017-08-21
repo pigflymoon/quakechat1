@@ -20,6 +20,8 @@ export default{
         fontSize: 12,
         marginVertical: 5,
         padding: 5,
+        borderBottomColor: colors.blue2,
+        borderBottomWidth: 1,
     },
     marker: {
         width: 5,

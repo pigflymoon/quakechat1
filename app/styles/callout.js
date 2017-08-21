@@ -8,45 +8,21 @@ export default{
     container: {
         flexDirection: 'column',
         alignSelf: 'flex-start',
+        borderColor: colors.white,
+        // borderWidth: 0.5,
+        opacity: 0.8,
+
     },
-    bubble: {
+    card:{
         width: 300,
         padding: 15,
-        // height: 100,
         flexDirection: 'column',
         alignSelf: 'flex-start',
-        backgroundColor: colors.blue1,
-        opacity: 0.8,
-        // // paddingHorizontal: 20,
-        // // paddingVertical: 12,
-        borderRadius: 10,
-
-        borderColor: colors.blue2,
-        borderWidth: 0.5,
+    },
+    // list:{
+    //     borderBottomColor: colors.blue1
+    // }
 
 
-    },
 
-    amount: {
-        flex: 1,
-    },
-    arrow: {
-        backgroundColor: 'transparent',
-        borderWidth: 16,
-        borderColor: 'transparent',
-        borderTopColor: colors.blue1,
-        alignSelf: 'center',
-        marginTop: -32,
-        marginLeft: 75,
-    },
-    arrowBorder: {
-        backgroundColor: 'transparent',
-        borderWidth: 16,
-        borderColor: 'transparent',
-        borderTopColor: colors.blue2,
-        alignSelf: 'center',
-        marginTop: -0.5,
-        marginLeft: 75,
-        // marginLeft: 50,
-    },
 }

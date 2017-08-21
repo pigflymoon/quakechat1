@@ -4,6 +4,7 @@ import {
     View,
     Dimensions
 } from 'react-native';
+import {Card,List, ListItem} from 'react-native-elements';
 
 import MapView from 'react-native-maps';
 import axios from 'axios';
@@ -11,6 +12,7 @@ import CustomCallout from './CustomCallout'
 import showInfo from '../styles/showInfo';
 
 import map from '../styles/map';
+import callout from '../styles/callout';
 
 import {colorByMmi} from '../utils/utils';
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
@@ -37,6 +39,7 @@ export default class QuakeMap extends Component {
             marker1: true,
             marker2: false,
             pincolor: colorByMmi(2),
+
 
         };
     }
@@ -85,7 +88,14 @@ export default class QuakeMap extends Component {
                     quakes: quakes,
                     loading: false,
                     error: null,
-                    mapType: 'Map'
+                    mapType: 'Map',
+                    // region: {
+                    //     latitude: LATITUDE,
+                    //     longitude: LONGITUDE,
+                    //     latitudeDelta: LATITUDE_DELTA,
+                    //     longitudeDelta: LONGITUDE_DELTA,
+                    // }
+
                 }
             );
         })
@@ -107,28 +117,17 @@ export default class QuakeMap extends Component {
         );
     }
 
-    handleMarker = (data) => {
-        var coord = data.nativeEvent.coordinate;
-        coord.latitude += 0.006;
-        console.log('coord', coord)
-        this.refs.MapView.animateToRegion(
-            {
-                latitude: coord.latitude,
-                longitude: coord.longitude,
-                latitudeDelta: 1.5,
-                longitudeDelta: 1.2
-            },
-            1500);
-    }
-    onQuakeDetail = (isConnected, quake, backScreen) => {
-        if (backScreen == 'Map') {
-            console.log('quake', quake)
-            this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
 
-        } else {
-            return false;
-        }
-    };
+    // onQuakeDetail = (isConnected, quake, backScreen) => {
+    //     if (backScreen == 'Map') {
+    //         console.log('quake', quake)
+    //         // this.hideCallout();
+    //         // this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
+    //
+    //     } else {
+    //         return false;
+    //     }
+    // };
 
     renderPosts() {
         if (this.state.error) {
@@ -157,31 +156,36 @@ export default class QuakeMap extends Component {
                                     coordinate={quake.coordinates}
                                     key={`quake-${index}`}
                                     pinColor={colorByMmi(quake.mmi)}
-                                    onPress={(data) => {
-                                        this.handleMarker(data)
-
-                                    }}
-                                    onCalloutPress={() => this.onQuakeDetail(true, quake, this.state.mapType)}
-
                     >
-                        <MapView.Callout tooltip={true}>
-                            <CustomCallout>
-                                <Text
-                                    style={map.info}>{`Time: ${quake.time}`}
-                                </Text>
-                                <Text
-                                    style={map.info}>{`Locality:${quake.locality}`}
-                                </Text>
-                                <Text
-                                    style={map.info}>{`Depth: ${quake.depth}`}
-                                </Text>
-                                <Text
-                                    style={map.info}>{`Magnitude: ${quake.magnitude}`}
-                                </Text>
-                                <Text
-                                    style={map.info}>{`mmi:${quake.mmi}`}
-                                </Text>
-                            </CustomCallout>
+                        <MapView.Callout style={callout.container}>
+
+                            <Card style={callout.card} title='Quake detail'>
+
+                                    <ListItem
+                                        hideChevron
+                                        title={`Time: ${quake.time}`}
+                                    />
+                                    <ListItem
+                                        hideChevron
+                                        title={`Locality:${quake.locality}`}
+                                    />
+                                    <ListItem
+                                        hideChevron
+                                        title={`Depth: ${quake.depth}`}
+                                    />
+                                    <ListItem
+                                        hideChevron
+                                        title={`Magnitude: ${quake.magnitude}`}
+                                    />
+                                    <ListItem
+                                        hideChevron
+                                        title={`mmi:${quake.mmi}`}
+                                    />
+
+
+
+                            </Card>
+
                         </MapView.Callout>
 
                     </MapView.Marker>
