@@ -13,7 +13,6 @@ import QuakeLevelList from '../components/QuakeLevelList';
 import showInfo from '../styles/showInfo';
 import listStyle from '../styles/list';
 import Config from '../config/ApiConfig';
-// let nps_url = "https://api.geonet.org.nz/quake?MMI=";
 
 export default class QuakesList extends Component {
 

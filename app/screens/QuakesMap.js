@@ -9,16 +9,12 @@ import {
 } from 'react-native';
 import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
-import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import showInfo from '../styles/showInfo';
+import Config from '../config/ApiConfig';
 
 import {bind} from '../utils/utils';
 
-const {width} = Dimensions.get('window');
-const SCREEN_WIDTH = width;
-
-let nps_url = "https://api.geonet.org.nz/quake?MMI=";
 
 export default class QuakesMap extends Component {
     constructor(props) {
@@ -72,7 +68,7 @@ export default class QuakesMap extends Component {
         return (
             <View style={quakeStyle.quakesContainer}>
                 <QuakeMap type="SliderMap"
-                          nps_source={nps_url}
+                          nps_source={Config.api.quakes_url}
                           level={this.state.level}
                           isConnected={this.props.screenProps}
                           navigation={this.props.navigation}
