@@ -99,6 +99,7 @@ export default class QuakeMap extends Component {
                 }
             );
         })
+        console.log(self.refs.MapView);
     }
 
     loadFeatures() {
