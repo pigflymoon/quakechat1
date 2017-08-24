@@ -33,7 +33,6 @@ export default class QuakeMap extends Component {
 
         this.state = {
             quakes: [],
-            loading: true,
             error: null,
             isConnected: false,
             marker1: true,
@@ -86,7 +85,6 @@ export default class QuakeMap extends Component {
         fetchQuakesByApi(url, function (quakes) {
             self.setState({
                     quakes: quakes,
-                    loading: false,
                     error: null,
                     mapType: 'Map',
                     // region: {
@@ -111,7 +109,6 @@ export default class QuakeMap extends Component {
         console.log('markersData', markersData)
         this.setState({
                 quakes: markersData,
-                loading: false,
                 error: null,
                 mapType: 'detail'
             }
@@ -196,9 +193,6 @@ export default class QuakeMap extends Component {
         );
     }
 
-    renderLoading() {
-        return <Text>Loading...</Text>;
-    }
 
     renderError() {
         return (
@@ -221,9 +215,7 @@ export default class QuakeMap extends Component {
         }
         return (
             <View style={map.container}>
-                {this.state.loading ?
-                    this.renderLoading()
-                    : this.renderPosts()}
+                { this.renderPosts()}
             </View>
         )
     }

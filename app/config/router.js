@@ -130,7 +130,4 @@ export const Tabs = TabNavigator({
         },
 
 
-    },
-    {
-        lazy: true,
     });

@@ -12,6 +12,7 @@ export const fetchQuakesByApi = (url, callback) => {
                 let quakesArray = [],
                     notificationQuakes = [],
                     lastNotificationTime = 0;
+                // quakesData =  quakesData.slice(0, 10);
 
                 for (let quake of quakesData) {
                     let time = quake.properties.time;

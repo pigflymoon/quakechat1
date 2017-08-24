@@ -34,6 +34,7 @@ export default class QuakesMap extends Component {
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
     }
+
     //
     // shouldComponentUpdate(nextProps, nextState) {
     //     var isConnected = nextProps.screenProps;//update netinfo
@@ -83,8 +84,6 @@ export default class QuakesMap extends Component {
                                  maximumValue={7}
                                  step={1}
                                  isConnected={this.props.screenProps.isConnected}
-
-
                     />
                 </View>
             </View>
@@ -97,7 +96,10 @@ export default class QuakesMap extends Component {
         if (!isConnected) {
             return this.renderOffline();
         }
-
+        var currentScreen = this.props.screenProps.currentScreen;
+        if (currentScreen !== 'Map') {
+            return <View/>;
+        }
         return this.renderQuakes();
 
     }
