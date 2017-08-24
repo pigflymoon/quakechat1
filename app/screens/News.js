@@ -30,7 +30,7 @@ export default class News extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.screenProps;//update netinfo
+        var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
         if (!nextProps.screenProps) {
             this.setState({
@@ -125,7 +125,7 @@ export default class News extends Component {
     // }
 
     componentDidMount() {
-        if (this.props.screenProps) {//check netinfo
+        if (this.props.screenProps.isConnected) {//check netinfo
             this.fetchNews(true);
         }
     }
@@ -151,7 +151,7 @@ export default class News extends Component {
     }
 
     render() {
-        var isConnected = this.props.screenProps;
+        var isConnected = this.props.screenProps.isConnected;
 
         if (!isConnected) {
             return this.renderOffline();

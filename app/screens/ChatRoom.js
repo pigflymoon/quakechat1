@@ -32,7 +32,7 @@ export default class ChatRoom extends Component {
     render() {
         return (
             <Router barButtonIconStyle={chat.barButtonIconStyle}>
-                <Scene key='root' passProps={true} isConnected={this.props.screenProps}>
+                <Scene key='root' passProps={true} isConnected={this.props.screenProps.isConnected}>
                     <Scene key='chat' component={ChatGroup} hideNavBar={false} hideBackImage={true}
                            renderRightButton={
                                () => <TouchableOpacity

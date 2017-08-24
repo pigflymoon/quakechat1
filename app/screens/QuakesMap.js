@@ -29,7 +29,9 @@ export default class QuakesMap extends Component {
 
 
     componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.screenProps;//update netinfo
+        console.log('nextProps', nextProps);
+
+        var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
     }
     //
@@ -70,7 +72,7 @@ export default class QuakesMap extends Component {
                 <QuakeMap type="SliderMap"
                           nps_source={Config.api.quakes_url}
                           level={this.state.level}
-                          isConnected={this.props.screenProps}
+                          isConnected={this.props.screenProps.isConnected}
                           navigation={this.props.navigation}
                 />
 
@@ -80,7 +82,7 @@ export default class QuakesMap extends Component {
                                  minimumValue={1}
                                  maximumValue={7}
                                  step={1}
-                                 isConnected={this.props.screenProps}
+                                 isConnected={this.props.screenProps.isConnected}
 
 
                     />
@@ -91,7 +93,7 @@ export default class QuakesMap extends Component {
     }
 
     render() {
-        var isConnected = this.props.screenProps;
+        var isConnected = this.props.screenProps.isConnected;
         if (!isConnected) {
             return this.renderOffline();
         }

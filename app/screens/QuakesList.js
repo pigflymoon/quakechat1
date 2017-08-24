@@ -25,25 +25,12 @@ export default class QuakesList extends Component {
         };
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.screenProps;//update netinfo
-    //     this.setState({isConnected: isConnected});
-    //     if (isConnected) {
-    //         return true;
-    //     } else {
-    //         this.setState({
-    //             refreshing: false
-    //         });
-    //         return false;
-    //     }
-    // }
-
-
     componentWillReceiveProps(nextProps) {
-        console.log('QuakesList', nextProps);
-        var isConnected = nextProps.screenProps;//update netinfo
+        console.log('nextProps', nextProps);
+        var isConnected = nextProps.screenProps.isConnected;//update netinfo
+
         this.setState({isConnected: isConnected});
-        if (!nextProps.screenProps) {
+        if (!nextProps.screenProps.isConnected) {
             this.setState({
                 refreshing: false,
             });
@@ -101,14 +88,14 @@ export default class QuakesList extends Component {
                                 nps_source={Config.api.quakes_url}
                                 refreshing={this.state.refreshing}
                                 level={this.state.level}
-                                isConnected={this.props.screenProps}
+                                isConnected={this.props.screenProps.isConnected}
                 />
             </ScrollView>
         )
     }
 
     render() {
-        var isConnected = this.props.screenProps;
+        var isConnected = this.props.screenProps.isConnected;
         if (!isConnected) {
             return this.renderOffline();
         }

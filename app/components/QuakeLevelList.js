@@ -45,7 +45,7 @@ export default class QuakeLevelList extends Component {
     async fetchQuakes(nextProps) {
         let self = this;
         let url = self.props.nps_source;
-        console.time('testTimer');
+        // console.time('testTimer');
         if (nextProps) {
             if (nextProps.refreshing == true) {
                 url = url + nextProps.level;
@@ -142,7 +142,7 @@ export default class QuakeLevelList extends Component {
         }
 
         this.interval = setInterval(() => {
-            console.log('called interval')
+            // console.log('called interval')
             this.fetchQuakes();
 
         }, 1000 * 10);
@@ -158,7 +158,7 @@ export default class QuakeLevelList extends Component {
     }
 
     componentDidUpdate() {
-        console.timeEnd('testTimer');
+        // console.timeEnd('testTimer');
     }
 
     componentWillUnmount() {

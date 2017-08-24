@@ -10,7 +10,7 @@ import quakeStyle from '../styles/quake';
 export default class QuakeItem extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('quake re-render?', nextProps.quake.time !== this.props.quake.time)
+        // console.log('quake re-render?', nextProps.quake.time !== this.props.quake.time)
         return nextProps.quake.time !== this.props.quake.time
     }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Button} from 'react-native';
 import {TabNavigator, StackNavigator} from 'react-navigation';
 import {Icon} from 'react-native-elements';
@@ -122,7 +122,6 @@ export const Tabs = TabNavigator({
         },
 
 
-
         ChatRoom: {
             screen: ChatRoomStack,
             navigationOptions: {
@@ -137,11 +136,20 @@ export const Tabs = TabNavigator({
         lazy: true,
     });
 
-export const Root = StackNavigator({
-    Tabs: {
-        screen: Tabs,
-    },
-}, {
-    mode: 'modal',
-    headerMode: 'none',
-})
+
+
+//
+// export const Root = StackNavigator({
+//     Tabs: {
+//         screen: <Tabs onNavigationStateChange={(prevState, currentState) => {
+//             const currentScreen = getCurrentRouteName(currentState);
+//             const prevScreen = getCurrentRouteName(prevState);
+//             if (prevScreen !== currentScreen) {
+//                 this.setState({Tabs: currentScreen})
+//             }
+//         }}/>,
+//     },
+// }, {
+//     mode: 'modal',
+//     headerMode: 'none',
+// })
