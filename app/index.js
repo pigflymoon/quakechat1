@@ -65,26 +65,7 @@ export default class App extends Component {
         this.setState({isConnected: isConnected});
     }
 
-    getCurrentRouteName(navigationState) {
-        if (!navigationState) {
-            return null;
-        }
-        const route = navigationState.routes[navigationState.index];
-        console.log('route', route)
-        if (route.routes) {
-            return this.getCurrentRouteName(route);
-        }
-        return route.routeName;
-    }
-
     render() {
-        return (<Tabs onNavigationStateChange={(prevState, currentState) => {
-            const currentScreen = this.getCurrentRouteName(currentState);
-            const prevScreen = this.getCurrentRouteName(prevState);
-            if (prevScreen !== currentScreen) {
-                this.setState({currentScreen: currentScreen})
-            }
-        }}
-                      screenProps={{isConnected: this.state.isConnected, currentScreen: this.state.currentScreen}}/>)
+        return (<Tabs screenProps={{isConnected: this.state.isConnected}}/>)
     }
 }

@@ -66,7 +66,6 @@ export const ChatRoomStack = StackNavigator({
     },
 });
 
-
 export const NewsStack = StackNavigator({
     News: {
         screen: News,
@@ -135,21 +134,3 @@ export const Tabs = TabNavigator({
     {
         lazy: true,
     });
-
-
-
-//
-// export const Root = StackNavigator({
-//     Tabs: {
-//         screen: <Tabs onNavigationStateChange={(prevState, currentState) => {
-//             const currentScreen = getCurrentRouteName(currentState);
-//             const prevScreen = getCurrentRouteName(prevState);
-//             if (prevScreen !== currentScreen) {
-//                 this.setState({Tabs: currentScreen})
-//             }
-//         }}/>,
-//     },
-// }, {
-//     mode: 'modal',
-//     headerMode: 'none',
-// })

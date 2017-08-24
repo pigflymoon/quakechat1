@@ -35,8 +35,6 @@ export default class QuakesList extends Component {
                 refreshing: false,
             });
         }
-
-
     }
 
     getRefreshData = () => {
