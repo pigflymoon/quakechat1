@@ -13,6 +13,18 @@ import About from '../screens/About';
 import Links from '../screens/Links';
 import Settings from '../screens/Settings';
 
+
+const QuakeDetailScreen = ({navigation, screenProps}) => {
+    var currentScreen = screenProps.currentScreen;
+    console.log('currentScreen',screenProps)
+    if (currentScreen == 'Detail') {
+        console.log(' Detail')
+        return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
+    } else {
+        return null;
+    }
+
+}
 export const QuakesListStack = StackNavigator({
     List: {
         screen: QuakesList,
@@ -74,60 +86,72 @@ export const NewsStack = StackNavigator({
         },
     },
 });
-export const mapsStack = StackNavigator({
-    Map: {
-        screen: QuakesMap,
+const QuakeMapScreen = ({navigation, screenProps}) => {
+    var currentScreen = screenProps.currentScreen;
+
+    if (currentScreen !== 'Map') {
+        console.log('not map')
+        return null;
+    } else {
+        return <QuakesMap navigation={navigation} screenProps={screenProps}/>
+    }
+}
+
+
+// export const mapsStack = StackNavigator({
+//     Map: {
+//         screen: QuakeMapScreen,
+//         navigationOptions: {
+//             title: 'Quakes Map'
+//         },
+//         // Detail: {
+//         //     screen: QuakeDetail,
+//         //     navigationOptions: ({navigation}) => ({
+//         //         title: 'Quake Detail'
+//         //     }),
+//         // },
+//     },
+// });
+export const Tabs = TabNavigator({
+    List: {
+        screen: QuakesListStack,
         navigationOptions: {
-            title: 'Quakes Map'
-        },
-        Detail: {
-            screen: QuakeDetail,
-            navigationOptions: ({navigation}) => ({
-                title: 'Quake Detail'
-            }),
+            tabBarLabel: 'Quakes',
+            tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
+    // Map: {
+    //     screen: QuakeMapScreen,
+    //     navigationOptions: {
+    //         tabBarLabel: 'Map',
+    //         title: 'Quakes Map',
+    //         tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
+    //     },
+    // },
+
+    Settings: {
+        screen: SettingsStack,
+        navigationOptions: {
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
+        }
+    },
+    News: {
+        screen: NewsStack,
+        navigationOptions: {
+            tabBarLabel: 'News',
+            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+        },
+    },
+
+
+    ChatRoom: {
+        screen: ChatRoomStack,
+        navigationOptions: {
+            tabBarLabel: 'ChatRoom',
+            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+        }
+    },
+
+
 });
-export const Tabs = TabNavigator({
-        List: {
-            screen: QuakesListStack,
-            navigationOptions: {
-                tabBarLabel: 'Quakes',
-                tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
-            },
-        },
-        Map: {
-            screen: mapsStack,
-            navigationOptions: {
-                tabBarLabel: 'Map',
-                title: 'Quakes Map',
-                tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
-            },
-        },
-
-        Settings: {
-            screen: SettingsStack,
-            navigationOptions: {
-                tabBarLabel: 'Settings',
-                tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
-            }
-        },
-        News: {
-            screen: NewsStack,
-            navigationOptions: {
-                tabBarLabel: 'News',
-                tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
-            },
-        },
-
-
-        ChatRoom: {
-            screen: ChatRoomStack,
-            navigationOptions: {
-                tabBarLabel: 'ChatRoom',
-                tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
-            }
-        },
-
-
-    });

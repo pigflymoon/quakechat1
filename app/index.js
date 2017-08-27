@@ -13,6 +13,7 @@ export default class App extends Component {
         super(props, context);
         this.state = {
             isConnected: false,
+            currentScreen:'List',
         };
     }
 
@@ -26,11 +27,12 @@ export default class App extends Component {
     //     return false;
     // }
 
-    componentWillReceiveProps(nextProps) {
-        console.log('QuakesList', nextProps);
-        var isConnected = nextProps.isConnected;//update netinfo
-        this.setState({isConnected: isConnected});
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     console.log('index QuakesList', nextProps);
+    //     var isConnected = nextProps.isConnected;//update netinfo
+    //     this.setState({isConnected: isConnected,});
+    //
+    // }
 
 
     componentDidMount() {
@@ -43,7 +45,6 @@ export default class App extends Component {
     }
 
     componentWillUnmount() {
-        console.log('will unmount called');
         NetInfo.isConnected.removeEventListener(
             'change',
             this.handleConnectivityChange

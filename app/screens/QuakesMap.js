@@ -35,15 +35,10 @@ export default class QuakesMap extends Component {
         this.setState({isConnected: isConnected});
     }
 
-    //
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.screenProps;//update netinfo
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    componentWillUnmount(){
+        console.log('unmount called')
+    }
+
 
     handleChooseLevel(stat) {
         // console.log('stat level is ',stat);
@@ -90,16 +85,19 @@ export default class QuakesMap extends Component {
         )
 
     }
+    componentWillMount(){
+        console.log('map will mount')
+    }
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
         if (!isConnected) {
             return this.renderOffline();
         }
-        var currentScreen = this.props.screenProps.currentScreen;
-        if (currentScreen !== 'Map') {
-            return <View/>;
-        }
+        // var currentScreen = this.props.screenProps.currentScreen;
+        // if (currentScreen !== 'Map') {
+        //     return <View/>;
+        // }
         return this.renderQuakes();
 
     }

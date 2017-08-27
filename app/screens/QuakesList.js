@@ -91,6 +91,9 @@ export default class QuakesList extends Component {
             </ScrollView>
         )
     }
+    componentWillUnmount(){
+        console.log('list will unmount')
+    }
 
     render() {
         var isConnected = this.props.screenProps.isConnected;

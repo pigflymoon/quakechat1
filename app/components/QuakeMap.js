@@ -35,8 +35,6 @@ export default class QuakeMap extends Component {
             quakes: [],
             error: null,
             isConnected: false,
-            marker1: true,
-            marker2: false,
             pincolor: colorByMmi(2),
 
 
@@ -70,7 +68,12 @@ export default class QuakeMap extends Component {
             }
         }
     }
-
+    componentWillMount(){
+        console.log('map will mount')
+    }
+    componentWillUnmount(){
+        console.log('marker will unmount')
+    }
 
     loadMapInfo(nextProps) {
         let self = this;
@@ -97,7 +100,7 @@ export default class QuakeMap extends Component {
                 }
             );
         })
-        console.log(self.refs.MapView);
+        // console.log(self.refs.MapView);
     }
 
     loadFeatures() {

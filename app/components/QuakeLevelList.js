@@ -115,19 +115,6 @@ export default class QuakeLevelList extends Component {
 
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     console.log('will update?',nextState.quakes !== this.state.quakes)
-    //     return nextState.quakes !== this.state.quakes;
-    // }
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.isConnected;
-    //     this.setState({isConnected: isConnected});
-    //     if (isConnected) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
     componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
 
@@ -166,7 +153,7 @@ export default class QuakeLevelList extends Component {
         this.stopTimer();
         // clearInterval(timer);
         // console.log('unmount', this.interval)
-        // // this.interval && clearInterval(this.interval);
+        this.interval && clearInterval(this.interval);
         // console.log('unmount', this.interval)
     }
 
@@ -250,28 +237,7 @@ export default class QuakeLevelList extends Component {
         this.props.navigation.navigate('Detail', {isConnected, quake});
     };
 
-    keyExtractor = (item, index) => `list-${index}`;
-    renderItem = ({item, index}) => (
-        <ListItem key={`item-${index}`}
-                  leftIcon={{
-                      name: 'map-marker',
-                      type: 'font-awesome',
-                      size: 35,
-                      color: colorByMmi(item.mmi)
-                  }}
-                  title={`NZST: ${item.time}`}
-                  subtitle={
-                      <View style={quakeStyle.info}>
-                          <Text>Magnitude: {item.magnitude}</Text>
-                          <Text>Depth: {item.depth}</Text>
-                          <Text>Locality: {item.locality}</Text>
-                      </View>
-                  }
 
-                  onPress={() => this.onQuakeDetail(this.state.isConnected, item)}
-        />
-
-    )
 
     render() {
         if (this.state.loading) {
