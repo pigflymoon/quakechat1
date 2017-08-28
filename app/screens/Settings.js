@@ -82,8 +82,8 @@ export default class Settings extends Component {
         this.props.navigation.navigate('About', {});
     };
 
-    onLinks = () => {
-        this.props.navigation.navigate('Links', {});
+    onResources = () => {
+        this.props.navigation.navigate('Resources', {});
     };
 
     updateRule = (rule) => {
@@ -122,6 +122,7 @@ export default class Settings extends Component {
 
                 <List>
                     <ListItem
+
                         hideChevron
                         title={`Notifications`}
                         switchOnTintColor={colors.primary1}
@@ -156,15 +157,37 @@ export default class Settings extends Component {
                         rightTitleStyle={quakeStyle.rightTitle}
                         hideChevron
                     />
+                </List>
+                <List>
                     <ListItem
+                        leftIcon={{name: 'description'}}
+                        title={`Resources`}
+                        onPress={() => this.onResources()}
+                    />
+                    <PushController />
+                </List>
+
+                <List>
+                    <ListItem
+                        leftIcon={{name: 'chat'}}
+                        title={`Tell a friend`}
+                        onPress={() => this.onAbout()}
+                    />
+                    <ListItem
+                        leftIcon={{name: 'favorite'}}
+                        title={`Rate us`}
+                        onPress={() => this.onAbout()}
+                    />
+                    <ListItem
+                        leftIcon={{name: 'info'}}
                         title={`About`}
                         onPress={() => this.onAbout()}
                     />
                     <ListItem
-                        title={`Links`}
-                        onPress={() => this.onLinks()}
+                        leftIcon={{name: 'perm-device-information'}}
+                        title={`Version`}
+                        onPress={() => this.onAbout()}
                     />
-                    <PushController />
                 </List>
             </ScrollView>
         )

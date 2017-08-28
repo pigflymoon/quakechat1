@@ -10,7 +10,7 @@ import QuakeDetail from '../screens/QuakeDetail';
 import QuakeQuality from '../screens/QuakeQuality';
 import ChatRoom from '../screens/ChatRoom';
 import About from '../screens/About';
-import Links from '../screens/Links';
+import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
 
 
@@ -61,12 +61,18 @@ export const SettingsStack = StackNavigator({
             title: 'About'
         })
     },
-    Links: {
-        screen: Links,
+    Resources: {
+        screen: Resources,
         navigationOptions: ({navigation}) => ({
-            title: 'Links'
+            title: 'Resources'
         })
-    }
+    },
+    // Resources: {
+    //     screen: Resources,
+    //     navigationOptions: ({navigation}) => ({
+    //         title: 'Resources'
+    //     })
+    // }
 });
 
 export const ChatRoomStack = StackNavigator({
@@ -128,14 +134,14 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
-    // Map: {
-    //     screen: QuakeMapScreen,
-    //     navigationOptions: {
-    //         tabBarLabel: 'Map',
-    //         title: 'Quakes Map',
-    //         tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
-    //     },
-    // },
+    Map: {
+        screen: QuakeMapScreen,
+        navigationOptions: {
+            tabBarLabel: 'Map',
+            title: 'Quakes Map',
+            tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
+        },
+    },
 
     News: {
         screen: NewsStack,
