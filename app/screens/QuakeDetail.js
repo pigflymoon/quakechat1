@@ -40,21 +40,6 @@ export default class QuakeDetail extends Component {
         console.log('detail will unmount')
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.navigation.state.params.isConnected
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    shareMessage = (shareMessage) => {
-        Share.share(shareMessage)
-            .then(this.showResult)
-            .catch((error) => this.setState({result: 'error: ' + error.message}));
-    }
-
     shareText = (shareText) => {
         Share.share(shareText, {
             dialogTitle: 'Share React Native website',

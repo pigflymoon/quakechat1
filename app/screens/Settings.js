@@ -15,7 +15,7 @@ import {List, ListItem} from 'react-native-elements';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import PushController from '../components/PushController';
-
+import Utils from '../utils/utils';
 
 
 export default class Settings extends Component {
@@ -78,6 +78,11 @@ export default class Settings extends Component {
     onResources = () => {
         this.props.navigation.navigate('Resources', {});
     };
+    onShare = () => {
+        const message = 'I am using QuakeChat.Life is s more meaningful when you share,chat and help each other! :) Download QuakeChat for iOS and Android, and start QuakeChating with friends today.'
+        const url = '';
+        Utils.shareText(message,url)
+    }
 
     updateRule = (rule) => {
         let showRules = ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'];
@@ -161,7 +166,7 @@ export default class Settings extends Component {
                     <ListItem
                         leftIcon={{name: 'chat'}}
                         title={`Tell a friend`}
-                        onPress={() => this.onAbout()}
+                        onPress={() => this.onShare()}
                     />
                     <ListItem
                         leftIcon={{name: 'favorite'}}
