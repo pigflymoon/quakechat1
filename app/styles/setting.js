@@ -15,9 +15,11 @@ export default{
     link: {
         color: colors.primary1,
     },
+
     image: {
-        width: '50%',
-        height: '60%',
+        alignSelf: 'center',
+        marginBottom:10,
+
     }
 
 }

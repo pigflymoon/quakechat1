@@ -113,6 +113,14 @@ const QuakeMapScreen = ({navigation, screenProps}) => {
 //     },
 // });
 export const Tabs = TabNavigator({
+
+    Settings: {
+        screen: SettingsStack,
+        navigationOptions: {
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
+        }
+    },
     List: {
         screen: QuakesListStack,
         navigationOptions: {
@@ -129,13 +137,6 @@ export const Tabs = TabNavigator({
     //     },
     // },
 
-    Settings: {
-        screen: SettingsStack,
-        navigationOptions: {
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
-        }
-    },
     News: {
         screen: NewsStack,
         navigationOptions: {

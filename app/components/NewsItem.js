@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 
-
+import {goToURL} from '../utils/utils';
 export default class NewsItem extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -14,15 +14,15 @@ export default class NewsItem extends Component {
         return nextProps.news !== this.props.news
     }
 
-    goToURL = (url) => {
-        Linking.canOpenURL(url).then(supported => {
-            if (supported) {
-                Linking.openURL(url);
-            } else {
-                console.log('Don\'t know how to open URI: ' + url);
-            }
-        });
-    }
+    // goToURL = (url) => {
+    //     Linking.canOpenURL(url).then(supported => {
+    //         if (supported) {
+    //             Linking.openURL(url);
+    //         } else {
+    //             console.log('Don\'t know how to open URI: ' + url);
+    //         }
+    //     });
+    // }
 
     render() {
         let {news} = this.props;
@@ -30,7 +30,7 @@ export default class NewsItem extends Component {
             <ListItem
                 title={news.title}
                 subtitle={news.published}
-                onPress={() => this.goToURL(news.link)}
+                onPress={() => goToURL(news.link)}
             />
         )
     }

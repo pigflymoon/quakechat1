@@ -1,6 +1,9 @@
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-
+import {
+    Alert,
+    Linking,
+} from 'react-native';
 export const bind = (context) => (...methods) => (methods.forEach(method => context[method] = context[method].bind(context)));
 
 export const colorByMmi = (mmi) => {
@@ -30,4 +33,21 @@ export const colorByMmi = (mmi) => {
         default:
             return colors.orange7
     }
+}
+export const goToURL = (url) => {
+    Linking.canOpenURL(url).then(supported => {
+        if (supported) {
+            Linking.openURL(url);
+        } else {
+            Alert.alert(
+                'Network unavailable',
+                'Don\'t know how to open URI:  ${ url}',
+                [
+                    {text: 'OK'},
+                ],
+                {cancelable: false}
+            )
+
+        }
+    });
 }
