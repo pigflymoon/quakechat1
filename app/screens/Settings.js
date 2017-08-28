@@ -13,9 +13,9 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import colors from '../styles/colors';
-// import {bind} from '../utils/utils';
-import PushController from '../components/PushController';
 import quakeStyle from '../styles/quake';
+import PushController from '../components/PushController';
+
 
 
 export default class Settings extends Component {
@@ -31,33 +31,26 @@ export default class Settings extends Component {
 
         };
         AsyncStorage.setItem('ruleValue', "0");
-        // bind(this)('renderLoadingView');
     }
 
 
     componentDidMount() {
-        // console.log('is notified', this.state.isNotified)
-
         AsyncStorage.getItem("isNotified").then((value) => {
-            // console.log('first is notified', value)
 
             if (value) {
                 var val = (value === "true");
-                // console.log('val is ', val)
                 this.setState({"isNotified": val});
             } else {
-                // console.log('set state to item ')
                 AsyncStorage.setItem("isNotified", this.state.isNotified.toString());
             }
 
         }).done();
-        //
+
         AsyncStorage.getItem("isSilent").then((value) => {
             if (value) {
                 var val = (value === "true");
                 this.setState({"isSilent": val});
             }
-
         }).done();
 
     }
@@ -122,14 +115,12 @@ export default class Settings extends Component {
 
                 <List>
                     <ListItem
-
                         hideChevron
                         title={`Notifications`}
                         switchOnTintColor={colors.primary1}
                         switchButton
                         onSwitch={this.toggleNotificationSwitch}
                         switched={this.state.isNotified}
-
                     />
                     <ListItem
                         hideChevron
@@ -140,7 +131,6 @@ export default class Settings extends Component {
                         switchButton
                         onSwitch={this.toggleDisturbSwitch}
                         switched={this.state.isSilent}
-
                     />
 
                     <Picker selectedValue={this.state.rule} onValueChange={this.updateRule}>
