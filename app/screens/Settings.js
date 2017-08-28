@@ -12,6 +12,8 @@ import {
     Item,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
+import * as StoreReview from 'react-native-store-review';
+import DeviceInfo from 'react-native-device-info';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import PushController from '../components/PushController';
@@ -28,6 +30,7 @@ export default class Settings extends Component {
             isSilent: true,
             rule: 'All',
             ruleValue: '0',
+            version: '1.0'
 
         };
         AsyncStorage.setItem('ruleValue', "0");
@@ -79,11 +82,25 @@ export default class Settings extends Component {
         this.props.navigation.navigate('Resources', {});
     };
     onShare = () => {
-        const message = 'I am using QuakeChat.Life is s more meaningful when you share,chat and help each other! :) Download QuakeChat for iOS and Android, and start QuakeChating with friends today.'
-        const url = '';
+        const message = 'I am using QuakeChat. Life is s more meaningful when you share,chat and help each other! :) Download QuakeChat for iOS and Android, and start QuakeChating with friends today.'
+        const url = 'http://google.com';
         Utils.shareText(message,url)
     }
 
+
+     onRate() {
+        let link = 'market://details?id=ren.growth';
+
+        if (Platform.OS === 'ios') {
+            if (StoreReview.isAvailable) {
+                return StoreReview.requestReview();
+            }
+
+            link = 'https://itunes.apple.com/us/app/lego-life-create-share-discover/id1140466898?mt=8';
+        }
+
+        return Utils.goToURL(link);
+    }
     updateRule = (rule) => {
         let showRules = ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'];
 
@@ -171,7 +188,7 @@ export default class Settings extends Component {
                     <ListItem
                         leftIcon={{name: 'favorite'}}
                         title={`Rate us`}
-                        onPress={() => this.onAbout()}
+                        onPress={() => this.onRate()}
                     />
                     <ListItem
                         leftIcon={{name: 'info'}}
@@ -181,7 +198,7 @@ export default class Settings extends Component {
                     <ListItem
                         leftIcon={{name: 'perm-device-information'}}
                         title={`Version`}
-                        onPress={() => this.onAbout()}
+                        subtitle={this.state.version}
                     />
                 </List>
             </ScrollView>
