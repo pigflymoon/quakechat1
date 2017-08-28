@@ -16,7 +16,6 @@ import quakeStyle from '../styles/quake';
 import PushNotification from 'react-native-push-notification';
 
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
-import {colorByMmi} from '../utils/utils';
 var timer;
 export default class QuakeLevelList extends Component {
 

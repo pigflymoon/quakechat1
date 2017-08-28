@@ -10,13 +10,15 @@ import {
     Switch,
     Image,
 } from 'react-native';
-import {Icon, Tile, Card, Button} from 'react-native-elements';
+import { Card, Button} from 'react-native-elements';
+import colors from '../styles/colors';
+
 import drop from '../images/drop.png';
 import cover from '../images/cover.png';
 import hold from '../images/hold.png';
 import SettingStyle from '../styles/setting';
 import Resources from '../config/Resources';
-import {goToURL} from '../utils/utils';
+import Utils from '../utils/utils';
 
 
 export default class Links extends Component {
@@ -72,12 +74,11 @@ export default class Links extends Component {
                         can and try to find a way to protect your head and neck </Text>
                     <Button
                         onPress={() => {
+                            Utils.goToURL(Resources.url.getthru)
+                        }}
+                        icon={{name: 'info'}}
+                        backgroundColor={colors.primary1}
 
-                            goToURL(Resources.url.getthru)}}
-                        icon={{name: 'code'}}
-                        backgroundColor='#03A9F4'
-
-                        buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                         title='READ MORE'/>
                 </Card>
 

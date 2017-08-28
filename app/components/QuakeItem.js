@@ -4,7 +4,7 @@ import {
     View,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
-import {colorByMmi} from '../utils/utils';
+import Utils from '../utils/utils';
 import quakeStyle from '../styles/quake';
 
 export default class QuakeItem extends Component {
@@ -26,7 +26,7 @@ export default class QuakeItem extends Component {
                     name: 'map-marker',
                     type: 'font-awesome',
                     size: 35,
-                    color: colorByMmi(quake.mmi)
+                    color: Utils.colorByMmi(quake.mmi)
                 }}
                 title={`NZST: ${quake.time}`}
                 subtitle={

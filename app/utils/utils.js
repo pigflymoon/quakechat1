@@ -1,53 +1,56 @@
 import colors from '../styles/colors';
-import fonts from '../styles/fonts';
 import {
     Alert,
     Linking,
 } from 'react-native';
-export const bind = (context) => (...methods) => (methods.forEach(method => context[method] = context[method].bind(context)));
 
-export const colorByMmi = (mmi) => {
-    switch (mmi) {
-        case -1:
-        case 0: return colors.orange1
-        case 1:
-        case 2:
-            return colors.orange2
-            break;
-        case 3:
-            return colors.orange3
-            break;
-        case 4:
-            return colors.orange4
-            break;
-        case 5:
-            return colors.orange5
-            break;
-        case 6:
-            return colors.orange6
-            break;
-        case 7:
-        case 8:
-            return colors.orange7
-            break;
-        default:
-            return colors.orange7
+
+export default class Utils {
+    static goToURL = (url) => {
+        Linking.canOpenURL(url).then(supported => {
+            if (supported) {
+                Linking.openURL(url);
+            } else {
+                Alert.alert(
+                    'Network unavailable',
+                    'Don\'t know how to open URI:  ${ url}',
+                    [
+                        {text: 'OK'},
+                    ],
+                    {cancelable: false}
+                )
+
+            }
+        });
     }
-}
-export const goToURL = (url) => {
-    Linking.canOpenURL(url).then(supported => {
-        if (supported) {
-            Linking.openURL(url);
-        } else {
-            Alert.alert(
-                'Network unavailable',
-                'Don\'t know how to open URI:  ${ url}',
-                [
-                    {text: 'OK'},
-                ],
-                {cancelable: false}
-            )
-
+    static colorByMmi = (mmi) => {
+        switch (mmi) {
+            case -1:
+            case 0:
+                return colors.orange1
+            case 1:
+            case 2:
+                return colors.orange2
+                break;
+            case 3:
+                return colors.orange3
+                break;
+            case 4:
+                return colors.orange4
+                break;
+            case 5:
+                return colors.orange5
+                break;
+            case 6:
+                return colors.orange6
+                break;
+            case 7:
+            case 8:
+                return colors.orange7
+                break;
+            default:
+                return colors.orange7
         }
-    });
+    }
+    static bind = (context) => (...methods) => (methods.forEach(method => context[method] = context[method].bind(context)));
 }

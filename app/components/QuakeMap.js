@@ -14,7 +14,7 @@ import showInfo from '../styles/showInfo';
 import map from '../styles/map';
 import callout from '../styles/callout';
 
-import {colorByMmi} from '../utils/utils';
+import Utils from '../utils/utils';
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 
 const {width, height} = Dimensions.get('window');
@@ -35,7 +35,7 @@ export default class QuakeMap extends Component {
             quakes: [],
             error: null,
             isConnected: false,
-            pincolor: colorByMmi(2),
+            pincolor: Utils.colorByMmi(2),
 
 
         };
@@ -156,7 +156,7 @@ export default class QuakeMap extends Component {
                     <MapView.Marker style={map.marker}
                                     coordinate={quake.coordinates}
                                     key={`quake-${index}`}
-                                    pinColor={colorByMmi(quake.mmi)}
+                                    pinColor={Utils.colorByMmi(quake.mmi)}
                     >
                         <MapView.Callout style={callout.container}>
 

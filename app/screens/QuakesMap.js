@@ -13,9 +13,6 @@ import quakeStyle from '../styles/quake';
 import showInfo from '../styles/showInfo';
 import Config from '../config/ApiConfig';
 
-import {bind} from '../utils/utils';
-
-
 export default class QuakesMap extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +21,6 @@ export default class QuakesMap extends Component {
             level: 1,
             isConnected: false,
         };
-        bind(this)('handleChooseLevel')
     }
 
 
@@ -35,12 +31,12 @@ export default class QuakesMap extends Component {
         this.setState({isConnected: isConnected});
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         console.log('unmount called')
     }
 
 
-    handleChooseLevel(stat) {
+    handleChooseLevel = (stat) => {
         // console.log('stat level is ',stat);
         if (stat <= 3) {
             this.setState({level: 3});
@@ -85,7 +81,8 @@ export default class QuakesMap extends Component {
         )
 
     }
-    componentWillMount(){
+
+    componentWillMount() {
         console.log('map will mount')
     }
 

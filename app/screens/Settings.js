@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import colors from '../styles/colors';
-import {bind} from '../utils/utils';
+// import {bind} from '../utils/utils';
 import PushController from '../components/PushController';
 import quakeStyle from '../styles/quake';
 
@@ -31,7 +31,7 @@ export default class Settings extends Component {
 
         };
         AsyncStorage.setItem('ruleValue', "0");
-        bind(this)('renderLoadingView');
+        // bind(this)('renderLoadingView');
     }
 
 
