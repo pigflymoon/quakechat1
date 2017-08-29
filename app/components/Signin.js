@@ -31,8 +31,6 @@ export default class Signin extends Component {
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;//update netinfo
-        console.log('isConnected ?',isConnected)
-
         this.setState({isConnected: isConnected});
     }
 
@@ -44,9 +42,7 @@ export default class Signin extends Component {
     handleSignin = (e) => {
         var self = this;
         e.preventDefault()
-        console.log('singin ?',this.props.isConnected,this.state.isConnected)
         if (this.props.isConnected) {
-            console.log('singin connect?')
             if (!this.state.email) {
                 this.setState({
                     showInfo: true
@@ -55,12 +51,11 @@ export default class Signin extends Component {
 
             firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
                 .then(function (user) {
-                    console.log('sign in?')
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
                             Actions.chat();
                         } else {
-                            console.log('error')
+                            console.log('error',user)
                         }
                     })
                 })
@@ -84,7 +79,6 @@ export default class Signin extends Component {
 
 
                     }
-
                     console.log(error);
                 });
         }

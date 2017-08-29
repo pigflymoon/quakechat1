@@ -25,8 +25,6 @@ export default class ChatRoom extends Component {
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;//update netinfo
-        console.log('chat room isConnected ?', isConnected)
-
         this.setState({isConnected: isConnected});
     }
 
