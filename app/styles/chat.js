@@ -32,8 +32,8 @@ export default{
         marginHorizontal: 10,
         marginBottom: 10,
     },
-    verifyWrapper:{
-        flex:2
+    verifyWrapper: {
+        flex: 2
     },
 
     footerWrap: {
@@ -106,4 +106,13 @@ export default{
     barButtonIconStyle: {
         tintColor: 'rgb(255,255,255)'
     },
+    rightButton: {
+        marginRight: 10,
+    },
+    rightBox: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+    },
+
 }
