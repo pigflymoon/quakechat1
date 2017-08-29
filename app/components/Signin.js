@@ -61,6 +61,7 @@ export default class Signin extends Component {
 
             firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
                 .then(function (user) {
+                    console.log('sign in?')
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
                             Actions.chat();
