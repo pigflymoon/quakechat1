@@ -13,11 +13,12 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import * as StoreReview from 'react-native-store-review';
-import DeviceInfo from 'react-native-device-info';
+// import DeviceInfo from 'react-native-device-info';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import PushController from '../components/PushController';
 import Utils from '../utils/utils';
+import Config from '../config/ApiConfig';
 
 
 export default class Settings extends Component {
@@ -83,7 +84,7 @@ export default class Settings extends Component {
     };
     onShare = () => {
         const message = 'I am using QuakeChat. Life is s more meaningful when you share,chat and help each other! :) Download QuakeChat for iOS and Android, and start QuakeChating with friends today.'
-        const url = 'http://google.com';
+        const url = Config.share.url;
         Utils.shareText(message,url)
     }
 

@@ -11,6 +11,8 @@ import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import navigationStyle from '../styles/navigation';
 import {Icon} from 'react-native-elements';
+import Utils from '../utils/utils';
+import Config from '../config/ApiConfig';
 
 import QuakeMap from '../components/QuakeMap';
 
@@ -28,7 +30,7 @@ export default class QuakeDetail extends Component {
     };
 
     componentDidMount() {
-        this.props.navigation.setParams({handleShare: this.shareText})
+        this.props.navigation.setParams({handleShare: this.onShare})
     }
 
     componentWillReceiveProps(nextProps) {
@@ -40,28 +42,8 @@ export default class QuakeDetail extends Component {
         console.log('detail will unmount')
     }
 
-    shareText = (shareText) => {
-        Share.share(shareText, {
-            dialogTitle: 'Share React Native website',
-            // excludedActivityTypes: [
-            //     'com.apple.UIKit.activity.PostToTwitter'
-            // ],
-            tintColor: 'green'
-        })
-            .then(this.showResult)
-            .catch((error) => this.setState({result: 'error: ' + error.message}));
-    }
-
-    showResult = (result) => {
-        if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-                this.setState({result: 'shared with an activityType: ' + result.activityType});
-            } else {
-                this.setState({result: 'shared'});
-            }
-        } else if (result.action === Share.dismissedAction) {
-            this.setState({result: 'dismissed'});
-        }
+    onShare = (message, url) => {
+        Utils.shareText(message, url)
     }
 
     render() {
@@ -143,12 +125,7 @@ QuakeDetail.navigationOptions = props => {
     var magnitude = quake.magnitude;
     var locality = quake.locality;
     var message = `${time} happened ${magnitude} earthquake in ${locality} by @QuakeChat `;
-    var shareText = {
-        title: "Quake Chat",
-        message: message,
-        url: "https://github.com/pigflymoon/quakechat",
-
-    };
+    const url = Config.share.url;
 
     return {
         // Render a button on the right side of the header.
@@ -156,7 +133,7 @@ QuakeDetail.navigationOptions = props => {
         headerRight: (
             <Icon name='share' type='font-awesome' size={18} color={colors.primary1} style={navigationStyle.rightTitle}
                   onPress={() => {
-                      params.handleShare(shareText);
+                      params.handleShare(message, url);
                   }
 
                   }
