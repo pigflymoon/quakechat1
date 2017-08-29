@@ -33,7 +33,6 @@ export default class ChatGroup extends Component {
         }
     }
 
-
     setUid = (value) => {
         this.uid = value;
     }
@@ -84,8 +83,8 @@ export default class ChatGroup extends Component {
             const message = data.val();
             callback({
                 _id: data.key,
-                text: message.text|'',
-                image: message.image||'',
+                text: message.text || '',
+                image: message.image || '',
                 createdAt: new Date(message.createdAt),
                 user: {
                     _id: message.user._id,
@@ -97,12 +96,10 @@ export default class ChatGroup extends Component {
     }
 
     sendMessage(message) {
-        // console.log('messsage',message)
         for (let i = 0; i < message.length; i++) {
-            console.log('message', message)
             this.messagesRef.push({
-                text: message[i].text||'',
-                image: message[i].image||'',
+                text: message[i].text || '',
+                image: message[i].image || '',
                 user: message[i].user,
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
             });
