@@ -31,17 +31,10 @@ export default class Signin extends Component {
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;//update netinfo
+        console.log('isConnected ?',isConnected)
+
         this.setState({isConnected: isConnected});
     }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.isConnected;//update netinfo
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
-    // }
 
 
     signup = () => {
@@ -51,8 +44,9 @@ export default class Signin extends Component {
     handleSignin = (e) => {
         var self = this;
         e.preventDefault()
-
+        console.log('singin ?',this.props.isConnected,this.state.isConnected)
         if (this.props.isConnected) {
+            console.log('singin connect?')
             if (!this.state.email) {
                 this.setState({
                     showInfo: true

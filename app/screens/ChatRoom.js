@@ -20,7 +20,12 @@ export default class ChatRoom extends Component {
     constructor(props) {
         super(props);
     }
+    componentWillReceiveProps(nextProps) {
+        var isConnected = nextProps.isConnected;//update netinfo
+        console.log('chat room isConnected ?',isConnected)
 
+        this.setState({isConnected: isConnected});
+    }
     signout = () => {
         firebaseApp.auth().signOut().then(function () {
             Actions.signin();

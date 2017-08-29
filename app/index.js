@@ -13,7 +13,7 @@ export default class App extends Component {
         super(props, context);
         this.state = {
             isConnected: false,
-            currentScreen:'List',
+            currentScreen: 'List',
         };
     }
 
@@ -28,7 +28,7 @@ export default class App extends Component {
     // }
 
     // componentWillReceiveProps(nextProps) {
-    //     console.log('index QuakesList', nextProps);
+    //     console.log('index', nextProps);
     //     var isConnected = nextProps.isConnected;//update netinfo
     //     this.setState({isConnected: isConnected,});
     //
@@ -53,6 +53,7 @@ export default class App extends Component {
 
     handleConnectivityChange = (isConnected) => {
         // isConnected = false;//test no network
+        console.log('network',isConnected)
         if (!isConnected) {
             Alert.alert(
                 'Network unavailable',
@@ -71,7 +72,7 @@ export default class App extends Component {
             return null;
         }
         const route = navigationState.routes[navigationState.index];
-        console.log('route', route)
+        // console.log('route', route)
         if (route.routes) {
             return this.getCurrentRouteName(route);
         }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, Platform,} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import CustomActions from './CustomActions';
 
 import firebase from 'firebase';  // Initialize Firebase
 import firebaseApp from '../config/FirebaseConfig';
@@ -49,6 +50,33 @@ export default class ChatGroup extends Component {
         return this.displayName;
     }
 
+    renderCustomActions = (props) => {
+        if (Platform.OS === 'ios') {
+            return (
+                <CustomActions
+                    {...props}
+                />
+            );
+        }
+        const options = {
+            'Action 1': (props) => {
+                alert('option 1');
+            },
+            'Action 2': (props) => {
+                alert('option 2');
+            },
+            'Cancel': () => {
+            },
+        };
+        return (
+            <Actions
+                {...props}
+                options={options}
+            />
+        );
+    }
+
+
     loadMessages(callback) {
         this.messagesRef = firebaseApp.database().ref('messages');
         this.messagesRef.off();
@@ -56,7 +84,8 @@ export default class ChatGroup extends Component {
             const message = data.val();
             callback({
                 _id: data.key,
-                text: message.text,
+                text: message.text|'',
+                image: message.image||'',
                 createdAt: new Date(message.createdAt),
                 user: {
                     _id: message.user._id,
@@ -69,9 +98,11 @@ export default class ChatGroup extends Component {
 
     sendMessage(message) {
         // console.log('messsage',message)
-            for (let i = 0; i < message.length; i++) {
+        for (let i = 0; i < message.length; i++) {
+            console.log('message', message)
             this.messagesRef.push({
-                text: message[i].text,
+                text: message[i].text||'',
+                image: message[i].image||'',
                 user: message[i].user,
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
             });
@@ -111,6 +142,7 @@ export default class ChatGroup extends Component {
                     _id: this.getUid(),
                     name: this.getName()
                 }}
+                renderActions={this.renderCustomActions}
             />
         );
     }
