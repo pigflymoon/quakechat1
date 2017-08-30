@@ -4,10 +4,12 @@ import {
     View,
     TextInput,
     TouchableOpacity,
+    Dimensions
 } from 'react-native'
 
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
+const {width, height} = Dimensions.get("screen");
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
@@ -26,6 +28,8 @@ export default class Signup extends Component {
             isLoading: false,
             showInfo: false,
             isConnected: false,
+            width: width,
+            height: height,
         };
     }
 
@@ -34,6 +38,7 @@ export default class Signup extends Component {
         var isConnected = nextProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
     }
+
     // shouldComponentUpdate(nextProps, nextState) {
     //     var isConnected = nextProps.isConnected;//from root scene props
     //     if (isConnected) {
@@ -106,11 +111,27 @@ export default class Signup extends Component {
         })
     }
 
+    handleRotate = () => {
+        let {width, height} = Dimensions.get('screen');
+        this.setState({width: width, height: height});
+
+    }
+    componentWillMount() {
+        // Event Listener for orientation changes
+        Dimensions.addEventListener('change', this.handleRotate);
+    }
+
+    componentWillUnmount() {
+        // Important to stop updating state after unmount
+        Dimensions.removeEventListener("change", this.handleRotate);
+    }
+
     render() {
         return (
             <View style={chat.container}>
 
-                <View style={chat.background}>
+                <View style={{width: this.state.width, height: this.state.height, backgroundColor: colors.white}}
+                      resizeMode="cover">
                     <View style={[chat.markWrap]}>
                         <View style={chat.circleIcon}>
                             <Icon name="user-plus" size={75} color={colors.primary1} style={[chat.mark]}/>

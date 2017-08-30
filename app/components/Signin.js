@@ -5,8 +5,9 @@ import {
     TextInput,
     TouchableOpacity,
     Animated,
+    Dimensions,
 } from 'react-native';
-
+const {width, height} = Dimensions.get("screen");
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
 
@@ -26,7 +27,10 @@ export default class Signin extends Component {
             names: [],
             showInfo: false,
             isConnected: false,
+            width: width,
+            height: height,
         };
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -55,7 +59,7 @@ export default class Signin extends Component {
                         if (user) {
                             Actions.chat();
                         } else {
-                            console.log('error',user)
+                            console.log('error', user)
                         }
                     })
                 })
@@ -104,14 +108,31 @@ export default class Signin extends Component {
         })
     }
 
+
+    handleRotate = () => {
+        let {width, height} = Dimensions.get('screen');
+        this.setState({width: width, height: height});
+
+    }
+
+    componentWillMount() {
+        // Event Listener for orientation changes
+        Dimensions.addEventListener('change', this.handleRotate);
+    }
+    componentWillUnmount() {
+        // Important to stop updating state after unmount
+        Dimensions.removeEventListener("change", this.handleRotate);
+    }
+
     render() {
         return (
             <View style={chat.container}>
 
-                <View style={chat.background} resizeMode="cover">
+                <View style={{width: this.state.width, height: this.state.height, backgroundColor: colors.white}}
+                      resizeMode="cover">
                     <View style={chat.markWrap}>
                         <View style={chat.circleIcon}>
-                            <Icon name="sign-in" size={75} color={colors.primary1}/>
+                        <Icon name="sign-in" size={75} color={colors.primary1}/>
                         </View>
 
                     </View>

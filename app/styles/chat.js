@@ -9,8 +9,8 @@ export default{
         flex: 1,
     },
     background: {
-        width,
-        height,
+        // width,
+        // height,
         backgroundColor: colors.white,
     },
     markWrap: {

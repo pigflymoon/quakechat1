@@ -13,7 +13,6 @@ import ResourcesConfig from '../config/ResourcesConfig';
 
 export default class CustomView extends Component {
   render() {
-    console.log('location',this.props.currentMessage.location)
     if (this.props.currentMessage.location!='') {
       return (
         <TouchableOpacity style={[styles.container, this.props.containerStyle]} onPress={() => {
