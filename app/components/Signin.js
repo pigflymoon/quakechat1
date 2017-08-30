@@ -10,6 +10,7 @@ import {
 const {width, height} = Dimensions.get("screen");
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
+import utils from '../utils/utils';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
@@ -35,6 +36,7 @@ export default class Signin extends Component {
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;//update netinfo
+        console.log('will sign  is ?', isConnected)
         this.setState({isConnected: isConnected});
     }
 
@@ -44,10 +46,16 @@ export default class Signin extends Component {
     }
 
     handleSignin = (e) => {
+        console.log('sign in ', this.props.isConnected)
+        console.log(this.props.isConnected)
         var self = this;
         e.preventDefault()
         if (this.props.isConnected) {
+            console.log('sign in isConnected')
+
             if (!this.state.email) {
+                console.log('sign in email is empty')
+
                 this.setState({
                     showInfo: true
                 });
@@ -85,6 +93,8 @@ export default class Signin extends Component {
                     }
                     console.log(error);
                 });
+        } else {
+            utils.netWorkError();
         }
 
 
@@ -119,12 +129,15 @@ export default class Signin extends Component {
         // Event Listener for orientation changes
         Dimensions.addEventListener('change', this.handleRotate);
     }
+
     componentWillUnmount() {
         // Important to stop updating state after unmount
         Dimensions.removeEventListener("change", this.handleRotate);
     }
 
     render() {
+        console.log('sign in ', this.props.isConnected)
+
         return (
             <View style={chat.container}>
 
@@ -132,7 +145,7 @@ export default class Signin extends Component {
                       resizeMode="cover">
                     <View style={chat.markWrap}>
                         <View style={chat.circleIcon}>
-                        <Icon name="sign-in" size={75} color={colors.primary1}/>
+                            <Icon name="sign-in" size={75} color={colors.primary1}/>
                         </View>
 
                     </View>

@@ -10,6 +10,7 @@ import {
 
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
+import utils from '../utils/utils';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
@@ -26,16 +27,6 @@ export default class ConfirmEmail extends Component {
 
         };
     }
-    //
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.isConnected;//update netinfo
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;//update netinfo
@@ -98,14 +89,7 @@ export default class ConfirmEmail extends Component {
 
                 })
         } else {
-            Alert.alert(
-                'Network unavailable',
-                'The Internet connection appears to be offline',
-                [
-                    {text: 'OK'},
-                ],
-                {cancelable: false}
-            )
+            utils.netWorkError();
         }
 
     }

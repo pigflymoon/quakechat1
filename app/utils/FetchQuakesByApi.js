@@ -3,6 +3,8 @@ import {
     AsyncStorage,
     Alert,
 } from 'react-native';
+import utils from '../utils/utils';
+
 export const fetchQuakesByApi = (url, callback) => {
     AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
         axios.get(url)
@@ -70,14 +72,8 @@ export const fetchQuakesByApi = (url, callback) => {
 
             })//then
             .catch(error => {
-                Alert.alert(
-                    'Network unavailable',
-                    `The Internet connection appears to be offline`,
-                    [
-                        {text: 'OK'},
-                    ],
-                    {cancelable: false}
-                )
+                utils.netWorkError();
+
             });
 
     }).done();

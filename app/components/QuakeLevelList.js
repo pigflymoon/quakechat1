@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import QuakeItem from './QuakeItem';
-import quakeStyle from '../styles/quake';
+import utils from '../utils/utils';
+
 
 import PushNotification from 'react-native-push-notification';
 
@@ -88,28 +89,15 @@ export default class QuakeLevelList extends Component {
             self.props.onRefreshData(false);
             // this.stopTimer();
         }
-
-
     }
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     console.log(' will update?',nextState.quakes !== this.state.quakes)
-    //     return nextState.quakes !== this.state.quakes
-    // }
+
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
         if (nextProps.isConnected) {
             this.fetchQuakes(nextProps);
         } else {
-            // nextProps.onRefreshData(false);
-            Alert.alert(
-                'Network unavailable',
-                'The Internet connection appears to be offline',
-                [
-                    {text: 'OK'},
-                ],
-                {cancelable: false}
-            )
+            utils.netWorkError();
         }
 
     }

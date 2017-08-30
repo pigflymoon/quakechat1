@@ -14,6 +14,8 @@ import listStyle from '../styles/list';
 import Config from '../config/ApiConfig';
 import NewsItem from '../components/NewsItem';
 import axios from 'axios';
+import utils from '../utils/utils';
+
 
 var news;
 
@@ -71,14 +73,8 @@ export default class News extends Component {
                 })
             })
             .catch(error => {
-                Alert.alert(
-                    'Network unavailable',
-                    `The Internet connection appears to be offline`,
-                    [
-                        {text: 'OK'},
-                    ],
-                    {cancelable: false}
-                )
+                utils.netWorkError();
+
             });
         // this.timer = setInterval(() => {
         //     axios.get(`https://api.geonet.org.nz/news/geonet`)

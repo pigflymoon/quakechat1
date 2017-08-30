@@ -19,12 +19,16 @@ export default class ChatGroup extends Component {
             email: '',
             password: '',
             messages: [],
-            names: []
+            names: [],
+            isConnected: false,
+
         };
     }
 
+
     componentWillMount() {
         var user = firebase.auth().currentUser;
+        console.log('user is ',user)
         if (user) {
             this.setUid(user.uid);
             this.setName(user.displayName);
@@ -33,6 +37,11 @@ export default class ChatGroup extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        var isConnected = nextProps.isConnected;//update netinfo
+        console.log('will chatgroup  is ?',isConnected)
+        this.setState({isConnected: isConnected});
+    }
     setUid = (value) => {
         this.uid = value;
     }

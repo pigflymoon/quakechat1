@@ -27,8 +27,10 @@ export default class QuakesList extends Component {
 
     componentWillReceiveProps(nextProps) {
         console.log('nextProps', nextProps);
-        var isConnected = nextProps.screenProps.isConnected;//update netinfo
 
+        var isConnected = nextProps.screenProps.isConnected;//update netinfo
+        console.log('list  is ?',nextProps)
+        console.log('list  is ?',isConnected)
         this.setState({isConnected: isConnected});
         if (!nextProps.screenProps.isConnected) {
             this.setState({

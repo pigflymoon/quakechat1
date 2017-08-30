@@ -21,10 +21,15 @@ import chat from '../styles/chat';
 export default class ChatRoom extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isConnected: false,
+        };
     }
 
     componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.isConnected;//update netinfo
+        var isConnected = nextProps.screenProps.isConnected;//update netinfo
+        console.log('chatroom  is ?',nextProps)
+        console.log('chatroom  is ?',isConnected)
         this.setState({isConnected: isConnected});
     }
 
@@ -39,7 +44,7 @@ export default class ChatRoom extends Component {
     render() {
         return (
             <Router barButtonIconStyle={chat.barButtonIconStyle}>
-                <Scene key='root' passProps={true} isConnected={this.props.screenProps.isConnected}>
+                <Scene key='root' passProps={true} isConnected={this.state.isConnected}>
                     <Scene key='chat' component={ChatGroup} hideNavBar={false} hideBackImage={true}
                            renderRightButton={
                                () => <TouchableOpacity style={chat.rightButton}
