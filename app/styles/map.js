@@ -12,7 +12,7 @@ export default{
         backgroundColor: colors.grey6,
     },
     map: {
-        width: SCREEN_WIDTH,
+        // width: SCREEN_WIDTH,
         flexGrow: 3
     },
     info: {

@@ -54,8 +54,8 @@ export default{
         justifyContent: 'space-between',
         backgroundColor: colors.grey6,
     },
-    sliderLabel: {
-        width: SCREEN_WIDTH,
-    }
+    // sliderLabel: {
+    //     width: SCREEN_WIDTH,
+    // }
 
 }

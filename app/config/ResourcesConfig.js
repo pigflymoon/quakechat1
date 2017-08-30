@@ -2,12 +2,18 @@ import {
     Dimensions
 } from 'react-native';
 const {width, height} = Dimensions.get('window');
-const SCREEN_WIDTH = width;
-const ASPECT_RATIO = width / height;
+var ASPECT_RATIO;
+if (width > height) {
+    ASPECT_RATIO = height / width;
+} else {
+    ASPECT_RATIO = width / height;
+}
+
 const LATITUDE = -39.900557;
 const LONGITUDE = 172.885971;
-const LATITUDE_DELTA = 18;
+const LATITUDE_DELTA = 25;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
 
 export default Resources = {
     url: {

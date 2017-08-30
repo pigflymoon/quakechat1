@@ -120,7 +120,7 @@ export default class QuakeMap extends Component {
                 scrollEnabled={true}
                 zoomEnabled={true}
                 pitchEnabled={false}
-                rotateEnabled={false}
+                rotateEnabled={true}
                 showsScale
                 loadingEnabled={true}
                 region={{
