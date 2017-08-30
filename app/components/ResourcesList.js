@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View,ScrollView} from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import Utils from '../utils/utils';
+import ResourcesConfig from '../config/ResourcesConfig';
 
 export default class ResourcesList extends Component {
 
@@ -38,7 +39,7 @@ export default class ResourcesList extends Component {
         return (
             <View>
                 <List containerStyle={{borderTopWidth: 0}}>
-                    {resources.map((project,index) =>
+                    {ResourcesConfig.quake_resources.map((project,index) =>
                         <ListItem
                             rightIcon={{name: 'open-in-new'}}
                             key={`index-${project.name}`}

@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {View, Platform,} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import CustomActions from './CustomActions';
-
+import CustomView from './CustomView';
 import firebase from 'firebase';  // Initialize Firebase
 import firebaseApp from '../config/FirebaseConfig';
 
-import {GiftedChat} from 'react-native-gifted-chat';
+import {GiftedChat, Actions as ChatActions, Bubble} from 'react-native-gifted-chat';
 
 export default class ChatGroup extends Component {
     uid = '';
@@ -68,13 +68,34 @@ export default class ChatGroup extends Component {
             },
         };
         return (
-            <Actions
+            <ChatActions
                 {...props}
                 options={options}
             />
         );
     }
 
+    renderBubble = (props) => {
+        return (
+            <Bubble
+                {...props}
+                wrapperStyle={{
+                    left: {
+                        backgroundColor: '#f0f0f0',
+                    }
+                }}
+            />
+        );
+    }
+
+
+    renderCustomView = (props) => {
+        return (
+            <CustomView
+                {...props}
+            />
+        );
+    }
 
     loadMessages(callback) {
         this.messagesRef = firebaseApp.database().ref('messages');
@@ -85,6 +106,7 @@ export default class ChatGroup extends Component {
                 _id: data.key,
                 text: message.text || '',
                 image: message.image || '',
+                location: message.location || '',
                 createdAt: new Date(message.createdAt),
                 user: {
                     _id: message.user._id,
@@ -100,6 +122,7 @@ export default class ChatGroup extends Component {
             this.messagesRef.push({
                 text: message[i].text || '',
                 image: message[i].image || '',
+                location: message[i].location || '',
                 user: message[i].user,
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
             });
@@ -140,6 +163,8 @@ export default class ChatGroup extends Component {
                     name: this.getName()
                 }}
                 renderActions={this.renderCustomActions}
+                renderBubble={this.renderBubble}
+                renderCustomView={this.renderCustomView}
             />
         );
     }
