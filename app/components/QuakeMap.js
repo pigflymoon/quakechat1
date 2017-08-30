@@ -4,26 +4,19 @@ import {
     View,
     Dimensions
 } from 'react-native';
-import {Card,List, ListItem} from 'react-native-elements';
+import {Card, List, ListItem} from 'react-native-elements';
 
 import MapView from 'react-native-maps';
-import axios from 'axios';
-import CustomCallout from './CustomCallout'
 import showInfo from '../styles/showInfo';
 
 import map from '../styles/map';
 import callout from '../styles/callout';
 
 import Utils from '../utils/utils';
+import ResourcesConfig from '../config/ResourcesConfig';
+
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 
-const {width, height} = Dimensions.get('window');
-const SCREEN_WIDTH = width;
-const ASPECT_RATIO = width / height;
-const LATITUDE = -39.900557;
-const LONGITUDE = 172.885971;
-const LATITUDE_DELTA = 18;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 var markersData = [];
 
@@ -40,15 +33,6 @@ export default class QuakeMap extends Component {
 
         };
     }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.isConnected;
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
-    // }
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;//update netinfo
@@ -68,10 +52,12 @@ export default class QuakeMap extends Component {
             }
         }
     }
-    componentWillMount(){
+
+    componentWillMount() {
         console.log('map will mount')
     }
-    componentWillUnmount(){
+
+    componentWillUnmount() {
         console.log('marker will unmount')
     }
 
@@ -90,17 +76,9 @@ export default class QuakeMap extends Component {
                     quakes: quakes,
                     error: null,
                     mapType: 'Map',
-                    // region: {
-                    //     latitude: LATITUDE,
-                    //     longitude: LONGITUDE,
-                    //     latitudeDelta: LATITUDE_DELTA,
-                    //     longitudeDelta: LONGITUDE_DELTA,
-                    // }
-
                 }
             );
         })
-        // console.log(self.refs.MapView);
     }
 
     loadFeatures() {
@@ -146,10 +124,10 @@ export default class QuakeMap extends Component {
                 showsScale
                 loadingEnabled={true}
                 region={{
-                    latitude: LATITUDE,
-                    longitude: LONGITUDE,
-                    latitudeDelta: LATITUDE_DELTA,
-                    longitudeDelta: LONGITUDE_DELTA,
+                    latitude: ResourcesConfig.map.latitude,
+                    longitude: ResourcesConfig.map.longitude,
+                    latitudeDelta: ResourcesConfig.map.latitude_delta,
+                    longitudeDelta: ResourcesConfig.map.longitude_delta,
                 }}>
 
                 {this.state.quakes.map((quake, index) => (
@@ -162,27 +140,26 @@ export default class QuakeMap extends Component {
 
                             <Card style={callout.card} title='Quake detail'>
 
-                                    <ListItem
-                                        hideChevron
-                                        title={`Time: ${quake.time}`}
-                                    />
-                                    <ListItem
-                                        hideChevron
-                                        title={`Locality:${quake.locality}`}
-                                    />
-                                    <ListItem
-                                        hideChevron
-                                        title={`Depth: ${quake.depth}`}
-                                    />
-                                    <ListItem
-                                        hideChevron
-                                        title={`Magnitude: ${quake.magnitude}`}
-                                    />
-                                    <ListItem
-                                        hideChevron
-                                        title={`mmi:${quake.mmi}`}
-                                    />
-
+                                <ListItem
+                                    hideChevron
+                                    title={`Time: ${quake.time}`}
+                                />
+                                <ListItem
+                                    hideChevron
+                                    title={`Locality:${quake.locality}`}
+                                />
+                                <ListItem
+                                    hideChevron
+                                    title={`Depth: ${quake.depth}`}
+                                />
+                                <ListItem
+                                    hideChevron
+                                    title={`Magnitude: ${quake.magnitude}`}
+                                />
+                                <ListItem
+                                    hideChevron
+                                    title={`mmi:${quake.mmi}`}
+                                />
 
 
                             </Card>
