@@ -34,7 +34,10 @@ export default class CustomView extends Component {
             region={{
               latitude: this.props.currentMessage.location.latitude,
               longitude: this.props.currentMessage.location.longitude,
+                latitudeDelta: ResourcesConfig.map.latitude_delta,
+                longitudeDelta: ResourcesConfig.map.longitude_delta,
             }}
+
             annotations={[{
               latitude: this.props.currentMessage.location.latitude,
               longitude: this.props.currentMessage.location.longitude,

@@ -1,3 +1,6 @@
+import {
+    Dimensions
+} from 'react-native';
 const {width, height} = Dimensions.get('window');
 const SCREEN_WIDTH = width;
 const ASPECT_RATIO = width / height;
