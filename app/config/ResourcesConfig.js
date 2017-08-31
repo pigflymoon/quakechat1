@@ -45,6 +45,20 @@ export default Resources = {
             name: 'MBIE',
             link: 'http://www.mbie.govt.nz/info-services/nz-govt-procurement-and-property/government-property-group/new-zealand-earthquake',
         },
+        {
+            name:'What\'s the Plan, Stan?',
+            link:'https://www.whatstheplanstan.govt.nz/events/earthquakes/',
+        }
+        ,
+        {
+            name:'New Zealand\'s tsunami hazard',
+            link:'https://www.whatstheplanstan.govt.nz/events/tsunami/',
+        }
+        ,
+        {
+            name:'Dealing with earthquake-related hazards',
+            link:'http://www.worksafe.govt.nz/worksafe/information-guidance/all-guidance-items/position-statements/position-statement-dealing-with-earthquake-related-hazards',
+        }
     ],
     map: {
         latitude: LATITUDE,
