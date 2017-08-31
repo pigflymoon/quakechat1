@@ -37,11 +37,11 @@ export default class ChatGroup extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.isConnected;//update netinfo
-        console.log('will chatgroup  is ?',isConnected)
-        this.setState({isConnected: isConnected});
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     var isConnected = nextProps.isConnected;//update netinfo
+    //     console.log('will chatgroup  is ?',isConnected)
+    //     this.setState({isConnected: isConnected});
+    // }
     setUid = (value) => {
         this.uid = value;
     }

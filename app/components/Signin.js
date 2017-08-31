@@ -31,36 +31,28 @@ export default class Signin extends Component {
             width: width,
             height: height,
         };
-
     }
-
-    componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.isConnected;//update netinfo
-        console.log('will sign  is ?', isConnected)
-        this.setState({isConnected: isConnected});
-    }
-
 
     signup = () => {
         Actions.signup();
     }
 
     handleSignin = (e) => {
-        console.log('sign in ', this.props.isConnected)
-        console.log(this.props.isConnected)
+
         var self = this;
-        e.preventDefault()
-        if (this.props.isConnected) {
-            console.log('sign in isConnected')
+        e.preventDefault();
+        // console.log('state',this.state.isConnected)
 
-            if (!this.state.email) {
-                console.log('sign in email is empty')
+        // if (this.props.screenProps) {
+        //     console.log('sign in isConnected')
 
-                this.setState({
-                    showInfo: true
-                });
-            }
+        if (!this.state.email) {
+            console.log('sign in email is empty')
 
+            this.setState({
+                showInfo: true
+            });
+        } else {
             firebaseApp.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
                 .then(function (user) {
                     firebaseApp.auth().onAuthStateChanged(function (user) {
@@ -91,11 +83,16 @@ export default class Signin extends Component {
 
 
                     }
-                    console.log(error);
+                    // utils.showError(errorMessage);
+                    // console.log(error);
                 });
-        } else {
-            utils.netWorkError();
         }
+
+
+        // }
+        // else {
+        //     utils.netWorkError();
+        // }
 
 
     }
@@ -130,13 +127,13 @@ export default class Signin extends Component {
         Dimensions.addEventListener('change', this.handleRotate);
     }
 
+
     componentWillUnmount() {
         // Important to stop updating state after unmount
         Dimensions.removeEventListener("change", this.handleRotate);
     }
 
     render() {
-        console.log('sign in ', this.props.isConnected)
 
         return (
             <View style={chat.container}>

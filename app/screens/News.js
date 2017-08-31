@@ -34,27 +34,14 @@ export default class News extends Component {
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
-        if (!nextProps.screenProps) {
+
+        if (isConnected) {
             this.setState({
-                refreshing: false,
+                refreshing: true,
             });
+            this.fetchNews(true);
         }
-
-
     }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.screenProps;//update netinfo
-    //     this.setState({isConnected: isConnected});
-    //     if (isConnected) {
-    //         return true;
-    //     } else {
-    //         this.setState({
-    //             refreshing: false
-    //         });
-    //         return false;
-    //     }
-    // }
 
     fetchApiData = () => {
         axios.get(Config.api.news_url)

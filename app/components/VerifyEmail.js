@@ -28,16 +28,16 @@ export default class ConfirmEmail extends Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.isConnected;//update netinfo
-        this.setState({isConnected: isConnected});
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     var isConnected = nextProps.isConnected;//update netinfo
+    //     this.setState({isConnected: isConnected});
+    // }
+    //
     handleVerifyEmail = (e) => {
-
         var self = this;
         var user = this.state.user
         e.preventDefault();
-        if (this.props.isConnected) {
+        // if (this.props.isConnected) {
             user.sendEmailVerification().then(
                 // setTimeout(
                 () => {
@@ -88,9 +88,9 @@ export default class ConfirmEmail extends Component {
                     console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
 
                 })
-        } else {
-            utils.netWorkError();
-        }
+        // } else {
+        //     utils.netWorkError();
+        // }
 
     }
 

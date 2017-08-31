@@ -79,7 +79,26 @@ export default class Utils {
             {cancelable: false}
         )
     }
-
+    static infoAlert = (title,message)=>{
+        Alert.alert(
+            title,
+            message,
+            [
+                {text: 'OK'},
+            ],
+            {cancelable: false}
+        )
+    }
+    static showError = (error)=>{
+        Alert.alert(
+            'Error',
+            `The error message:${error}`,
+            [
+                {text: 'OK'},
+            ],
+            {cancelable: false}
+        )
+    }
 
 
 }

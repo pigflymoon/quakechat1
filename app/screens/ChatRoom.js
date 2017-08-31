@@ -24,14 +24,20 @@ export default class ChatRoom extends Component {
         this.state = {
             isConnected: false,
         };
+
     }
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
-        console.log('chatroom  is ?',nextProps)
-        console.log('chatroom  is ?',isConnected)
+        console.log('chatroom  is ?', nextProps)
+        console.log('chatroom  is ?', isConnected)
         this.setState({isConnected: isConnected});
+        Actions.signin({isConnected: isConnected});
     }
+
+    // componentDidMount() {
+    //     Actions.signin({isConnected: false});
+    // }
 
     signout = () => {
         firebaseApp.auth().signOut().then(function () {
@@ -44,7 +50,7 @@ export default class ChatRoom extends Component {
     render() {
         return (
             <Router barButtonIconStyle={chat.barButtonIconStyle}>
-                <Scene key='root' passProps={true} isConnected={this.state.isConnected}>
+                <Scene key='root' passProps={true} screenProps={this.state.isConnected}>
                     <Scene key='chat' component={ChatGroup} hideNavBar={false} hideBackImage={true}
                            renderRightButton={
                                () => <TouchableOpacity style={chat.rightButton}

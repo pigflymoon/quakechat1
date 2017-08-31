@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
 import AnimatedInfo from './AnimatedInfo';
+import utils from '../utils/utils';
 
 export default class ResetPassword extends Component {
     constructor(props) {
@@ -28,19 +29,10 @@ export default class ResetPassword extends Component {
         };
     }
 
-    // shouldComponentUpdate(nextProps, nextState) {
+    // componentWillReceiveProps(nextProps) {
     //     var isConnected = nextProps.isConnected;//update netinfo
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
+    //     this.setState({isConnected: isConnected});
     // }
-
-    componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.isConnected;//update netinfo
-        this.setState({isConnected: isConnected});
-    }
 
     setEmail = (text) => {
         this.setState({email: text});
@@ -51,31 +43,26 @@ export default class ResetPassword extends Component {
     }
 
     handleResetPassword = () => {
-        if (this.props.isConnected) {
-            if (!this.state.email) {
-                this.setState({
-                    showInfo: true
-                });
-            }
+        // if (this.props.isConnected) {
+        if (!this.state.email) {
+            this.setState({
+                showInfo: true
+            });
+        } else {
             var auth = firebase.auth();
             var emailAddress = this.state.email;
             auth.sendPasswordResetEmail(emailAddress).then(function () {
                 // Email sent.
-                console.log('reset password sent to the emailAddress');
-                Alert.alert(
-                    'Success',
-                    `Reset password sent to the emailAddress,please check your email ${emailAddress}`,
-                    [
-                        {text: 'OK'},
-                    ],
-                    {cancelable: false}
-                )
+                utils.infoAlert('Success', `Reset password sent to the emailAddress,please check your email ${emailAddress}`);
                 Actions.signin();
             }, function (error) {
                 // An error happened.
-                console.log('Error', error);
+                utils.showError(error);
+
             });
         }
+
+        // }
 
 
     }

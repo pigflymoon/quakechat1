@@ -33,20 +33,13 @@ export default class Signup extends Component {
         };
     }
 
-
-    componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.isConnected;//update netinfo
-        this.setState({isConnected: isConnected});
-    }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.isConnected;//from root scene props
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         return true;
-    //     }
-    //     return false;
+    //
+    // componentWillReceiveProps(nextProps) {
+    //     var isConnected = nextProps.isConnected;//update netinfo
+    //     this.setState({isConnected: isConnected});
     // }
+
+
 
     handleSignin = () => {
         Actions.signin();
@@ -88,7 +81,7 @@ export default class Signup extends Component {
     handleSignup = (e) => {
         e.preventDefault();
         console.log('hi sign up?')
-        if (this.props.isConnected) {
+        // if (this.props.isConnected) {
             console.log('hi sign up')
             if (!this.state.email) {
                 this.setState({
@@ -102,7 +95,7 @@ export default class Signup extends Component {
 
                 this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
             }
-        }
+        // }
 
     }
     handleInfo = (showInfo) => {
