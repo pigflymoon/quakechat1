@@ -46,19 +46,35 @@ export default Resources = {
             link: 'http://www.mbie.govt.nz/info-services/nz-govt-procurement-and-property/government-property-group/new-zealand-earthquake',
         },
         {
-            name:'What\'s the Plan, Stan?',
-            link:'https://www.whatstheplanstan.govt.nz/events/earthquakes/',
-        }
-        ,
+            name: 'What\'s the Plan, Stan?',
+            link: 'https://www.whatstheplanstan.govt.nz/events/earthquakes/',
+        },
         {
-            name:'New Zealand\'s tsunami hazard',
-            link:'https://www.whatstheplanstan.govt.nz/events/tsunami/',
-        }
-        ,
+            name: 'New Zealand\'s tsunami hazard',
+            link: 'https://www.whatstheplanstan.govt.nz/events/tsunami/',
+        },
         {
-            name:'Dealing with earthquake-related hazards',
-            link:'http://www.worksafe.govt.nz/worksafe/information-guidance/all-guidance-items/position-statements/position-statement-dealing-with-earthquake-related-hazards',
+            name: 'Dealing with earthquake-related hazards',
+            link: 'http://www.worksafe.govt.nz/worksafe/information-guidance/all-guidance-items/position-statements/position-statement-dealing-with-earthquake-related-hazards',
+        },
+        {
+            name: 'Tsunami Evacuation Maps-Auckland Civil Defence',
+            link: 'http://www.aucklandcivildefence.org.nz/community/tsunami-evacuation-maps/',
+        },
+        {
+            name: 'Hazards in Wellington',
+            link: 'https://wellington.govt.nz/about-wellington/emergency-management/hazards',
+        },
+        {
+            name: 'Tsunami evacuation zone maps',
+            link: 'https://www.wremo.nz/hazards/tsunami-zones/',
+        },
+        {
+            name:'Emergency management - Hazards in Wellington',
+            link:'https://www.wremo.nz/hazards/earthquake/',
         }
+
+
     ],
     map: {
         latitude: LATITUDE,
