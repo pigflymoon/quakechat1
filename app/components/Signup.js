@@ -30,6 +30,7 @@ export default class Signup extends Component {
             isConnected: false,
             width: width,
             height: height,
+            showIcon: true,
         };
     }
 
@@ -38,7 +39,6 @@ export default class Signup extends Component {
     //     var isConnected = nextProps.isConnected;//update netinfo
     //     this.setState({isConnected: isConnected});
     // }
-
 
 
     handleSignin = () => {
@@ -82,19 +82,19 @@ export default class Signup extends Component {
         e.preventDefault();
         console.log('hi sign up?')
         // if (this.props.isConnected) {
-            console.log('hi sign up')
-            if (!this.state.email) {
-                this.setState({
-                    showInfo: true
-                });
-            } else if (!this.state.password) {
-                this.setState({
-                    showInfo: true
-                });
-            } else {
+        console.log('hi sign up')
+        if (!this.state.email) {
+            this.setState({
+                showInfo: true
+            });
+        } else if (!this.state.password) {
+            this.setState({
+                showInfo: true
+            });
+        } else {
 
-                this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
-            }
+            this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
+        }
         // }
 
     }
@@ -105,10 +105,25 @@ export default class Signup extends Component {
     }
 
     handleRotate = () => {
-        let {width, height} = Dimensions.get('screen');
-        this.setState({width: width, height: height});
+        // console.log('width,height',this.state.width,this.state.height)
 
+        let {width, height} = Dimensions.get('screen');
+        if (width > height) {
+            this.setState({width: width, height: height, showIcon: false})
+        } else {
+            this.setState({width: width, height: height, showIcon: true})
+        }
     }
+
+    componentDidMount() {
+        let {width, height} = Dimensions.get('screen');
+        if (this.state.width < width) {
+            this.setState({width: width, height: height, showIcon: false});
+        } else {
+            this.setState({width: width, height: height, showIcon: true});
+        }
+    }
+
     componentWillMount() {
         // Event Listener for orientation changes
         Dimensions.addEventListener('change', this.handleRotate);
@@ -125,12 +140,13 @@ export default class Signup extends Component {
 
                 <View style={{width: this.state.width, height: this.state.height, backgroundColor: colors.white}}
                       resizeMode="cover">
-                    <View style={[chat.markWrap]}>
-                        <View style={chat.circleIcon}>
-                            <Icon name="user-plus" size={75} color={colors.primary1} style={[chat.mark]}/>
-                        </View>
+                    {this.state.showIcon ?
+                        <View style={[chat.markWrap]}>
+                            <View style={chat.circleIcon}>
+                                <Icon name="user-plus" size={75} color={colors.primary1} style={[chat.mark]}/>
+                            </View>
 
-                    </View>
+                        </View> : null}
                     <View style={chat.wrapper}>
                         <View style={chat.inputWrap}>
                             <View style={chat.iconWrap}>

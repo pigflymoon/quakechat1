@@ -5,10 +5,12 @@ import {
     TextInput,
     TouchableOpacity,
     Alert,
+    Dimensions,
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
 import firebase from 'firebase';
+const {width, height} = Dimensions.get("screen");
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
@@ -25,7 +27,9 @@ export default class ResetPassword extends Component {
             password: '',
             showInfo: false,
             isConnected: false,
-
+            width: width,
+            height: height,
+            showIcon: true,
         };
     }
 
@@ -73,17 +77,47 @@ export default class ResetPassword extends Component {
         })
     }
 
+    handleRotate = () => {
+        let {width, height} = Dimensions.get('screen');
+        if (width > height) {
+            this.setState({width: width, height: height, showIcon: false})
+        } else {
+            this.setState({width: width, height: height, showIcon: true})
+        }
+    }
+
+    componentWillMount() {
+        // Event Listener for orientation changes
+        Dimensions.addEventListener('change', this.handleRotate);
+    }
+
+    componentDidMount() {
+        let {width, height} = Dimensions.get('screen');
+        if (this.state.width < width) {
+            this.setState({width: width, height: height, showIcon: false});
+        } else {
+            this.setState({width: width, height: height, showIcon: true});
+        }
+    }
+
+    componentWillUnmount() {
+        // Important to stop updating state after unmount
+        Dimensions.removeEventListener("change", this.handleRotate);
+    }
+
     render() {
         return (
             <View style={chat.container}>
 
-                <View style={chat.background}>
-                    <View style={[chat.markWrap]}>
-                        <View style={chat.circleIcon}>
-                            <Icon name="pencil" size={75} color={colors.primary1} style={[chat.mark]}/>
-                        </View>
 
-                    </View>
+                <View style={{width: this.state.width, height: this.state.height, backgroundColor: colors.white}}
+                      resizeMode="cover">
+                    {this.state.showIcon ?
+                        <View style={[chat.markWrap]}>
+                            <View style={chat.circleIcon}>
+                                <Icon name="pencil" size={75} color={colors.primary1} style={[chat.mark]}/>
+                            </View>
+                        </View> : null}
                     <View style={chat.wrapper}>
                         <View style={chat.inputWrap}>
                             <View style={chat.iconWrap}>

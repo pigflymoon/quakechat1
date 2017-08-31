@@ -10,7 +10,6 @@ import {
 const {width, height} = Dimensions.get("screen");
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
-import utils from '../utils/utils';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
@@ -30,6 +29,7 @@ export default class Signin extends Component {
             isConnected: false,
             width: width,
             height: height,
+            showIcon: true,
         };
     }
 
@@ -115,18 +115,27 @@ export default class Signin extends Component {
         })
     }
 
-
     handleRotate = () => {
         let {width, height} = Dimensions.get('screen');
-        this.setState({width: width, height: height});
-
+        if (width > height) {
+            this.setState({width: width, height: height, showIcon: false})
+        } else {
+            this.setState({width: width, height: height, showIcon: true})
+        }
     }
 
     componentWillMount() {
         // Event Listener for orientation changes
         Dimensions.addEventListener('change', this.handleRotate);
     }
-
+    componentDidMount() {
+        let {width, height} = Dimensions.get('screen');
+        if (this.state.width < width) {
+            this.setState({width: width, height: height, showIcon: false});
+        } else {
+            this.setState({width: width, height: height, showIcon: true});
+        }
+    }
 
     componentWillUnmount() {
         // Important to stop updating state after unmount
@@ -140,12 +149,12 @@ export default class Signin extends Component {
 
                 <View style={{width: this.state.width, height: this.state.height, backgroundColor: colors.white}}
                       resizeMode="cover">
-                    <View style={chat.markWrap}>
-                        <View style={chat.circleIcon}>
-                            <Icon name="sign-in" size={75} color={colors.primary1}/>
-                        </View>
-
-                    </View>
+                    {this.state.showIcon ?
+                        <View style={chat.markWrap}>
+                            <View style={chat.circleIcon}>
+                                <Icon name="sign-in" size={75} color={colors.primary1}/>
+                            </View>
+                        </View> : null}
                     <View style={chat.wrapper}>
 
                         <View style={chat.inputWrap}>
