@@ -14,9 +14,7 @@ import callout from '../styles/callout';
 
 import Utils from '../utils/utils';
 import ResourcesConfig from '../config/ResourcesConfig';
-
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
-
 
 var markersData = [];
 
@@ -29,7 +27,6 @@ export default class QuakeMap extends Component {
             error: null,
             isConnected: false,
             pincolor: Utils.colorByMmi(2),
-
 
         };
     }
@@ -107,6 +104,7 @@ export default class QuakeMap extends Component {
     //         return false;
     //     }
     // };
+
 
     renderPosts() {
         if (this.state.error) {

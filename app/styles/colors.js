@@ -5,8 +5,9 @@ export default {
     blue1:'#81d4fa',
     blue2:'#4fc3f7',
     secondary: '#8F0CE8',
-    secondary2: '#00B233',
-    secondary3: '#00FF48',
+    green: '#00B233',
+    green1: '#00FF48',
+
     grey0: '#393e42',
     grey1: '#43484d',
     grey2: '#5e6977',
