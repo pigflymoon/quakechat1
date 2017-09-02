@@ -16,7 +16,7 @@ import Settings from '../screens/Settings';
 
 const QuakeDetailScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
-    console.log('currentScreen',screenProps)
+    console.log('currentScreen', screenProps)
     if (currentScreen == 'Detail') {
         console.log(' Detail')
         return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
@@ -119,20 +119,19 @@ const QuakeMapScreen = ({navigation, screenProps}) => {
 //     },
 // });
 export const Tabs = TabNavigator({
-
-    Settings: {
-        screen: SettingsStack,
-        navigationOptions: {
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
-        }
-    },
     List: {
         screen: QuakesListStack,
         navigationOptions: {
             tabBarLabel: 'Quakes',
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
+    },
+    Settings: {
+        screen: SettingsStack,
+        navigationOptions: {
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
+        }
     },
     Map: {
         screen: QuakeMapScreen,
