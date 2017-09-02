@@ -16,10 +16,6 @@ export  default class UsgsTab extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
-            value: 'Not selected',
-            selectedIndex: 0,
-            showIndexValue: '',
             activeTag: 'hour',
         };
     }
@@ -27,9 +23,13 @@ export  default class UsgsTab extends Component {
 
     setActiveTab(tag) {
         LayoutAnimation.configureNext({...LayoutAnimation.Presets.linear, duration: 250})
-        this.setState({activeTag: tag})
+        this.setState({activeTag: tag});
+        this.props.onLifeCycle(tag);
     }
 
+    handleUsgsLevel = (level) => {
+        this.props.onQuakeUsgsLevel(level);
+    }
 
     renderTabs() {
         const {activeTag} = this.state;
@@ -40,30 +40,30 @@ export  default class UsgsTab extends Component {
             tabsStyle.tag, activeTag === 'day' && tabsStyle.activeTag
         ];
         const days7Styles = [
-            tabsStyle.tag, activeTag === '7days' && tabsStyle.activeTag
+            tabsStyle.tag, activeTag === 'week' && tabsStyle.activeTag
         ];
         const days30Styles = [
-            tabsStyle.tag, activeTag === '30days' && tabsStyle.activeTag
+            tabsStyle.tag, activeTag === 'month' && tabsStyle.activeTag
         ];
 
 
         return (
             <View style={tabsStyle.tabsContainer}>
                 <View style={tabsStyle.tabs}>
-                    <Badge containerStyle={hourStyles} wrapperStyle={{marginBottom:2}}
+                    <Badge containerStyle={hourStyles} wrapperStyle={{marginBottom: 2}}
                            onPress={() => this.setActiveTab('hour')}>
                         <Text style={tabsStyle.tagText}>Past Hour</Text>
                     </Badge>
-                    <Badge containerStyle={dayStyles} wrapperStyle={{marginBottom:2}}
+                    <Badge containerStyle={dayStyles} wrapperStyle={{marginBottom: 2}}
                            onPress={() => this.setActiveTab('day')}>
                         <Text style={tabsStyle.tagText}>Past Day</Text>
                     </Badge>
                     <Badge containerStyle={days7Styles} wrapperStyle={{marginBottom: 2}}
-                           onPress={() => this.setActiveTab('7days')}>
+                           onPress={() => this.setActiveTab('week')}>
                         <Text style={tabsStyle.tagText}>Past 7 Days</Text>
                     </Badge>
                     <Badge containerStyle={days30Styles} wrapperStyle={{marginBottom: 2}}
-                           onPress={() => this.setActiveTab('30days')}>
+                           onPress={() => this.setActiveTab('month')}>
                         <Text style={tabsStyle.tagText}>Past 30 Days</Text>
                     </Badge>
                 </View>
@@ -74,7 +74,7 @@ export  default class UsgsTab extends Component {
 
     renderTabsContent() {
         const {activeTag} = this.state
-        return  <UsgsLevelTab />
+        return <UsgsLevelTab onQuakeUsgsLevel={this.handleUsgsLevel}/>
     }
 
     render() {

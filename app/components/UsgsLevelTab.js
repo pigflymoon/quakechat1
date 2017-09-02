@@ -9,15 +9,39 @@ import tabsStyle from '../styles/tabs';
 
 export  default class UsgsLevelTab extends Component {
     constructor(props, context) {
-        super(props, context)
+        super(props, context);
+        this.state = {
+            values: ['All', '1.0+', '2.5+', '4.5+', 'Significant+'],
+            value: 'Not selected',
+            selectedIndex: 0,
+            showIndexValue: ''
+        };
+
+
     }
 
 
-    state = {
-        values: ['All', '1.0++', '2.5++', '4.5+', 'Significant+'],
-        value: 'Not selected',
-        selectedIndex: 0,
-        showIndexValue: ''
+
+    onChange = (event) => {
+
+        let selectedIndex = (event.nativeEvent.selectedSegmentIndex), showIndexValue;
+        showIndexValue = selectedIndex;
+        if (showIndexValue > 0) {
+            showIndexValue = showIndexValue ;
+        }
+        this.setState({
+            selectedIndex: selectedIndex,
+            showIndexValue: showIndexValue
+        });
+        console.log('choose level is ',showIndexValue)
+        this.props.onQuakeUsgsLevel(showIndexValue);
+    };
+
+    onValueChange = (value) => {
+        this.setState({
+            value: value,
+        });
+
     };
 
     render() {

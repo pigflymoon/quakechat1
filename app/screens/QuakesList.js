@@ -22,6 +22,7 @@ export default class QuakesList extends Component {
             level: 0,
             refreshing: false,
             isConnected: false,
+            api_source: Config.api.quakes_geonet_url,
         };
     }
 
@@ -29,8 +30,8 @@ export default class QuakesList extends Component {
         console.log('nextProps', nextProps);
 
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
-        console.log('list  is ?',nextProps)
-        console.log('list  is ?',isConnected)
+        console.log('list  is ?', nextProps)
+        console.log('list  is ?', isConnected)
         this.setState({isConnected: isConnected});
         if (!nextProps.screenProps.isConnected) {
             this.setState({
@@ -66,10 +67,18 @@ export default class QuakesList extends Component {
         })
     }
 
+    handleDataSource = (tab) => {
+        console.log('quake list  tab',tab)
+        let usgs_url = Config.api.quakes_usgs_url +'all_hour.geojson';
+        let url = (tab === 'newzealand') ? Config.api.quakes_geonet_url : usgs_url;
+        this.setState({
+            api_source: url
+        })
+    }
+
     renderOffline = () => {
         return (
             <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
-
         )
     }
 
@@ -83,9 +92,9 @@ export default class QuakesList extends Component {
                         onRefresh={this.getRefreshData}
                     />}
             >
-                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel}/>
+                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel} onDataSource={this.handleDataSource}/>
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
-                                nps_source={Config.api.quakes_url}
+                                nps_source={this.state.api_source}
                                 refreshing={this.state.refreshing}
                                 level={this.state.level}
                                 isConnected={this.props.screenProps.isConnected}
@@ -93,7 +102,8 @@ export default class QuakesList extends Component {
             </ScrollView>
         )
     }
-    componentWillUnmount(){
+
+    componentWillUnmount() {
         console.log('list will unmount')
     }
 

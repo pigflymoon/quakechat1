@@ -22,26 +22,41 @@ export  default class QuakeLevelTab extends Component {
             // showIndexValue: '',
             activeTab: 'newzealand',
             level: 0,
+            usgslevel: 'all',
+            life: 'hour'
         };
     }
 
 
-
-    setActiveTab (tab) {
+    setActiveTab(tab) {
         LayoutAnimation.configureNext({...LayoutAnimation.Presets.linear, duration: 250})
-        this.setState({activeTab: tab})
+        this.setState({activeTab: tab});
+        console.log('tab is ',tab)
+        this.props.onDataSource(tab)
     }
 
     handleQuakeLevel = (level) => {
-        console.log('reture to level tab',level)
+        console.log('reture to level tab', level)
         this.props.onQuakeLevel(level);
         this.setState({
             level: level
         })
     }
+    handleQuakeLifeCycle = (life) => {
+        this.setState({
+            life: life
+        })
+    }
 
-    renderTabs () {
-        const { activeTab } = this.state
+    handleQuakeUsgsLevel = (level) => {
+        console.log('usgs level',level)
+        this.setState({
+            usgslevel: level,
+        })
+    }
+
+    renderTabs() {
+        const {activeTab} = this.state
         const newzealandStyles = [
             tabsStyle.tab, activeTab === 'newzealand' && tabsStyle.activeTab
         ]
@@ -62,7 +77,7 @@ export  default class QuakeLevelTab extends Component {
                         style={newzealandStyles}
                         onPress={() => this.setActiveTab('newzealand')}>
                         <Text style={newzealandTextStyles}>
-                           New Zealand
+                            New Zealand
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -77,9 +92,11 @@ export  default class QuakeLevelTab extends Component {
             </View>
         )
     }
-    renderTabsContent () {
-        const { activeTab } = this.state
-        return activeTab === 'newzealand' ? <GeoNetLevelTab  onQuakeLevel={this.handleQuakeLevel}/> : <UsgsTab />
+
+    renderTabsContent() {
+        const {activeTab} = this.state
+        return activeTab === 'newzealand' ? <GeoNetLevelTab onQuakeLevel={this.handleQuakeLevel}/> :
+            <UsgsTab onLifeCycle={this.handleQuakeLifeCycle} onQuakeUsgsLevel={this.handleQuakeUsgsLevel}/>
     }
 
     render() {
@@ -89,25 +106,4 @@ export  default class QuakeLevelTab extends Component {
             </View>
         );
     }
-
-    // onChange = (event) => {
-    //
-    //     let selectedIndex = (event.nativeEvent.selectedSegmentIndex), showIndexValue;
-    //     showIndexValue = selectedIndex;
-    //     if (showIndexValue > 0) {
-    //         showIndexValue = showIndexValue + 2;
-    //     }
-    //     this.setState({
-    //         selectedIndex: selectedIndex,
-    //         showIndexValue: showIndexValue
-    //     });
-    //     this.props.onQuakeLevel(showIndexValue);
-    // };
-    //
-    // onValueChange = (value) => {
-    //     this.setState({
-    //         value: value,
-    //     });
-    //
-    // };
 }
