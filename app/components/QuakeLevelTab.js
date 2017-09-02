@@ -10,17 +10,18 @@ import {
 
 import tabsStyle from '../styles/tabs';
 import UsgsTab from './UsgsTab';
-import GeoNetTab from './GeoNetTab';
+import GeoNetLevelTab from './GeoNetLevelTab';
 
 export  default class QuakeLevelTab extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
-            value: 'Not selected',
-            selectedIndex: 0,
-            showIndexValue: '',
+            // values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
+            // value: 'Not selected',
+            // selectedIndex: 0,
+            // showIndexValue: '',
             activeTab: 'newzealand',
+            level: 0,
         };
     }
 
@@ -31,6 +32,13 @@ export  default class QuakeLevelTab extends Component {
         this.setState({activeTab: tab})
     }
 
+    handleQuakeLevel = (level) => {
+        console.log('reture to level tab',level)
+        this.props.onQuakeLevel(level);
+        this.setState({
+            level: level
+        })
+    }
 
     renderTabs () {
         const { activeTab } = this.state
@@ -71,7 +79,7 @@ export  default class QuakeLevelTab extends Component {
     }
     renderTabsContent () {
         const { activeTab } = this.state
-        return activeTab === 'global' ? <GeoNetTab /> : <UsgsTab />
+        return activeTab === 'newzealand' ? <GeoNetLevelTab  onQuakeLevel={this.handleQuakeLevel}/> : <UsgsTab />
     }
 
     render() {

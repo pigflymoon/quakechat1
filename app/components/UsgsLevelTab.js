@@ -7,14 +7,14 @@ import {
 } from 'react-native';
 import tabsStyle from '../styles/tabs';
 
-export  default class GeoNetTab extends Component {
+export  default class UsgsLevelTab extends Component {
     constructor(props, context) {
         super(props, context)
     }
 
 
     state = {
-        values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
+        values: ['All', '1.0++', '2.5++', '4.5+', 'Significant+'],
         value: 'Not selected',
         selectedIndex: 0,
         showIndexValue: ''

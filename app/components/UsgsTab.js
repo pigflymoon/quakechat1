@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Badge} from 'react-native-elements';
 import tabsStyle from '../styles/tabs';
-import GeoNetTab from './GeoNetTab';
+import UsgsLevelTab from './UsgsLevelTab';
 
 
 export  default class UsgsTab extends Component {
@@ -74,7 +74,7 @@ export  default class UsgsTab extends Component {
 
     renderTabsContent() {
         const {activeTag} = this.state
-        return activeTag === 'hour' ? <GeoNetTab /> : <GeoNetTab />
+        return  <UsgsLevelTab />
     }
 
     render() {
