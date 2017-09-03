@@ -38,6 +38,8 @@ export default class QuakeLevelList extends Component {
         this.interval && clearInterval(this.interval);
     }
 
+
+
     /**
      *
      * @param nextProps
@@ -45,6 +47,7 @@ export default class QuakeLevelList extends Component {
     async fetchQuakes(nextProps) {
         let self = this;
         let url = self.props.nps_source;
+        let tab = self.props.tab;
         // console.time('testTimer');
         if (nextProps) {
             if (nextProps.refreshing == true) {
@@ -63,7 +66,8 @@ export default class QuakeLevelList extends Component {
                     // this.stopTimer();
                 });
             } else {
-                url = url + nextProps.level;
+                url = nextProps.nps_source + nextProps.level;
+                console.log('url is: ',url,' tab is: ',nextProps.tab);
                 fetchQuakesByApi(url, function (quakes, notificationQuakes) {
                     self.setState({
                             quakes: quakes,
@@ -76,6 +80,7 @@ export default class QuakeLevelList extends Component {
                 // this.stopTimer();
             }
         } else {
+            console.log('url is: ',url,' tab is: ',self.props.tab);
             url = url + self.props.level;
             fetchQuakesByApi(url, function (quakes, notificationQuakes) {
                 self.setState({
@@ -94,9 +99,11 @@ export default class QuakeLevelList extends Component {
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
+        console.log('tab is ?',nextProps)
         if (nextProps.isConnected) {
             this.fetchQuakes(nextProps);
-        } else {
+        }
+        else {
             utils.netWorkError();
         }
 
@@ -115,11 +122,11 @@ export default class QuakeLevelList extends Component {
             }
         }
 
-        this.interval = setInterval(() => {
-            // console.log('called interval')
-            this.fetchQuakes();
-
-        }, 1000 * 10);
+        // this.interval = setInterval(() => {
+        //     // console.log('called interval')
+        //     this.fetchQuakes();
+        //
+        // }, 1000 * 10);
 
 
         // //Every half hour call data api.
@@ -140,7 +147,7 @@ export default class QuakeLevelList extends Component {
         this.stopTimer();
         // clearInterval(timer);
         // console.log('unmount', this.interval)
-        this.interval && clearInterval(this.interval);
+        // this.interval && clearInterval(this.interval);
         // console.log('unmount', this.interval)
     }
 

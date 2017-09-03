@@ -31,28 +31,50 @@ export  default class QuakeLevelTab extends Component {
     setActiveTab(tab) {
         LayoutAnimation.configureNext({...LayoutAnimation.Presets.linear, duration: 250})
         this.setState({activeTab: tab});
-        console.log('tab is ',tab)
-        this.props.onDataSource(tab)
+        // console.log('tab is ', tab, 'level ', this.state.level, 'life ', this.state.life)
+        // this.props.onDataSource(tab, this.state.level, this.state.life)
     }
 
-    handleQuakeLevel = (level) => {
-        console.log('reture to level tab', level)
-        this.props.onQuakeLevel(level);
-        this.setState({
-            level: level
-        })
-    }
-    handleQuakeLifeCycle = (life) => {
-        this.setState({
-            life: life
-        })
+    componentWillReceiveProps(nextProps) {
+        console.log('tab nextProps', nextProps);
+
+
     }
 
-    handleQuakeUsgsLevel = (level) => {
-        console.log('usgs level',level)
+    handleQuakeLevel = (life, level) => {
+        console.log('reture to level tab', this.state.activeTab, level)
+        if (this.state.activeTab === 'newzealand') {
+            this.props.onQuakeLevel(this.state.activeTab, level, '');
+            this.props.tab(this.state.activeTab);
+            this.setState({
+                level: level,
+            })
+        } else {
+            console.log('global life,', life, level)
+            this.props.onQuakeLevel(this.state.activeTab, life, level);
+            this.props.tab(this.state.activeTab);
+            this.setState({
+                usgslevel: level,
+                life: life,
+            })
+        }
+
+    }
+    // handleQuakeLifeCycle = (life) => {
+    //     console.log('life',life)
+    //     this.setState({
+    //         life: life
+    //     })
+    // }
+
+    handleQuakeUsgsLevel = (life, level) => {
+        console.log('usgs level', life, level)
         this.setState({
+            life: life,
             usgslevel: level,
-        })
+        });
+        // this.props.onDataSource(life,level);
+
     }
 
     renderTabs() {
@@ -96,7 +118,7 @@ export  default class QuakeLevelTab extends Component {
     renderTabsContent() {
         const {activeTab} = this.state
         return activeTab === 'newzealand' ? <GeoNetLevelTab onQuakeLevel={this.handleQuakeLevel}/> :
-            <UsgsTab onLifeCycle={this.handleQuakeLifeCycle} onQuakeUsgsLevel={this.handleQuakeUsgsLevel}/>
+            <UsgsTab  onQuakeUsgsLevel={this.handleQuakeLevel}/>
     }
 
     render() {

@@ -23,6 +23,7 @@ export default class QuakesList extends Component {
             refreshing: false,
             isConnected: false,
             api_source: Config.api.quakes_geonet_url,
+            tab: 'newzealand'
         };
     }
 
@@ -61,16 +62,46 @@ export default class QuakesList extends Component {
         });
     }
 
-    handleQuakeLevel = (level) => {
-        this.setState({
-            level: level
-        })
+    handleQuakeLevel = (tab, level, life) => {
+        console.log('this prop tab')
+        var url = Config.api.quakes_geonet_url;
+        if (tab === 'global') {
+            url = Config.api.quakes_usgs_url;
+            console.log('global quake api url', url);
+            this.setState({
+                tab: tab,
+                api_source: url,
+                level: `${level}_${life}.geojson`
+            })
+        } else {
+            console.log('newzealand quake api url', url);
+            this.setState({
+                tab: tab,
+                api_source: url,
+                level: level
+            })
+        }
+
+
+        // let url = (tab === 'newzealand') ? Config.api.quakes_geonet_url : usgs_url;
+        // console.log('quake api url', url);
+        // this.setState({
+        //     api_source: url
+        // })
+        // this.setState({
+        //     level: level
+        // })
     }
 
-    handleDataSource = (tab) => {
-        console.log('quake list  tab',tab)
-        let usgs_url = Config.api.quakes_usgs_url +'all_hour.geojson';
+
+    handleTab = (tab) => {
+        console.log('tab ', tab);
+    }
+    handleDataSource = (tab, life, level) => {
+        console.log('quake list  tab life level', tab, life, level)
+        let usgs_url = Config.api.quakes_usgs_url + `${life}_${level}.geojson`;
         let url = (tab === 'newzealand') ? Config.api.quakes_geonet_url : usgs_url;
+        console.log('quake api url', url);
         this.setState({
             api_source: url
         })
@@ -92,12 +123,13 @@ export default class QuakesList extends Component {
                         onRefresh={this.getRefreshData}
                     />}
             >
-                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel} onDataSource={this.handleDataSource}/>
+                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel} tab={this.handleTab}/>
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
                                 nps_source={this.state.api_source}
+                                tab={this.state.tab}
                                 refreshing={this.state.refreshing}
                                 level={this.state.level}
-                                isConnected={this.props.screenProps.isConnected}
+                                isConnected={true}
                 />
             </ScrollView>
         )

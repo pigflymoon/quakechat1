@@ -21,19 +21,35 @@ export  default class UsgsLevelTab extends Component {
     }
 
 
-
     onChange = (event) => {
 
         let selectedIndex = (event.nativeEvent.selectedSegmentIndex), showIndexValue;
-        showIndexValue = selectedIndex;
-        if (showIndexValue > 0) {
-            showIndexValue = showIndexValue ;
+
+        switch (selectedIndex) {
+            case 0:
+                showIndexValue = 'all';
+                break;
+            case 1:
+                showIndexValue = '1.0';
+                break;
+            case 2:
+                showIndexValue = '2.5';
+                break;
+            case 3:
+                showIndexValue = '4.5';
+                break;
+            case 4:
+                showIndexValue = 'significant';
+                break;
+            default:
+                showIndexValue = 'all';;
         }
+
         this.setState({
             selectedIndex: selectedIndex,
             showIndexValue: showIndexValue
         });
-        console.log('choose level is ',showIndexValue)
+        console.log('choose level is ', showIndexValue)
         this.props.onQuakeUsgsLevel(showIndexValue);
     };
 

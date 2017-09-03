@@ -31,7 +31,7 @@ export  default class GeoNetLevelTab extends Component {
             showIndexValue: showIndexValue
         });
         console.log('choose level is ',showIndexValue)
-        this.props.onQuakeLevel(showIndexValue);
+        this.props.onQuakeLevel('',showIndexValue);
     };
 
     onValueChange = (value) => {
