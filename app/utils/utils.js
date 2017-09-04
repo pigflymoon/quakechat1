@@ -24,8 +24,9 @@ export default class Utils {
             }
         });
     }
-    static colorByMmi = (mmi) => {
-        switch (mmi) {
+    static colorByLevel= (type, mmi, mag) => {
+        var level = (type === 'geonet') ? mmi : parseInt(mag);
+        switch (level) {
             case -2:
                 return colors.green
             case -1:
@@ -56,27 +57,6 @@ export default class Utils {
         }
     }
 
-    static colorByMag = (mag) => {
-        switch (mag) {
-            case 'all':
-                return colors.orange1
-                break;
-            case '1.0':
-                return colors.orange2
-                break;
-            case '2.5':
-                return colors.orange3
-                break;
-            case '4.5':
-                return colors.orange4
-                break;
-            case 'significant':
-                return colors.orange5
-                break;
-            default:
-                return colors.orange1
-        }
-    }
     static bind = (context) => (...methods) => (methods.forEach(method => context[method] = context[method].bind(context)));
     static shareText = (message, url) => {
         var shareText = {

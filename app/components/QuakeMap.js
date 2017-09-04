@@ -15,19 +15,18 @@ import callout from '../styles/callout';
 import Utils from '../utils/utils';
 import ResourcesConfig from '../config/ResourcesConfig';
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
+import colors from '../styles/colors';
 
 var markersData = [];
 
 export default class QuakeMap extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             quakes: [],
             error: null,
             isConnected: false,
-            pincolor: Utils.colorByMmi(2),
-
+            pincolor: colors.orange1,
         };
     }
 
@@ -93,19 +92,6 @@ export default class QuakeMap extends Component {
         );
     }
 
-
-    // onQuakeDetail = (isConnected, quake, backScreen) => {
-    //     if (backScreen == 'Map') {
-    //         console.log('quake', quake)
-    //         // this.hideCallout();
-    //         // this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
-    //
-    //     } else {
-    //         return false;
-    //     }
-    // };
-
-
     renderPosts() {
         if (this.state.error) {
             return this.renderError();
@@ -132,7 +118,7 @@ export default class QuakeMap extends Component {
                     <MapView.Marker style={map.marker}
                                     coordinate={quake.coordinates}
                                     key={`quake-${index}`}
-                                    pinColor={Utils.colorByMmi(quake.mmi)}
+                                    pinColor={Utils.colorByLevel(quake.apiType, quake.mmi, quake.magnitude)}
                     >
                         <MapView.Callout style={callout.container}>
 
