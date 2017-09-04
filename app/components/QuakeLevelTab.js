@@ -22,8 +22,8 @@ export  default class QuakeLevelTab extends Component {
             // showIndexValue: '',
             activeTab: 'newzealand',
             level: 0,
-            usgslevel: 'all',
-            life: 'hour'
+            usgslevel: '',
+            life: ''
         };
     }
 

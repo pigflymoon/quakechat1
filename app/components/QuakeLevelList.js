@@ -37,22 +37,11 @@ export default class QuakeLevelList extends Component {
         this.interval && clearInterval(this.interval);
     }
 
-
-    /**
-     *
-     * @param nextProps
-     */
-    async fetchQuakes(nextProps) {
+    fetchQuakeData = (refresh, tab, url,) => {
         let self = this;
-        let url = self.props.nps_source;
-        let tab = self.props.tab;
-        // console.time('testTimer');
-        if (nextProps) {
-            if (nextProps.refreshing == true) {
-                url = url + nextProps.level;
-                // this.fetchApiData(url, 'refreshing');
+        if (refresh) {
+            if (tab === 'newzealand') {
                 fetchQuakesByApi(url, function (quakes, notificationQuakes) {
-
                     self.setState({
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
@@ -65,10 +54,72 @@ export default class QuakeLevelList extends Component {
                     // this.stopTimer();
                 });
             } else {
-                url = nextProps.nps_source + nextProps.level;
-                console.log('url is: ', url, ' tab is: ', nextProps.tab);
+                fetchQuakesByUsgsApi(url, function (quakes, notificationQuakes) {
+                    self.setState({
+                            quakes: quakes,
+                            notificationQuakes: notificationQuakes,
+                            loading: false,
+                            error: null,
+
+                        }
+                    );
+                    nextProps.onRefreshData(false);
+                    // this.stopTimer();
+                });
+            }
+
+        } else {
+
+        }
+    }
+
+    /**
+     *
+     * @param nextProps
+     */
+    async fetchQuakes(nextProps) {
+        let self = this;
+        var url;
+        let tab = self.props.tab;
+        // console.time('testTimer');
+        if (nextProps) {
+            let geoUrl = Config.api.quakes_geonet_url + nextProps.level;
+            let usgUrl = Config.api.quakes_usgs_url + nextProps.level;
+            if (nextProps.refreshing == true) {
                 if (nextProps.tab === 'newzealand') {
-                    fetchQuakesByApi(url, function (quakes, notificationQuakes) {
+                    // url = Config.api.quakes_geonet_url + nextProps.level;
+                    fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
+                        self.setState({
+                                quakes: quakes,
+                                notificationQuakes: notificationQuakes,
+                                loading: false,
+                                error: null,
+
+                            }
+                        );
+                        nextProps.onRefreshData(false);
+                        // this.stopTimer();
+                    });
+                } else {
+                    // url = Config.api.quakes_usgs_url + nextProps.level;
+                    fetchQuakesByUsgsApi(usgUrl, function (quakes, notificationQuakes) {
+                        self.setState({
+                                quakes: quakes,
+                                notificationQuakes: notificationQuakes,
+                                loading: false,
+                                error: null,
+
+                            }
+                        );
+                        nextProps.onRefreshData(false);
+                        // this.stopTimer();
+                    })
+                }
+
+            } else {
+
+                if (nextProps.tab === 'newzealand') {
+                    fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
                         self.setState({
                                 quakes: quakes,
                                 notificationQuakes: notificationQuakes,
@@ -79,8 +130,8 @@ export default class QuakeLevelList extends Component {
                         );
                     });
                 } else {
-                    fetchQuakesByUsgsApi(url, function (quakes, notificationQuakes) {
-                        console.log('usgs quake',quakes)
+                    fetchQuakesByUsgsApi(usgUrl, function (quakes, notificationQuakes) {
+                        console.log('usgs quake', quakes)
                         self.setState({
                                 quakes: quakes,
                                 notificationQuakes: notificationQuakes,
@@ -95,11 +146,11 @@ export default class QuakeLevelList extends Component {
                 // this.stopTimer();
             }
         } else {
-            console.log('url is: ', url, ' tab is: ', self.props.tab);
-
+            let geoUrl = Config.api.quakes_geonet_url + self.props.level;
+            let usgUrl = Config.api.quakes_usgs_url + self.props.level;
             if (self.props.tab === 'newzealand') {
-                url = Config.api.quakes_geonet_url + self.props.level;
-                fetchQuakesByApi(url, function (quakes, notificationQuakes) {
+                // url = Config.api.quakes_geonet_url + self.props.level;
+                fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
                     self.setState({
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
@@ -111,9 +162,9 @@ export default class QuakeLevelList extends Component {
                 });
                 self.props.onRefreshData(false);
             } else {
-                url = Config.api.quakes_usgs_url + self.props.level;
-                fetchQuakesByUsgsApi(url, function (quakes, notificationQuakes) {
-                    console.log('usgs quake',quakes)
+                // url = Config.api.quakes_usgs_url + self.props.level;
+                fetchQuakesByUsgsApi(usgUrl, function (quakes, notificationQuakes) {
+                    console.log('usgs quake', quakes)
 
                     self.setState({
                             quakes: quakes,
@@ -134,7 +185,7 @@ export default class QuakeLevelList extends Component {
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
-        console.log('tab is ?', nextProps)
+        console.log('swtich tab is ?', nextProps)
         if (nextProps.isConnected) {
             this.fetchQuakes(nextProps);
         }

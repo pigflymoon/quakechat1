@@ -85,7 +85,7 @@ export const fetchQuakesByUsgsApi = (url, callback) => {
     // AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
         axios.get(url)
             .then(function (result) {
-                console.log('fetch data!',url,result)
+
                 let quakesData = result.data.features;
                 let quakesArray = [],
                     notificationQuakes = [],

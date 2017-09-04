@@ -19,7 +19,7 @@ export default class QuakeItem extends Component {
     };
 
     onQuakeColor = (type, mmi, mag) => {
-        console.log('quake color',type)
+
         if (type === 'usgs') {
             return Utils.colorByMag(mag)
         }
@@ -28,7 +28,7 @@ export default class QuakeItem extends Component {
 
     render() {
         let {quake, isConnected} = this.props;
-        console.log('data',quake)
+
         return (
             <ListItem
                 leftIcon={{

@@ -97,15 +97,15 @@ export default class QuakesList extends Component {
     handleTab = (tab) => {
         console.log('tab ', tab);
     }
-    handleDataSource = (tab, life, level) => {
-        console.log('quake list  tab life level', tab, life, level)
-        let usgs_url = Config.api.quakes_usgs_url + `${level}_${life}.geojson`;
-        let url = (tab === 'newzealand') ? Config.api.quakes_geonet_url : usgs_url;
-        console.log('quake api url', url);
-        this.setState({
-            api_source: url
-        })
-    }
+    // handleDataSource = (tab, life, level) => {
+    //     console.log('quake list  tab life level', tab, life, level)
+    //     let usgs_url = Config.api.quakes_usgs_url + `${level}_${life}.geojson`;
+    //     let url = (tab === 'newzealand') ? Config.api.quakes_geonet_url : usgs_url;
+    //     console.log('quake api url', url);
+    //     this.setState({
+    //         api_source: url
+    //     })
+    // }
 
     renderOffline = () => {
         return (
