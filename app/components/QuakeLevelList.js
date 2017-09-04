@@ -37,50 +37,12 @@ export default class QuakeLevelList extends Component {
         this.interval && clearInterval(this.interval);
     }
 
-    fetchQuakeData = (refresh, tab, url,) => {
-        let self = this;
-        if (refresh) {
-            if (tab === 'newzealand') {
-                fetchQuakesByApi(url, function (quakes, notificationQuakes) {
-                    self.setState({
-                            quakes: quakes,
-                            notificationQuakes: notificationQuakes,
-                            loading: false,
-                            error: null,
-
-                        }
-                    );
-                    nextProps.onRefreshData(false);
-                    // this.stopTimer();
-                });
-            } else {
-                fetchQuakesByUsgsApi(url, function (quakes, notificationQuakes) {
-                    self.setState({
-                            quakes: quakes,
-                            notificationQuakes: notificationQuakes,
-                            loading: false,
-                            error: null,
-
-                        }
-                    );
-                    nextProps.onRefreshData(false);
-                    // this.stopTimer();
-                });
-            }
-
-        } else {
-
-        }
-    }
-
     /**
      *
      * @param nextProps
      */
     async fetchQuakes(nextProps) {
         let self = this;
-        var url;
-        let tab = self.props.tab;
         // console.time('testTimer');
         if (nextProps) {
             let geoUrl = Config.api.quakes_geonet_url + nextProps.level;
@@ -162,7 +124,6 @@ export default class QuakeLevelList extends Component {
                 });
                 self.props.onRefreshData(false);
             } else {
-                // url = Config.api.quakes_usgs_url + self.props.level;
                 fetchQuakesByUsgsApi(usgUrl, function (quakes, notificationQuakes) {
                     console.log('usgs quake', quakes)
 

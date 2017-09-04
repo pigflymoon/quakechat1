@@ -17,21 +17,30 @@ export  default class UsgsTab extends Component {
         super(props, context);
         this.state = {
             activeTag: 'hour',
-            level:'all'
+            level: 'all'
         };
     }
 
+    componentDidMount(){
+        //set default for usg data
+        this.props.onQuakeUsgsLevel(this.state.activeTag,this.state.level);
+    }
 
     setActiveTab(tag) {
-        LayoutAnimation.configureNext({...LayoutAnimation.Presets.linear, duration: 250})
+        console.log('#############Usgs tag is ',tag,this.state.level)
+        LayoutAnimation.configureNext({...LayoutAnimation.Presets.linear, duration: 250});
+        //tag change to fetch data
+        this.props.onQuakeUsgsLevel(tag, this.state.level);
         this.setState({activeTag: tag});
+
     }
 
     handleUsgsLevel = (level) => {
         this.setState({
-            level:level
+            level: level
         });
-         this.props.onQuakeUsgsLevel(this.state.activeTag,level);
+        //level change to fetch data
+        this.props.onQuakeUsgsLevel(this.state.activeTag, level);
     }
 
     renderTabs() {

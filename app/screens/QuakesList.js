@@ -62,21 +62,23 @@ export default class QuakesList extends Component {
         });
     }
 
-    handleQuakeLevel = (tab, level, life) => {
-        console.log('this prop tab')
+    handleQuakeLevel = (tab, tag, level, life) => {
+        console.log('this prop tab tag',tab,tag)
         var url = Config.api.quakes_geonet_url;
         if (tab === 'global') {
             url = Config.api.quakes_usgs_url;
             console.log('global quake api url', url);
             this.setState({
-                tab: tab,
+                tab: 'global',
+                tag: tag,
                 api_source: url,
                 level: `${level}_${life}.geojson`
             })
         } else {
             console.log('newzealand quake api url', url);
             this.setState({
-                tab: tab,
+                tab: 'newzealand',
+                tag: tag,
                 api_source: url,
                 level: level
             })
@@ -93,10 +95,6 @@ export default class QuakesList extends Component {
         // })
     }
 
-
-    handleTab = (tab) => {
-        console.log('tab ', tab);
-    }
     // handleDataSource = (tab, life, level) => {
     //     console.log('quake list  tab life level', tab, life, level)
     //     let usgs_url = Config.api.quakes_usgs_url + `${level}_${life}.geojson`;
@@ -123,10 +121,11 @@ export default class QuakesList extends Component {
                         onRefresh={this.getRefreshData}
                     />}
             >
-                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel} tab={this.handleTab}/>
+                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel} />
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
                                 nps_source={this.state.api_source}
                                 tab={this.state.tab}
+                                tag={this.state.tag}
                                 refreshing={this.state.refreshing}
                                 level={this.state.level}
                                 isConnected={true}

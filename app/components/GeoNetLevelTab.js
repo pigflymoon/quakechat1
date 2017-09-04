@@ -14,9 +14,13 @@ export  default class GeoNetLevelTab extends Component {
             values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
             value: 'Not selected',
             selectedIndex: 0,
-            showIndexValue: '',
+            showIndexValue: 0,
             activeTab: 'newzealand',
         };
+    }
+    componentDidMount(){
+        //set default for geonet data
+        this.props.onQuakeLevel('',this.state.showIndexValue);
     }
 
     onChange = (event) => {
