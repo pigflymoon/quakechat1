@@ -99,7 +99,7 @@ export default class QuakesList extends Component {
     }
     handleDataSource = (tab, life, level) => {
         console.log('quake list  tab life level', tab, life, level)
-        let usgs_url = Config.api.quakes_usgs_url + `${life}_${level}.geojson`;
+        let usgs_url = Config.api.quakes_usgs_url + `${level}_${life}.geojson`;
         let url = (tab === 'newzealand') ? Config.api.quakes_geonet_url : usgs_url;
         console.log('quake api url', url);
         this.setState({

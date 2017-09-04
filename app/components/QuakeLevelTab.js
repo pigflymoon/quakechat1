@@ -51,7 +51,7 @@ export  default class QuakeLevelTab extends Component {
             })
         } else {
             console.log('global life,', life, level)
-            this.props.onQuakeLevel(this.state.activeTab, life, level);
+            this.props.onQuakeLevel(this.state.activeTab, level, life);
             this.props.tab(this.state.activeTab);
             this.setState({
                 usgslevel: level,

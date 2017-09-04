@@ -55,6 +55,28 @@ export default class Utils {
                 return colors.orange7
         }
     }
+
+    static colorByMag = (mag) => {
+        switch (mag) {
+            case 'all':
+                return colors.orange1
+                break;
+            case '1.0':
+                return colors.orange2
+                break;
+            case '2.5':
+                return colors.orange3
+                break;
+            case '4.5':
+                return colors.orange4
+                break;
+            case 'significant':
+                return colors.orange5
+                break;
+            default:
+                return colors.orange1
+        }
+    }
     static bind = (context) => (...methods) => (methods.forEach(method => context[method] = context[method].bind(context)));
     static shareText = (message, url) => {
         var shareText = {

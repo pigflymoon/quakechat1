@@ -18,15 +18,24 @@ export default class QuakeItem extends Component {
         this.props.navigation.navigate('Detail', {isConnected, quake});
     };
 
+    onQuakeColor = (type, mmi, mag) => {
+        console.log('quake color',type)
+        if (type === 'usgs') {
+            return Utils.colorByMag(mag)
+        }
+        return Utils.colorByMmi(mmi)
+    }
+
     render() {
         let {quake, isConnected} = this.props;
+        console.log('data',quake)
         return (
             <ListItem
                 leftIcon={{
                     name: 'map-marker',
                     type: 'font-awesome',
                     size: 35,
-                    color: Utils.colorByMmi(quake.mmi)
+                    color: this.onQuakeColor(quake.apiType, quake.mmi, quake.magnitude)
                 }}
                 title={`NZST: ${quake.time}`}
                 subtitle={

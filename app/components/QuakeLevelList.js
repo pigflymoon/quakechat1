@@ -12,11 +12,10 @@ import {
 import {List, ListItem} from 'react-native-elements';
 import QuakeItem from './QuakeItem';
 import utils from '../utils/utils';
-
-
+import Config from '../config/ApiConfig';
 import PushNotification from 'react-native-push-notification';
 
-import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
+import {fetchQuakesByApi, fetchQuakesByUsgsApi} from '../utils/FetchQuakesByApi';
 var timer;
 export default class QuakeLevelList extends Component {
 
@@ -39,7 +38,6 @@ export default class QuakeLevelList extends Component {
     }
 
 
-
     /**
      *
      * @param nextProps
@@ -59,7 +57,8 @@ export default class QuakeLevelList extends Component {
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
                             loading: false,
-                            error: null
+                            error: null,
+
                         }
                     );
                     nextProps.onRefreshData(false);
@@ -67,31 +66,67 @@ export default class QuakeLevelList extends Component {
                 });
             } else {
                 url = nextProps.nps_source + nextProps.level;
-                console.log('url is: ',url,' tab is: ',nextProps.tab);
+                console.log('url is: ', url, ' tab is: ', nextProps.tab);
+                if (nextProps.tab === 'newzealand') {
+                    fetchQuakesByApi(url, function (quakes, notificationQuakes) {
+                        self.setState({
+                                quakes: quakes,
+                                notificationQuakes: notificationQuakes,
+                                loading: false,
+                                error: null,
+
+                            }
+                        );
+                    });
+                } else {
+                    fetchQuakesByUsgsApi(url, function (quakes, notificationQuakes) {
+                        console.log('usgs quake',quakes)
+                        self.setState({
+                                quakes: quakes,
+                                notificationQuakes: notificationQuakes,
+                                loading: false,
+                                error: null,
+
+                            }
+                        );
+                    });
+                }
+
+                // this.stopTimer();
+            }
+        } else {
+            console.log('url is: ', url, ' tab is: ', self.props.tab);
+
+            if (self.props.tab === 'newzealand') {
+                url = Config.api.quakes_geonet_url + self.props.level;
                 fetchQuakesByApi(url, function (quakes, notificationQuakes) {
                     self.setState({
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
                             loading: false,
-                            error: null
+                            error: null,
+
                         }
                     );
                 });
-                // this.stopTimer();
+                self.props.onRefreshData(false);
+            } else {
+                url = Config.api.quakes_usgs_url + self.props.level;
+                fetchQuakesByUsgsApi(url, function (quakes, notificationQuakes) {
+                    console.log('usgs quake',quakes)
+
+                    self.setState({
+                            quakes: quakes,
+                            notificationQuakes: notificationQuakes,
+                            loading: false,
+                            error: null,
+
+                        }
+                    );
+                });
+                self.props.onRefreshData(false);
             }
-        } else {
-            console.log('url is: ',url,' tab is: ',self.props.tab);
-            url = url + self.props.level;
-            fetchQuakesByApi(url, function (quakes, notificationQuakes) {
-                self.setState({
-                        quakes: quakes,
-                        notificationQuakes: notificationQuakes,
-                        loading: false,
-                        error: null
-                    }
-                );
-            });
-            self.props.onRefreshData(false);
+
             // this.stopTimer();
         }
     }
@@ -99,7 +134,7 @@ export default class QuakeLevelList extends Component {
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
-        console.log('tab is ?',nextProps)
+        console.log('tab is ?', nextProps)
         if (nextProps.isConnected) {
             this.fetchQuakes(nextProps);
         }
@@ -232,7 +267,6 @@ export default class QuakeLevelList extends Component {
     };
 
 
-
     render() {
         if (this.state.loading) {
             return this.renderLoadingView();
@@ -243,7 +277,7 @@ export default class QuakeLevelList extends Component {
 
                 {this.state.quakes.map((quake, index) => (
                     <QuakeItem key={`list-${index}`} navigation={this.props.navigation} quake={quake}
-                               isConnected={this.state.isConnected}/>
+                               isConnected={true}/>
 
                 ))}
             </List>
