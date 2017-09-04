@@ -27,6 +27,8 @@ export default class QuakeMap extends Component {
             error: null,
             isConnected: false,
             pincolor: colors.orange1,
+            latitude: ResourcesConfig.map.latitude,
+            longitude: ResourcesConfig.map.longitude,
         };
     }
 
@@ -37,6 +39,7 @@ export default class QuakeMap extends Component {
             this.loadMapInfo(nextProps)
         }
     }
+
 
     componentDidMount() {
         this.setState({isConnected: this.props.isConnected})
@@ -79,15 +82,15 @@ export default class QuakeMap extends Component {
 
     loadFeatures() {
         markersData = [];
-
         let post = this.props.mapInfo;
-
         markersData.push(post.quake);
-        console.log('markersData', markersData)
+
         this.setState({
                 quakes: markersData,
                 error: null,
-                mapType: 'detail'
+                mapType: 'detail',
+                longitude: post.quake.coordinates.longitude,
+                latitude: post.quake.coordinates.latitude
             }
         );
     }
@@ -108,8 +111,8 @@ export default class QuakeMap extends Component {
                 showsScale
                 loadingEnabled={true}
                 region={{
-                    latitude: ResourcesConfig.map.latitude,
-                    longitude: ResourcesConfig.map.longitude,
+                    latitude: this.state.latitude,
+                    longitude: this.state.longitude,
                     latitudeDelta: ResourcesConfig.map.latitude_delta,
                     longitudeDelta: ResourcesConfig.map.longitude_delta,
                 }}>
