@@ -14,7 +14,7 @@ export const fetchQuakesByApi = (url, callback) => {
                 let quakesArray = [],
                     notificationQuakes = [],
                     lastNotificationTime = 0;
-                // quakesData =  quakesData.slice(0, 10);
+
 
                 for (let quake of quakesData) {
                     let time = quake.properties.time;
@@ -87,6 +87,7 @@ export const fetchQuakesByUsgsApi = (url, callback) => {
             .then(function (result) {
 
                 let quakesData = result.data.features;
+                quakesData =  quakesData.slice(0, 100);
                 let quakesArray = [],
                     notificationQuakes = [],
                     lastNotificationTime = 0;
