@@ -14,7 +14,37 @@ import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
 
 
+const TabScreen = ({navigation, screenProps}) => {
+    console.log('tab navigation', navigation, 'tab screenProps', screenProps)
+    var currentScreen = screenProps.currentScreen;
+
+    switch (currentScreen) {
+        case 'List':
+            return <QuakesList navigation={navigation} screenProps={screenProps}/>
+            break;
+        case 'Detail':
+            return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
+            break;
+        // case 'News':
+        //     return <News navigation={navigation} screenProps={screenProps}/>
+        //     break;
+        // case 'Setting':
+        //     return <Settings navigation={navigation} screenProps={screenProps}/>
+        //     break;
+        // case 'Map':
+        //     return <QuakesMap navigation={navigation} screenProps={screenProps}/>
+        //     break;
+        // case 'Chat':
+        //     return <ChatRoom navigation={navigation} screenProps={screenProps}/>
+        //     break;
+        default:
+            return null;
+    }
+
+}
+
 const QuakeDetailScreen = ({navigation, screenProps}) => {
+    console.log('**************Detail tab navigation', navigation, 'tab screenProps', screenProps)
     var currentScreen = screenProps.currentScreen;
     console.log('currentScreen', screenProps)
     if (currentScreen == 'Detail') {
@@ -35,7 +65,6 @@ const QuakesListScreen = ({navigation, screenProps}) => {
     }
 
 }
-
 const NewsScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
     console.log('currentScreen', screenProps)
@@ -48,35 +77,16 @@ const NewsScreen = ({navigation, screenProps}) => {
 
 }
 
-
-const TabScreen = ({navigation, screenProps}) => {
+const ChatRoomScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
     console.log('currentScreen', screenProps)
-    switch (currentScreen) {
-        case 'List':
-            return <QuakesList navigation={navigation} screenProps={screenProps}/>
-            break;
-        case 'Detail':
-            return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
-            break;
-        case 'News':
-            return <News navigation={navigation} screenProps={screenProps}/>
-            break;
-        case 'Setting':
-            return <Settings navigation={navigation} screenProps={screenProps}/>
-            break;
-        case 'Map':
-            return <QuakesMap navigation={navigation} screenProps={screenProps}/>
-            break;
-        case 'Chat':
-            return <ChatRoom navigation={navigation} screenProps={screenProps}/>
-            break;
-        default:
-            return null;
+    if (currentScreen == 'ChatRoom') {
+        return <ChatRoom navigation={navigation} screenProps={screenProps}/>
+    } else {
+        return null;
     }
 
 }
-
 
 export const QuakesListStack = StackNavigator({
     List: {
@@ -146,6 +156,7 @@ export const NewsStack = StackNavigator({
     },
 });
 const QuakeMapScreen = ({navigation, screenProps}) => {
+    console.log('navigation', navigation)
     var currentScreen = screenProps.currentScreen;
 
     if (currentScreen !== 'Map') {
@@ -194,7 +205,6 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
         },
     },
-
     News: {
         screen: NewsStack,
         navigationOptions: {
@@ -202,15 +212,11 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
         },
     },
-
-
     ChatRoom: {
-        screen: ChatRoom,
+        screen: ChatRoomScreen,
         navigationOptions: {
             tabBarLabel: 'ChatRoom',
             tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
         }
     },
-
-
 });
