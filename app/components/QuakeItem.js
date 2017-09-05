@@ -15,11 +15,13 @@ export default class QuakeItem extends Component {
     }
 
     onQuakeDetail = (isConnected, quake) => {
+        console.log('quake detail isConnected',isConnected)
         this.props.navigation.navigate('Detail', {isConnected, quake});
     };
 
     render() {
         let {quake, isConnected} = this.props;
+        console.log('this props',this.props)
 
         return (
             <ListItem

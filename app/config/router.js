@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button} from 'react-native';
+import {Button, View, Text,} from 'react-native';
 import {TabNavigator, StackNavigator} from 'react-navigation';
 import {Icon} from 'react-native-elements';
 
@@ -25,16 +25,69 @@ const QuakeDetailScreen = ({navigation, screenProps}) => {
     }
 
 }
+const QuakesListScreen = ({navigation, screenProps}) => {
+    var currentScreen = screenProps.currentScreen;
+    console.log('currentScreen', screenProps)
+    if (currentScreen == 'List') {
+        return <QuakesList navigation={navigation} screenProps={screenProps}/>
+    } else {
+        return null;
+    }
+
+}
+
+const NewsScreen = ({navigation, screenProps}) => {
+    var currentScreen = screenProps.currentScreen;
+    console.log('currentScreen', screenProps)
+    if (currentScreen == 'News') {
+        console.log(' News')
+        return <News navigation={navigation} screenProps={screenProps}/>
+    } else {
+        return null;
+    }
+
+}
+
+
+const TabScreen = ({navigation, screenProps}) => {
+    var currentScreen = screenProps.currentScreen;
+    console.log('currentScreen', screenProps)
+    switch (currentScreen) {
+        case 'List':
+            return <QuakesList navigation={navigation} screenProps={screenProps}/>
+            break;
+        case 'Detail':
+            return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
+            break;
+        case 'News':
+            return <News navigation={navigation} screenProps={screenProps}/>
+            break;
+        case 'Setting':
+            return <Settings navigation={navigation} screenProps={screenProps}/>
+            break;
+        case 'Map':
+            return <QuakesMap navigation={navigation} screenProps={screenProps}/>
+            break;
+        case 'Chat':
+            return <ChatRoom navigation={navigation} screenProps={screenProps}/>
+            break;
+        default:
+            return null;
+    }
+
+}
+
+
 export const QuakesListStack = StackNavigator({
     List: {
-        screen: QuakesList,
+        screen: QuakesListScreen,
         navigationOptions: {
             title: 'Quakes List'
         },
     },
 
     Detail: {
-        screen: QuakeDetail,
+        screen: QuakeDetailScreen,
         navigationOptions: ({navigation}) => ({
             title: 'Quake Detail',
         }),
@@ -86,7 +139,7 @@ export const ChatRoomStack = StackNavigator({
 
 export const NewsStack = StackNavigator({
     News: {
-        screen: News,
+        screen: NewsScreen,
         navigationOptions: {
             title: 'News'
         },
