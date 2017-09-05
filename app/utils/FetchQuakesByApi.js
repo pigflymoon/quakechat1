@@ -82,7 +82,7 @@ export const fetchQuakesByApi = (url, callback) => {
 }
 
 export const fetchQuakesByUsgsApi = (url, callback) => {
-    // AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
+    AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
         axios.get(url)
             .then(function (result) {
 
@@ -124,23 +124,23 @@ export const fetchQuakesByUsgsApi = (url, callback) => {
 
                     // AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedValue) => {
 
-                    // if (lastNotifiedValue === null) {
-                    //     lastNotificationTime = 0;
-                    // } else {
-                    //     lastNotificationTime = parseInt(lastNotifiedValue)
-                    // }
-                    //
-                    // if (notifiedTime >= lastNotificationTime) {
-                    //     let notificationQuake = {
-                    //         mmi: quake.properties.mmi,
-                    //         timeStamp: timeStamp,
-                    //         time: time,
-                    //         message: `${time} happened ${quake.properties.mag.toFixed(1)} earthquake in ${quake.properties.place}`,
-                    //
-                    //
-                    //     };
-                    //     notificationQuakes.push(notificationQuake);
-                    // }
+                    if (lastNotifiedValue === null) {
+                        lastNotificationTime = 0;
+                    } else {
+                        lastNotificationTime = parseInt(lastNotifiedValue)
+                    }
+
+                    if (notifiedTime >= lastNotificationTime) {
+                        let notificationQuake = {
+                            mmi: quake.properties.mmi,
+                            timeStamp: timeStamp,
+                            time: time,
+                            message: `${time} happened ${quake.properties.mag.toFixed(1)} earthquake in ${quake.properties.place}`,
+
+
+                        };
+                        notificationQuakes.push(notificationQuake);
+                    }
                     // }).done();
                     // }).done();
                     quakesArray.push(quakeData);
@@ -156,6 +156,6 @@ export const fetchQuakesByUsgsApi = (url, callback) => {
 
             });
 
-    // }).done();
+    }).done();
 
 }
