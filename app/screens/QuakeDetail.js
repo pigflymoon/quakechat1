@@ -104,13 +104,17 @@ export default class QuakeDetail extends Component {
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
-                        <ListItem
-                            title="Quality"
-                            rightTitle={quake.quality}
-                            rightTitleStyle={quakeStyle.linkTitle}
-                            hideChevron
-                            onPress={() => this.onQuakeQuality(quake.quality)}
-                        />
+
+                        {quake.apiType === 'geonet' ? (
+                                <ListItem
+                                    title="Quality"
+                                    rightTitle={quake.quality}
+                                    rightTitleStyle={quakeStyle.linkTitle}
+                                    hideChevron
+                                    onPress={() => this.onQuakeQuality(quake.quality)}
+                                />
+                            ) : null
+                        }
                     </List>
                 </ScrollView>
             </View>
@@ -134,9 +138,7 @@ QuakeDetail.navigationOptions = props => {
             <Icon name='share' type='font-awesome' size={18} color={colors.primary1} style={navigationStyle.rightTitle}
                   onPress={() => {
                       params.handleShare(message, url);
-                  }
-
-                  }
+                  }}
             />
 
         ),
