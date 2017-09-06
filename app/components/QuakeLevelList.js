@@ -260,15 +260,7 @@ export default class QuakeLevelList extends Component {
 
 
     }
-    /**
-     *
-     * @returns {XML}
-     */
-    renderLoadingView = () => {
-        return (
-            <Text>Loading...</Text>
-        )
-    }
+
     /**
      *
      * @param isConnected
@@ -280,10 +272,6 @@ export default class QuakeLevelList extends Component {
 
 
     render() {
-        if (this.state.loading) {
-            return this.renderLoadingView();
-        }
-
         return (
             <List>
 

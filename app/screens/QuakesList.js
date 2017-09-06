@@ -111,6 +111,15 @@ export default class QuakesList extends Component {
         )
     }
 
+    renderLoadingView = () => {
+        return (
+            <ScrollView>
+                <Text>Loading...</Text>
+            </ScrollView>
+        )
+    }
+
+
     renderList = () => {
         return (
             <ScrollView
@@ -143,7 +152,7 @@ export default class QuakesList extends Component {
         if (!isConnected) {
             return this.renderOffline();
         }
-        if (this.state.loading) {
+        if (this.state.isLoading) {
             return this.renderLoadingView();
         }
         return this.renderList();

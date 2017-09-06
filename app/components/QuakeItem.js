@@ -21,8 +21,6 @@ export default class QuakeItem extends Component {
 
     render() {
         let {quake, isConnected} = this.props;
-        console.log('this props',this.props)
-
         return (
             <ListItem
                 leftIcon={{

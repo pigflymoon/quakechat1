@@ -81,7 +81,6 @@ export default class News extends Component {
     }
 
 
-
     componentDidMount() {
         if (this.props.screenProps.isConnected) {//check netinfo
             this.fetchNews(true);
@@ -110,7 +109,6 @@ export default class News extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-
         if (!isConnected) {
             return this.renderOffline();
         }

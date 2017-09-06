@@ -13,36 +13,6 @@ import About from '../screens/About';
 import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
 
-
-const TabScreen = ({navigation, screenProps}) => {
-    console.log('tab navigation', navigation, 'tab screenProps', screenProps)
-    var currentScreen = screenProps.currentScreen;
-
-    switch (currentScreen) {
-        case 'List':
-            return <QuakesList navigation={navigation} screenProps={screenProps}/>
-            break;
-        case 'Detail':
-            return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
-            break;
-        // case 'News':
-        //     return <News navigation={navigation} screenProps={screenProps}/>
-        //     break;
-        // case 'Setting':
-        //     return <Settings navigation={navigation} screenProps={screenProps}/>
-        //     break;
-        // case 'Map':
-        //     return <QuakesMap navigation={navigation} screenProps={screenProps}/>
-        //     break;
-        // case 'Chat':
-        //     return <ChatRoom navigation={navigation} screenProps={screenProps}/>
-        //     break;
-        default:
-            return null;
-    }
-
-}
-
 const QuakeDetailScreen = ({navigation, screenProps}) => {
     console.log('**************Detail tab navigation', navigation, 'tab screenProps', screenProps)
     var currentScreen = screenProps.currentScreen;
@@ -90,7 +60,7 @@ const ChatRoomScreen = ({navigation, screenProps}) => {
 
 export const QuakesListStack = StackNavigator({
     List: {
-        screen: QuakesListScreen,
+        screen: QuakesList,
         navigationOptions: {
             title: 'Quakes List'
         },
@@ -136,15 +106,6 @@ export const SettingsStack = StackNavigator({
     //         title: 'Resources'
     //     })
     // }
-});
-
-export const ChatRoomStack = StackNavigator({
-    ChatRoom: {
-        screen: ChatRoom,
-        navigationOptions: {
-            title: 'ChatRoom'
-        },
-    },
 });
 
 export const NewsStack = StackNavigator({
@@ -206,7 +167,7 @@ export const Tabs = TabNavigator({
         },
     },
     News: {
-        screen: NewsStack,
+        screen: NewsScreen,
         navigationOptions: {
             tabBarLabel: 'News',
             tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
