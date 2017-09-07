@@ -47,7 +47,7 @@ export default class CustomView extends Component {
         </TouchableOpacity>
       );
     }
-      return <View><Text>Test</Text></View>;
+      return <View></View>;
   }
 }
 
