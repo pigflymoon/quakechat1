@@ -42,7 +42,6 @@ export  default class QuakeLevelTab extends Component {
                 level: level,
             })
         } else {
-            console.log('***********Active Tab is', this.state.activeTab, life, level)
             this.props.onQuakeLevel('global', this.state.activeTab, level, life);
             // this.props.tab(this.state.activeTab);
             this.setState({

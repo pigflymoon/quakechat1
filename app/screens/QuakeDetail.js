@@ -34,8 +34,7 @@ export default class QuakeDetail extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('*************detail will get nextProps',nextProps)
-        var isConnected = nextProps.navigation.state.params.isConnected
+        var isConnected = nextProps.navigation.state.params.isConnected;
         this.setState({isConnected: isConnected});
     }
 
@@ -48,11 +47,9 @@ export default class QuakeDetail extends Component {
     }
 
     render() {
-        console.log('#############detail render ', this.props)
         const {isConnected, quake} = this.props.navigation.state.params;
 
         if (this.props.screenProps.currentScreen !== 'Detail') {
-            console.log('not detail')
             return <View/>
         }
         return (

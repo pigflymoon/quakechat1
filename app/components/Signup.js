@@ -59,10 +59,8 @@ export default class Signup extends Component {
 
     registerUserAndWaitEmailVerification(email, password) {
         var self = this;
-        console.log('sign up?')
         return new Promise(function (resolve, reject) {
             // let interval = null;
-            console.log('new promise');
             firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(
                 user => {
                     user.updateProfile({
@@ -80,9 +78,7 @@ export default class Signup extends Component {
 
     handleSignup = (e) => {
         e.preventDefault();
-        console.log('hi sign up?')
         // if (this.props.isConnected) {
-        console.log('hi sign up')
         if (!this.state.email) {
             this.setState({
                 showInfo: true

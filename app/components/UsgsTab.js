@@ -27,7 +27,6 @@ export  default class UsgsTab extends Component {
     }
 
     setActiveTab(tag) {
-        console.log('#############Usgs tag is ',tag,this.state.level)
         LayoutAnimation.configureNext({...LayoutAnimation.Presets.linear, duration: 250});
         //tag change to fetch data
         this.props.onQuakeUsgsLevel(tag, this.state.level);

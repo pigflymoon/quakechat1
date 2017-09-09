@@ -14,11 +14,8 @@ import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
 
 const QuakeDetailScreen = ({navigation, screenProps}) => {
-    console.log('**************Detail tab navigation', navigation, 'tab screenProps', screenProps)
     var currentScreen = screenProps.currentScreen;
-    console.log('currentScreen', screenProps)
     if (currentScreen == 'Detail') {
-        console.log(' Detail')
         return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
     } else {
         return null;
@@ -37,9 +34,7 @@ const QuakesListScreen = ({navigation, screenProps}) => {
 }
 const NewsScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
-    console.log('currentScreen', screenProps)
     if (currentScreen == 'News') {
-        console.log(' News')
         return <News navigation={navigation} screenProps={screenProps}/>
     } else {
         return null;
@@ -49,7 +44,6 @@ const NewsScreen = ({navigation, screenProps}) => {
 
 const ChatRoomScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
-    console.log('currentScreen', screenProps)
     if (currentScreen == 'ChatRoom') {
         return <ChatRoom navigation={navigation} screenProps={screenProps}/>
     } else {
@@ -117,11 +111,9 @@ export const NewsStack = StackNavigator({
     },
 });
 const QuakeMapScreen = ({navigation, screenProps}) => {
-    console.log('navigation', navigation)
     var currentScreen = screenProps.currentScreen;
 
     if (currentScreen !== 'Map') {
-        console.log('not map')
         return null;
     } else {
         return <QuakesMap navigation={navigation} screenProps={screenProps}/>

@@ -49,7 +49,6 @@ export  default class UsgsLevelTab extends Component {
             selectedIndex: selectedIndex,
             showIndexValue: showIndexValue
         });
-        console.log('choose level is ', showIndexValue)
         this.props.onQuakeUsgsLevel(showIndexValue);
     };
 

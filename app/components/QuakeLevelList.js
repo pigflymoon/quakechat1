@@ -14,7 +14,8 @@ import QuakeItem from './QuakeItem';
 import utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 import PushNotification from 'react-native-push-notification';
-
+import Utils from '../utils/utils';
+import quakeStyle from '../styles/quake';
 import {fetchQuakesByApi, fetchQuakesByUsgsApi} from '../utils/FetchQuakesByApi';
 var timer;
 export default class QuakeLevelList extends Component {
@@ -43,8 +44,9 @@ export default class QuakeLevelList extends Component {
      */
     async fetchQuakes(nextProps) {
         let self = this;
-        // console.time('testTimer');
+
         if (nextProps) {
+
             let geoUrl = Config.api.quakes_geonet_url + nextProps.level;
             let usgUrl = Config.api.quakes_usgs_url + nextProps.level;
             if (nextProps.refreshing == true) {
@@ -93,7 +95,6 @@ export default class QuakeLevelList extends Component {
                     });
                 } else {
                     fetchQuakesByUsgsApi(usgUrl, function (quakes, notificationQuakes) {
-                        console.log('usgs quake', quakes)
                         self.setState({
                                 quakes: quakes,
                                 notificationQuakes: notificationQuakes,
@@ -108,11 +109,13 @@ export default class QuakeLevelList extends Component {
                 // this.stopTimer();
             }
         } else {
+            console.log('called api')
             let geoUrl = Config.api.quakes_geonet_url + self.props.level;
             let usgUrl = Config.api.quakes_usgs_url + self.props.level;
             if (self.props.tab === 'newzealand') {
                 // url = Config.api.quakes_geonet_url + self.props.level;
                 fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
+                    console.log('called quake',quakes)
                     self.setState({
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
@@ -125,8 +128,6 @@ export default class QuakeLevelList extends Component {
                 self.props.onRefreshData(false);
             } else {
                 fetchQuakesByUsgsApi(usgUrl, function (quakes, notificationQuakes) {
-                    console.log('usgs quake', quakes)
-
                     self.setState({
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
@@ -144,13 +145,14 @@ export default class QuakeLevelList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('next props',nextProps.isConnected)
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
-        console.log('swtich tab is ?', nextProps)
         if (nextProps.isConnected) {
             this.fetchQuakes(nextProps);
         }
         else {
+            console.log('not connected')
             utils.netWorkError();
         }
 
@@ -158,9 +160,11 @@ export default class QuakeLevelList extends Component {
 
     componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
-
+        console.log(' props',this.props.isConnected)
         if (this.props.isConnected) {
+
             if (this.state.quakes.length <= 0) {
+
                 this.fetchQuakes();
             }
 
@@ -270,16 +274,23 @@ export default class QuakeLevelList extends Component {
     //     this.props.navigation.navigate('Detail', {isConnected, quake});
     // };
 
+    keyExtractor = (item, index) => `key${index}`;
 
+    renderList=({item, index})=> {
+        return (
+            <QuakeItem key={`list-${index}`} navigation={this.props.navigation} quake={item}
+                       isConnected={this.state.isConnected}/>
+        );
+    }
     render() {
         return (
             <List>
+                <FlatList
+                    keyExtractor={this.keyExtractor}
+                    data={this.state.quakes}
+                    renderItem={this.renderList}
+                />
 
-                {this.state.quakes.map((quake, index) => (
-                    <QuakeItem key={`list-${index}`} navigation={this.props.navigation} quake={quake}
-                               isConnected={true}/>
-
-                ))}
             </List>
         )
     }

@@ -47,8 +47,6 @@ export default class Signin extends Component {
         //     console.log('sign in isConnected')
 
         if (!this.state.email) {
-            console.log('sign in email is empty')
-
             this.setState({
                 showInfo: true
             });

@@ -146,7 +146,6 @@ export const fetchQuakesByUsgsApi = (url, callback) => {
                     quakesArray.push(quakeData);
 
                 } //for
-                console.log('***************usgs quake data',quakesArray)
                 callback(quakesArray, notificationQuakes);
 
 

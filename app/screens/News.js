@@ -44,7 +44,6 @@ export default class News extends Component {
     }
 
     fetchApiData = () => {
-        console.log('fetch news called')
         axios.get(Config.api.news_url)
             .then(res => {
                 news = res.data.feed.map(function (item) {

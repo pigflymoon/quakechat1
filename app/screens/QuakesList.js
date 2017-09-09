@@ -28,11 +28,7 @@ export default class QuakesList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps', nextProps);
-
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
-        console.log('list  is ?', nextProps)
-        console.log('list  is ?', isConnected)
         this.setState({isConnected: isConnected});
         if (!nextProps.screenProps.isConnected) {
             this.setState({
@@ -43,7 +39,6 @@ export default class QuakesList extends Component {
 
     getRefreshData = () => {
         // this.state.isConnected = false;
-        console.log(this.state.isConnected);
         if (!this.state.isConnected) {
             this.setState({
                 refreshing: false
@@ -63,11 +58,9 @@ export default class QuakesList extends Component {
     }
 
     handleQuakeLevel = (tab, tag, level, life) => {
-        console.log('this prop tab tag',tab,tag)
         var url = Config.api.quakes_geonet_url;
         if (tab === 'global') {
             url = Config.api.quakes_usgs_url;
-            console.log('global quake api url', url);
             this.setState({
                 tab: 'global',
                 tag: tag,
@@ -75,7 +68,6 @@ export default class QuakesList extends Component {
                 level: `${level}_${life}.geojson`
             })
         } else {
-            console.log('newzealand quake api url', url);
             this.setState({
                 tab: 'newzealand',
                 tag: tag,
@@ -84,26 +76,7 @@ export default class QuakesList extends Component {
             })
         }
 
-
-        // let url = (tab === 'newzealand') ? Config.api.quakes_geonet_url : usgs_url;
-        // console.log('quake api url', url);
-        // this.setState({
-        //     api_source: url
-        // })
-        // this.setState({
-        //     level: level
-        // })
     }
-
-    // handleDataSource = (tab, life, level) => {
-    //     console.log('quake list  tab life level', tab, life, level)
-    //     let usgs_url = Config.api.quakes_usgs_url + `${level}_${life}.geojson`;
-    //     let url = (tab === 'newzealand') ? Config.api.quakes_geonet_url : usgs_url;
-    //     console.log('quake api url', url);
-    //     this.setState({
-    //         api_source: url
-    //     })
-    // }
 
     renderOffline = () => {
         return (
