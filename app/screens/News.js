@@ -106,6 +106,13 @@ export default class News extends Component {
         )
     }
 
+    keyExtractor = (item, index) => `key${index}`;
+    renderList = ({item, index}) => {
+        return (
+            <NewsItem key={`news-${index}`} news={item}/>
+        )
+    }
+
     render() {
         var isConnected = this.props.screenProps.isConnected;
         if (!isConnected) {
@@ -124,9 +131,11 @@ export default class News extends Component {
                     />}
             >
                 <List>
-                    {this.state.news.map((news, index) => (
-                        <NewsItem key={`news-${index}`} news={news}/>
-                    ))}
+                    <FlatList
+                        keyExtractor={this.keyExtractor}
+                        data={this.state.news}
+                        renderItem={this.renderList}
+                    />
                 </List>
             </ScrollView>
         )
