@@ -21,7 +21,7 @@ export default class QuakeDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isConnected: false,
+            isConnected: true,
         };
     }
 

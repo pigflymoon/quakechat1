@@ -24,7 +24,7 @@ export default class ConfirmEmail extends Component {
             signin: false,
             isLoading: false,
             user: this.props.user,
-            isConnected: false,
+            isConnected: true,
             width: width,
             height: height,
             showIcon: true,

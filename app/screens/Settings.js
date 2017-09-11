@@ -90,14 +90,14 @@ export default class Settings extends Component {
 
 
      onRate() {
-        let link = 'market://details?id=ren.growth';
+        let link = '';
 
         if (Platform.OS === 'ios') {
             if (StoreReview.isAvailable) {
                 return StoreReview.requestReview();
             }
 
-            link = 'https://itunes.apple.com/us/app/lego-life-create-share-discover/id1140466898?mt=8';
+            link = '';
         }
 
         return Utils.goToURL(link);

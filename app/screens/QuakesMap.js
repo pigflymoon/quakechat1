@@ -19,7 +19,7 @@ export default class QuakesMap extends Component {
 
         this.state = {
             level: 1,
-            isConnected: false,
+            isConnected: true,
         };
     }
 

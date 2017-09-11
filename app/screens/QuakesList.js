@@ -21,15 +21,27 @@ export default class QuakesList extends Component {
         this.state = {
             level: 0,
             refreshing: false,
-            isConnected: false,
+            isConnected: true,
             api_source: Config.api.quakes_geonet_url,
-            tab: 'newzealand'
+            tab: 'newzealand',
+            connectionInfo: this.props.screenProps.connectionInfo
+
         };
+    }
+
+    componentDidMount() {
+        console.log('list props  connectionInfo', this.props.screenProps.connectionInfo)
     }
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
-        this.setState({isConnected: isConnected});
+        console.log('list props  connectionInfo', nextProps.screenProps.connectionInfo);
+
+        this.setState({
+            isConnected: isConnected,
+            connectionInfo: nextProps.screenProps.connectionInfo,
+            reach: nextProps.screenProps.reach
+        });
         if (!nextProps.screenProps.isConnected) {
             this.setState({
                 refreshing: false,
@@ -80,7 +92,10 @@ export default class QuakesList extends Component {
 
     renderOffline = () => {
         return (
-            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
+            <View style={showInfo.container}>
+                <Text>test:{JSON.stringify(this.state.connectionInfo)}</Text>
+                <Text style={showInfo.text}>Offline: Cannot Connect to App.</Text>
+            </View>
         )
     }
 
@@ -103,7 +118,8 @@ export default class QuakesList extends Component {
                         onRefresh={this.getRefreshData}
                     />}
             >
-                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel} />
+                <Text>test:{JSON.stringify(this.state.connectionInfo)}</Text>
+                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel}/>
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
                                 nps_source={this.state.api_source}
                                 tab={this.state.tab}
@@ -122,6 +138,7 @@ export default class QuakesList extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
+        console.log('net work state:', this.state.connectionInfo)
         if (!isConnected) {
             return this.renderOffline();
         }

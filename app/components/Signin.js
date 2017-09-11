@@ -26,7 +26,7 @@ export default class Signin extends Component {
             name: '',
             names: [],
             showInfo: false,
-            isConnected: false,
+            isConnected: true,
             width: width,
             height: height,
             showIcon: true,

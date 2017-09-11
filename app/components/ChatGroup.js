@@ -20,7 +20,7 @@ export default class ChatGroup extends Component {
             password: '',
             messages: [],
             names: [],
-            isConnected: false,
+            isConnected: true,
 
         };
     }

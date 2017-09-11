@@ -27,7 +27,7 @@ export default class Signup extends Component {
             name: '',
             isLoading: false,
             showInfo: false,
-            isConnected: false,
+            isConnected: true,
             width: width,
             height: height,
             showIcon: true,

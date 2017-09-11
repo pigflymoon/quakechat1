@@ -25,7 +25,7 @@ export default class QuakeMap extends Component {
         this.state = {
             quakes: [],
             error: null,
-            isConnected: false,
+            isConnected: true,
             pincolor: colors.orange1,
             latitude: ResourcesConfig.map.latitude,
             longitude: ResourcesConfig.map.longitude,

@@ -26,7 +26,7 @@ export default class ResetPassword extends Component {
             email: '',
             password: '',
             showInfo: false,
-            isConnected: false,
+            isConnected: true,
             width: width,
             height: height,
             showIcon: true,
