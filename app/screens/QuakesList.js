@@ -93,7 +93,6 @@ export default class QuakesList extends Component {
     renderOffline = () => {
         return (
             <View style={showInfo.container}>
-                <Text>test:{JSON.stringify(this.state.connectionInfo)}</Text>
                 <Text style={showInfo.text}>Offline: Cannot Connect to App.</Text>
             </View>
         )
@@ -118,7 +117,6 @@ export default class QuakesList extends Component {
                         onRefresh={this.getRefreshData}
                     />}
             >
-                <Text>test:{JSON.stringify(this.state.connectionInfo)}</Text>
                 <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel}/>
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
                                 nps_source={this.state.api_source}
