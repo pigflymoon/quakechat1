@@ -38,10 +38,6 @@ export default class QuakeDetail extends Component {
         this.setState({isConnected: isConnected});
     }
 
-    componentWillUnmount() {
-        console.log('detail will unmount')
-    }
-
     onShare = (message, url) => {
         Utils.shareText(message, url)
     }

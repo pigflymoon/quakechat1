@@ -29,13 +29,8 @@ export default class QuakesList extends Component {
         };
     }
 
-    componentDidMount() {
-        console.log('list props  connectionInfo', this.props.screenProps.connectionInfo)
-    }
-
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
-        console.log('list props  connectionInfo', nextProps.screenProps.connectionInfo);
 
         this.setState({
             isConnected: isConnected,
@@ -130,13 +125,8 @@ export default class QuakesList extends Component {
         )
     }
 
-    componentWillUnmount() {
-        console.log('list will unmount')
-    }
-
     render() {
         var isConnected = this.props.screenProps.isConnected;
-        console.log('net work state:', this.state.connectionInfo)
         if (!isConnected) {
             return this.renderOffline();
         }

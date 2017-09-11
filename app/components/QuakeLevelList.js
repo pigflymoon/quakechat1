@@ -34,7 +34,6 @@ export default class QuakeLevelList extends Component {
 
 
     stopTimer() {
-        console.log('stop timer');
         this.interval && clearInterval(this.interval);
     }
 
@@ -109,13 +108,11 @@ export default class QuakeLevelList extends Component {
                 // this.stopTimer();
             }
         } else {
-            console.log('called api')
             let geoUrl = Config.api.quakes_geonet_url + self.props.level;
             let usgUrl = Config.api.quakes_usgs_url + self.props.level;
             if (self.props.tab === 'newzealand') {
                 // url = Config.api.quakes_geonet_url + self.props.level;
                 fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
-                    console.log('called quake',quakes)
                     self.setState({
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
@@ -145,14 +142,12 @@ export default class QuakeLevelList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('next props',nextProps.isConnected)
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
         if (nextProps.isConnected) {
             this.fetchQuakes(nextProps);
         }
         else {
-            console.log('not connected')
             utils.netWorkError();
         }
 
@@ -160,7 +155,6 @@ export default class QuakeLevelList extends Component {
 
     componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
-        console.log(' props',this.props.isConnected)
         if (this.props.isConnected) {
 
             if (this.state.quakes.length <= 0) {

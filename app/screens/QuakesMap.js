@@ -25,16 +25,9 @@ export default class QuakesMap extends Component {
 
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps', nextProps);
-
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
     }
-
-    componentWillUnmount() {
-        console.log('unmount called')
-    }
-
 
     handleChooseLevel = (stat) => {
         // console.log('stat level is ',stat);
@@ -80,10 +73,6 @@ export default class QuakesMap extends Component {
             </View>
         )
 
-    }
-
-    componentWillMount() {
-        console.log('map will mount')
     }
 
     render() {

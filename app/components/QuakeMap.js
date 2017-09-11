@@ -52,14 +52,6 @@ export default class QuakeMap extends Component {
         }
     }
 
-    componentWillMount() {
-        console.log('map will mount')
-    }
-
-    componentWillUnmount() {
-        console.log('marker will unmount')
-    }
-
     loadMapInfo(nextProps) {
         let self = this;
         let url = self.props.nps_source;

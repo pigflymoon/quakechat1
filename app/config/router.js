@@ -24,7 +24,6 @@ const QuakeDetailScreen = ({navigation, screenProps}) => {
 }
 const QuakesListScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
-    console.log('currentScreen', screenProps)
     if (currentScreen == 'List') {
         return <QuakesList navigation={navigation} screenProps={screenProps}/>
     } else {
@@ -94,12 +93,6 @@ export const SettingsStack = StackNavigator({
             title: 'Resources'
         })
     },
-    // Resources: {
-    //     screen: Resources,
-    //     navigationOptions: ({navigation}) => ({
-    //         title: 'Resources'
-    //     })
-    // }
 });
 
 export const NewsStack = StackNavigator({

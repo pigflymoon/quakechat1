@@ -15,7 +15,6 @@ export default class QuakeItem extends Component {
     }
 
     onQuakeDetail = (isConnected, quake) => {
-        console.log('quake detail isConnected',isConnected,quake)
         this.props.navigation.navigate('Detail', {isConnected, quake});
     };
 

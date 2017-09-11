@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {
     NetInfo,
     Alert,
+    View,
+    Text,
 } from 'react-native';
 import {Tabs} from './config/router';
 import utils from './utils/utils';
@@ -20,7 +22,6 @@ export default class App extends Component {
 
     handleConnectivityChange = (connectionInfo) => {
         let connectionType = connectionInfo.type;
-        console.log('network is', connectionType);
         if (connectionType === 'none' || connectionType === 'unknown') {
             utils.netWorkError();
             this.setState({
@@ -91,7 +92,6 @@ export default class App extends Component {
     }
 
     render() {
-        console.log('Net work type ', JSON.stringify(this.state.connectionInfo))
         return (<Tabs
             screenProps={{
                 isConnected: this.state.isConnected,
