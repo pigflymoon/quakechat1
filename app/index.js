@@ -21,15 +21,6 @@ export default class App extends Component {
     handleConnectivityChange = (connectionInfo) => {
         let connectionType = connectionInfo.type;
         console.log('network is', connectionType);
-        Alert.alert(
-            'Network connectionType',
-            `${connectionType}`,
-            [
-                {text: 'OK'},
-            ],
-            {cancelable: false}
-        )
-
         if (connectionType === 'none' || connectionType === 'unknown') {
             utils.netWorkError();
             this.setState({
