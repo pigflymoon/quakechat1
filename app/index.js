@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {
     NetInfo,
     Alert,
+    View,
+    Text,
 } from 'react-native';
 import {Tabs} from './config/router';
 import utils from './utils/utils';
@@ -13,32 +15,69 @@ export default class App extends Component {
         this.state = {
             isConnected: false,
             currentScreen: 'List',
+            connectionInfo: '',
         };
     }
 
+
+    handleConnectivityChange = (connectionInfo) => {
+        let connectionType = connectionInfo.type;
+        if (connectionType === 'none' || connectionType === 'unknown') {
+            utils.netWorkError();
+            this.setState({
+                isConnected: false
+            });
+        } else {
+            this.setState({
+                connectionInfo: connectionType,
+                isConnected: true
+            });
+        }
+
+    }
+
+
+    componentWillMount() {
+        //Intial connection check
+        NetInfo.isConnected.fetch().then(isConnected => {
+            if (isConnected) {
+                this.setState({
+                    isConnected: true
+                });
+            } else {
+                // utils.netWorkError();
+                this.setState({
+                    isConnected: false
+                });
+            }
+        });
+        //Check connection change
+        const handleFirstConnectivityChange = (isConnected) => {
+            this.setState({
+                isConnected: isConnected
+            });
+            NetInfo.isConnected.removeEventListener('connectionChange', handleFirstConnectivityChange);
+        };
+        NetInfo.isConnected.addEventListener('connectionChange', handleFirstConnectivityChange);
+    }
+
     componentDidMount() {
-        //check
-        NetInfo.isConnected.addEventListener(
-            'change',
+
+        NetInfo.addEventListener(
+            'connectionChange',
             this.handleConnectivityChange
         );
+
     }
+
 
     componentWillUnmount() {
-        NetInfo.isConnected.removeEventListener(
-            'change',
+        NetInfo.removeEventListener(
+            'connectionChange',
             this.handleConnectivityChange
         );
     }
 
-    handleConnectivityChange = (isConnected) => {
-        // isConnected = false;//test no network
-        console.log('network', isConnected)
-        if (!isConnected) {
-            utils.netWorkError();
-        }
-        this.setState({isConnected: isConnected});
-    }
 
     getCurrentRouteName(navigationState) {
         if (!navigationState) {
@@ -54,7 +93,12 @@ export default class App extends Component {
 
     render() {
         return (<Tabs
-            screenProps={{isConnected: this.state.isConnected, currentScreen: this.state.currentScreen}}
+            screenProps={{
+                isConnected: this.state.isConnected,
+                currentScreen: this.state.currentScreen,
+                connectionInfo: this.state.connectionInfo,
+
+            }}
             onNavigationStateChange={(prevState, currentState) => {
                 const currentScreen = this.getCurrentRouteName(currentState);
                 const prevScreen = this.getCurrentRouteName(prevState);

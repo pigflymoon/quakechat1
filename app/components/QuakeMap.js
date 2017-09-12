@@ -14,23 +14,21 @@ import callout from '../styles/callout';
 
 import Utils from '../utils/utils';
 import ResourcesConfig from '../config/ResourcesConfig';
-
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
-
+import colors from '../styles/colors';
 
 var markersData = [];
 
 export default class QuakeMap extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             quakes: [],
             error: null,
-            isConnected: false,
-            pincolor: Utils.colorByMmi(2),
-
-
+            isConnected: true,
+            pincolor: colors.orange1,
+            latitude: ResourcesConfig.map.latitude,
+            longitude: ResourcesConfig.map.longitude,
         };
     }
 
@@ -42,6 +40,7 @@ export default class QuakeMap extends Component {
         }
     }
 
+
     componentDidMount() {
         this.setState({isConnected: this.props.isConnected})
         if (this.props.isConnected) {
@@ -51,14 +50,6 @@ export default class QuakeMap extends Component {
                 this.loadFeatures("");
             }
         }
-    }
-
-    componentWillMount() {
-        console.log('map will mount')
-    }
-
-    componentWillUnmount() {
-        console.log('marker will unmount')
     }
 
     loadMapInfo(nextProps) {
@@ -83,30 +74,18 @@ export default class QuakeMap extends Component {
 
     loadFeatures() {
         markersData = [];
-
         let post = this.props.mapInfo;
-
         markersData.push(post.quake);
-        console.log('markersData', markersData)
+
         this.setState({
                 quakes: markersData,
                 error: null,
-                mapType: 'detail'
+                mapType: 'detail',
+                longitude: post.quake.coordinates.longitude,
+                latitude: post.quake.coordinates.latitude
             }
         );
     }
-
-
-    // onQuakeDetail = (isConnected, quake, backScreen) => {
-    //     if (backScreen == 'Map') {
-    //         console.log('quake', quake)
-    //         // this.hideCallout();
-    //         // this.props.navigation.navigate('Detail', {isConnected, quake, backScreen});
-    //
-    //     } else {
-    //         return false;
-    //     }
-    // };
 
     renderPosts() {
         if (this.state.error) {
@@ -124,8 +103,8 @@ export default class QuakeMap extends Component {
                 showsScale
                 loadingEnabled={true}
                 region={{
-                    latitude: ResourcesConfig.map.latitude,
-                    longitude: ResourcesConfig.map.longitude,
+                    latitude: this.state.latitude,
+                    longitude: this.state.longitude,
                     latitudeDelta: ResourcesConfig.map.latitude_delta,
                     longitudeDelta: ResourcesConfig.map.longitude_delta,
                 }}>
@@ -134,7 +113,7 @@ export default class QuakeMap extends Component {
                     <MapView.Marker style={map.marker}
                                     coordinate={quake.coordinates}
                                     key={`quake-${index}`}
-                                    pinColor={Utils.colorByMmi(quake.mmi)}
+                                    pinColor={Utils.colorByLevel(quake.apiType, quake.mmi, quake.magnitude)}
                     >
                         <MapView.Callout style={callout.container}>
 

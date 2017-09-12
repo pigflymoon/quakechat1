@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {Text, View} from 'react-native';
 import listStyle from '../styles/list';
@@ -11,7 +12,7 @@ const Label = props => (
 );
 
 Label.propTypes = {
-    text: React.PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
 };
 
 export default Label;

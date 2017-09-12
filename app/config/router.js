@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button} from 'react-native';
+import {Button, View, Text,} from 'react-native';
 import {TabNavigator, StackNavigator} from 'react-navigation';
 import {Icon} from 'react-native-elements';
 
@@ -13,18 +13,44 @@ import About from '../screens/About';
 import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
 
-
 const QuakeDetailScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
-    console.log('currentScreen',screenProps)
     if (currentScreen == 'Detail') {
-        console.log(' Detail')
         return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
     } else {
         return null;
     }
 
 }
+const QuakesListScreen = ({navigation, screenProps}) => {
+    var currentScreen = screenProps.currentScreen;
+    if (currentScreen == 'List') {
+        return <QuakesList navigation={navigation} screenProps={screenProps}/>
+    } else {
+        return null;
+    }
+
+}
+const NewsScreen = ({navigation, screenProps}) => {
+    var currentScreen = screenProps.currentScreen;
+    if (currentScreen == 'News') {
+        return <News navigation={navigation} screenProps={screenProps}/>
+    } else {
+        return null;
+    }
+
+}
+
+const ChatRoomScreen = ({navigation, screenProps}) => {
+    var currentScreen = screenProps.currentScreen;
+    if (currentScreen == 'ChatRoom') {
+        return <ChatRoom navigation={navigation} screenProps={screenProps}/>
+    } else {
+        return null;
+    }
+
+}
+
 export const QuakesListStack = StackNavigator({
     List: {
         screen: QuakesList,
@@ -34,7 +60,7 @@ export const QuakesListStack = StackNavigator({
     },
 
     Detail: {
-        screen: QuakeDetail,
+        screen: QuakeDetailScreen,
         navigationOptions: ({navigation}) => ({
             title: 'Quake Detail',
         }),
@@ -67,26 +93,11 @@ export const SettingsStack = StackNavigator({
             title: 'Resources'
         })
     },
-    // Resources: {
-    //     screen: Resources,
-    //     navigationOptions: ({navigation}) => ({
-    //         title: 'Resources'
-    //     })
-    // }
-});
-
-export const ChatRoomStack = StackNavigator({
-    ChatRoom: {
-        screen: ChatRoom,
-        navigationOptions: {
-            title: 'ChatRoom'
-        },
-    },
 });
 
 export const NewsStack = StackNavigator({
     News: {
-        screen: News,
+        screen: NewsScreen,
         navigationOptions: {
             title: 'News'
         },
@@ -96,7 +107,6 @@ const QuakeMapScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
 
     if (currentScreen !== 'Map') {
-        console.log('not map')
         return null;
     } else {
         return <QuakesMap navigation={navigation} screenProps={screenProps}/>
@@ -119,20 +129,19 @@ const QuakeMapScreen = ({navigation, screenProps}) => {
 //     },
 // });
 export const Tabs = TabNavigator({
-
-    Settings: {
-        screen: SettingsStack,
-        navigationOptions: {
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
-        }
-    },
     List: {
         screen: QuakesListStack,
         navigationOptions: {
             tabBarLabel: 'Quakes',
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
+    },
+    Settings: {
+        screen: SettingsStack,
+        navigationOptions: {
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
+        }
     },
     Map: {
         screen: QuakeMapScreen,
@@ -142,23 +151,18 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
         },
     },
-
     News: {
-        screen: NewsStack,
+        screen: NewsScreen,
         navigationOptions: {
             tabBarLabel: 'News',
             tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
         },
     },
-
-
     ChatRoom: {
-        screen: ChatRoom,
+        screen: ChatRoomScreen,
         navigationOptions: {
             tabBarLabel: 'ChatRoom',
             tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
         }
     },
-
-
 });

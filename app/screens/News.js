@@ -63,23 +63,6 @@ export default class News extends Component {
                 utils.netWorkError();
 
             });
-        // this.timer = setInterval(() => {
-        //     axios.get(`https://api.geonet.org.nz/news/geonet`)
-        //         .then(res => {
-        //             news = res.data.feed.map(function (item) {
-        //                 if (item.published) {
-        //                     item.published = item.published.slice(0, 10).replace(/-/g, "-")
-        //                 }
-        //
-        //                 return item;
-        //             });
-        //             this.setState({
-        //                 news: news,
-        //                 isLoading: false
-        //             })
-        //         });
-        // }, 1000 * 60 * 60 * 24);
-
     }
 
     fetchNews = (isConnected) => {
@@ -96,16 +79,6 @@ export default class News extends Component {
         )
     }
 
-    //
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     var isConnected = nextProps.screenProps;//update netinfo
-    //     if (isConnected) {
-    //         this.setState({isConnected: isConnected});
-    //         this.fetchNews(true);
-    //         return true;
-    //     }
-    //     return false;
-    // }
 
     componentDidMount() {
         if (this.props.screenProps.isConnected) {//check netinfo
@@ -133,9 +106,15 @@ export default class News extends Component {
         )
     }
 
+    keyExtractor = (item, index) => `key${index}`;
+    renderList = ({item, index}) => {
+        return (
+            <NewsItem key={`news-${index}`} news={item}/>
+        )
+    }
+
     render() {
         var isConnected = this.props.screenProps.isConnected;
-
         if (!isConnected) {
             return this.renderOffline();
         }
@@ -152,9 +131,11 @@ export default class News extends Component {
                     />}
             >
                 <List>
-                    {this.state.news.map((news, index) => (
-                        <NewsItem key={`news-${index}`} news={news}/>
-                    ))}
+                    <FlatList
+                        keyExtractor={this.keyExtractor}
+                        data={this.state.news}
+                        renderItem={this.renderList}
+                    />
                 </List>
             </ScrollView>
         )

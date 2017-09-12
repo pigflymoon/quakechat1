@@ -117,8 +117,6 @@ class Backend {
                         return 'try again';
 
                 }
-
-                console.log(error);
             });
     }
 

@@ -24,8 +24,11 @@ export default class Utils {
             }
         });
     }
-    static colorByMmi = (mmi) => {
-        switch (mmi) {
+    static colorByLevel= (type, mmi, mag) => {
+        var level = (type === 'geonet') ? mmi : parseInt(mag);
+        switch (level) {
+            case -2:
+                return colors.green
             case -1:
             case 0:
                 return colors.orange1
@@ -53,8 +56,9 @@ export default class Utils {
                 return colors.orange7
         }
     }
+
     static bind = (context) => (...methods) => (methods.forEach(method => context[method] = context[method].bind(context)));
-    static shareText = (message,url) => {
+    static shareText = (message, url) => {
         var shareText = {
             title: 'QuakeChat-Chat,share and help',
             message: message,
@@ -69,7 +73,7 @@ export default class Utils {
         })
     }
 
-    static netWorkError = ()=>{
+    static netWorkError = () => {
         Alert.alert(
             'Network unavailable',
             `The Internet connection appears to be offline`,
@@ -79,7 +83,7 @@ export default class Utils {
             {cancelable: false}
         )
     }
-    static infoAlert = (title,message)=>{
+    static infoAlert = (title, message) => {
         Alert.alert(
             title,
             message,
@@ -89,7 +93,7 @@ export default class Utils {
             {cancelable: false}
         )
     }
-    static showError = (error)=>{
+    static showError = (error) => {
         Alert.alert(
             'Error',
             `The error message:${error}`,

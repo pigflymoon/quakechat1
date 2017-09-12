@@ -26,7 +26,7 @@ export default class QuakeItem extends Component {
                     name: 'map-marker',
                     type: 'font-awesome',
                     size: 35,
-                    color: Utils.colorByMmi(quake.mmi)
+                    color: Utils.colorByLevel(quake.apiType, quake.mmi, quake.magnitude)
                 }}
                 title={`NZST: ${quake.time}`}
                 subtitle={

@@ -19,22 +19,15 @@ export default class QuakesMap extends Component {
 
         this.state = {
             level: 1,
-            isConnected: false,
+            isConnected: true,
         };
     }
 
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps', nextProps);
-
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
     }
-
-    componentWillUnmount() {
-        console.log('unmount called')
-    }
-
 
     handleChooseLevel = (stat) => {
         // console.log('stat level is ',stat);
@@ -62,7 +55,7 @@ export default class QuakesMap extends Component {
         return (
             <View style={quakeStyle.quakesContainer}>
                 <QuakeMap type="SliderMap"
-                          nps_source={Config.api.quakes_url}
+                          nps_source={Config.api.quakes_geonet_url}
                           level={this.state.level}
                           isConnected={this.props.screenProps.isConnected}
                           navigation={this.props.navigation}
@@ -80,10 +73,6 @@ export default class QuakesMap extends Component {
             </View>
         )
 
-    }
-
-    componentWillMount() {
-        console.log('map will mount')
     }
 
     render() {

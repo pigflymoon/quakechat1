@@ -21,7 +21,7 @@ export default class QuakeDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isConnected: false,
+            isConnected: true,
         };
     }
 
@@ -34,12 +34,8 @@ export default class QuakeDetail extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.navigation.state.params.isConnected
+        var isConnected = nextProps.navigation.state.params.isConnected;
         this.setState({isConnected: isConnected});
-    }
-
-    componentWillUnmount() {
-        console.log('detail will unmount')
     }
 
     onShare = (message, url) => {
@@ -48,9 +44,8 @@ export default class QuakeDetail extends Component {
 
     render() {
         const {isConnected, quake} = this.props.navigation.state.params;
-        console.log('detail ', this.props.screenProps.currentScreen)
+
         if (this.props.screenProps.currentScreen !== 'Detail') {
-            console.log('not detail')
             return <View/>
         }
         return (
@@ -104,13 +99,17 @@ export default class QuakeDetail extends Component {
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
-                        <ListItem
-                            title="Quality"
-                            rightTitle={quake.quality}
-                            rightTitleStyle={quakeStyle.linkTitle}
-                            hideChevron
-                            onPress={() => this.onQuakeQuality(quake.quality)}
-                        />
+
+                        {quake.apiType === 'geonet' ? (
+                                <ListItem
+                                    title="Quality"
+                                    rightTitle={quake.quality}
+                                    rightTitleStyle={quakeStyle.linkTitle}
+                                    hideChevron
+                                    onPress={() => this.onQuakeQuality(quake.quality)}
+                                />
+                            ) : null
+                        }
                     </List>
                 </ScrollView>
             </View>
@@ -134,9 +133,7 @@ QuakeDetail.navigationOptions = props => {
             <Icon name='share' type='font-awesome' size={18} color={colors.primary1} style={navigationStyle.rightTitle}
                   onPress={() => {
                       params.handleShare(message, url);
-                  }
-
-                  }
+                  }}
             />
 
         ),

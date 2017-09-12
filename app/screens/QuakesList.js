@@ -21,17 +21,22 @@ export default class QuakesList extends Component {
         this.state = {
             level: 0,
             refreshing: false,
-            isConnected: false,
+            isConnected: true,
+            api_source: Config.api.quakes_geonet_url,
+            tab: 'newzealand',
+            connectionInfo: this.props.screenProps.connectionInfo
+
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps', nextProps);
-
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
-        console.log('list  is ?',nextProps)
-        console.log('list  is ?',isConnected)
-        this.setState({isConnected: isConnected});
+
+        this.setState({
+            isConnected: isConnected,
+            connectionInfo: nextProps.screenProps.connectionInfo,
+            reach: nextProps.screenProps.reach
+        });
         if (!nextProps.screenProps.isConnected) {
             this.setState({
                 refreshing: false,
@@ -41,7 +46,6 @@ export default class QuakesList extends Component {
 
     getRefreshData = () => {
         // this.state.isConnected = false;
-        console.log(this.state.isConnected);
         if (!this.state.isConnected) {
             this.setState({
                 refreshing: false
@@ -60,18 +64,43 @@ export default class QuakesList extends Component {
         });
     }
 
-    handleQuakeLevel = (level) => {
-        this.setState({
-            level: level
-        })
+    handleQuakeLevel = (tab, tag, level, life) => {
+        var url = Config.api.quakes_geonet_url;
+        if (tab === 'global') {
+            url = Config.api.quakes_usgs_url;
+            this.setState({
+                tab: 'global',
+                tag: tag,
+                api_source: url,
+                level: `${level}_${life}.geojson`
+            })
+        } else {
+            this.setState({
+                tab: 'newzealand',
+                tag: tag,
+                api_source: url,
+                level: level
+            })
+        }
+
     }
 
     renderOffline = () => {
         return (
-            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
-
+            <View style={showInfo.container}>
+                <Text style={showInfo.text}>Offline: Cannot Connect to App.</Text>
+            </View>
         )
     }
+
+    renderLoadingView = () => {
+        return (
+            <ScrollView>
+                <Text>Loading...</Text>
+            </ScrollView>
+        )
+    }
+
 
     renderList = () => {
         return (
@@ -85,16 +114,15 @@ export default class QuakesList extends Component {
             >
                 <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel}/>
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
-                                nps_source={Config.api.quakes_url}
+                                nps_source={this.state.api_source}
+                                tab={this.state.tab}
+                                tag={this.state.tag}
                                 refreshing={this.state.refreshing}
                                 level={this.state.level}
-                                isConnected={this.props.screenProps.isConnected}
+                                isConnected={true}
                 />
             </ScrollView>
         )
-    }
-    componentWillUnmount(){
-        console.log('list will unmount')
     }
 
     render() {
@@ -102,7 +130,7 @@ export default class QuakesList extends Component {
         if (!isConnected) {
             return this.renderOffline();
         }
-        if (this.state.loading) {
+        if (this.state.isLoading) {
             return this.renderLoadingView();
         }
         return this.renderList();
