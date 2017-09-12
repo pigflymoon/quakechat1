@@ -13,7 +13,7 @@ export default class App extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            isConnected: true,
+            isConnected: false,
             currentScreen: 'List',
             connectionInfo: '',
         };
@@ -44,7 +44,7 @@ export default class App extends Component {
                 this.setState({
                     isConnected: true
                 });
-            }else{
+            } else {
                 // utils.netWorkError();
                 this.setState({
                     isConnected: false

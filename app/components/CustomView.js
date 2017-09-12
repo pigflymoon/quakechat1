@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 
 import {
@@ -68,7 +69,7 @@ CustomView.defaultProps = {
 };
 
 CustomView.propTypes = {
-    currentMessage: React.PropTypes.object,
+    currentMessage: PropTypes.object,
     containerStyle: View.propTypes.style,
     mapViewStyle: View.propTypes.style,
 };

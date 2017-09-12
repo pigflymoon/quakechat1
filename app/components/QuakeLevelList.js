@@ -33,10 +33,6 @@ export default class QuakeLevelList extends Component {
     }
 
 
-    stopTimer() {
-        this.interval && clearInterval(this.interval);
-    }
-
     /**
      *
      * @param nextProps
@@ -50,7 +46,6 @@ export default class QuakeLevelList extends Component {
             let usgUrl = Config.api.quakes_usgs_url + nextProps.level;
             if (nextProps.refreshing == true) {
                 if (nextProps.tab === 'newzealand') {
-                    // url = Config.api.quakes_geonet_url + nextProps.level;
                     fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
                         self.setState({
                                 quakes: quakes,
@@ -75,7 +70,6 @@ export default class QuakeLevelList extends Component {
                             }
                         );
                         nextProps.onRefreshData(false);
-                        // this.stopTimer();
                     })
                 }
 
@@ -99,7 +93,6 @@ export default class QuakeLevelList extends Component {
                                 notificationQuakes: notificationQuakes,
                                 loading: false,
                                 error: null,
-
                             }
                         );
                     });
@@ -111,14 +104,12 @@ export default class QuakeLevelList extends Component {
             let geoUrl = Config.api.quakes_geonet_url + self.props.level;
             let usgUrl = Config.api.quakes_usgs_url + self.props.level;
             if (self.props.tab === 'newzealand') {
-                // url = Config.api.quakes_geonet_url + self.props.level;
                 fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
                     self.setState({
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
                             loading: false,
                             error: null,
-
                         }
                     );
                 });
@@ -130,7 +121,6 @@ export default class QuakeLevelList extends Component {
                             notificationQuakes: notificationQuakes,
                             loading: false,
                             error: null,
-
                         }
                     );
                 });
@@ -161,25 +151,17 @@ export default class QuakeLevelList extends Component {
 
                 this.fetchQuakes();
             }
+            //
+            this.interval = setInterval(()=>{
+                console.log('Fetching quake info');
+                this.fetchQuakes();
+            },10000);
+            //
 
             if (this.props.refreshing) {
                 this.fetchQuakes();
             }
         }
-
-        // this.interval = setInterval(() => {
-        //     // console.log('called interval')
-        //     this.fetchQuakes();
-        //
-        // }, 1000 * 10);
-
-
-        // //Every half hour call data api.
-        // timer = setInterval(() => {
-        //     this.fetchQuakes();
-        //     console.log('6min!')
-        // }, 1000 * 60);
-
 
     }
 
@@ -189,11 +171,7 @@ export default class QuakeLevelList extends Component {
 
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
-        this.stopTimer();
-        // clearInterval(timer);
-        // console.log('unmount', this.interval)
-        // this.interval && clearInterval(this.interval);
-        // console.log('unmount', this.interval)
+        clearInterval(this.interval);
     }
 
     /**
@@ -258,15 +236,6 @@ export default class QuakeLevelList extends Component {
 
 
     }
-
-    /**
-     *
-     * @param isConnected
-     * @param quake
-     */
-    // onQuakeDetail = (isConnected, quake) => {
-    //     this.props.navigation.navigate('Detail', {isConnected, quake});
-    // };
 
     keyExtractor = (item, index) => `key${index}`;
 
