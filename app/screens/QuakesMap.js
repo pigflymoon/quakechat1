@@ -3,9 +3,6 @@ import {
     Text,
     View,
     ScrollView,
-    Dimensions,
-    StyleSheet,
-    Alert,
 } from 'react-native';
 import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
@@ -18,7 +15,7 @@ export default class QuakesMap extends Component {
         super(props);
 
         this.state = {
-            level: 1,
+            level: 0,
             isConnected: true,
         };
     }
@@ -80,10 +77,10 @@ export default class QuakesMap extends Component {
         if (!isConnected) {
             return this.renderOffline();
         }
-        // var currentScreen = this.props.screenProps.currentScreen;
-        // if (currentScreen !== 'Map') {
-        //     return <View/>;
-        // }
+        var currentScreen = this.props.screenProps.currentScreen;
+        if (currentScreen !== 'Map') {
+            return null;
+        }
         return this.renderQuakes();
 
     }

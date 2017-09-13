@@ -27,8 +27,13 @@ export default class QuakeMap extends Component {
             error: null,
             isConnected: true,
             pincolor: colors.orange1,
-            latitude: ResourcesConfig.map.latitude,
-            longitude: ResourcesConfig.map.longitude,
+            loading: true,
+            region: {
+                latitude: ResourcesConfig.map.latitude,
+                longitude: ResourcesConfig.map.longitude,
+                latitudeDelta: ResourcesConfig.map.latitude_delta,
+                longitudeDelta: ResourcesConfig.map.longitude_delta,
+            }
         };
     }
 
@@ -56,20 +61,19 @@ export default class QuakeMap extends Component {
         let self = this;
         let url = self.props.nps_source;
 
-        if (nextProps) {
+        if (nextProps && nextProps.level >= 1) {
             url = url + nextProps.level;
-        } else {
-            url = url + self.props.level;
+            fetchQuakesByApi(url, function (quakes) {
+                console.log('url', url)
+                self.setState({
+                        loading: false,
+                        quakes: quakes,
+                        error: null,
+                        mapType: 'Map',
+                    }
+                );
+            })
         }
-        //callback to get quakes
-        fetchQuakesByApi(url, function (quakes) {
-            self.setState({
-                    quakes: quakes,
-                    error: null,
-                    mapType: 'Map',
-                }
-            );
-        })
     }
 
     loadFeatures() {
@@ -78,11 +82,16 @@ export default class QuakeMap extends Component {
         markersData.push(post.quake);
 
         this.setState({
+                loading: false,
                 quakes: markersData,
                 error: null,
                 mapType: 'detail',
-                longitude: post.quake.coordinates.longitude,
-                latitude: post.quake.coordinates.latitude
+                region: {
+                    longitude: post.quake.coordinates.longitude,
+                    latitude: post.quake.coordinates.latitude,
+                    latitudeDelta: ResourcesConfig.map.latitude_delta,
+                    longitudeDelta: ResourcesConfig.map.longitude_delta,
+                }
             }
         );
     }
@@ -90,6 +99,21 @@ export default class QuakeMap extends Component {
     renderPosts() {
         if (this.state.error) {
             return this.renderError();
+        }
+        if (this.state.loading) {
+            return (
+                <MapView
+                    ref="MapView"
+                    style={map.map}
+                    scrollEnabled={true}
+                    zoomEnabled={true}
+                    pitchEnabled={false}
+                    rotateEnabled={true}
+                    showsScale
+                    cacheEnabled
+                    region={this.state.region}
+                />
+            );
         }
 
         return (
@@ -101,14 +125,7 @@ export default class QuakeMap extends Component {
                 pitchEnabled={false}
                 rotateEnabled={true}
                 showsScale
-                loadingEnabled={true}
-                region={{
-                    latitude: this.state.latitude,
-                    longitude: this.state.longitude,
-                    latitudeDelta: ResourcesConfig.map.latitude_delta,
-                    longitudeDelta: ResourcesConfig.map.longitude_delta,
-                }}>
-
+                region={this.state.region}>
                 {this.state.quakes.map((quake, index) => (
                     <MapView.Marker style={map.marker}
                                     coordinate={quake.coordinates}
@@ -140,7 +157,6 @@ export default class QuakeMap extends Component {
                                     title={`mmi:${quake.mmi}`}
                                 />
 
-
                             </Card>
 
                         </MapView.Callout>
@@ -152,12 +168,9 @@ export default class QuakeMap extends Component {
         );
     }
 
-
     renderError() {
         return (
-            <Text>
-                Uh oh: {this.state.error.message}
-            </Text>
+            <Text> Uh oh: {this.state.error.message}</Text>
         );
     }
 

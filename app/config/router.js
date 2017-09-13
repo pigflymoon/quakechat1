@@ -15,10 +15,10 @@ import Settings from '../screens/Settings';
 
 const QuakeDetailScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
-    if (currentScreen == 'Detail') {
-        return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
-    } else {
+    if (currentScreen !== 'Detail') {
         return null;
+    } else {
+        return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
     }
 
 }
@@ -107,7 +107,7 @@ const QuakeMapScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
 
     if (currentScreen !== 'Map') {
-        return null;
+        return <View/>;
     } else {
         return <QuakesMap navigation={navigation} screenProps={screenProps}/>
     }
@@ -144,7 +144,7 @@ export const Tabs = TabNavigator({
         }
     },
     Map: {
-        screen: QuakeMapScreen,
+        screen: QuakesMap,
         navigationOptions: {
             tabBarLabel: 'Map',
             title: 'Quakes Map',
@@ -152,7 +152,7 @@ export const Tabs = TabNavigator({
         },
     },
     News: {
-        screen: NewsScreen,
+        screen: News,
         navigationOptions: {
             tabBarLabel: 'News',
             tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
