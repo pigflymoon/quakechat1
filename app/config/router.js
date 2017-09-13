@@ -97,12 +97,21 @@ export const SettingsStack = StackNavigator({
 
 export const NewsStack = StackNavigator({
     News: {
-        screen: NewsScreen,
+        screen: News,
         navigationOptions: {
             title: 'News'
         },
     },
 });
+
+// export const MapsStack = StackNavigator({
+//     Map: {
+//         screen: QuakesMap,
+//         navigationOptions: {
+//             title: 'Quakes Map'
+//         },
+//     },
+// });
 const QuakeMapScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
 
@@ -152,7 +161,7 @@ export const Tabs = TabNavigator({
         },
     },
     News: {
-        screen: News,
+        screen: NewsStack,
         navigationOptions: {
             tabBarLabel: 'News',
             tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
