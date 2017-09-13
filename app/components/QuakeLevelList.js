@@ -201,7 +201,7 @@ export default class QuakeLevelList extends Component {
 
                             if (notificationQuakes.length > 0) {
                                 for (k in notificationQuakes) {
-                                    if (notificationRule <= notificationQuakes[k].mmi) {
+                                    if (notificationRule < notificationQuakes[k].mmi) {
                                         PushNotification.localNotificationSchedule({
                                             message: notificationQuakes[k].message,
                                             date: new Date(notificationQuakes[k].time),//(Date.now() + (5 * 1000)),//(notificationQuakes[k].time),
