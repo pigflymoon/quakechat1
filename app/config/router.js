@@ -122,21 +122,6 @@ const QuakeMapScreen = ({navigation, screenProps}) => {
     }
 }
 
-
-// export const mapsStack = StackNavigator({
-//     Map: {
-//         screen: QuakeMapScreen,
-//         navigationOptions: {
-//             title: 'Quakes Map'
-//         },
-//         // Detail: {
-//         //     screen: QuakeDetail,
-//         //     navigationOptions: ({navigation}) => ({
-//         //         title: 'Quake Detail'
-//         //     }),
-//         // },
-//     },
-// });
 export const Tabs = TabNavigator({
     List: {
         screen: QuakesListStack,
@@ -154,9 +139,9 @@ export const Tabs = TabNavigator({
     },
     Map: {
         screen: QuakesMap,
+        headerTitle:'Quakes Map',
         navigationOptions: {
             tabBarLabel: 'Map',
-            title: 'Quakes Map',
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
         },
     },
