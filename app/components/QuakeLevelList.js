@@ -148,12 +148,10 @@ export default class QuakeLevelList extends Component {
         if (this.props.isConnected) {
 
             if (this.state.quakes.length <= 0) {
-
                 this.fetchQuakes();
             }
             //
             this.interval = setInterval(()=>{
-                console.log('Fetching quake info');
                 this.fetchQuakes();
             },10000);
             //
@@ -163,10 +161,6 @@ export default class QuakeLevelList extends Component {
             }
         }
 
-    }
-
-    componentDidUpdate() {
-        // console.timeEnd('testTimer');
     }
 
     componentWillUnmount() {
