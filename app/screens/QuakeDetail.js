@@ -25,10 +25,6 @@ export default class QuakeDetail extends Component {
         };
     }
 
-    onQuakeQuality = (quake) => {
-        this.props.navigation.navigate('Quality', quake);
-    };
-
     componentDidMount() {
         this.props.navigation.setParams({handleShare: this.onShare})
     }
@@ -76,6 +72,13 @@ export default class QuakeDetail extends Component {
                             hideChevron
                         />
                         <ListItem
+                            title="Location"
+                            rightTitle={quake.locality}
+                            rightTitleNumberOfLines={2}
+                            rightTitleStyle={quakeStyle.rightTitle}
+                            hideChevron
+                        />
+                        <ListItem
                             title="Depth"
                             rightTitle={quake.depth}
                             rightTitleStyle={quakeStyle.rightTitle}
@@ -93,23 +96,8 @@ export default class QuakeDetail extends Component {
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
-                        <ListItem
-                            title="Location"
-                            rightTitle={quake.locality}
-                            rightTitleStyle={quakeStyle.rightTitle}
-                            hideChevron
-                        />
 
-                        {quake.apiType === 'geonet' ? (
-                                <ListItem
-                                    title="Quality"
-                                    rightTitle={quake.quality}
-                                    rightTitleStyle={quakeStyle.linkTitle}
-                                    hideChevron
-                                    onPress={() => this.onQuakeQuality(quake.quality)}
-                                />
-                            ) : null
-                        }
+
                     </List>
                 </ScrollView>
             </View>

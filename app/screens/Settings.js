@@ -53,6 +53,7 @@ export default class Settings extends Component {
         AsyncStorage.getItem("isSilent").then((value) => {
             if (value) {
                 var val = (value === "true");
+                console.log('setting silenet',val)
                 this.setState({"isSilent": val});
             }
         }).done();
@@ -70,6 +71,8 @@ export default class Settings extends Component {
     }
     toggleDisturbSwitch = (value) => {
         AsyncStorage.setItem("isSilent", value.toString());
+        console.log('change setting silenet',value)
+
         this.setState({"isSilent": value});
 
     }

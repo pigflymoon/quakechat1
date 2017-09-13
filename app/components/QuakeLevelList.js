@@ -46,7 +46,7 @@ export default class QuakeLevelList extends Component {
             let usgUrl = Config.api.quakes_usgs_url + nextProps.level;
             if (nextProps.refreshing == true) {
                 if (nextProps.tab === 'newzealand') {
-                    fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
+                    fetchQuakesByApi('geonet', geoUrl, function (quakes, notificationQuakes) {
                         self.setState({
                                 quakes: quakes,
                                 notificationQuakes: notificationQuakes,
@@ -60,7 +60,7 @@ export default class QuakeLevelList extends Component {
                     });
                 } else {
                     // url = Config.api.quakes_usgs_url + nextProps.level;
-                    fetchQuakesByUsgsApi(usgUrl, function (quakes, notificationQuakes) {
+                    fetchQuakesByApi('usgs', usgUrl, function (quakes, notificationQuakes) {
                         self.setState({
                                 quakes: quakes,
                                 notificationQuakes: notificationQuakes,
@@ -76,7 +76,8 @@ export default class QuakeLevelList extends Component {
             } else {
 
                 if (nextProps.tab === 'newzealand') {
-                    fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
+                    fetchQuakesByApi('geonet', geoUrl, function (quakes, notificationQuakes) {
+                        console.log('quakes',quakes)
                         self.setState({
                                 quakes: quakes,
                                 notificationQuakes: notificationQuakes,
@@ -87,7 +88,7 @@ export default class QuakeLevelList extends Component {
                         );
                     });
                 } else {
-                    fetchQuakesByUsgsApi(usgUrl, function (quakes, notificationQuakes) {
+                    fetchQuakesByApi('usgs', usgUrl, function (quakes, notificationQuakes) {
                         self.setState({
                                 quakes: quakes,
                                 notificationQuakes: notificationQuakes,
@@ -104,7 +105,7 @@ export default class QuakeLevelList extends Component {
             let geoUrl = Config.api.quakes_geonet_url + self.props.level;
             let usgUrl = Config.api.quakes_usgs_url + self.props.level;
             if (self.props.tab === 'newzealand') {
-                fetchQuakesByApi(geoUrl, function (quakes, notificationQuakes) {
+                fetchQuakesByApi('geonet', geoUrl, function (quakes, notificationQuakes) {
                     self.setState({
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
@@ -115,7 +116,7 @@ export default class QuakeLevelList extends Component {
                 });
                 self.props.onRefreshData(false);
             } else {
-                fetchQuakesByUsgsApi(usgUrl, function (quakes, notificationQuakes) {
+                fetchQuakesByApi('usgs', usgUrl, function (quakes, notificationQuakes) {
                     self.setState({
                             quakes: quakes,
                             notificationQuakes: notificationQuakes,
@@ -151,9 +152,9 @@ export default class QuakeLevelList extends Component {
                 this.fetchQuakes();
             }
             //
-            this.interval = setInterval(()=>{
+            this.interval = setInterval(() => {
                 this.fetchQuakes();
-            },10000);
+            }, 10000);
             //
 
             if (this.props.refreshing) {
@@ -184,18 +185,23 @@ export default class QuakeLevelList extends Component {
             var lastIndex = [];
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
+                    console.log('isSlientValue', isSlientValue)
+                    console.log('isNotifiedValue', isNotifiedValue)
+
                     var isSilent = (isSlientValue === "true");
                     var isNotified = (isNotifiedValue === "true");
+                    console.log('isSilent', isSilent)
+                    console.log('isNotified', isNotified)
+
                     if (isNotified) {
 
                         let notificationQuakes = this.state.notificationQuakes;
                         AsyncStorage.getItem("ruleValue").then((value) => {
                             let notificationRule = value;
 
-
                             if (notificationQuakes.length > 0) {
                                 for (k in notificationQuakes) {
-                                    if (notificationRule < notificationQuakes[k].mmi) {
+                                    if (notificationRule <= notificationQuakes[k].mmi) {//new quakes in the rules
                                         PushNotification.localNotificationSchedule({
                                             message: notificationQuakes[k].message,
                                             date: new Date(notificationQuakes[k].time),//(Date.now() + (5 * 1000)),//(notificationQuakes[k].time),
@@ -227,18 +233,17 @@ export default class QuakeLevelList extends Component {
             }).done();
 
         }
-
-
     }
 
     keyExtractor = (item, index) => `key${index}`;
 
-    renderList=({item, index})=> {
+    renderList = ({item, index}) => {
         return (
             <QuakeItem key={`list-${index}`} navigation={this.props.navigation} quake={item}
                        isConnected={this.state.isConnected}/>
         );
     }
+
     render() {
         return (
             <List>

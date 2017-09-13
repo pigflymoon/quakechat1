@@ -7,7 +7,6 @@ import News from '../screens/News';
 import QuakesList from '../screens/QuakesList';
 import QuakesMap from '../screens/QuakesMap';
 import QuakeDetail from '../screens/QuakeDetail';
-import QuakeQuality from '../screens/QuakeQuality';
 import ChatRoom from '../screens/ChatRoom';
 import About from '../screens/About';
 import Resources from '../screens/Resources';
@@ -22,24 +21,7 @@ const QuakeDetailScreen = ({navigation, screenProps}) => {
     }
 
 }
-const QuakesListScreen = ({navigation, screenProps}) => {
-    var currentScreen = screenProps.currentScreen;
-    if (currentScreen == 'List') {
-        return <QuakesList navigation={navigation} screenProps={screenProps}/>
-    } else {
-        return null;
-    }
 
-}
-const NewsScreen = ({navigation, screenProps}) => {
-    var currentScreen = screenProps.currentScreen;
-    if (currentScreen == 'News') {
-        return <News navigation={navigation} screenProps={screenProps}/>
-    } else {
-        return null;
-    }
-
-}
 
 const ChatRoomScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
@@ -65,13 +47,6 @@ export const QuakesListStack = StackNavigator({
             title: 'Quake Detail',
         }),
     },
-    Quality: {
-        screen: QuakeQuality,
-        navigationOptions: ({navigation}) => ({
-            title: 'Quake Quality',
-
-        })
-    }
 });
 
 export const SettingsStack = StackNavigator({
@@ -103,24 +78,6 @@ export const NewsStack = StackNavigator({
         },
     },
 });
-
-// export const MapsStack = StackNavigator({
-//     Map: {
-//         screen: QuakesMap,
-//         navigationOptions: {
-//             title: 'Quakes Map'
-//         },
-//     },
-// });
-const QuakeMapScreen = ({navigation, screenProps}) => {
-    var currentScreen = screenProps.currentScreen;
-
-    if (currentScreen !== 'Map') {
-        return <View/>;
-    } else {
-        return <QuakesMap navigation={navigation} screenProps={screenProps}/>
-    }
-}
 
 export const Tabs = TabNavigator({
     List: {

@@ -143,6 +143,7 @@ export default class QuakeMap extends Component {
                                 <ListItem
                                     hideChevron
                                     title={`Locality:${quake.locality}`}
+                                    titleNumberOfLines={2}
                                 />
                                 <ListItem
                                     hideChevron
