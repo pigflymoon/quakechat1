@@ -182,6 +182,7 @@ export default class QuakeMap extends Component {
     }
 
     render() {
+        console.log('map called?')
         var isConnected = this.props.isConnected;
         if (!isConnected) {
             return this.renderOffline();
