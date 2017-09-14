@@ -5,7 +5,6 @@ import {
     Share,
 } from 'react-native';
 
-
 export default class Utils {
     static goToURL = (url) => {
         Linking.canOpenURL(url).then(supported => {
