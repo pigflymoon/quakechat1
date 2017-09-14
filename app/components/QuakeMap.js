@@ -49,7 +49,7 @@ export default class QuakeMap extends Component {
     componentDidMount() {
         this.setState({isConnected: this.props.isConnected})
         if (this.props.isConnected) {
-            if (this.props.type && this.props.type == "SliderMap") {
+            if (this.props.type && this.props.type == "SliderMap" && this.props.apiType == 'geonet') {
                 this.loadMapInfo("");
             } else {
                 this.loadFeatures("");
@@ -60,11 +60,11 @@ export default class QuakeMap extends Component {
     loadMapInfo(nextProps) {
         let self = this;
         let url = self.props.nps_source;
+        let apiType = self.props.apiType;
 
         if (nextProps && nextProps.level >= 1) {
             url = url + nextProps.level;
-            fetchQuakesByApi(url, function (quakes) {
-                console.log('url', url)
+            fetchQuakesByApi(apiType, url, function (quakes) {
                 self.setState({
                         loading: false,
                         quakes: quakes,
@@ -182,7 +182,6 @@ export default class QuakeMap extends Component {
     }
 
     render() {
-        console.log('map called?')
         var isConnected = this.props.isConnected;
         if (!isConnected) {
             return this.renderOffline();

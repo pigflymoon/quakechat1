@@ -51,7 +51,7 @@ export default class QuakesMap extends Component {
     renderQuakes = () => {
         return (
             <View style={quakeStyle.quakesContainer}>
-                <QuakeMap type="SliderMap"
+                <QuakeMap type="SliderMap" apiType="geonet"
                           nps_source={Config.api.quakes_geonet_url}
                           level={this.state.level}
                           isConnected={this.props.screenProps.isConnected}
