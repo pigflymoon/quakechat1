@@ -7,17 +7,15 @@ import {
     AsyncStorage,
     Alert,
     FlatList
-
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import QuakeItem from './QuakeItem';
 import utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 import PushNotification from 'react-native-push-notification';
-import Utils from '../utils/utils';
-import quakeStyle from '../styles/quake';
-import {fetchQuakesByApi, fetchQuakesByUsgsApi} from '../utils/FetchQuakesByApi';
-var timer;
+
+import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
+
 export default class QuakeLevelList extends Component {
 
     constructor(props, context) {
