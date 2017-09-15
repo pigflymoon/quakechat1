@@ -14,7 +14,7 @@ import utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 import PushNotification from 'react-native-push-notification';
 // import PushController from '../components/PushController';
-import { NavigationActions } from 'react-navigation'
+import {NavigationActions} from 'react-navigation'
 
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 
@@ -177,24 +177,18 @@ export default class QuakeLevelList extends Component {
      * @param appState
      */
     handleAppStateChange = (nextAppState) => {
-        if (this.state.appState.match(/background/) && nextAppState.match(/background|inactive/) ||
-            this.state.appState.match(/active/) && nextAppState.match(/inactive/)) {
+        const {navigate, dispatch, goBack} = this.props.navigation;
+        let notificationQuakes = this.state.notificationQuakes;
+        if ((this.state.appState == 'background') && nextAppState.match(/background|inactive/) ||
+            ( this.state.appState == 'active') && ( nextAppState == 'inactive')) {
 
             this.setState({appState: 'background'})
             console.log('app is running in background')
+            goBack(null);
         }
         // else {
             var self = this;
             console.log('nextAppState', nextAppState, 'appState', this.state.appState)
-            console.log(this.state.appState == 'background')
-            console.log(nextAppState === 'active')
-
-            console.log((this.state.appState == 'background')&& (nextAppState === 'active'))
-            const {navigate,dispatch} = this.props.navigation;
-            let notificationQuakes = this.state.notificationQuakes;
-            // var detailQuakes;
-            //
-
 
             var lastIndex = [];
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
@@ -236,18 +230,22 @@ export default class QuakeLevelList extends Component {
                                                 console.log('NOTIFICATION:', notification);
                                                 var isConnected = true;
                                                 var quake = notificationQuakes[0];
+                                                var quakeSource = 'notification';
                                                 const navigateAction = NavigationActions.navigate({
                                                     routeName: 'Detail',
                                                     params: {isConnected, quake},
 
                                                     // navigate can have a nested navigate action that will be run inside the child router
-                                                    action: NavigationActions.navigate({ routeName: 'Detail',params: {isConnected, quake }})
+                                                    action: NavigationActions.navigate({
+                                                        routeName: 'Detail',
+                                                        params: {isConnected, quake, quakeSource}
+                                                    })
                                                 })
                                                 dispatch(navigateAction)
-                                                // navigate('Detail', {isConnected, quake});
                                             },
 
-                                        })
+                                        });
+
 
                                     }
 

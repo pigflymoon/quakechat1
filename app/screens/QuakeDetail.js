@@ -5,6 +5,7 @@ import {
     StyleSheet,
     Text,
     Share,
+    Button,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import colors from '../styles/colors';
@@ -26,7 +27,7 @@ export default class QuakeDetail extends Component {
     }
 
     componentDidMount() {
-        console.log('share',this.props.navigation)
+        console.log('share', this.props.navigation)
         this.props.navigation.setParams({handleShare: this.onShare})
     }
 
@@ -41,7 +42,7 @@ export default class QuakeDetail extends Component {
 
     render() {
         const {isConnected, quake} = this.props.navigation.state.params;
-        console.log('detail quake',quake)
+        console.log('detail quake', quake)
 
         if (this.props.screenProps.currentScreen !== 'Detail') {
             return <View/>
@@ -108,16 +109,35 @@ export default class QuakeDetail extends Component {
 }
 
 QuakeDetail.navigationOptions = props => {
-    const {quake} = props.navigation.state.params;
+    const {quake, quakeSource} = props.navigation.state.params;
     const {params = {}} = props.navigation.state
+    console.log('goback',props.navigation)
     // var time = quake.time;
     // var magnitude = quake.magnitude;
     // var locality = quake.locality;
-    var message = quake.message+ 'by @QuakeChat';
+    var message = quake.message + 'by @QuakeChat';
     // var message = `${time} happened ${magnitude} earthquake in ${locality} by @QuakeChat `;
 
     const url = Config.share.url;
+    if (quakeSource == 'notification') {
+        return {
+            headerLeft: (
+                // <Text></Text>
+                 <Button title="Home" onPress={() => props.navigation.goBack(null)} />
+            ),
+            headerRight: (
+                <Icon name='share' type='font-awesome' size={18} color={colors.primary1}
+                      style={navigationStyle.rightTitle}
+                      onPress={() => {
+                          params.handleShare(message, url);
+                      }}
+                />
 
+            ),
+        }
+
+
+    }
     return {
         // Render a button on the right side of the header.
 
