@@ -12,15 +12,7 @@ import About from '../screens/About';
 import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
 
-const QuakeDetailScreen = ({navigation, screenProps}) => {
-    var currentScreen = screenProps.currentScreen;
-    if (currentScreen !== 'Detail') {
-        return null;
-    } else {
-        return <QuakeDetail navigation={navigation} screenProps={screenProps}/>
-    }
 
-}
 
 
 const ChatRoomScreen = ({navigation, screenProps}) => {
@@ -42,7 +34,7 @@ export const QuakesListStack = StackNavigator({
     },
 
     Detail: {
-        screen: QuakeDetailScreen,
+        screen: QuakeDetail,
         navigationOptions: ({navigation}) => ({
             title: 'Quake Detail',
         }),

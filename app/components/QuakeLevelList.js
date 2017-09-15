@@ -177,29 +177,6 @@ export default class QuakeLevelList extends Component {
      * @param appState
      */
     handleAppStateChange = (nextAppState) => {
-        // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-        //     PushNotification.setApplicationIconBadgeNumber(0);
-        //     this.setState({appState: nextAppState});
-        //     console.log('appstate is', this.state.appState, nextAppState);
-        //
-        // }
-        /*
-         this.state.appState.match(/background/) && nextAppState.match(/background|/)  ==>background
-         nextAppState inactive appState active==>background
-         nextAppState active appState background ==>foreground
-
-         nextAppState inactive appState background
-         ===>background
-         nextAppState background appState background
-
-
-
-
-         */
-
-        // if ((this.state.appState == 'background') && (nextAppState === 'active')) {
-        //     console.log('app is running in foreground')
-        // }
         if (this.state.appState.match(/background/) && nextAppState.match(/background|inactive/) ||
             this.state.appState.match(/active/) && nextAppState.match(/inactive/)) {
 
@@ -254,9 +231,6 @@ export default class QuakeLevelList extends Component {
                                     console.log('called')
                                     if ((this.state.appState == 'background') && (nextAppState === 'active')) {
                                         console.log('app is running in foreground')
-
-
-
                                         PushNotification.configure({
                                             onNotification: function (notification) {
                                                 console.log('NOTIFICATION:', notification);
@@ -274,6 +248,7 @@ export default class QuakeLevelList extends Component {
                                             },
 
                                         })
+
                                     }
 
                                 }
