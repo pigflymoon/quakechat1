@@ -5,11 +5,11 @@ import {
 } from 'react-native';
 import utils from '../utils/utils';
 
-const QuakeData = (apiType, utime, time, quake) => {
+const QuakeData = (apiType, timeStamp, utime, time, quake) => {
     if (apiType === 'usgs') {
-        console.log('usgs data')
         return ({
             apiType: apiType,
+            timeStamp: timeStamp,
             utime: utime,
             time: time,
             locality: quake.properties.place,
@@ -19,12 +19,13 @@ const QuakeData = (apiType, utime, time, quake) => {
             coordinates: {
                 longitude: quake.geometry.coordinates[0],
                 latitude: quake.geometry.coordinates[1]
-            }
+            },
+            message: `${time} happened ${quake.properties.mag.toFixed(1)} earthquake in ${quake.properties.place}`,
         });
     } else {
-        console.log('geonet data')
         return ({
             apiType: apiType,
+            timeStamp: timeStamp,
             utime: utime,
             time: time,
             locality: quake.properties.locality,
@@ -34,7 +35,8 @@ const QuakeData = (apiType, utime, time, quake) => {
             coordinates: {
                 longitude: quake.geometry.coordinates[0],
                 latitude: quake.geometry.coordinates[1]
-            }
+            },
+            message: `${time} happened ${quake.properties.magnitude.toFixed(1)} earthquake in ${quake.properties.locality}`,
         });
     }
 
@@ -68,21 +70,17 @@ export const fetchQuakesByApi = (apiType, url, callback) => {
                     let timeStamp = time.getTime();
                     time = time.toString().split('GMT')[0];
 
-                    var quakeData = QuakeData(apiType, utime, time, quake);
+                    var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
                     if (lastNotifiedTimeValue === null) {
                         lastNotificationTime = 0;
                     } else {
                         lastNotificationTime = parseInt(lastNotifiedTimeValue)
                     }
-                    if (notifiedTime > lastNotificationTime) {
-                        let magnitude = (apiType === 'usgs') ? quake.properties.mag.toFixed(1) : quake.properties.magnitude.toFixed(1);
-                        let location = (apiType === 'usgs') ? quake.properties.place : quake.properties.locality;
-                        let notificationQuake = {
-                            mmi: quake.properties.mmi,
-                            timeStamp: timeStamp,
-                            time: time,
-                            message: `${time} happened ${magnitude} earthquake in ${location}`,
-                        };
+                    if (notifiedTime >= lastNotificationTime) {
+                        // let magnitude = (apiType === 'usgs') ? quake.properties.mag.toFixed(1) : quake.properties.magnitude.toFixed(1);
+                        // let location = (apiType === 'usgs') ? quake.properties.place : quake.properties.locality;
+                        //
+                        let notificationQuake = quakeData;
                         notificationQuakes.push(notificationQuake);
                     }
                     quakesArray.push(quakeData);

@@ -13,6 +13,8 @@ import QuakeItem from './QuakeItem';
 import utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 import PushNotification from 'react-native-push-notification';
+// import PushController from '../components/PushController';
+import { NavigationActions } from 'react-navigation'
 
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 
@@ -26,8 +28,11 @@ export default class QuakeLevelList extends Component {
             isRefreshing: false,
             isConnected: false,
             notificationQuakes: [],
-            appState: AppState.currentState
+            appState: AppState.currentState,
+            foreground: true,
         };
+        console.log('current state', AppState.currentState)
+
     }
 
 
@@ -143,15 +148,16 @@ export default class QuakeLevelList extends Component {
 
     componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
+
         if (this.props.isConnected) {
 
             if (this.state.quakes.length <= 0) {
                 this.fetchQuakes();
             }
             //
-            this.interval = setInterval(() => {
-                this.fetchQuakes();
-            }, 10000);
+            // this.interval = setInterval(() => {
+            //     this.fetchQuakes();
+            // }, 1000*10);
             //
 
             if (this.props.refreshing) {
@@ -163,7 +169,7 @@ export default class QuakeLevelList extends Component {
 
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
-        clearInterval(this.interval);
+        // clearInterval(this.interval);
     }
 
     /**
@@ -171,14 +177,48 @@ export default class QuakeLevelList extends Component {
      * @param appState
      */
     handleAppStateChange = (nextAppState) => {
-        if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-            PushNotification.setApplicationIconBadgeNumber(0);
-            // AsyncStorage.setItem("notification", '');//clear notification
-            // AsyncStorage.removeItem("notification");
-            // console.log('notification clear:');
-            this.setState({appState: nextAppState});
+        // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+        //     PushNotification.setApplicationIconBadgeNumber(0);
+        //     this.setState({appState: nextAppState});
+        //     console.log('appstate is', this.state.appState, nextAppState);
+        //
+        // }
+        /*
+         this.state.appState.match(/background/) && nextAppState.match(/background|/)  ==>background
+         nextAppState inactive appState active==>background
+         nextAppState active appState background ==>foreground
 
-        } else {
+         nextAppState inactive appState background
+         ===>background
+         nextAppState background appState background
+
+
+
+
+         */
+
+        // if ((this.state.appState == 'background') && (nextAppState === 'active')) {
+        //     console.log('app is running in foreground')
+        // }
+        if (this.state.appState.match(/background/) && nextAppState.match(/background|inactive/) ||
+            this.state.appState.match(/active/) && nextAppState.match(/inactive/)) {
+
+            this.setState({appState: 'background'})
+            console.log('app is running in background')
+        }
+        // else {
+            var self = this;
+            console.log('nextAppState', nextAppState, 'appState', this.state.appState)
+            console.log(this.state.appState == 'background')
+            console.log(nextAppState === 'active')
+
+            console.log((this.state.appState == 'background')&& (nextAppState === 'active'))
+            const {navigate,dispatch} = this.props.navigation;
+            let notificationQuakes = this.state.notificationQuakes;
+            // var detailQuakes;
+            //
+
+
             var lastIndex = [];
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
@@ -186,7 +226,7 @@ export default class QuakeLevelList extends Component {
                     var isNotified = (isNotifiedValue === "true");
 
                     if (isNotified) {
-                        let notificationQuakes = this.state.notificationQuakes;
+
                         AsyncStorage.getItem("ruleValue").then((value) => {
                             let notificationRule = value;
 
@@ -198,6 +238,8 @@ export default class QuakeLevelList extends Component {
                                             date: new Date(notificationQuakes[k].time),//(Date.now() + (5 * 1000)),//(notificationQuakes[k].time),
                                             number: 0,
                                             playSound: isSilent,
+                                            foreground: true
+                                            // userInteraction: true,
 
                                         });
                                         lastIndex.push(k);
@@ -209,20 +251,47 @@ export default class QuakeLevelList extends Component {
                                 } else {
                                     let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
                                     AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());
+                                    console.log('called')
+                                    if ((this.state.appState == 'background') && (nextAppState === 'active')) {
+                                        console.log('app is running in foreground')
+
+
+
+                                        PushNotification.configure({
+                                            onNotification: function (notification) {
+                                                console.log('NOTIFICATION:', notification);
+                                                var isConnected = true;
+                                                var quake = notificationQuakes[0];
+                                                const navigateAction = NavigationActions.navigate({
+                                                    routeName: 'Detail',
+                                                    params: {isConnected, quake},
+
+                                                    // navigate can have a nested navigate action that will be run inside the child router
+                                                    action: NavigationActions.navigate({ routeName: 'Detail',params: {isConnected, quake }})
+                                                })
+                                                dispatch(navigateAction)
+                                                // navigate('Detail', {isConnected, quake});
+                                            },
+
+                                        })
+                                    }
+
                                 }
                             } else {
-                                console.log('No new notification')
+                                console.log('No new notification - no new data')
                             }
                         });
 
 
                     }
 
+
                 })
 
             }).done();
 
-        }
+
+        // }
     }
 
     keyExtractor = (item, index) => `key${index}`;

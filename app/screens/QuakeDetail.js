@@ -26,13 +26,13 @@ export default class QuakeDetail extends Component {
     }
 
     componentDidMount() {
-        this.props.navigation.setParams({handleShare: this.onShare})
+        // this.props.navigation.setParams({handleShare: this.onShare})
     }
 
-    componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.navigation.state.params.isConnected;
-        this.setState({isConnected: isConnected});
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     var isConnected = nextProps.navigation.state.params.isConnected;
+    //     this.setState({isConnected: isConnected});
+    // }
 
     onShare = (message, url) => {
         Utils.shareText(message, url)
@@ -40,13 +40,14 @@ export default class QuakeDetail extends Component {
 
     render() {
         const {isConnected, quake} = this.props.navigation.state.params;
+        console.log('detail quake',quake)
 
         if (this.props.screenProps.currentScreen !== 'Detail') {
             return <View/>
         }
         return (
             <View style={quakeStyle.container}>
-
+            <Text>Test</Text>
                 <ScrollView style={StyleSheet.absoluteFill}
                             contentContainerStyle={quakeStyle.scrollview}>
                     <QuakeMap style={quakeStyle.map} mapInfo={this.props.navigation.state.params}
@@ -104,14 +105,14 @@ export default class QuakeDetail extends Component {
         )
     }
 }
-
+/*
 QuakeDetail.navigationOptions = props => {
     const {quake} = props.navigation.state.params;
     const {params = {}} = props.navigation.state
-    var time = quake.time;
-    var magnitude = quake.magnitude;
-    var locality = quake.locality;
-    var message = `${time} happened ${magnitude} earthquake in ${locality} by @QuakeChat `;
+    // var time = quake.time;
+    // var magnitude = quake.magnitude;
+    // var locality = quake.locality;
+    var message = quake.message+ 'by @QuakeChat';
     const url = Config.share.url;
 
     return {
@@ -127,3 +128,4 @@ QuakeDetail.navigationOptions = props => {
         ),
     };
 };
+*/

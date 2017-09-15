@@ -16,7 +16,6 @@ import * as StoreReview from 'react-native-store-review';
 // import DeviceInfo from 'react-native-device-info';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
-import PushController from '../components/PushController';
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 
@@ -177,7 +176,7 @@ export default class Settings extends Component {
                         title={`Resources`}
                         onPress={() => this.onResources()}
                     />
-                    <PushController />
+
                 </List>
 
                 <List>
