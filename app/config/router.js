@@ -26,7 +26,6 @@ const ChatRoomScreen = ({navigation, screenProps}) => {
 export const QuakesListStack = StackNavigator({
     List: {
         screen: QuakesList,
-        key: 'List',
         navigationOptions: {
             title: 'Quakes List'
         },
@@ -34,7 +33,6 @@ export const QuakesListStack = StackNavigator({
 
     Detail: {
         screen: QuakeDetail,
-        key:'Detail',
         navigationOptions: ({navigation}) => ({
             title: 'Quake Detail',
         }),

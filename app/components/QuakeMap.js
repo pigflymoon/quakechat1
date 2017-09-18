@@ -100,6 +100,7 @@ export default class QuakeMap extends Component {
         if (this.state.error) {
             return this.renderError();
         }
+
         if (this.state.loading) {
             return (
                 <MapView

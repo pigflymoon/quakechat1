@@ -230,7 +230,8 @@ export default class QuakeLevelList extends Component {
                                                 var isConnected = true;
                                                 var quake = notificationQuakes[0];
                                                 var quakeSource = 'notification';
-                                                navigate('Detail', {isConnected, quake, quakeSource});
+                                               // goBack(null);
+                                                // navigate('Detail', {isConnected, quake, quakeSource});
                                             },
 
                                         });
