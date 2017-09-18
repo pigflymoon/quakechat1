@@ -120,6 +120,8 @@ export default class QuakesList extends Component {
                                 refreshing={this.state.refreshing}
                                 level={this.state.level}
                                 isConnected={true}
+                                currentScreen={this.props.screenProps.currentScreen}
+
                 />
             </ScrollView>
         )
@@ -127,6 +129,7 @@ export default class QuakesList extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
+        console.log('current screen',this.props.screenProps.currentScreen)
         if (!isConnected) {
             return this.renderOffline();
         }

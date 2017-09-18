@@ -178,6 +178,7 @@ export default class QuakeLevelList extends Component {
      */
     handleAppStateChange = (nextAppState) => {
         const {navigate, dispatch, goBack} = this.props.navigation;
+        const currentScreen = this.props.currentScreen;
         let notificationQuakes = this.state.notificationQuakes;
 
         // else {
@@ -187,9 +188,6 @@ export default class QuakeLevelList extends Component {
         var lastIndex = [];
         if ((this.state.appState == 'background') && nextAppState.match(/background|inactive/) ||
             ( this.state.appState == 'active') && ( nextAppState == 'inactive')) {
-
-            this.setState({appState: 'background'})
-            console.log('app is running in background');
             goBack(null);
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
@@ -200,7 +198,6 @@ export default class QuakeLevelList extends Component {
 
                         AsyncStorage.getItem("ruleValue").then((value) => {
                             let notificationRule = value;
-
 
 
                             if (notificationQuakes.length > 0) {
@@ -224,7 +221,7 @@ export default class QuakeLevelList extends Component {
                                 } else {
                                     let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
                                     AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString()).then((value) => {
-                                        console.log('lastNotificationTime: ',lastNotificationTime)
+                                        console.log('lastNotificationTime: ', lastNotificationTime)
 
                                         PushNotification.configure({
                                             onNotification: function (notification) {
@@ -261,7 +258,6 @@ export default class QuakeLevelList extends Component {
 
         if ((this.state.appState == 'background') && (nextAppState === 'active')) {
             console.log('app is running in foreground')
-
 
 
         }
