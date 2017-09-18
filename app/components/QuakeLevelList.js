@@ -155,10 +155,10 @@ export default class QuakeLevelList extends Component {
                 this.fetchQuakes();
             }
             //
-            // this.interval = setInterval(() => {
-            //     this.fetchQuakes();
-            // }, 1000*10);
-            //
+            this.interval = setInterval(() => {
+                this.fetchQuakes();
+            }, 1000*10);
+
 
             if (this.props.refreshing) {
                 this.fetchQuakes();
@@ -169,7 +169,7 @@ export default class QuakeLevelList extends Component {
 
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
-        // clearInterval(this.interval);
+        clearInterval(this.interval);
     }
 
     /**
