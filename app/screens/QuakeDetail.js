@@ -111,7 +111,7 @@ export default class QuakeDetail extends Component {
 QuakeDetail.navigationOptions = props => {
     const {quake, quakeSource} = props.navigation.state.params;
     const {params = {}} = props.navigation.state
-    console.log('goback',props.navigation)
+    // console.log('goback',props.navigation)
     // var time = quake.time;
     // var magnitude = quake.magnitude;
     // var locality = quake.locality;

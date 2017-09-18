@@ -179,18 +179,26 @@ export default class QuakeLevelList extends Component {
     handleAppStateChange = (nextAppState) => {
         const {navigate, dispatch, goBack} = this.props.navigation;
         let notificationQuakes = this.state.notificationQuakes;
+
+        // else {
+        var self = this;
+        console.log('nextAppState', nextAppState, 'appState', this.state.appState)
+
+        var lastIndex = [];
         if ((this.state.appState == 'background') && nextAppState.match(/background|inactive/) ||
             ( this.state.appState == 'active') && ( nextAppState == 'inactive')) {
 
             this.setState({appState: 'background'})
-            console.log('app is running in background')
+            console.log('app is running in background');
             goBack(null);
-        }
-        // else {
-            var self = this;
-            console.log('nextAppState', nextAppState, 'appState', this.state.appState)
+            // const backAction = NavigationActions.back({
+            //     key: 'List'
+            // })
+            // dispatch(backAction)
 
-            var lastIndex = [];
+
+            // goBack(null);
+
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
                     var isSilent = (isSlientValue === "true");
@@ -201,8 +209,10 @@ export default class QuakeLevelList extends Component {
                         AsyncStorage.getItem("ruleValue").then((value) => {
                             let notificationRule = value;
 
+
+
                             if (notificationQuakes.length > 0) {
-                                for (k in notificationQuakes) {
+                                for (var k in notificationQuakes) {
                                     if (notificationRule <= notificationQuakes[k].mmi) {//new quakes in the rules
                                         PushNotification.localNotificationSchedule({
                                             message: notificationQuakes[k].message,
@@ -221,33 +231,37 @@ export default class QuakeLevelList extends Component {
                                     console.log('No new notification')
                                 } else {
                                     let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
-                                    AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString());
-                                    console.log('called')
-                                    if ((this.state.appState == 'background') && (nextAppState === 'active')) {
-                                        console.log('app is running in foreground')
+                                    AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString()).then((value) => {
+                                        console.log('lastNotificationTime: ',lastNotificationTime)
+
                                         PushNotification.configure({
                                             onNotification: function (notification) {
+
                                                 console.log('NOTIFICATION:', notification);
                                                 var isConnected = true;
                                                 var quake = notificationQuakes[0];
                                                 var quakeSource = 'notification';
-                                                const navigateAction = NavigationActions.navigate({
-                                                    routeName: 'Detail',
-                                                    params: {isConnected, quake},
+                                                // const navigateAction = NavigationActions.navigate({
+                                                //     routeName: 'Detail',
+                                                //     params: {isConnected, quake},
+                                                //
+                                                //     // navigate can have a nested navigate action that will be run inside the child router
+                                                //     action: NavigationActions.navigate({
+                                                //         routeName: 'Detail',
+                                                //         params: {isConnected, quake, quakeSource}
+                                                //     })
+                                                // })
+                                                // goBack(null);
 
-                                                    // navigate can have a nested navigate action that will be run inside the child router
-                                                    action: NavigationActions.navigate({
-                                                        routeName: 'Detail',
-                                                        params: {isConnected, quake, quakeSource}
-                                                    })
-                                                })
-                                                dispatch(navigateAction)
+
+                                                navigate('Detail', {isConnected, quake, quakeSource});
+                                                // dispatch(navigateAction)
                                             },
 
                                         });
 
+                                    }).done();
 
-                                    }
 
                                 }
                             } else {
@@ -263,6 +277,16 @@ export default class QuakeLevelList extends Component {
 
             }).done();
 
+        }
+
+        //foreground
+
+        if ((this.state.appState == 'background') && (nextAppState === 'active')) {
+            console.log('app is running in foreground')
+
+
+
+        }
 
         // }
     }
