@@ -13,8 +13,6 @@ import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
 
 
-
-
 const ChatRoomScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
     if (currentScreen == 'ChatRoom') {
@@ -28,6 +26,7 @@ const ChatRoomScreen = ({navigation, screenProps}) => {
 export const QuakesListStack = StackNavigator({
     List: {
         screen: QuakesList,
+        key: 'List',
         navigationOptions: {
             title: 'Quakes List'
         },
@@ -35,6 +34,7 @@ export const QuakesListStack = StackNavigator({
 
     Detail: {
         screen: QuakeDetail,
+        key:'Detail',
         navigationOptions: ({navigation}) => ({
             title: 'Quake Detail',
         }),
@@ -88,7 +88,7 @@ export const Tabs = TabNavigator({
     },
     Map: {
         screen: QuakesMap,
-        headerTitle:'Quakes Map',
+        headerTitle: 'Quakes Map',
         navigationOptions: {
             tabBarLabel: 'Map',
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,

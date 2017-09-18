@@ -7,11 +7,10 @@ import {
     Share,
     Button,
 } from 'react-native';
-import {List, ListItem} from 'react-native-elements';
+import {List, ListItem, Icon} from 'react-native-elements';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import navigationStyle from '../styles/navigation';
-import {Icon} from 'react-native-elements';
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 
@@ -123,7 +122,7 @@ QuakeDetail.navigationOptions = props => {
         return {
             headerLeft: (
                 // <Text></Text>
-                 <Button title="Home" onPress={() => props.navigation.goBack(null)} />
+                 <Button title="Quakes List" onPress={() => props.navigation.goBack(null)} />
             ),
             headerRight: (
                 <Icon name='share' type='font-awesome' size={18} color={colors.primary1}
@@ -132,11 +131,8 @@ QuakeDetail.navigationOptions = props => {
                           params.handleShare(message, url);
                       }}
                 />
-
             ),
         }
-
-
     }
     return {
         // Render a button on the right side of the header.

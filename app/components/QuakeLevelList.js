@@ -191,14 +191,6 @@ export default class QuakeLevelList extends Component {
             this.setState({appState: 'background'})
             console.log('app is running in background');
             goBack(null);
-            // const backAction = NavigationActions.back({
-            //     key: 'List'
-            // })
-            // dispatch(backAction)
-
-
-            // goBack(null);
-
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
                     var isSilent = (isSlientValue === "true");
@@ -241,21 +233,7 @@ export default class QuakeLevelList extends Component {
                                                 var isConnected = true;
                                                 var quake = notificationQuakes[0];
                                                 var quakeSource = 'notification';
-                                                // const navigateAction = NavigationActions.navigate({
-                                                //     routeName: 'Detail',
-                                                //     params: {isConnected, quake},
-                                                //
-                                                //     // navigate can have a nested navigate action that will be run inside the child router
-                                                //     action: NavigationActions.navigate({
-                                                //         routeName: 'Detail',
-                                                //         params: {isConnected, quake, quakeSource}
-                                                //     })
-                                                // })
-                                                // goBack(null);
-
-
                                                 navigate('Detail', {isConnected, quake, quakeSource});
-                                                // dispatch(navigateAction)
                                             },
 
                                         });
