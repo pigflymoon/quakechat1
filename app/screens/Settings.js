@@ -150,6 +150,7 @@ export default class Settings extends Component {
                         switchOnTintColor={colors.primary1}
                         subtitle={'Notification that arrive during 22:00 to 8:00 will be silenced'}
                         subtitleStyle={{marginRight: 10, fontWeight: 'normal'}}
+                        subtitleNumberOfLines={2}
                         switchButton
                         onSwitch={this.toggleDisturbSwitch}
                         switched={this.state.isSilent}

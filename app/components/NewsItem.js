@@ -14,6 +14,7 @@ export default class NewsItem extends Component {
             <ListItem
                 title={news.title}
                 subtitle={news.published}
+                titleNumberOfLines={2}
                 onPress={() => Utils.goToURL(news.link)}
             />
         )

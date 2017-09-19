@@ -155,9 +155,9 @@ export default class QuakeLevelList extends Component {
                 this.fetchQuakes();
             }
             //
-            this.interval = setInterval(() => {
-                this.fetchQuakes();
-            }, 1000*10);
+            // this.interval = setInterval(() => {
+            //     this.fetchQuakes();
+            // }, 1000*10);
 
 
             if (this.props.refreshing) {
@@ -169,7 +169,7 @@ export default class QuakeLevelList extends Component {
 
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
-        clearInterval(this.interval);
+        // clearInterval(this.interval);
     }
 
     /**
@@ -186,9 +186,9 @@ export default class QuakeLevelList extends Component {
         console.log('nextAppState', nextAppState, 'appState', this.state.appState)
 
         var lastIndex = [];
-        if ((this.state.appState == 'background') && nextAppState.match(/background|inactive/) ||
-            ( this.state.appState == 'active') && ( nextAppState == 'inactive')) {
+        if ((this.state.appState.match(/background|active/)) && nextAppState.match(/background|inactive/)) {
             goBack(null);
+            console.log('app is running in background')
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
                     var isSilent = (isSlientValue === "true");
@@ -208,8 +208,7 @@ export default class QuakeLevelList extends Component {
                                             date: new Date(notificationQuakes[k].time),//(Date.now() + (5 * 1000)),//(notificationQuakes[k].time),
                                             number: 0,
                                             playSound: isSilent,
-                                            foreground: true
-                                            // userInteraction: true,
+                                            foreground: true,
 
                                         });
                                         lastIndex.push(k);
@@ -230,9 +229,10 @@ export default class QuakeLevelList extends Component {
                                                 var isConnected = true;
                                                 var quake = notificationQuakes[0];
                                                 var quakeSource = 'notification';
-                                               // goBack(null);
+                                                // goBack(null);
                                                 // navigate('Detail', {isConnected, quake, quakeSource});
                                             },
+
 
                                         });
 
@@ -253,17 +253,12 @@ export default class QuakeLevelList extends Component {
 
             }).done();
 
-        }
-
-        //foreground
-
-        if ((this.state.appState == 'background') && (nextAppState === 'active')) {
+        } else {
+            console.log('nextAppState', nextAppState, 'appState', this.state.appState)
             console.log('app is running in foreground')
-
-
         }
 
-        // }
+
     }
 
     keyExtractor = (item, index) => `key${index}`;
