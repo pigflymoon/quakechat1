@@ -10,9 +10,9 @@ export default {
 
     grey0: '#393e42',
     grey1: '#43484d',
-    grey2: '#5e6977',
-    grey3: '#86939e',
-    grey4: '#bdc6cf',
+    grey2: '#8E8E93',
+    grey3: '#CECED2',
+    grey4: '#EFEFF4',
     grey5: '#cccccc',
     grey6: '#e1e8ee',
     orange1: '#f5d166',

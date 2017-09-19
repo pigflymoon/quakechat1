@@ -9,7 +9,7 @@ export default{
         marginTop: 10,
     },
     tag:{
-        backgroundColor: colors.grey4,
+        backgroundColor: colors.grey2,
     },
     activeTag: {
         backgroundColor: colors.primary1,
@@ -22,7 +22,7 @@ export default{
         alignItems: 'center',
         justifyContent: 'center',
         borderBottomWidth: 1,
-        borderBottomColor: colors.grey3,
+        borderBottomColor: colors.grey2,
 
     },
     tabsContainer: {
@@ -37,7 +37,7 @@ export default{
         fontSize: 15,
         lineHeight: 23,
         letterSpacing: 0.47,
-        color: colors.grey3,
+        color: colors.grey2,
 
     },
     activeTabText: {

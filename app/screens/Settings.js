@@ -201,7 +201,7 @@ export default class Settings extends Component {
                 </List>
                 <List>
                     <ListItem
-                        leftIcon={{name: 'description'}}
+                        leftIcon={{name: 'description', color: colors.grey2}}
                         title={`Resources`}
                         onPress={() => this.onResources()}
                     />
@@ -210,22 +210,22 @@ export default class Settings extends Component {
 
                 <List>
                     <ListItem
-                        leftIcon={{name: 'chat'}}
+                        leftIcon={{name: 'chat', color: colors.grey2}}
                         title={`Tell a friend`}
                         onPress={() => this.onShare()}
                     />
                     <ListItem
-                        leftIcon={{name: 'favorite'}}
+                        leftIcon={{name: 'favorite', color: colors.grey2}}
                         title={`Rate us`}
                         onPress={() => this.onRate()}
                     />
                     <ListItem
-                        leftIcon={{name: 'info'}}
+                        leftIcon={{name: 'info', color: colors.grey2}}
                         title={`About`}
                         onPress={() => this.onAbout()}
                     />
                     <ListItem
-                        leftIcon={{name: 'perm-device-information'}}
+                        leftIcon={{name: 'perm-device-information', color: colors.grey2}}
                         title={`Version`}
                         subtitle={this.state.version}
                     />

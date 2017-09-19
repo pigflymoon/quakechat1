@@ -59,7 +59,7 @@ export default{
         height: 20,
         width: 20,
         backgroundColor: "transparent",
-        color: colors.grey5,
+        color: colors.grey2,
     },
     input: {
         flex: 1,
@@ -82,13 +82,13 @@ export default{
         fontSize: 18,
     },
     forgotPasswordText: {
-        color: colors.grey2,
+        color: colors.grey1,
         backgroundColor: "transparent",
         textAlign: "right",
         paddingRight: 15,
     },
     accountText: {
-        color: colors.grey2
+        color: colors.grey1
     },
     linkText: {
         color: colors.primary1,

@@ -16,10 +16,6 @@ export  default class QuakeLevelTab extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            // values: ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'],
-            // value: 'Not selected',
-            // selectedIndex: 0,
-            // showIndexValue: '',
             activeTab: 'newzealand',
             level: 0,
             usgslevel: '',

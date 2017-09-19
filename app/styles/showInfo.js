@@ -5,7 +5,6 @@ export default{
         alignItems: "center",
         justifyContent: "center",
         padding: 50,
-
     },
     text: {
         color: colors.grey2,
