@@ -50,10 +50,16 @@ export default class Settings extends Component {
         }).done();
 
         AsyncStorage.getItem("isSilent").then((value) => {
-            if (value) {
-                var val = (value === "true");
-                this.setState({"isSilent": val});
+            console.log('get item isSilent', value)
+            var val = (value === "true");
+            let currentHour = new Date().getHours();
+            console.log('current hour', currentHour)
+
+            if (currentHour <= 8 || currentHour >= 22) {
+                val = true;
             }
+            this.setState({"isSilent": val});
+            console.log('getItem ', val.toString(), 'isSilent ', value)
         }).done();
 
     }
@@ -68,7 +74,22 @@ export default class Settings extends Component {
 
     }
     toggleDisturbSwitch = (value) => {
-        AsyncStorage.setItem("isSilent", value.toString());
+        console.log('value', value)
+        // var val = (value == true);
+        let currentHour = new Date().getHours();
+        // console.log('val', val)
+        console.log('current hour', currentHour)
+        if (value) {
+            if (currentHour <= 8 || currentHour >= 22) {
+                // val = true;
+                AsyncStorage.setItem("isSilent", 'true');
+            } else {
+                AsyncStorage.setItem("isSilent", 'false');
+            }
+        } else {
+            AsyncStorage.setItem("isSilent", 'false');
+        }
+
         this.setState({"isSilent": value});
 
     }
@@ -84,11 +105,11 @@ export default class Settings extends Component {
     onShare = () => {
         const message = 'I am using QuakeChat. Life is s more meaningful when you share,chat and help each other! :) Download QuakeChat for iOS and Android, and start QuakeChating with friends today.'
         const url = Config.share.url;
-        Utils.shareText(message,url)
+        Utils.shareText(message, url)
     }
 
 
-     onRate() {
+    onRate() {
         let link = '';
 
         if (Platform.OS === 'ios') {
@@ -101,6 +122,7 @@ export default class Settings extends Component {
 
         return Utils.goToURL(link);
     }
+
     updateRule = (rule) => {
         let showRules = ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'];
 
