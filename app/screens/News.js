@@ -135,6 +135,7 @@ export default class News extends Component {
                         keyExtractor={this.keyExtractor}
                         data={this.state.news}
                         renderItem={this.renderList}
+                        style={listStyle.listContainer}
                     />
                 </List>
             </ScrollView>

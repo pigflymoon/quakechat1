@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import Utils from '../utils/utils';
-import quakeStyle from '../styles/quake';
+import listStyle from '../styles/list';
 
 export default class QuakeItem extends Component {
 
@@ -22,6 +22,7 @@ export default class QuakeItem extends Component {
         let {quake, isConnected} = this.props;
         return (
             <ListItem
+                containerStyle={listStyle.listItem}
                 leftIcon={{
                     name: 'map-marker',
                     type: 'font-awesome',
@@ -29,11 +30,12 @@ export default class QuakeItem extends Component {
                     color: Utils.colorByLevel(quake.apiType, quake.mmi, quake.magnitude)
                 }}
                 title={`NZST: ${quake.time}`}
+                titleStyle={listStyle.title}
                 subtitle={
-                    <View style={quakeStyle.info}>
-                        <Text>Magnitude: {quake.magnitude}</Text>
-                        <Text>Depth: {quake.depth}</Text>
-                        <Text>Locality: {quake.locality}</Text>
+                    <View style={listStyle.info}>
+                        <Text style={listStyle.subtitle}>Magnitude: {quake.magnitude}</Text>
+                        <Text style={listStyle.subtitle}>Depth: {quake.depth}</Text>
+                        <Text style={listStyle.subtitle}>Locality: {quake.locality}</Text>
                     </View>
                 }
 

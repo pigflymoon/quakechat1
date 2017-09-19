@@ -29,7 +29,7 @@ export default{
     },
 
     wrapper: {
-        marginHorizontal: 10,
+        marginHorizontal: 20,
         marginBottom: 10,
     },
     verifyWrapper: {

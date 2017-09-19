@@ -12,6 +12,8 @@ import {List, ListItem} from 'react-native-elements';
 import QuakeItem from './QuakeItem';
 import utils from '../utils/utils';
 import Config from '../config/ApiConfig';
+import listStyle from '../styles/list';
+
 import PushNotification from 'react-native-push-notification';
 // import PushController from '../components/PushController';
 import {NavigationActions} from 'react-navigation'
@@ -276,6 +278,7 @@ export default class QuakeLevelList extends Component {
                     keyExtractor={this.keyExtractor}
                     data={this.state.quakes}
                     renderItem={this.renderList}
+                    style={listStyle.listContainer}
                 />
 
             </List>

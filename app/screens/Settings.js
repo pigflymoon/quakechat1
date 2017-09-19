@@ -16,6 +16,7 @@ import * as StoreReview from 'react-native-store-review';
 // import DeviceInfo from 'react-native-device-info';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
+import listStyle from '../styles/list';
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 
@@ -165,6 +166,7 @@ export default class Settings extends Component {
 
                 <List>
                     <ListItem
+                        containerStyle={listStyle.listItem}
                         hideChevron
                         title={`Notifications`}
                         switchOnTintColor={colors.primary1}
@@ -173,6 +175,7 @@ export default class Settings extends Component {
                         switched={this.state.isNotified}
                     />
                     <ListItem
+                        containerStyle={listStyle.listItem}
                         hideChevron
                         title={`Do not disturb`}
                         switchOnTintColor={colors.primary1}
@@ -210,21 +213,25 @@ export default class Settings extends Component {
 
                 <List>
                     <ListItem
+                        containerStyle={listStyle.listItem}
                         leftIcon={{name: 'chat', color: colors.grey2}}
                         title={`Tell a friend`}
                         onPress={() => this.onShare()}
                     />
                     <ListItem
+                        containerStyle={listStyle.listItem}
                         leftIcon={{name: 'favorite', color: colors.grey2}}
                         title={`Rate us`}
                         onPress={() => this.onRate()}
                     />
                     <ListItem
+                        containerStyle={listStyle.listItem}
                         leftIcon={{name: 'info', color: colors.grey2}}
                         title={`About`}
                         onPress={() => this.onAbout()}
                     />
                     <ListItem
+                        containerStyle={listStyle.listItem}
                         leftIcon={{name: 'perm-device-information', color: colors.grey2}}
                         title={`Version`}
                         subtitle={this.state.version}
