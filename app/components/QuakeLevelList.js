@@ -191,9 +191,7 @@ export default class QuakeLevelList extends Component {
             console.log('app is running in background')
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
-                    console.log('isSlientValue',isSlientValue)
                     var playSound = (isSlientValue === "false");
-                    console.log('playSound',playSound)
                     var isNotified = (isNotifiedValue === "true");
 
                     if (isNotified) {
@@ -222,7 +220,6 @@ export default class QuakeLevelList extends Component {
                                 } else {
                                     let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
                                     AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString()).then((value) => {
-                                        console.log('lastNotificationTime: ', lastNotificationTime)
 
                                         PushNotification.configure({
                                             onNotification: function (notification) {

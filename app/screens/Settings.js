@@ -39,7 +39,7 @@ export default class Settings extends Component {
 
     componentDidMount() {
         AsyncStorage.getItem("isNotified").then((value) => {
-
+            console.log('is Notified', value)
             if (value) {
                 var val = (value === "true");
                 this.setState({"isNotified": val});
@@ -50,16 +50,22 @@ export default class Settings extends Component {
         }).done();
 
         AsyncStorage.getItem("isSilent").then((value) => {
-            console.log('get item isSilent', value)
-            var val = (value === "true");
             let currentHour = new Date().getHours();
-            console.log('current hour', currentHour)
+            if (value) {
+                var val = (value === "true");
+                if (currentHour <= 8 || currentHour >= 22) {
+                    val = true;
+                }
+                this.setState({"isSilent": val});
+            } else {
+                if (currentHour <= 8 || currentHour >= 22) {
+                    AsyncStorage.setItem("isSilent", 'true');
+                } else {
+                    AsyncStorage.setItem("isSilent", 'false');
+                }
 
-            if (currentHour <= 8 || currentHour >= 22) {
-                val = true;
             }
-            this.setState({"isSilent": val});
-            console.log('getItem ', val.toString(), 'isSilent ', value)
+
         }).done();
 
     }
