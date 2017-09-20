@@ -97,6 +97,7 @@ export default class CustomActions extends Component {
                     this.setModalVisible(false);
 
                     const images = this.getImages().map((image) => {
+                        console.log('image url', image.uri)
                         return {
                             image: image.uri,
                         };

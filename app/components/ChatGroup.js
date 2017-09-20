@@ -84,6 +84,7 @@ export default class ChatGroup extends Component {
     }
 
     renderBubble = (props) => {
+        console.log('bubble props',props)
         return (
             <Bubble
                 {...props}
@@ -127,6 +128,7 @@ export default class ChatGroup extends Component {
 
     sendMessage(message) {
         for (let i = 0; i < message.length; i++) {
+            console.log('send image',message[i].image)
             this.messagesRef.push({
                 text: message[i].text || '',
                 image: message[i].image || '',
