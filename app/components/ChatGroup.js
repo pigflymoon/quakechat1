@@ -144,6 +144,7 @@ export default class ChatGroup extends Component {
 
         this.loadMessages((message) => {
             this.setState((previousState) => {
+                console.log('message',message)
                 return {
                     messages: GiftedChat.append(previousState.messages, message),
                 };

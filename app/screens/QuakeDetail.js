@@ -87,13 +87,13 @@ export default class QuakeDetail extends Component {
                         />
                         <ListItem
                             title="Latitude"
-                            rightTitle={`${(quake.coordinates).latitude}`}
+                            rightTitle={`${(quake.coordinates).latitude.toFixed(1)}`}
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
                         <ListItem
                             title="Longitude"
-                            rightTitle={`${(quake.coordinates).longitude}`}
+                            rightTitle={`${(quake.coordinates).longitude.toFixed(1)}`}
                             rightTitleStyle={quakeStyle.rightTitle}
                             hideChevron
                         />
