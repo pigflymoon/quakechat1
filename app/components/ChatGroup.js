@@ -167,42 +167,6 @@ export default class ChatGroup extends Component {
     loadMessages(callback) {
         this.messagesRef = firebaseApp.database().ref('messages');
         this.messagesRef.off();
-        var image = "assets-library://asset/asset.JPG?id=B84E8479-475C-4727-A4A4-B77AA9980897&ext=JPG";
-
-        // RNFetchBlob.fs.readFile(image, 'base64')
-        //     .then((data) => {
-        //         console.log(data)
-        //     })
-
-        RNFetchBlob.fs.exists(image)
-            .then((exist) => {
-                console.log(`file ${exist ? '' : 'not'} exists`)
-            })
-            .catch(() => {
-                console.log('error')
-            })
-
-        // RNFetchBlob.fs.readStream(image, 'base64')
-        //     .then((stream) => {
-        //         let data = ''
-        //         stream.open()
-        //         stream.onData((chunk) => {
-        //             data += chunk
-        //         })
-        //         stream.onEnd(() => {
-        //             console.log(data)
-        //         })
-        //     }).catch(() => {
-        //     console.log('read error')
-        // })
-        RNFetchBlob.fs.readFile(image, 'base64')
-            .then((data) => {
-                console.log('image',data)
-            }).catch(() => {
-            console.log('read error')
-        });
-        let path = fs.asset(image)
-        console.log('path', path)
         const onReceive = (data) => {
             const message = data.val();
             callback({
@@ -220,16 +184,38 @@ export default class ChatGroup extends Component {
         this.messagesRef.limitToLast(20).on('child_added', onReceive);
     }
 
+    convertImage = (message) => {
+        if(message.image){
+            RNFetchBlob.fs.readFile(message.image, 'base64')
+                .then((data) => {
+                    console.log('image', data)
+                    this.messagesRef.push({
+                        text: message.text || '',
+                        image: 'data:image/gif;base64,'+data,
+                        location: message.location || '',
+                        user: message.user,
+                        createdAt: firebase.database.ServerValue.TIMESTAMP,
+                    });
+
+                }).catch((error) => {
+                console.log('read error',error)
+            });
+        }else{
+            this.messagesRef.push({
+                text: message.text || '',
+                location: message.location || '',
+                user: message.user,
+                createdAt: firebase.database.ServerValue.TIMESTAMP,
+            });
+        }
+
+    }
+
     sendMessage(message) {
         for (let i = 0; i < message.length; i++) {
 
-            this.messagesRef.push({
-                text: message[i].text || '',
-                image: message[i].image || '',
-                location: message[i].location || '',
-                user: message[i].user,
-                createdAt: firebase.database.ServerValue.TIMESTAMP,
-            });
+             this.convertImage(message[i]);
+
         }
     }
 
