@@ -38,9 +38,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>NSCameraUsageDescription</key>
-    <string>$(PRODUCT_NAME) uses photos</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>$(PRODUCT_NAME) uses photos</string>
+	<string>$(PRODUCT_NAME) uses photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) uses photos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

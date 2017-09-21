@@ -3,8 +3,7 @@ import {
 
 } from 'react-native';
 import colors from '../styles/colors';
-const {width, height} = Dimensions.get("window");
-const SCREEN_WIDTH = width;
+
 export default{
     info: {
         flex: 1,
