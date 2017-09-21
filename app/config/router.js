@@ -100,7 +100,7 @@ export const Tabs = TabNavigator({
         },
     },
     ChatRoom: {
-        screen: ChatRoomScreen,
+        screen: ChatRoom,
         navigationOptions: {
             tabBarLabel: 'ChatRoom',
             tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,

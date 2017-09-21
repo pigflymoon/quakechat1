@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import CameraRollPicker from 'react-native-camera-roll-picker';
+import RNFetchBlob from 'react-native-fetch-blob';
 import NavBar, {NavButton, NavButtonText, NavTitle} from 'react-native-nav';
 
 export default class CustomActions extends Component {
@@ -96,13 +97,17 @@ export default class CustomActions extends Component {
                 <NavButton onPress={() => {
                     this.setModalVisible(false);
 
-                    const images = this.getImages().map((image) => {
-                        console.log('image url', image.uri)
-                        return {
-                            image: image.uri,
-                        };
+                     this.getImages().map((image) => {
+                        RNFetchBlob.fs.readFile(image.uri, 'base64')
+                            .then((data) => {
+                                var imageBase64 = 'data:image/jpeg;base64,' + data;
+                                this.props.onSend({image: imageBase64});
+                            }).catch((error) => {
+                            console.log('image error', error)
+                        });
+
                     });
-                    this.props.onSend(images);
+
                     this.setImages([]);
                 }}>
                     <NavButtonText style={{

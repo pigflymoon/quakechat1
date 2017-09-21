@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {View, Platform, Dimensions, Image} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import RNFetchBlob from 'react-native-fetch-blob';
-
 import CustomActions from './CustomActions';
 import CustomView from './CustomView';
 import firebase from 'firebase';  // Initialize Firebase
@@ -10,13 +8,6 @@ import firebaseApp from '../config/FirebaseConfig';
 const {width, height} = Dimensions.get("window");
 const SCREEN_WIDTH = width;
 import {GiftedChat, Actions as ChatActions, Bubble} from 'react-native-gifted-chat';
-
-
-// const Blob = RNFetchBlob.polyfill.Blob
-// // const fs = RNFetchBlob.fs
-// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-// window.Blob = Blob
-const {fs} = RNFetchBlob
 
 export default class ChatGroup extends Component {
     uid = '';
@@ -38,47 +29,13 @@ export default class ChatGroup extends Component {
 
     componentWillMount() {
         var user = firebase.auth().currentUser;
+        console.log('user',user)
         if (user) {
             this.setUid(user.uid);
             this.setName(user.displayName);
         } else {
             Actions.signin();
         }
-    }
-
-    // componentWillReceiveProps(nextProps) {
-    //     var isConnected = nextProps.isConnected;//update netinfo
-    //     console.log('will chatgroup  is ?',isConnected)
-    //     this.setState({isConnected: isConnected});
-    // }
-
-    uploadImage = (uri, imageName, mime = 'image/jpg') => {
-        return new Promise((resolve, reject) => {
-            // const uploadUri = Platform.OS === 'ios' ? uri.replace('', '') : uri;
-            // console.log('uploadUrl', uploadUri)//asset/asset.JPG?id=ED7AC36B-A150-4C3assets-library://8-BB8C-B6D696F4F2ED&ext=JPG
-            let uploadBlob = null
-            const imageRef = firebaseApp.database().ref('messages').child(imageName);
-            var uploadUri = RNFetchBlob.wrap("assets-library://asset/asset.JPG?id=ED7AC36B-A150-4C38-BB8C-B6D696F4F2ED&ext=JPG");
-            fs.readFile(uploadUri, 'base64')
-                .then((data) => {
-                    console.log('data', data)
-                    return Blob.build(data, {type: `${mime};BASE64`})
-                })
-                // .then((blob) => {
-                //     uploadBlob = blob
-                //     return imageRef.put(blob, {contentType: mime})
-                // })
-                // .then(() => {
-                //     uploadBlob.close()
-                //     return imageRef.getDownloadURL()
-                // })
-                // .then((url) => {
-                //     resolve(url)
-                // })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
     }
 
     setUid = (value) => {
@@ -145,25 +102,6 @@ export default class ChatGroup extends Component {
         );
     }
 
-    renderMessageImage = (props) => {
-        return (
-            <View>
-
-                <Image
-                    source={{uri: props.currentMessage.image}}
-                    style={{
-                        width: 250,
-                        height: 150,
-                        borderRadius: 13,
-                        margin: 3,
-                        resizeMode: 'cover',
-                    }}
-                />
-
-            </View>
-        )
-    }
-
     loadMessages(callback) {
         this.messagesRef = firebaseApp.database().ref('messages');
         this.messagesRef.off();
@@ -184,37 +122,15 @@ export default class ChatGroup extends Component {
         this.messagesRef.limitToLast(20).on('child_added', onReceive);
     }
 
-    convertImage = (message) => {
-        if(message.image){
-            RNFetchBlob.fs.readFile(message.image, 'base64')
-                .then((data) => {
-                    console.log('image', data)
-                    this.messagesRef.push({
-                        text: message.text || '',
-                        image: 'data:image/gif;base64,'+data,
-                        location: message.location || '',
-                        user: message.user,
-                        createdAt: firebase.database.ServerValue.TIMESTAMP,
-                    });
-
-                }).catch((error) => {
-                console.log('read error',error)
-            });
-        }else{
-            this.messagesRef.push({
-                text: message.text || '',
-                location: message.location || '',
-                user: message.user,
-                createdAt: firebase.database.ServerValue.TIMESTAMP,
-            });
-        }
-
-    }
-
     sendMessage(message) {
         for (let i = 0; i < message.length; i++) {
-
-             this.convertImage(message[i]);
+            this.messagesRef.push({
+                text: message[i].text || '',
+                image:message[i].image ||'',
+                location: message[i].location || '',
+                user: message[i].user,
+                createdAt: firebase.database.ServerValue.TIMESTAMP,
+            });
 
         }
     }
@@ -225,7 +141,6 @@ export default class ChatGroup extends Component {
         });
 
         this.loadMessages((message) => {
-
             this.setState((previousState) => {
                 return {
                     messages: GiftedChat.append(previousState.messages, message),
@@ -256,7 +171,7 @@ export default class ChatGroup extends Component {
                 renderActions={this.renderCustomActions}
                 renderBubble={this.renderBubble}
                 renderCustomView={this.renderCustomView}
-                renderMessageImage={this.renderMessageImage}
+
             />
         );
     }

@@ -8,48 +8,58 @@ import {
     TouchableOpacity,
     View,
     Text,
+    Image,
 } from 'react-native';
 import MapView from 'react-native-maps';
 import ResourcesConfig from '../config/ResourcesConfig';
 
 export default class CustomView extends Component {
-  render() {
-    if (this.props.currentMessage.location!='') {
-      return (
-        <TouchableOpacity style={[styles.container, this.props.containerStyle]} onPress={() => {
-          const url = Platform.select({
-            ios: `http://maps.apple.com/?ll=${this.props.currentMessage.location.latitude},${this.props.currentMessage.location.longitude}`,
-            android: `http://maps.google.com/?q=${this.props.currentMessage.location.latitude},${this.props.currentMessage.location.longitude}`
-          });
-          Linking.canOpenURL(url).then(supported => {
-            if (supported) {
-              return Linking.openURL(url);
-            }
-          }).catch(err => {
-            console.error('An error occurred', err);
-          });
-        }}>
-          <MapView
-            style={[styles.mapView, this.props.mapViewStyle]}
-            region={{
-              latitude: this.props.currentMessage.location.latitude,
-              longitude: this.props.currentMessage.location.longitude,
-                latitudeDelta: ResourcesConfig.map.latitude_delta,
-                longitudeDelta: ResourcesConfig.map.longitude_delta,
-            }}
+    render() {
+        if (this.props.currentMessage.location != '') {
+            return (
+                <TouchableOpacity style={[styles.container, this.props.containerStyle]} onPress={() => {
+                    const url = Platform.select({
+                        ios: `http://maps.apple.com/?ll=${this.props.currentMessage.location.latitude},${this.props.currentMessage.location.longitude}`,
+                        android: `http://maps.google.com/?q=${this.props.currentMessage.location.latitude},${this.props.currentMessage.location.longitude}`
+                    });
+                    Linking.canOpenURL(url).then(supported => {
+                        if (supported) {
+                            return Linking.openURL(url);
+                        }
+                    }).catch(err => {
+                        console.error('An error occurred', err);
+                    });
+                }}>
+                    <MapView
+                        style={[styles.mapView, this.props.mapViewStyle]}
+                        region={{
+                            latitude: this.props.currentMessage.location.latitude,
+                            longitude: this.props.currentMessage.location.longitude,
+                            latitudeDelta: ResourcesConfig.map.latitude_delta,
+                            longitudeDelta: ResourcesConfig.map.longitude_delta,
+                        }}
 
-            annotations={[{
-              latitude: this.props.currentMessage.location.latitude,
-              longitude: this.props.currentMessage.location.longitude,
-            }]}
-            scrollEnabled={false}
-            zoomEnabled={false}
-          />
-        </TouchableOpacity>
-      );
+                        annotations={[{
+                            latitude: this.props.currentMessage.location.latitude,
+                            longitude: this.props.currentMessage.location.longitude,
+                        }]}
+                        scrollEnabled={false}
+                        zoomEnabled={false}
+                    />
+                </TouchableOpacity>
+            );
+        }
+        if (this.props.currentMessage.image != '') {
+            return (
+                <View>
+                    <Image
+                        source={{uri: this.props.currentMessage.image}}
+                    />
+                </View>)
+
+        }
+        return <View></View>;
     }
-      return <View></View>;
-  }
 }
 
 const styles = StyleSheet.create({
