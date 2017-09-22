@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
+import Utils from '../utils/utils';
 import quakeStyle from '../styles/quake';
 import showInfo from '../styles/showInfo';
 import Config from '../config/ApiConfig';
@@ -19,7 +20,6 @@ export default class QuakesMap extends Component {
             isConnected: true,
         };
     }
-
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
@@ -42,12 +42,6 @@ export default class QuakesMap extends Component {
 
     }
 
-    renderOffline = () => {
-        return (
-            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
-
-        )
-    }
     renderQuakes = () => {
         return (
             <View style={quakeStyle.quakesContainer}>
@@ -75,7 +69,7 @@ export default class QuakesMap extends Component {
     render() {
         var isConnected = this.props.screenProps.isConnected;
         if (!isConnected) {
-            return this.renderOffline();
+            return Utils.renderOffline();
         }
         var currentScreen = this.props.screenProps.currentScreen;
         if (currentScreen !== 'Map') {

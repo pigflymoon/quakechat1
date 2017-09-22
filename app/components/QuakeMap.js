@@ -184,9 +184,9 @@ export default class QuakeMap extends Component {
 
     render() {
         var isConnected = this.props.isConnected;
-        if (!isConnected) {
-            return this.renderOffline();
-        }
+        // if (!isConnected) {
+        //     return this.renderOffline();
+        // }
         return (
             <View style={map.container}>
                 { this.renderPosts()}

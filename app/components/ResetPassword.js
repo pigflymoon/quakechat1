@@ -9,10 +9,12 @@ import {
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from 'firebase';
+import Utils from '../utils/utils';
+
 const {width, height} = Dimensions.get("screen");
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
 import AnimatedInfo from './AnimatedInfo';
@@ -26,18 +28,12 @@ export default class ResetPassword extends Component {
             email: '',
             password: '',
             showInfo: false,
-            isConnected: true,
+            isConnected: false,
             width: width,
             height: height,
             showIcon: true,
         };
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     var isConnected = nextProps.isConnected;//update netinfo
-    //     this.setState({isConnected: isConnected});
-    // }
-
     setEmail = (text) => {
         this.setState({email: text});
     }
@@ -47,7 +43,10 @@ export default class ResetPassword extends Component {
     }
 
     handleResetPassword = () => {
-        // if (this.props.isConnected) {
+
+        // if (!this.state.isConnected) {
+        //     Utils.netWorkError();
+        // }
         if (!this.state.email) {
             this.setState({
                 showInfo: true
@@ -65,10 +64,6 @@ export default class ResetPassword extends Component {
 
             });
         }
-
-        // }
-
-
     }
 
     handleInfo = (showInfo) => {
@@ -98,6 +93,12 @@ export default class ResetPassword extends Component {
         } else {
             this.setState({width: width, height: height, showIcon: true});
         }
+    }
+
+
+    componentWillReceiveProps(nextProps) {
+        var isConnected = nextProps.screenProps;//update netinfo
+        this.setState({isConnected: isConnected});
     }
 
     componentWillUnmount() {

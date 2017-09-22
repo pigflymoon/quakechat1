@@ -10,10 +10,12 @@ import {
 } from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Utils from '../utils/utils';
+
 import firebaseApp from '../config/FirebaseConfig';
 const {width, height} = Dimensions.get("screen");
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
 let interval = null;
@@ -24,7 +26,7 @@ export default class ConfirmEmail extends Component {
             signin: false,
             isLoading: false,
             user: this.props.user,
-            isConnected: true,
+            isConnected: false,
             width: width,
             height: height,
             showIcon: true,
@@ -38,9 +40,13 @@ export default class ConfirmEmail extends Component {
     //
     handleVerifyEmail = (e) => {
         var self = this;
-        var user = this.state.user
+        var user = this.state.user;
+
         e.preventDefault();
-        // if (this.props.isConnected) {
+        //
+        // if (!this.state.isConnected) {
+        //     Utils.netWorkError();
+        // }
         user.sendEmailVerification().then(
             // setTimeout(
             () => {
@@ -91,9 +97,7 @@ export default class ConfirmEmail extends Component {
                 console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
 
             })
-        // } else {
-        //     utils.netWorkError();
-        // }
+
 
     }
 
@@ -120,6 +124,11 @@ export default class ConfirmEmail extends Component {
         }
     }
 
+    //
+    // componentWillReceiveProps(nextProps) {
+    //     var isConnected = nextProps.screenProps;//update netinfo
+    //     this.setState({isConnected: isConnected});
+    // }
     componentWillUnmount() {
         Dimensions.removeEventListener("change", this.handleRotate);
         interval && clearInterval(interval);

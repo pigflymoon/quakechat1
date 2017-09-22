@@ -9,6 +9,7 @@ import {
     FlatList,
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
+import Utils from '../utils/utils';
 import showInfo from '../styles/showInfo';
 import listStyle from '../styles/list';
 import Config from '../config/ApiConfig';
@@ -71,15 +72,6 @@ export default class News extends Component {
         }
     }
 
-    renderLoadingView = () => {
-        return (
-            <ScrollView>
-                <Text>Loading...</Text>
-            </ScrollView>
-        )
-    }
-
-
     componentDidMount() {
         if (this.props.screenProps.isConnected) {//check netinfo
             this.fetchNews(true);
@@ -100,12 +92,6 @@ export default class News extends Component {
 
     }
 
-    renderOffline = () => {
-        return (
-            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
-        )
-    }
-
     keyExtractor = (item, index) => `key${index}`;
     renderList = ({item, index}) => {
         return (
@@ -116,10 +102,10 @@ export default class News extends Component {
     render() {
         var isConnected = this.props.screenProps.isConnected;
         if (!isConnected) {
-            return this.renderOffline();
+            return Utils.renderOffline();
         }
         if (this.state.isLoading) {
-            return this.renderLoadingView();
+            return Utils.renderLoadingView();
         }
         return (
             <ScrollView

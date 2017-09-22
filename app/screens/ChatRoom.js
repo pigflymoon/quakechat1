@@ -22,22 +22,21 @@ export default class ChatRoom extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isConnected: true,
+            isConnected: false,
         };
 
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('chatRoom nextprops in ', nextProps)
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
-        Actions.signin({isConnected: isConnected});
+        // Actions.signin({isConnected: isConnected});
     }
 
-    // componentDidMount() {
-    //     Actions.signin({isConnected: false});
-    // }
 
     signout = () => {
+        console.log('sign out called')
         firebaseApp.auth().signOut().then(function () {
             Actions.signin();
         }).catch(function (error) {

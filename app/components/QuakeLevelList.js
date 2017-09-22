@@ -142,9 +142,10 @@ export default class QuakeLevelList extends Component {
         if (nextProps.isConnected) {
             this.fetchQuakes(nextProps);
         }
-        else {
-            utils.netWorkError();
-        }
+        // else {
+        //     console.log('list is not connected')
+        //     utils.netWorkError();
+        // }
 
     }
 
@@ -179,6 +180,7 @@ export default class QuakeLevelList extends Component {
      * @param appState
      */
     handleAppStateChange = (nextAppState) => {
+        console.log('level list called')
         const {navigate, dispatch, goBack} = this.props.navigation;
         const currentScreen = this.props.currentScreen;
         let notificationQuakes = this.state.notificationQuakes;

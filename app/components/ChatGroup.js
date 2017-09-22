@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {View, Platform, Dimensions, Image} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import {GiftedChat, Actions as ChatActions, Bubble} from 'react-native-gifted-chat';
 import CustomActions from './CustomActions';
 import CustomView from './CustomView';
 import firebase from 'firebase';  // Initialize Firebase
 import firebaseApp from '../config/FirebaseConfig';
+import Utils from '../utils/utils';
+
 const {width, height} = Dimensions.get("window");
 const SCREEN_WIDTH = width;
-import {GiftedChat, Actions as ChatActions, Bubble} from 'react-native-gifted-chat';
 
 export default class ChatGroup extends Component {
     uid = '';
@@ -21,21 +23,9 @@ export default class ChatGroup extends Component {
             password: '',
             messages: [],
             names: [],
-            isConnected: true,
+            isConnected: false,
 
         };
-    }
-
-
-    componentWillMount() {
-        var user = firebase.auth().currentUser;
-        console.log('user',user)
-        if (user) {
-            this.setUid(user.uid);
-            this.setName(user.displayName);
-        } else {
-            Actions.signin();
-        }
     }
 
     setUid = (value) => {
@@ -126,12 +116,26 @@ export default class ChatGroup extends Component {
         for (let i = 0; i < message.length; i++) {
             this.messagesRef.push({
                 text: message[i].text || '',
-                image:message[i].image ||'',
+                image: message[i].image || '',
                 location: message[i].location || '',
                 user: message[i].user,
                 createdAt: firebase.database.ServerValue.TIMESTAMP,
             });
 
+        }
+    }
+
+    componentWillMount() {
+        var isConnected = this.props.screenProps;
+        console.log('isConnected will mount chat group',isConnected)
+        var user = firebase.auth().currentUser;
+        console.log('user', user)
+        if (user) {
+            this.setUid(user.uid);
+            this.setName(user.displayName);
+        } else {
+            console.log('user is not signed in', user)
+            Actions.signin();
         }
     }
 
@@ -150,6 +154,12 @@ export default class ChatGroup extends Component {
 
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log('ChatGroup nextprops in ', nextProps)
+
+        var isConnected = nextProps.screenProps;//update netinfo
+        this.setState({isConnected: isConnected});
+    }
 
     componentWillUnmount() {
         if (this.messagesRef) {
@@ -158,6 +168,10 @@ export default class ChatGroup extends Component {
     }
 
     render() {
+
+        // if (!isConnected) {
+        //     return Utils.renderOffline();
+        // }
         return (
             <GiftedChat
                 messages={this.state.messages}

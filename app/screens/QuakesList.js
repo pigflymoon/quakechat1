@@ -10,6 +10,7 @@ import {
 
 import QuakeLevelTab from '../components/QuakeLevelTab';
 import QuakeLevelList from '../components/QuakeLevelList';
+import Utils from '../utils/utils';
 import showInfo from '../styles/showInfo';
 import listStyle from '../styles/list';
 import Config from '../config/ApiConfig';
@@ -85,24 +86,8 @@ export default class QuakesList extends Component {
 
     }
 
-    renderOffline = () => {
-        return (
-            <View style={showInfo.container}>
-                <Text style={showInfo.text}>Offline: Cannot Connect to App.</Text>
-            </View>
-        )
-    }
-
-    renderLoadingView = () => {
-        return (
-            <ScrollView>
-                <Text>Loading...</Text>
-            </ScrollView>
-        )
-    }
-
-
     renderList = () => {
+        console.log('still render list?')
         return (
             <ScrollView
                 style={listStyle.container}
@@ -129,12 +114,12 @@ export default class QuakesList extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-        console.log('current screen',this.props.screenProps.currentScreen)
+        console.log('list is ', isConnected)
         if (!isConnected) {
-            return this.renderOffline();
+            return Utils.renderOffline();
         }
         if (this.state.isLoading) {
-            return this.renderLoadingView();
+            return Utils.renderLoadingView();
         }
         return this.renderList();
     }

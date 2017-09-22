@@ -10,12 +10,13 @@ import {
 const {width, height} = Dimensions.get("screen");
 import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
+import Utils from '../utils/utils';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
-
+import showInfo from '../styles/showInfo';
 export default class Signin extends Component {
     constructor(props) {
         super(props);
@@ -26,7 +27,7 @@ export default class Signin extends Component {
             name: '',
             names: [],
             showInfo: false,
-            isConnected: true,
+            isConnected: false,
             width: width,
             height: height,
             showIcon: true,
@@ -41,10 +42,6 @@ export default class Signin extends Component {
 
         var self = this;
         e.preventDefault();
-        // console.log('state',this.state.isConnected)
-
-        // if (this.props.screenProps) {
-        //     console.log('sign in isConnected')
 
         if (!this.state.email) {
             this.setState({
@@ -126,7 +123,9 @@ export default class Signin extends Component {
         // Event Listener for orientation changes
         Dimensions.addEventListener('change', this.handleRotate);
     }
+
     componentDidMount() {
+        console.log('screenProps', this.props.screenProps)
         let {width, height} = Dimensions.get('screen');
         if (this.state.width < width) {
             this.setState({width: width, height: height, showIcon: false});
@@ -135,16 +134,28 @@ export default class Signin extends Component {
         }
     }
 
+
+    componentWillReceiveProps(nextProps) {
+        console.log('nextprops sign in ', nextProps)
+        var isConnected = nextProps.screenProps;//update netinfo
+        this.setState({isConnected: isConnected});
+    }
     componentWillUnmount() {
         // Important to stop updating state after unmount
         Dimensions.removeEventListener("change", this.handleRotate);
+        console.log('sign in will unmount')
     }
 
-    render() {
 
+    render() {
+        var isConnected = this.props.screenProps;
+        console.log('sign in is ', isConnected)
+
+        if (!isConnected) {
+            return Utils.renderOffline();
+        }
         return (
             <View style={chat.container}>
-
                 <View style={{width: this.state.width, height: this.state.height, backgroundColor: colors.white}}
                       resizeMode="cover">
                     {this.state.showIcon ?

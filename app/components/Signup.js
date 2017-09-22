@@ -8,10 +8,12 @@ import {
 } from 'react-native'
 
 import {Actions} from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Utils from '../utils/utils';
+
 import firebaseApp from '../config/FirebaseConfig';
 const {width, height} = Dimensions.get("screen");
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
@@ -27,7 +29,7 @@ export default class Signup extends Component {
             name: '',
             isLoading: false,
             showInfo: false,
-            isConnected: true,
+            isConnected: false,
             width: width,
             height: height,
             showIcon: true,
@@ -78,7 +80,10 @@ export default class Signup extends Component {
 
     handleSignup = (e) => {
         e.preventDefault();
-        // if (this.props.isConnected) {
+
+        // if (!this.state.isConnected) {
+        //     Utils.netWorkError();
+        // }
         if (!this.state.email) {
             this.setState({
                 showInfo: true
@@ -91,7 +96,7 @@ export default class Signup extends Component {
 
             this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
         }
-        // }
+
 
     }
     handleInfo = (showInfo) => {
@@ -124,6 +129,11 @@ export default class Signup extends Component {
         // Event Listener for orientation changes
         Dimensions.addEventListener('change', this.handleRotate);
     }
+
+    // componentWillReceiveProps(nextProps) {
+    //     var isConnected = nextProps.screenProps;//update netinfo
+    //     this.setState({isConnected: isConnected});
+    // }
 
     componentWillUnmount() {
         // Important to stop updating state after unmount

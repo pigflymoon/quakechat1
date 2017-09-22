@@ -26,7 +26,6 @@ export default class Settings extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            isLoading: false,
             isNotified: true,
             isSilent: true,
             rule: 'All',
@@ -147,20 +146,7 @@ export default class Settings extends Component {
 
     }
 
-    renderLoadingView() {
-        return (
-            <ScrollView>
-                <Text>Loading...</Text>
-            </ScrollView>
-        )
-    }
-
-
     render() {
-        if (this.state.isLoading) {
-            return this.renderLoadingView();
-        }
-
         return (
             <ScrollView>
 

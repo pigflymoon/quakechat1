@@ -1,9 +1,13 @@
-import colors from '../styles/colors';
+import React, {Component} from 'react';
 import {
+    View,
+    Text,
     Alert,
     Linking,
     Share,
 } from 'react-native';
+import colors from '../styles/colors';
+import showInfo from '../styles/showInfo';
 
 export default class Utils {
     static goToURL = (url) => {
@@ -23,7 +27,7 @@ export default class Utils {
             }
         });
     }
-    static colorByLevel= (type, mmi, mag) => {
+    static colorByLevel = (type, mmi, mag) => {
         var level = (type === 'geonet') ? mmi : parseInt(mag);
         switch (level) {
             case -2:
@@ -75,7 +79,7 @@ export default class Utils {
     static netWorkError = () => {
         Alert.alert(
             'Network unavailable',
-            `The Internet connection appears to be offline`,
+            `The Internet connection appears to be offline!!!`,
             [
                 {text: 'OK'},
             ],
@@ -100,6 +104,19 @@ export default class Utils {
                 {text: 'OK'},
             ],
             {cancelable: false}
+        )
+    }
+    static renderOffline = () => {
+        return (
+            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
+
+        )
+    }
+    static renderLoadingView = () => {
+        return (
+            <ScrollView>
+                <Text>Loading...</Text>
+            </ScrollView>
         )
     }
 
