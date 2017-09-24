@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     Animated,
     Dimensions,
+    Alert,
 } from 'react-native';
 const {width, height} = Dimensions.get("screen");
 import {Actions} from 'react-native-router-flux';
@@ -120,12 +121,12 @@ export default class Signin extends Component {
     }
 
     componentWillMount() {
-        // Event Listener for orientation changes
         Dimensions.addEventListener('change', this.handleRotate);
     }
 
     componentDidMount() {
-        console.log('screenProps', this.props.screenProps)
+        console.log('sign in  did mount is ', this.props.screenProps.isConnected)
+
         let {width, height} = Dimensions.get('screen');
         if (this.state.width < width) {
             this.setState({width: width, height: height, showIcon: false});
@@ -134,12 +135,6 @@ export default class Signin extends Component {
         }
     }
 
-
-    componentWillReceiveProps(nextProps) {
-        console.log('nextprops sign in ', nextProps)
-        var isConnected = nextProps.screenProps;//update netinfo
-        this.setState({isConnected: isConnected});
-    }
     componentWillUnmount() {
         // Important to stop updating state after unmount
         Dimensions.removeEventListener("change", this.handleRotate);
@@ -148,7 +143,9 @@ export default class Signin extends Component {
 
 
     render() {
-        var isConnected = this.props.screenProps;
+        console.log('props', this.props)
+
+        var isConnected = this.props.screenProps.isConnected;
         console.log('sign in is ', isConnected)
 
         if (!isConnected) {

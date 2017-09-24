@@ -126,7 +126,7 @@ export default class ChatGroup extends Component {
     }
 
     componentWillMount() {
-        var isConnected = this.props.screenProps;
+        var isConnected = this.props.isConnected;
         console.log('isConnected will mount chat group',isConnected)
         var user = firebase.auth().currentUser;
         console.log('user', user)
@@ -152,13 +152,6 @@ export default class ChatGroup extends Component {
             });
         });
 
-    }
-
-    componentWillReceiveProps(nextProps) {
-        console.log('ChatGroup nextprops in ', nextProps)
-
-        var isConnected = nextProps.screenProps;//update netinfo
-        this.setState({isConnected: isConnected});
     }
 
     componentWillUnmount() {

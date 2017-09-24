@@ -70,6 +70,20 @@ export const NewsStack = StackNavigator({
 });
 
 export const Tabs = TabNavigator({
+    News: {
+        screen: NewsStack,
+        navigationOptions: {
+            tabBarLabel: 'News',
+            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+        },
+    },
+    ChatRoom: {
+        screen: ChatRoom,
+        navigationOptions: {
+            tabBarLabel: 'ChatRoom',
+            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+        }
+    },
     List: {
         screen: QuakesListStack,
         navigationOptions: {
@@ -92,18 +106,6 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
         },
     },
-    News: {
-        screen: NewsStack,
-        navigationOptions: {
-            tabBarLabel: 'News',
-            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
-        },
-    },
-    ChatRoom: {
-        screen: ChatRoomScreen,
-        navigationOptions: {
-            tabBarLabel: 'ChatRoom',
-            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
-        }
-    },
+
+
 });

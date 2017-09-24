@@ -36,13 +36,6 @@ export default class Signup extends Component {
         };
     }
 
-    //
-    // componentWillReceiveProps(nextProps) {
-    //     var isConnected = nextProps.isConnected;//update netinfo
-    //     this.setState({isConnected: isConnected});
-    // }
-
-
     handleSignin = () => {
         Actions.signin();
     }
@@ -81,9 +74,6 @@ export default class Signup extends Component {
     handleSignup = (e) => {
         e.preventDefault();
 
-        // if (!this.state.isConnected) {
-        //     Utils.netWorkError();
-        // }
         if (!this.state.email) {
             this.setState({
                 showInfo: true
@@ -130,17 +120,18 @@ export default class Signup extends Component {
         Dimensions.addEventListener('change', this.handleRotate);
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     var isConnected = nextProps.screenProps;//update netinfo
-    //     this.setState({isConnected: isConnected});
-    // }
-
     componentWillUnmount() {
         // Important to stop updating state after unmount
         Dimensions.removeEventListener("change", this.handleRotate);
     }
 
     render() {
+        var isConnected = this.props.screenProps.isConnected;
+        console.log('sign in is ', isConnected)
+
+        if (!isConnected) {
+            return Utils.renderOffline();
+        }
         return (
             <View style={chat.container}>
 

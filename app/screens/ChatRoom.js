@@ -3,6 +3,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    Alert,
 } from 'react-native';
 import {Router, Scene, Actions} from 'react-native-router-flux';
 import {Icon} from 'react-native-elements';
@@ -22,18 +23,10 @@ export default class ChatRoom extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isConnected: false,
+            isConnected: this.props.screenProps.isConnected,
         };
 
     }
-
-    componentWillReceiveProps(nextProps) {
-        console.log('chatRoom nextprops in ', nextProps)
-        var isConnected = nextProps.screenProps.isConnected;//update netinfo
-        this.setState({isConnected: isConnected});
-        // Actions.signin({isConnected: isConnected});
-    }
-
 
     signout = () => {
         console.log('sign out called')
@@ -44,11 +37,26 @@ export default class ChatRoom extends Component {
         })
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({isConnected: nextProps.screenProps.isConnected});
+        Alert.alert(
+            'ChatRoom',
+            `ChatRoom next props` + nextProps.screenProps.isConnected,
+            [
+                {text: 'OK'},
+            ],
+            {cancelable: false}
+        )
+    }
+
     render() {
+
         return (
             <Router barButtonIconStyle={chat.barButtonIconStyle}>
-                <Scene key='root' passProps={true} screenProps={this.state.isConnected}>
-                    <Scene key='chat' component={ChatGroup} backTitle=" "
+                <Scene key='root' passProps={true} >
+                    <Scene key='signin' title='Sign in' component={Signin} hideNavBar={true} screenProps={this.props.screenProps}
+                    />
+                    <Scene key='chat' component={ChatGroup} backTitle=" " screenProps={this.props.screenProps}
                            renderRightButton={
                                () => <TouchableOpacity style={chat.rightButton}
                                                        onPress={this.signout}>
@@ -57,12 +65,11 @@ export default class ChatRoom extends Component {
                                    </View>
                                </TouchableOpacity>
                            }
-
                     />
-                    <Scene key='signin' title='Sign in' component={Signin} hideNavBar={true}/>
-                    <Scene key='resetPassword' title='Reset Password' component={ResetPassword} hideNavBar={true}/>
-                    <Scene key='signup' title='Sign up' component={Signup} hideNavBar={true}/>
-                    <Scene key='verifyEmail' title='verifyEmail' component={VerifyEmail}/>
+
+                    <Scene key='resetPassword' title='Reset Password' component={ResetPassword} hideNavBar={true} screenProps={this.props.screenProps}/>
+                    <Scene key='signup' title='Sign up' component={Signup} hideNavBar={true} screenProps={this.props.screenProps}/>
+                    <Scene key='verifyEmail' title='verifyEmail' component={VerifyEmail} screenProps={this.props.screenProps}/>
                 </Scene>
             </Router>
         );
