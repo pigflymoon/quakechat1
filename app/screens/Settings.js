@@ -30,7 +30,8 @@ export default class Settings extends Component {
             isSilent: true,
             rule: 'All',
             ruleValue: '0',
-            version: '1.0'
+            version: '1.0',
+            dataSource: 'GeoNet'
 
         };
         AsyncStorage.setItem('ruleValue', "0");
@@ -127,6 +128,19 @@ export default class Settings extends Component {
         return Utils.goToURL(link);
     }
 
+    updateDataSource = (dataSource) => {
+        let showDataSource = ['GeoNet', 'USGS'];
+        this.setState({dataSource: dataSource}, function () {
+            for (let data of showDataSource) {
+                if (this.state.dataSource === data) {
+                    AsyncStorage.setItem('dataSource', data.toLowerCase());
+                    this.setState({dataSource: data});
+                }
+
+            }
+        })
+
+    }
     updateRule = (rule) => {
         let showRules = ['All', 'Weak+', 'Light+', 'Moderate+', 'Strong+', 'Severe+'];
 
@@ -149,9 +163,23 @@ export default class Settings extends Component {
             <ScrollView>
 
                 <List>
+                    <ListItem containerStyle={listStyle.listItem}
+                              title="DataSource"
+                              leftIcon={{name: 'description', color: colors.grey2}}
+                              rightTitle={this.state.dataSource}
+                              rightTitleStyle={quakeStyle.rightTitle}
+                              hideChevron
+                    />
+                    <Picker selectedValue={this.state.dataSource} onValueChange={this.updateDataSource}>
+                        <Picker.Item label="GeoNet" value="GeoNet"/>
+                        <Picker.Item label="USGS" value="USGS"/>
+                    </Picker>
+
                     <ListItem
                         containerStyle={listStyle.listItem}
                         hideChevron
+                        leftIcon={{name: 'notifications', color: colors.grey2}}
+
                         title={`Notifications`}
                         switchOnTintColor={colors.primary1}
                         switchButton
@@ -161,6 +189,7 @@ export default class Settings extends Component {
                     <ListItem
                         containerStyle={listStyle.listItem}
                         hideChevron
+                        leftIcon={{name: 'brightness-3', color: colors.grey2}}
                         title={`Do not disturb`}
                         switchOnTintColor={colors.primary1}
                         subtitle={'Notification that arrive during 22:00 to 8:00 will be silenced'}
@@ -170,7 +199,13 @@ export default class Settings extends Component {
                         onSwitch={this.toggleDisturbSwitch}
                         switched={this.state.isSilent}
                     />
-
+                    <ListItem
+                        title="Notification Rules"
+                        leftIcon={{name: 'add-alert', color: colors.grey2}}
+                        rightTitle={this.state.rule}
+                        rightTitleStyle={quakeStyle.rightTitle}
+                        hideChevron
+                    />
                     <Picker selectedValue={this.state.rule} onValueChange={this.updateRule}>
                         <Picker.Item label="All" value="All"/>
                         <Picker.Item label="Weak+" value="Weak+"/>
@@ -179,15 +214,11 @@ export default class Settings extends Component {
                         <Picker.Item label="Strong+" value="Strong+"/>
                         <Picker.Item label="Severe+" value="Severe+"/>
                     </Picker>
-                    <ListItem
-                        title="Notification Rules"
-                        rightTitle={this.state.rule}
-                        rightTitleStyle={quakeStyle.rightTitle}
-                        hideChevron
-                    />
+
                 </List>
                 <List>
                     <ListItem
+                        containerStyle={listStyle.listItem}
                         leftIcon={{name: 'description', color: colors.grey2}}
                         title={`Resources`}
                         onPress={() => this.onResources()}
