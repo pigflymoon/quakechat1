@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Platform, Dimensions, Image} from 'react-native';
-// import {Actions} from 'react-native-router-flux';
 import {GiftedChat, Actions as ChatActions, Bubble} from 'react-native-gifted-chat';
 import {Icon} from 'react-native-elements';
 

@@ -7,7 +7,6 @@ import {
     Dimensions
 } from 'react-native'
 
-import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Utils from '../utils/utils';
 

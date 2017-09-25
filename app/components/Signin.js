@@ -9,7 +9,6 @@ import {
     Alert,
 } from 'react-native';
 const {width, height} = Dimensions.get("screen");
-// import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
 import Utils from '../utils/utils';
 
