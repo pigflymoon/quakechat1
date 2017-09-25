@@ -94,14 +94,6 @@ export default class App extends Component {
     }
 
     render() {
-        Alert.alert(
-            'Index',
-            `index ` + this.state.isConnected,
-            [
-                {text: 'OK'},
-            ],
-            {cancelable: false}
-        )
         return (<Tabs
             screenProps={{
                 isConnected: this.state.isConnected,

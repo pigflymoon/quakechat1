@@ -36,11 +36,13 @@ export default class Signin extends Component {
     }
 
     signup = () => {
-        Actions.signup();
+        // Actions.signup();
+        this.props.navigation.navigate('Signup');
+
     }
 
     handleSignin = (e) => {
-
+        console.log('sign in ',this.props.navigation)
         var self = this;
         e.preventDefault();
 
@@ -53,7 +55,9 @@ export default class Signin extends Component {
                 .then(function (user) {
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
-                            Actions.chat();
+                            // Actions.chat();
+                            console.log('user ',user,self.props.navigation)
+                            self.props.navigation.navigate('ChatRoom');
                         } else {
                             console.log('error', user)
                         }
@@ -145,9 +149,9 @@ export default class Signin extends Component {
     render() {
         console.log('props', this.props)
 
+
         var isConnected = this.props.screenProps.isConnected;
         console.log('sign in is ', isConnected)
-
         if (!isConnected) {
             return Utils.renderOffline();
         }

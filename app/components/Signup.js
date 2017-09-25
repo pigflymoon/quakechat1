@@ -37,7 +37,9 @@ export default class Signup extends Component {
     }
 
     handleSignin = () => {
-        Actions.signin();
+        // Actions.signin();
+        this.props.navigation.navigate('Signin');
+
     }
 
     setEmail = (text) => {
