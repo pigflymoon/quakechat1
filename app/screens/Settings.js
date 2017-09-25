@@ -39,7 +39,7 @@ export default class Settings extends Component {
 
     componentDidMount() {
         AsyncStorage.getItem("isNotified").then((value) => {
-            console.log('is Notified', value)
+            // console.log('is Notified', value)
             if (value) {
                 var val = (value === "true");
                 this.setState({"isNotified": val});
@@ -80,11 +80,9 @@ export default class Settings extends Component {
 
     }
     toggleDisturbSwitch = (value) => {
-        console.log('value', value)
         // var val = (value == true);
         let currentHour = new Date().getHours();
         // console.log('val', val)
-        console.log('current hour', currentHour)
         if (value) {
             if (currentHour <= 8 || currentHour >= 22) {
                 // val = true;

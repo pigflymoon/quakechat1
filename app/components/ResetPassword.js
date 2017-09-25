@@ -8,7 +8,7 @@ import {
     Dimensions,
 } from 'react-native';
 
-import {Actions} from 'react-native-router-flux';
+// import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from 'firebase';
 import Utils from '../utils/utils';
@@ -39,10 +39,13 @@ export default class ResetPassword extends Component {
     }
 
     handleSignup = () => {
-        Actions.signup();
+        // Actions.signup();
+        this.props.navigation.navigate('Signup');
+
     }
 
     handleResetPassword = () => {
+        var self = this;
 
         // if (!this.state.isConnected) {
         //     Utils.netWorkError();
@@ -57,7 +60,9 @@ export default class ResetPassword extends Component {
             auth.sendPasswordResetEmail(emailAddress).then(function () {
                 // Email sent.
                 utils.infoAlert('Success', `Reset password sent to the emailAddress,please check your email ${emailAddress}`);
-                Actions.signin();
+                self.props.navigation.navigate('Signin');
+
+                // Actions.signin();
             }, function (error) {
                 // An error happened.
                 utils.showError(error);
@@ -147,7 +152,7 @@ export default class ResetPassword extends Component {
                             <Text style={chat.accountText}>Don't have an account?</Text>
                             <TouchableOpacity activeOpacity={.5} onPress={this.handleSignup}>
                                 <View>
-                                    <Text style={chat.linkText}>Sign Up</Text>
+                                    <Text style={chat.linkText}>Sign up</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>

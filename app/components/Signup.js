@@ -63,8 +63,9 @@ export default class Signup extends Component {
                     user.updateProfile({
                         displayName: self.state.name
                     });
+                    self.props.navigation.navigate('VerifyEmail',{user: user, email: email});
 
-                    Actions.verifyEmail({user: user, email: email});
+                    // Actions.verifyEmail({user: user, email: email});
                 }, error => {
                     console.log('registerUserAndWaitEmailVerification: createUserWithEmailAndPassword failed ! ' + error.message + ' (' + error.code + ')');
                     reject(error);
@@ -187,7 +188,7 @@ export default class Signup extends Component {
 
                         <TouchableOpacity activeOpacity={.5} onPress={this.handleSignup}>
                             <View style={chat.button}>
-                                <Text style={chat.buttonText}>Sign Up</Text>
+                                <Text style={chat.buttonText}>Sign up</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -196,7 +197,7 @@ export default class Signup extends Component {
                             <Text style={chat.accountText}>Already have an account?</Text>
                             <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>
                                 <View>
-                                    <Text style={chat.linkText}>Sign In</Text>
+                                    <Text style={chat.linkText}>Sign in</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>

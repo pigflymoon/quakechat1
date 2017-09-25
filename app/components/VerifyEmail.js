@@ -9,7 +9,7 @@ import {
     Dimensions,
 } from 'react-native';
 
-import {Actions} from 'react-native-router-flux';
+// import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Utils from '../utils/utils';
 
@@ -19,13 +19,17 @@ const {width, height} = Dimensions.get("screen");
 import colors from '../styles/colors';
 import chat from '../styles/chat';
 let interval = null;
-export default class ConfirmEmail extends Component {
+export default class VeriyEmail extends Component {
     constructor(props) {
         super(props);
+
+        const {user} = this.props.navigation.state.params;
+        console.log('user',user)
+
         this.state = {
             signin: false,
             isLoading: false,
-            user: this.props.user,
+            user: user,
             isConnected: false,
             width: width,
             height: height,
@@ -67,7 +71,8 @@ export default class ConfirmEmail extends Component {
                                     });
                                     clearInterval(interval);
                                     if (user && user.emailVerified) {
-                                        Actions.chat({name: self.state.name});
+                                        self.props.navigation.navigate('ChatRoom',{name: self.state.name});
+                                        // Actions.chat({name: self.state.name});
                                         clearInterval(interval);
                                         interval = null;
                                     } else {
@@ -135,6 +140,10 @@ export default class ConfirmEmail extends Component {
     }
 
     render() {
+        // const {user,email} = this.props.navigation.state.params;
+        // console.log('user',this.props.navigation.state.params)
+        const {email} = this.props.navigation.state.params;
+
         return (
 
             <View style={chat.container}>
@@ -164,7 +173,7 @@ export default class ConfirmEmail extends Component {
                                         placeholderTextColor={colors.white}
                                         style={chat.input}
                                         onChangeText={(text) => this.setEmail(text)}
-                                        value={this.props.email}
+                                        value={email}
                                     />
                                 </View>
                                 <TouchableOpacity activeOpacity={.5} onPress={this.handleVerifyEmail}>

@@ -4,7 +4,7 @@ import {NavigationActions} from 'react-navigation'
 export default class PushController extends Component {
     constructor(props, context) {
         super(props, context);
-        console.log('props', props)
+        // console.log('props', props)
     }
 
     componentDidMount() {

@@ -14,12 +14,14 @@ import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
+import ResetPassword from '../components/ResetPassword';
+import VerifyEmail from '../components/VerifyEmail';
 
 
-const ChatRoomScreen = ({navigation, screenProps}) => {
+const ChatScreen = ({navigation, screenProps}) => {
     var currentScreen = screenProps.currentScreen;
     if (currentScreen == 'ChatRoom') {
-        return <ChatRoom navigation={navigation} screenProps={screenProps}/>
+        return <Chat navigation={navigation} screenProps={screenProps}/>
     } else {
         return null;
     }
@@ -43,13 +45,6 @@ export const QuakesListStack = StackNavigator({
 });
 
 export const ChatStatck = StackNavigator({
-    ChatRoom: {
-        screen: Chat,
-        navigationOptions: {
-            title: 'Chat Room',
-            headerLeft: null
-        },
-    },
     Signin: {
         screen: Signin,
         navigationOptions: ({navigation}) => ({
@@ -57,10 +52,32 @@ export const ChatStatck = StackNavigator({
             headerLeft: null
         }),
     },
-    Signup:{
-        screen:Signup,
+    ChatRoom: {
+        screen: Chat,
+        navigationOptions: {
+            title: 'Chat Room',
+            headerLeft: null
+        },
+    },
+
+    Signup: {
+        screen: Signup,
         navigationOptions: ({navigation}) => ({
             title: 'Sign up',
+            headerLeft: null
+        }),
+    },
+    ResetPassword: {
+        screen: ResetPassword,
+        navigationOptions: ({navigation}) => ({
+            title: 'Reset Password',
+            headerLeft: null
+        }),
+    },
+    VerifyEmail: {
+        screen: VerifyEmail,
+        navigationOptions: ({navigation}) => ({
+            title: 'Verify Email',
             headerLeft: null
         }),
     }

@@ -9,7 +9,7 @@ import {
     Alert,
 } from 'react-native';
 const {width, height} = Dimensions.get("screen");
-import {Actions} from 'react-native-router-flux';
+// import {Actions} from 'react-native-router-flux';
 import firebaseApp from '../config/FirebaseConfig';
 import Utils from '../utils/utils';
 
@@ -42,7 +42,7 @@ export default class Signin extends Component {
     }
 
     handleSignin = (e) => {
-        console.log('sign in ',this.props.navigation)
+        // console.log('sign in ',this.props.navigation)
         var self = this;
         e.preventDefault();
 
@@ -56,7 +56,7 @@ export default class Signin extends Component {
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
                             // Actions.chat();
-                            console.log('user ',user,self.props.navigation)
+                            // console.log('user ',user,self.props.navigation)
                             self.props.navigation.navigate('ChatRoom');
                         } else {
                             console.log('error', user)
@@ -106,7 +106,8 @@ export default class Signin extends Component {
     }
 
     handleResetPassword = () => {
-        Actions.resetPassword();
+        // Actions.resetPassword();
+        this.props.navigation.navigate('ResetPassword');
     }
 
     handleInfo = (showInfo) => {
@@ -129,7 +130,7 @@ export default class Signin extends Component {
     }
 
     componentDidMount() {
-        console.log('sign in  did mount is ', this.props.screenProps.isConnected)
+        // console.log('sign in  did mount is ', this.props.screenProps.isConnected)
 
         let {width, height} = Dimensions.get('screen');
         if (this.state.width < width) {
@@ -142,16 +143,16 @@ export default class Signin extends Component {
     componentWillUnmount() {
         // Important to stop updating state after unmount
         Dimensions.removeEventListener("change", this.handleRotate);
-        console.log('sign in will unmount')
+        // console.log('sign in will unmount')
     }
 
 
     render() {
-        console.log('props', this.props)
+        // console.log('props', this.props)
 
 
         var isConnected = this.props.screenProps.isConnected;
-        console.log('sign in is ', isConnected)
+        // console.log('sign in is ', isConnected)
         if (!isConnected) {
             return Utils.renderOffline();
         }
@@ -199,7 +200,7 @@ export default class Signin extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>
                             <View style={chat.button}>
-                                <Text style={chat.buttonText}>Sign In</Text>
+                                <Text style={chat.buttonText}>Sign in</Text>
                             </View>
                         </TouchableOpacity>
 
@@ -211,7 +212,7 @@ export default class Signin extends Component {
                             <Text style={chat.accountText}>Don't have an account?</Text>
                             <TouchableOpacity activeOpacity={.5} onPress={this.signup}>
                                 <View>
-                                    <Text style={chat.linkText}>Sign Up</Text>
+                                    <Text style={chat.linkText}>Sign up</Text>
                                 </View>
                             </TouchableOpacity>
 

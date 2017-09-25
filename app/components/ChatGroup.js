@@ -127,9 +127,9 @@ export default class ChatGroup extends Component {
 
     componentWillMount() {
         var isConnected = this.props.isConnected;
-        console.log('isConnected will mount chat group',isConnected)
+        // console.log('isConnected will mount chat group',isConnected)
         var user = firebase.auth().currentUser;
-        console.log('user', user)
+        // console.log('user', user)
         if (user) {
             this.setUid(user.uid);
             this.setName(user.displayName);

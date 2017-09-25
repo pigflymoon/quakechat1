@@ -25,7 +25,7 @@ export default class QuakeDetail extends Component {
     }
 
     componentDidMount() {
-        console.log('share', this.props.navigation)
+        // console.log('share', this.props.navigation)
         this.props.navigation.setParams({handleShare: this.onShare})
     }
 
@@ -40,7 +40,6 @@ export default class QuakeDetail extends Component {
 
     render() {
         const {isConnected, quake} = this.props.navigation.state.params;
-        console.log('detail quake', quake)
 
         if (this.props.screenProps.currentScreen !== 'Detail') {
             return <View/>

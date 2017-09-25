@@ -33,7 +33,7 @@ export default class QuakeLevelList extends Component {
             appState: AppState.currentState,
             foreground: true,
         };
-        console.log('current state', AppState.currentState)
+        // console.log('current state', AppState.currentState)
 
     }
 
@@ -180,14 +180,14 @@ export default class QuakeLevelList extends Component {
      * @param appState
      */
     handleAppStateChange = (nextAppState) => {
-        console.log('level list called')
+        // console.log('level list called')
         const {navigate, dispatch, goBack} = this.props.navigation;
         const currentScreen = this.props.currentScreen;
         let notificationQuakes = this.state.notificationQuakes;
 
         // else {
         var self = this;
-        console.log('nextAppState', nextAppState, 'appState', this.state.appState)
+        // console.log('nextAppState', nextAppState, 'appState', this.state.appState)
 
         var lastIndex = [];
         if ((this.state.appState.match(/background|active/)) && nextAppState.match(/background|inactive/)) {
