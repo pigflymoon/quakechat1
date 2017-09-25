@@ -58,14 +58,11 @@ export default class Signup extends Component {
         var self = this;
         return new Promise(function (resolve, reject) {
             // let interval = null;
+
             firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(
                 user => {
-                    user.updateProfile({
-                        displayName: self.state.name
-                    });
-                    self.props.navigation.navigate('VerifyEmail',{user: user, email: email});
-
-                    // Actions.verifyEmail({user: user, email: email});
+                    user.updateProfile({displayName: self.state.name});
+                    self.props.navigation.navigate('VerifyEmail', {user: user, email: email});
                 }, error => {
                     console.log('registerUserAndWaitEmailVerification: createUserWithEmailAndPassword failed ! ' + error.message + ' (' + error.code + ')');
                     reject(error);
@@ -130,7 +127,7 @@ export default class Signup extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-        console.log('sign in is ', isConnected)
+        console.log('sign in isConnected is ', isConnected)
 
         if (!isConnected) {
             return Utils.renderOffline();

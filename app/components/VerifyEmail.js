@@ -70,6 +70,7 @@ export default class VeriyEmail extends Component {
                                         isLoading: false
                                     });
                                     clearInterval(interval);
+                                    console.log('uer email ',user,user.emailVerified)
                                     if (user && user.emailVerified) {
                                         self.props.navigation.navigate('ChatRoom',{name: self.state.name});
                                         // Actions.chat({name: self.state.name});
@@ -141,7 +142,7 @@ export default class VeriyEmail extends Component {
 
     render() {
         // const {user,email} = this.props.navigation.state.params;
-        // console.log('user',this.props.navigation.state.params)
+        console.log('veriffy email',this.props.navigation.state.params)
         const {email} = this.props.navigation.state.params;
 
         return (
