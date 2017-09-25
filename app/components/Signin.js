@@ -148,9 +148,6 @@ export default class Signin extends Component {
 
 
     render() {
-        // console.log('props', this.props)
-
-
         var isConnected = this.props.screenProps.isConnected;
         // console.log('sign in is ', isConnected)
         if (!isConnected) {

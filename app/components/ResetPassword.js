@@ -61,8 +61,6 @@ export default class ResetPassword extends Component {
                 // Email sent.
                 utils.infoAlert('Success', `Reset password sent to the emailAddress,please check your email ${emailAddress}`);
                 self.props.navigation.navigate('Signin');
-
-                // Actions.signin();
             }, function (error) {
                 // An error happened.
                 utils.showError(error);
