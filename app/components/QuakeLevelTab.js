@@ -6,6 +6,7 @@ import {
     StyleSheet,
     LayoutAnimation,
     TouchableOpacity,
+    AsyncStorage
 } from 'react-native';
 
 import tabsStyle from '../styles/tabs';
@@ -21,6 +22,7 @@ export  default class QuakeLevelTab extends Component {
             usgslevel: '',
             life: ''
         };
+
     }
 
 
@@ -48,8 +50,7 @@ export  default class QuakeLevelTab extends Component {
 
     }
 
-
-    renderTabs() {
+    renderDataSource() {
         const {activeTab} = this.state
         const newzealandStyles = [
             tabsStyle.tab, activeTab === 'newzealand' && tabsStyle.activeTab
@@ -64,23 +65,28 @@ export  default class QuakeLevelTab extends Component {
             tabsStyle.tabText, activeTab === 'global' && tabsStyle.activeTabText
         ]
 
+        return this.state.activeTab === 'newzealand' ? <TouchableOpacity
+                style={newzealandStyles}
+                onPress={() => this.setActiveTab('newzealand')}>
+                <Text style={newzealandTextStyles}>
+                    New Zealand
+                </Text>
+            </TouchableOpacity> :
+            <TouchableOpacity
+                style={globalStyles}
+                onPress={() => this.setActiveTab('global')}>
+                <Text style={globalTextStyles}>
+                    Global
+                </Text>
+            </TouchableOpacity>
+    }
+
+    renderTabs() {
         return (
             <View style={tabsStyle.tabsContainer}>
                 <View style={tabsStyle.tabs}>
-                    <TouchableOpacity
-                        style={newzealandStyles}
-                        onPress={() => this.setActiveTab('newzealand')}>
-                        <Text style={newzealandTextStyles}>
-                            New Zealand
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={globalStyles}
-                        onPress={() => this.setActiveTab('global')}>
-                        <Text style={globalTextStyles}>
-                            Global
-                        </Text>
-                    </TouchableOpacity>
+
+                    {this.renderDataSource()}
                 </View>
                 {this.renderTabsContent()}
             </View>
@@ -92,6 +98,19 @@ export  default class QuakeLevelTab extends Component {
         return activeTab === 'newzealand' ? <GeoNetLevelTab onQuakeLevel={this.handleQuakeLevel}/> :
             <UsgsTab onQuakeUsgsLevel={this.handleQuakeLevel}/>
     }
+
+    componentWillReceiveProps() {
+        AsyncStorage.getItem("dataSource").then((value) => {
+            console.log('dataSource value', value)
+            if (value === 'geonet') {
+                this.setState({activeTab: 'newzealand'});
+            } else {
+                this.setState({activeTab: 'global'})
+            }
+
+        });
+    }
+
 
     render() {
         return (

@@ -31,10 +31,11 @@ export default class Settings extends Component {
             rule: 'All',
             ruleValue: '0',
             version: '1.0',
-            dataSource: 'GeoNet'
+            dataSource: 'GEONET'
 
         };
         AsyncStorage.setItem('ruleValue', "0");
+
     }
 
 
@@ -65,6 +66,15 @@ export default class Settings extends Component {
                     AsyncStorage.setItem("isSilent", 'false');
                 }
 
+            }
+
+        }).done();
+        AsyncStorage.getItem("dataSource").then((value) => {
+            // console.log('is Notified', value)
+            if (value) {
+                this.setState({"dataSource": value.toUpperCase()});
+            } else {
+                AsyncStorage.setItem("dataSource", this.state.dataSource.toString().toLowerCase());
             }
 
         }).done();
@@ -129,12 +139,12 @@ export default class Settings extends Component {
     }
 
     updateDataSource = (dataSource) => {
-        let showDataSource = ['GeoNet', 'USGS'];
+        let showDataSource = ['GEONET', 'USGS'];
         this.setState({dataSource: dataSource}, function () {
             for (let data of showDataSource) {
                 if (this.state.dataSource === data) {
-                    AsyncStorage.setItem('dataSource', data.toLowerCase());
-                    this.setState({dataSource: data});
+                    AsyncStorage.setItem('dataSource', data.toLowerCase()).then( this.setState({dataSource: data}));
+                    console.log('data',data)
                 }
 
             }
@@ -171,7 +181,7 @@ export default class Settings extends Component {
                               hideChevron
                     />
                     <Picker selectedValue={this.state.dataSource} onValueChange={this.updateDataSource}>
-                        <Picker.Item label="GeoNet" value="GeoNet"/>
+                        <Picker.Item label="GEONET" value="GEONET"/>
                         <Picker.Item label="USGS" value="USGS"/>
                     </Picker>
 
