@@ -17,19 +17,8 @@ import Signup from '../components/Signup';
 import ResetPassword from '../components/ResetPassword';
 import VerifyEmail from '../components/VerifyEmail';
 
-
-const ChatScreen = ({navigation, screenProps}) => {
-    var currentScreen = screenProps.currentScreen;
-    if (currentScreen == 'ChatRoom') {
-        return <Chat navigation={navigation} screenProps={screenProps}/>
-    } else {
-        return null;
-    }
-
-}
-
 export const QuakesListStack = StackNavigator({
-    List: {
+    QuakesList: {
         screen: QuakesList,
         navigationOptions: {
             title: 'Quakes List'
@@ -81,7 +70,8 @@ export const ChatStatck = StackNavigator({
             headerLeft: null
         }),
     }
-});
+}
+);
 
 
 export const SettingsStack = StackNavigator({

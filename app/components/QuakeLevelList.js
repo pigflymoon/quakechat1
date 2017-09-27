@@ -33,10 +33,8 @@ export default class QuakeLevelList extends Component {
             appState: AppState.currentState,
             foreground: true,
         };
-        // console.log('current state', AppState.currentState)
 
     }
-
 
     /**
      *
@@ -64,7 +62,6 @@ export default class QuakeLevelList extends Component {
                         // this.stopTimer();
                     });
                 } else {
-                    // url = Config.api.quakes_usgs_url + nextProps.level;
                     fetchQuakesByApi('usgs', usgUrl, function (quakes, notificationQuakes) {
                         self.setState({
                                 quakes: quakes,
@@ -136,45 +133,6 @@ export default class QuakeLevelList extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        var isConnected = nextProps.isConnected;
-        this.setState({isConnected: isConnected});
-        if (nextProps.isConnected) {
-            this.fetchQuakes(nextProps);
-        }
-        // else {
-        //     console.log('list is not connected')
-        //     utils.netWorkError();
-        // }
-
-    }
-
-    componentDidMount() {
-        AppState.addEventListener('change', this.handleAppStateChange);
-
-        if (this.props.isConnected) {
-
-            if (this.state.quakes.length <= 0) {
-                this.fetchQuakes();
-            }
-            //
-            // this.interval = setInterval(() => {
-            //     this.fetchQuakes();
-            // }, 1000*10);
-
-
-            if (this.props.refreshing) {
-                this.fetchQuakes();
-            }
-        }
-
-    }
-
-    componentWillUnmount() {
-        AppState.removeEventListener('change', this.handleAppStateChange);
-        // clearInterval(this.interval);
-    }
-
     /**
      *
      * @param appState
@@ -187,7 +145,6 @@ export default class QuakeLevelList extends Component {
 
         // else {
         var self = this;
-        // console.log('nextAppState', nextAppState, 'appState', this.state.appState)
 
         var lastIndex = [];
         if ((this.state.appState.match(/background|active/)) && nextAppState.match(/background|inactive/)) {
@@ -202,7 +159,6 @@ export default class QuakeLevelList extends Component {
 
                         AsyncStorage.getItem("ruleValue").then((value) => {
                             let notificationRule = value;
-
 
                             if (notificationQuakes.length > 0) {
                                 for (var k in notificationQuakes) {
@@ -232,8 +188,9 @@ export default class QuakeLevelList extends Component {
                                                 var isConnected = true;
                                                 var quake = notificationQuakes[0];
                                                 var quakeSource = 'notification';
-                                                // goBack(null);
-                                                // navigate('Detail', {isConnected, quake, quakeSource});
+                                                // navigate('List');
+
+                                                navigate('Detail', {isConnected, quake, quakeSource});
                                             },
 
 
@@ -257,7 +214,6 @@ export default class QuakeLevelList extends Component {
             }).done();
 
         } else {
-            console.log('nextAppState', nextAppState, 'appState', this.state.appState)
             console.log('app is running in foreground')
         }
 
@@ -271,6 +227,40 @@ export default class QuakeLevelList extends Component {
             <QuakeItem key={`list-${index}`} navigation={this.props.navigation} quake={item}
                        isConnected={this.state.isConnected}/>
         );
+    }
+
+    componentWillReceiveProps(nextProps) {
+        var isConnected = nextProps.isConnected;
+        this.setState({isConnected: isConnected});
+        if (nextProps.isConnected) {
+            this.fetchQuakes(nextProps);
+        }
+    }
+
+    componentDidMount() {
+        AppState.addEventListener('change', this.handleAppStateChange);
+
+        if (this.props.isConnected) {
+
+            if (this.state.quakes.length <= 0) {
+                this.fetchQuakes();
+            }
+            //
+            this.interval = setInterval(() => {
+                this.fetchQuakes();
+            }, 1000*10);
+
+
+            if (this.props.refreshing) {
+                this.fetchQuakes();
+            }
+        }
+
+    }
+
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
+        clearInterval(this.interval);
     }
 
     render() {

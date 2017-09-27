@@ -12,6 +12,7 @@ import {
 import tabsStyle from '../styles/tabs';
 import UsgsTab from './UsgsTab';
 import GeoNetLevelTab from './GeoNetLevelTab';
+import Utils from '../utils/utils';
 
 export  default class QuakeLevelTab extends Component {
     constructor(props, context) {
@@ -101,7 +102,6 @@ export  default class QuakeLevelTab extends Component {
 
     componentWillReceiveProps() {
         AsyncStorage.getItem("dataSource").then((value) => {
-            console.log('dataSource value', value)
             if (value === 'geonet') {
                 this.setState({activeTab: 'newzealand'});
             } else {
@@ -113,6 +113,10 @@ export  default class QuakeLevelTab extends Component {
 
 
     render() {
+        var isConnected = this.props.isConnected;
+        if (!isConnected) {
+            return Utils.renderOffline();
+        }
         return (
             <View>
                 {this.renderTabs()}

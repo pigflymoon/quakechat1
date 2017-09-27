@@ -87,7 +87,6 @@ export default class QuakesList extends Component {
     }
 
     renderList = () => {
-        console.log('still render list?')
         return (
             <ScrollView
                 style={listStyle.container}
@@ -97,7 +96,7 @@ export default class QuakesList extends Component {
                         onRefresh={this.getRefreshData}
                     />}
             >
-                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel}/>
+                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel} isConnected={this.props.screenProps.isConnected} />
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
                                 nps_source={this.state.api_source}
                                 tab={this.state.tab}
@@ -114,7 +113,6 @@ export default class QuakesList extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-        console.log('list is ', isConnected)
         if (!isConnected) {
             return Utils.renderOffline();
         }

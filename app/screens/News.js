@@ -102,8 +102,6 @@ export default class News extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-
-        // console.log('news  is ', isConnected)
         if (!isConnected) {
             return Utils.renderOffline();
         }
