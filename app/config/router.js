@@ -34,43 +34,43 @@ export const QuakesListStack = StackNavigator({
 });
 
 export const ChatStatck = StackNavigator({
-    Signin: {
-        screen: Signin,
-        navigationOptions: ({navigation}) => ({
-            title: 'Sign in',
-            headerLeft: null
-        }),
-    },
-    ChatRoom: {
-        screen: Chat,
-        navigationOptions: {
-            title: 'Chat Room',
-            headerLeft: null
+        Signin: {
+            screen: Signin,
+            navigationOptions: ({navigation}) => ({
+                title: 'Sign in',
+                headerLeft: null
+            }),
         },
-    },
+        ChatRoom: {
+            screen: Chat,
+            navigationOptions: {
+                title: 'Chat Room',
+                headerLeft: null
+            },
+        },
 
-    Signup: {
-        screen: Signup,
-        navigationOptions: ({navigation}) => ({
-            title: 'Sign up',
-            headerLeft: null
-        }),
-    },
-    ResetPassword: {
-        screen: ResetPassword,
-        navigationOptions: ({navigation}) => ({
-            title: 'Reset Password',
-            headerLeft: null
-        }),
-    },
-    VerifyEmail: {
-        screen: VerifyEmail,
-        navigationOptions: ({navigation}) => ({
-            title: 'Verify Email',
-            headerLeft: null
-        }),
+        Signup: {
+            screen: Signup,
+            navigationOptions: ({navigation}) => ({
+                title: 'Sign up',
+                headerLeft: null
+            }),
+        },
+        ResetPassword: {
+            screen: ResetPassword,
+            navigationOptions: ({navigation}) => ({
+                title: 'Reset Password',
+                headerLeft: null
+            }),
+        },
+        VerifyEmail: {
+            screen: VerifyEmail,
+            navigationOptions: ({navigation}) => ({
+                title: 'Verify Email',
+                headerLeft: null
+            }),
+        }
     }
-}
 );
 
 
@@ -105,13 +105,6 @@ export const NewsStack = StackNavigator({
 });
 
 export const Tabs = TabNavigator({
-    News: {
-        screen: NewsStack,
-        navigationOptions: {
-            tabBarLabel: 'News',
-            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
-        },
-    },
     Chat: {
         screen: ChatStatck,
         navigationOptions: {
@@ -119,6 +112,14 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
         }
     },
+    News: {
+        screen: NewsStack,
+        navigationOptions: {
+            tabBarLabel: 'News',
+            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+        },
+    },
+
     List: {
         screen: QuakesListStack,
         navigationOptions: {

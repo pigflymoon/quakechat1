@@ -6,6 +6,8 @@ import {Icon} from 'react-native-elements';
 import CustomActions from '../components/CustomActions';
 import CustomView from '../components/CustomView';
 import firebase from 'firebase';  // Initialize Firebase
+import RNFetchBlob from 'react-native-fetch-blob';
+
 import firebaseApp from '../config/FirebaseConfig';
 import Utils from '../utils/utils';
 import colors from '../styles/colors';
@@ -46,6 +48,7 @@ export default class Chat extends Component {
     getName = () => {
         return this.displayName;
     }
+
 
     renderCustomActions = (props) => {
         if (Platform.OS === 'ios') {
@@ -115,15 +118,67 @@ export default class Chat extends Component {
         this.messagesRef.limitToLast(20).on('child_added', onReceive);
     }
 
+    getSelectedImages = (message) => {
+        var self = this;
+        const image = message.image
+
+        const Blob = RNFetchBlob.polyfill.Blob
+        const fs = RNFetchBlob.fs
+        window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+        window.Blob = Blob
+
+        let uploadBlob = null
+        const imageRef = firebaseApp.storage().ref('images')
+        let mime = 'image/jpg'
+        fs.readFile(image, 'base64')
+            .then((data) => {
+                console.log('data', data)
+                return Blob.build(data, {type: `${mime};BASE64`})
+            })
+            .then((blob) => {
+                uploadBlob = blob
+                return imageRef.put(blob, {contentType: mime})
+            })
+            .then(() => {
+                uploadBlob.close()
+                return imageRef.getDownloadURL()
+            })
+            .then((url) => {
+                // URL of the image uploaded on Firebase storage
+                console.log(url);
+                self.messagesRef.push({
+                    text: message.text || '',
+                    image: url,
+                    location: message.location || '',
+                    user: message.user,
+                    createdAt: firebase.database.ServerValue.TIMESTAMP,
+                });
+
+            })
+            .catch((error) => {
+                console.log(error);
+
+            })
+
+    }
+
     sendMessage(message) {
+
         for (let i = 0; i < message.length; i++) {
-            this.messagesRef.push({
-                text: message[i].text || '',
-                image: message[i].image || '',
-                location: message[i].location || '',
-                user: message[i].user,
-                createdAt: firebase.database.ServerValue.TIMESTAMP,
-            });
+
+            if (message[i].image) {
+                this.getSelectedImages(message[i]);
+            } else {
+                this.messagesRef.push({
+                    text: message[i].text || '',
+                    location: message[i].location || '',
+                    user: message[i].user,
+                    createdAt: firebase.database.ServerValue.TIMESTAMP,
+                });
+            }
+
+            // }
+
 
         }
     }
@@ -139,7 +194,7 @@ export default class Chat extends Component {
         } else {
             // console.log('user is not signed in', user)
 
-                this.props.navigation.navigate('Signin');
+            this.props.navigation.navigate('Signin');
 
         }
     }

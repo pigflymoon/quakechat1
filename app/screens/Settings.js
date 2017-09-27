@@ -181,8 +181,8 @@ export default class Settings extends Component {
                               hideChevron
                     />
                     <Picker selectedValue={this.state.dataSource} onValueChange={this.updateDataSource}>
-                        <Picker.Item label="GEONET" value="GEONET"/>
-                        <Picker.Item label="USGS" value="USGS"/>
+                        <Picker.Item label="GEONET(NewZealand)" value="GEONET"/>
+                        <Picker.Item label="USGS(Global)" value="USGS"/>
                     </Picker>
 
                     <ListItem

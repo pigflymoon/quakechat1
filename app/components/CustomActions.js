@@ -97,14 +97,23 @@ export default class CustomActions extends Component {
                 <NavButton onPress={() => {
                     this.setModalVisible(false);
 
-                     this.getImages().map((image) => {
-                        RNFetchBlob.fs.readFile(image.uri, 'base64')
-                            .then((data) => {
-                                var imageBase64 = 'data:image/jpeg;base64,' + data;
-                                this.props.onSend({image: imageBase64});
-                            }).catch((error) => {
-                            console.log('image error', error)
-                        });
+                    this.getImages().map((image) => {
+                        console.log('image',image.uri)
+                        this.props.onSend({image: image.uri});
+                        {/*RNFetchBlob.fs.readFile(image.uri, 'base64')*/
+                        }
+                        {/*.then((data) => {*/
+                        }
+                        {/*var imageBase64 = 'data:image/jpeg;base64,' + data;*/
+                        }
+                        {/*this.props.onSend({image: imageBase64});*/
+                        }
+                        {/*}).catch((error) => {*/
+                        }
+                        {/*console.log('image error', error)*/
+                        }
+                        {/*});*/
+                        }
 
                     });
 
