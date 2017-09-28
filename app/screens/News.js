@@ -26,7 +26,7 @@ export default class News extends Component {
         super(props, context);
         this.state = {
             news: [],
-            isLoading: false,
+            isLoading: true,
             refreshing: false,
             isConnected: false,
         };

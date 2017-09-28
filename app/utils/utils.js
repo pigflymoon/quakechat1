@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
     View,
+    ScrollView,
     Text,
     Alert,
     Linking,
@@ -119,6 +120,12 @@ export default class Utils {
             </ScrollView>
         )
     }
+    static renderLoadingImage = () => {
+        return (
 
+            <Text>Loading...</Text>
+
+        )
+    }
 
 }

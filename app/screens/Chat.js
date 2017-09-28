@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Platform, Dimensions, Image} from 'react-native';
+import {View, Platform, Dimensions, Image,Text} from 'react-native';
 import {GiftedChat, Actions as ChatActions, Bubble} from 'react-native-gifted-chat';
 import {Icon} from 'react-native-elements';
 
@@ -12,6 +12,7 @@ import firebaseApp from '../config/FirebaseConfig';
 import Utils from '../utils/utils';
 import colors from '../styles/colors';
 import navigationStyle from '../styles/navigation';
+import chat from '../styles/chat';
 
 const {width, height} = Dimensions.get("window");
 const SCREEN_WIDTH = width;
@@ -29,7 +30,8 @@ export default class Chat extends Component {
             messages: [],
             names: [],
             isConnected: false,
-
+            loadEarlier: true,
+            typingText: null,
         };
     }
 
@@ -101,14 +103,13 @@ export default class Chat extends Component {
     loadMessages(callback) {
         this.messagesRef = firebaseApp.database().ref('messages');
         this.messagesRef.off();
+
         const onReceive = (data) => {
             const message = data.val();
 
             callback({
                 _id: data.key,
                 text: message.text || '',
-                //
-                // image: message.image || '',
                 location: message.location || '',
                 createdAt: new Date(message.createdAt),
                 user: {
@@ -138,7 +139,7 @@ export default class Chat extends Component {
 
         let uploadBlob = null;
         var uuid = this.guid();
-        const imageRef = firebaseApp.storage().ref('images').child('image'+uuid)
+        const imageRef = firebaseApp.storage().ref('images').child('image' + uuid);
         // imagesRef = imageRef.child('image');
         let mime = 'image/jpg'
         fs.readFile(image, 'base64')
@@ -191,6 +192,80 @@ export default class Chat extends Component {
 
 
         }
+        // for demo purpose
+        // this.answerDemo(message);
+    }
+
+
+
+    onReceiveMessage = (text) => {
+        console.log('text',text)
+        this.setState((previousState) => {
+            return {
+                messages: GiftedChat.append(previousState.messages, {
+                    _id: Math.round(Math.random() * 1000000),
+                    text: text,
+                    createdAt: new Date(),
+                    user: {
+                        _id: 2,
+                        name: 'React Native',
+                        // avatar: 'https://facebook.github.io/react/img/logo_og.png',
+                    },
+                    location:''
+                }),
+            };
+        });
+    }
+
+
+    answerDemo = (messages) => {
+        console.log('messages',messages)
+        if (messages.length > 0) {
+            if ((messages[0].image || messages[0].location) || !this._isAlright) {
+                this.setState((previousState) => {
+                    return {
+                        typingText: 'React Native is typing'
+                    };
+                });
+            }
+        }
+
+        setTimeout(() => {
+            // if (this._isMounted === true) {
+            if (messages.length > 0) {
+                if (messages[0].image) {
+                    this.onReceiveMessage('Nice picture!');
+                } else if (messages[0].location) {
+                    this.onReceiveMessage('My favorite place');
+                } else {
+                    if (!this._isAlright) {
+                        this._isAlright = true;
+                        this.onReceiveMessage('Alright');
+                    }
+                }
+            }
+            // }
+
+            this.setState((previousState) => {
+                return {
+                    typingText: null,
+                };
+            });
+        }, 1000);
+    }
+
+    renderFooter = () => {
+        console.log('footer')
+        if (this.state.typingText) {
+            return (
+                <View style={chat.footerContainer}>
+                    <Text style={chat.footerText}>
+                        {this.state.typingText}
+                    </Text>
+                </View>
+            );
+        }
+        return null;
     }
 
     componentWillMount() {
@@ -213,7 +288,6 @@ export default class Chat extends Component {
         this.setState({
             signin: true
         });
-
         this.loadMessages((message) => {
 
             this.setState((previousState) => {
@@ -224,6 +298,7 @@ export default class Chat extends Component {
             });
         });
 
+
     }
 
     componentWillUnmount() {
@@ -233,24 +308,22 @@ export default class Chat extends Component {
     }
 
     render() {
-
-        // if (!isConnected) {
-        //     return Utils.renderOffline();
-        // }
         return (
             <GiftedChat
                 messages={this.state.messages}
                 onSend={(message) => {
                     this.sendMessage(message);
                 }}
+                loadEarlier={this.state.loadEarlier}
                 user={{
                     _id: this.getUid(),
                     name: this.getName()
                 }}
+                showUserAvatar={true}
+                renderAvatarOnTop={true}
                 renderActions={this.renderCustomActions}
                 renderBubble={this.renderBubble}
                 renderCustomView={this.renderCustomView}
-
             />
         );
     }
