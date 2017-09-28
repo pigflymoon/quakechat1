@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import CameraRollPicker from 'react-native-camera-roll-picker';
-import RNFetchBlob from 'react-native-fetch-blob';
+// import RNFetchBlob from 'react-native-fetch-blob';
 import NavBar, {NavButton, NavButtonText, NavTitle} from 'react-native-nav';
 
 export default class CustomActions extends Component {

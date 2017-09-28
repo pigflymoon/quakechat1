@@ -103,36 +103,46 @@ export default class Chat extends Component {
         this.messagesRef.off();
         const onReceive = (data) => {
             const message = data.val();
+
             callback({
                 _id: data.key,
                 text: message.text || '',
-                image: message.image || '',
+                //
+                // image: message.image || '',
                 location: message.location || '',
                 createdAt: new Date(message.createdAt),
                 user: {
                     _id: message.user._id,
                     name: message.user.name,
                 },
+                ...(message.image) && {image: message.image}
             });
         };
         this.messagesRef.limitToLast(20).on('child_added', onReceive);
     }
 
+    guid = () => {
+        const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
+    }
+
+
     getSelectedImages = (message) => {
         var self = this;
-        const image = message.image
+        const image = message.image;
 
-        const Blob = RNFetchBlob.polyfill.Blob
-        const fs = RNFetchBlob.fs
-        window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-        window.Blob = Blob
+        const Blob = RNFetchBlob.polyfill.Blob;
+        const fs = RNFetchBlob.fs;
+        window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+        window.Blob = Blob;
 
-        let uploadBlob = null
-        const imageRef = firebaseApp.storage().ref('images')
+        let uploadBlob = null;
+        var uuid = this.guid();
+        const imageRef = firebaseApp.storage().ref('images').child('image'+uuid)
+        // imagesRef = imageRef.child('image');
         let mime = 'image/jpg'
         fs.readFile(image, 'base64')
             .then((data) => {
-                console.log('data', data)
                 return Blob.build(data, {type: `${mime};BASE64`})
             })
             .then((blob) => {
@@ -205,7 +215,9 @@ export default class Chat extends Component {
         });
 
         this.loadMessages((message) => {
+
             this.setState((previousState) => {
+                console.log('message', message)
                 return {
                     messages: GiftedChat.append(previousState.messages, message),
                 };

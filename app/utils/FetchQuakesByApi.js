@@ -13,14 +13,14 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
             utime: utime,
             time: time,
             locality: quake.properties.place,
-            depth: quake.geometry.coordinates[2].toFixed(1) + ' km',
-            magnitude: quake.properties.mag.toFixed(1),
+            depth: (quake.geometry.coordinates[2]).toFixed(1) + ' km',
+            magnitude: (quake.properties.mag).toFixed(1),
             mmi: quake.properties.mmi,
             coordinates: {
                 longitude: quake.geometry.coordinates[0],
                 latitude: quake.geometry.coordinates[1]
             },
-            message: `${time} happened ${quake.properties.mag.toFixed(1)} earthquake in ${quake.properties.place}`,
+            message: `${time} happened ${(quake.properties.mag).toFixed(1)} earthquake in ${quake.properties.place}`,
         });
     } else {
         return ({
@@ -29,14 +29,14 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
             utime: utime,
             time: time,
             locality: quake.properties.locality,
-            depth: quake.properties.depth.toFixed(1) + ' km',
-            magnitude: quake.properties.magnitude.toFixed(1),
+            depth: (quake.properties.depth).toFixed(1) + ' km',
+            magnitude: (quake.properties.magnitude).toFixed(1),
             mmi: quake.properties.mmi,
             coordinates: {
                 longitude: quake.geometry.coordinates[0],
                 latitude: quake.geometry.coordinates[1]
             },
-            message: `${time} happened ${quake.properties.magnitude.toFixed(1)} earthquake in ${quake.properties.locality}`,
+            message: `${time} happened ${(quake.properties.magnitude).toFixed(1)} earthquake in ${quake.properties.locality}`,
         });
     }
 

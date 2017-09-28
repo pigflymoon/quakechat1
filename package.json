@@ -22,7 +22,7 @@
     "firebase": "^4.1.2",
     "react": "16.0.0-alpha.12",
     "react-native": "^0.48.0",
-    "react-native-camera-roll-picker": "^1.2.0",
+    "react-native-camera-roll-picker": "git+https://github.com/pigflymoon/react-native-camera-roll-picker.git",
     "react-native-device-info": "^0.11.0",
     "react-native-elements": "^0.16.0",
     "react-native-fetch-blob": "^0.10.8",
