@@ -91,7 +91,6 @@ export default class Chat extends Component {
         );
     }
 
-
     renderCustomView = (props) => {
         return (
             <CustomView
