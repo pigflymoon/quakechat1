@@ -60,7 +60,7 @@ export  default class UsgsTab extends Component {
 
         return (
             <View style={tabsStyle.tabsContainer}>
-                <View style={tabsStyle.tabs}>
+                <View style={[tabsStyle.tabs,tabsStyle.badge]}>
                     <Badge containerStyle={hourStyles} wrapperStyle={{marginBottom: 2}}
                            onPress={() => this.setActiveTab('hour')}>
                         <Text style={tabsStyle.tagText}>Past Hour</Text>

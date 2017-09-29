@@ -8,8 +8,9 @@ export default{
     tabsTop: {
         marginTop: 10,
     },
-    tag:{
+    tag: {
         backgroundColor: colors.grey2,
+        paddingHorizontal: 5,
     },
     activeTag: {
         backgroundColor: colors.primary1,
@@ -28,6 +29,10 @@ export default{
     tabsContainer: {
         flex: 1,
         marginVertical: 10,
+
+    },
+    badge:{
+        justifyContent: 'space-between',
     },
     activeTab: {
         borderBottomColor: colors.primary1,
