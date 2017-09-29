@@ -20,8 +20,9 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
                 longitude: quake.geometry.coordinates[0],
                 latitude: quake.geometry.coordinates[1]
             },
-            message: `${time} happened ${(quake.properties.mag).toFixed(1)} earthquake in ${quake.properties.place}`,
             ...(quake.properties.mag) && {magnitude: (quake.properties.mag).toFixed(1)},
+            message: `${time} happened ${(quake.properties.mag) && (quake.properties.mag).toFixed(1)} earthquake in ${quake.properties.place}`,
+
         });
     } else {
         return ({
@@ -73,7 +74,8 @@ export const fetchQuakesByApi = (apiType, url, callback) => {
 
 
                     var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
-                    if(quakeData.magnitude){
+                    console.log('quakeData.magnitude', quakeData.magnitude)
+                    if (quakeData.magnitude) {
 
                         if (lastNotifiedTimeValue === null) {
                             lastNotificationTime = 0;

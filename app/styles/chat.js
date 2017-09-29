@@ -20,7 +20,6 @@ export default{
     },
 
     circleIcon: {
-        // backgroundColor: colors.white,
         width: 120,
         height: 120,
         borderRadius: 120 / 2,
@@ -114,15 +113,20 @@ export default{
         flexDirection: "row",
         justifyContent: "center",
     },
-    footerContainer: {
-        marginTop: 5,
-        marginLeft: 10,
-        marginRight: 10,
-        marginBottom: 10,
+    avatarContainer: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: 'center'
     },
-    footerText: {
-        fontSize: 14,
-        color: '#aaa',
+    avatarStyle: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+    },
+    userNameStyle: {
+        color: colors.grey2,
+        paddingLeft: 5,
+
     },
 
 }
