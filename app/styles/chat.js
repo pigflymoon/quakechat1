@@ -81,7 +81,7 @@ export default{
         fontSize: 18,
     },
     forgotPasswordText: {
-        color: colors.grey1,
+        color: colors.primary1,
         backgroundColor: "transparent",
         textAlign: "right",
         paddingRight: 15,
