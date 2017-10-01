@@ -16,7 +16,9 @@ import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import ResetPassword from '../components/ResetPassword';
 import VerifyEmail from '../components/VerifyEmail';
-
+import Terms from '../components/TermOfUse';
+import Edit from '../components/EditProfile';
+import ChangePassword from '../components/ChangePassword';
 export const QuakesListStack = StackNavigator({
     QuakesList: {
         screen: QuakesList,
@@ -68,6 +70,26 @@ export const ChatStatck = StackNavigator({
             navigationOptions: ({navigation}) => ({
                 title: 'Verify Email',
                 headerLeft: null
+            }),
+        },
+        Terms: {
+            screen: Terms,
+            navigationOptions: ({navigation}) => ({
+                title: 'Terms of Use',
+
+            }),
+        },
+        Edit: {
+            screen: Edit,
+            navigationOptions: ({navigation}) => ({
+                title: 'Edit Profile',
+
+            }),
+        },
+        ChangePassword: {
+            screen: ChangePassword,
+            navigationOptions: ({navigation}) => ({
+                title: 'Password',
             }),
         }
     }

@@ -35,10 +35,11 @@ export default class Signup extends Component {
         };
     }
 
+    handleTerms= () => {
+        this.props.navigation.navigate('Terms');
+    }
     handleSignin = () => {
-        // Actions.signin();
         this.props.navigation.navigate('Signin');
-
     }
 
     setEmail = (text) => {
@@ -188,7 +189,16 @@ export default class Signup extends Component {
                             </View>
                         </TouchableOpacity>
                     </View>
+
                     <View style={chat.container}>
+                        <View style={chat.footerWrap}>
+                            <Text style={chat.accountText}>By signing up, you agree to the</Text>
+                            <TouchableOpacity activeOpacity={.5} onPress={this.handleTerms}>
+                                <View>
+                                    <Text style={chat.linkText}>Terms of Service</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                         <View style={chat.footerWrap}>
                             <Text style={chat.accountText}>Already have an account?</Text>
                             <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>

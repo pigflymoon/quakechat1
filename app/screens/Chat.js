@@ -268,11 +268,19 @@ Chat.navigationOptions = props => {
     return {
         // Render a button on the right side of the header.
         headerRight: (
-            <Icon name="exit-to-app" size={28} color={colors.primary1} style={navigationStyle.rightTitle}
-                  onPress={() => {
-                      props.navigation.navigate('Signin')
-                  }}
-            />
+            <View style={navigationStyle.rightContainer}>
+                <Icon name="settings" size={28} color={colors.primary1} style={navigationStyle.rightTitle}
+                      onPress={() => {
+                          props.navigation.navigate('Edit')
+                      }}
+                />
+                <Icon name="exit-to-app" size={28} color={colors.primary1} style={navigationStyle.rightTitle}
+                      onPress={() => {
+                          props.navigation.navigate('Signin')
+                      }}
+                />
+            </View>
+
 
         ),
     };

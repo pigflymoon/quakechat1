@@ -387,9 +387,6 @@ export default class TermOfUse extends Component {
                     </Text>
                 </View>
 
-
-                <Copyright/>
-
             </ScrollView>
         )
     }

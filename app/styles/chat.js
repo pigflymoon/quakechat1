@@ -128,5 +128,8 @@ export default{
         paddingLeft: 5,
 
     },
+    whiteBg: {
+        backgroundColor: colors.white,
+    },
 
 }
