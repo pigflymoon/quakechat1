@@ -54,8 +54,6 @@ export default class Signin extends Component {
                 .then(function (user) {
                     firebaseApp.auth().onAuthStateChanged(function (user) {
                         if (user) {
-                            // Actions.chat();
-                            // console.log('user ',user,self.props.navigation)
                             self.props.navigation.navigate('ChatRoom');
                         } else {
                             console.log('error', user)
@@ -79,21 +77,9 @@ export default class Signin extends Component {
                             self.setState({
                                 showInfo: true
                             });
-
-
                     }
-                    // utils.showError(errorMessage);
-                    // console.log(error);
                 });
         }
-
-
-        // }
-        // else {
-        //     utils.netWorkError();
-        // }
-
-
     }
 
     setEmail = (text) => {
@@ -148,7 +134,6 @@ export default class Signin extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-        // console.log('sign in is ', isConnected)
         if (!isConnected) {
             return Utils.renderOffline();
         }

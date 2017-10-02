@@ -28,6 +28,7 @@ export default class Signup extends Component {
             name: '',
             isLoading: false,
             showInfo: false,
+            showErrorInfo: false,
             isConnected: false,
             width: width,
             height: height,
@@ -35,7 +36,7 @@ export default class Signup extends Component {
         };
     }
 
-    handleTerms= () => {
+    handleTerms = () => {
         this.props.navigation.navigate('Terms');
     }
     handleSignin = () => {
@@ -55,19 +56,18 @@ export default class Signup extends Component {
     }
 
     registerUserAndWaitEmailVerification(email, password) {
+
         var self = this;
         return new Promise(function (resolve, reject) {
-            // let interval = null;
-
-            firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(
-                user => {
+            firebaseApp.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
+                if (user) {
                     user.updateProfile({displayName: self.state.name});
                     self.props.navigation.navigate('VerifyEmail', {user: user, email: email});
-                }, error => {
-                    console.log('registerUserAndWaitEmailVerification: createUserWithEmailAndPassword failed ! ' + error.message + ' (' + error.code + ')');
-                    reject(error);
                 }
-            );
+            }).catch(function (error) {
+                var errorMessage = error.message + ' (' + error.code + ')';
+                self.setState({showErrorInfo: true, errorInfo: errorMessage});
+            });
         });
     }
 
@@ -83,7 +83,6 @@ export default class Signup extends Component {
                 showInfo: true
             });
         } else {
-
             this.registerUserAndWaitEmailVerification(this.state.email, this.state.password);
         }
 
@@ -92,6 +91,11 @@ export default class Signup extends Component {
     handleInfo = (showInfo) => {
         this.setState({
             showInfo: showInfo
+        })
+    }
+    errorInfo = (showInfo) => {
+        this.setState({
+            showErrorInfo: showInfo
         })
     }
 
@@ -127,7 +131,6 @@ export default class Signup extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-        console.log('sign in isConnected is ', isConnected)
 
         if (!isConnected) {
             return Utils.renderOffline();
@@ -215,7 +218,13 @@ export default class Signup extends Component {
                             </AnimatedInfo>
                             : null}
                     </View>
-
+                    <View style={chat.infoWrapper}>
+                        {this.state.showErrorInfo ?
+                            <AnimatedInfo showInfo={this.errorInfo}>
+                                <Text style={chat.infoText}>{this.state.errorInfo}, please try again.</Text>
+                            </AnimatedInfo>
+                            : null}
+                    </View>
                 </View>
             </View>
         );

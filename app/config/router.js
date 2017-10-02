@@ -90,7 +90,7 @@ export const ChatStatck = StackNavigator({
         ChangeName: {
             screen: ChangeName,
             navigationOptions: ({navigation}) => ({
-                title: 'Edit Profile',
+                title: 'Name',
             }),
         },
         ChangePassword: {
@@ -134,20 +134,7 @@ export const NewsStack = StackNavigator({
 });
 
 export const Tabs = TabNavigator({
-    Chat: {
-        screen: ChatStatck,
-        navigationOptions: {
-            tabBarLabel: 'ChatRoom',
-            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
-        }
-    },
-    News: {
-        screen: NewsStack,
-        navigationOptions: {
-            tabBarLabel: 'News',
-            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
-        },
-    },
+
 
     List: {
         screen: QuakesListStack,
@@ -156,12 +143,12 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
-    Settings: {
-        screen: SettingsStack,
+    News: {
+        screen: NewsStack,
         navigationOptions: {
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
-        }
+            tabBarLabel: 'News',
+            tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
+        },
     },
     Map: {
         screen: QuakesMap,
@@ -170,6 +157,20 @@ export const Tabs = TabNavigator({
             tabBarLabel: 'Map',
             tabBarIcon: ({tintColor}) => <Icon name="room" size={35} color={tintColor}/>,
         },
+    },
+    Chat: {
+        screen: ChatStatck,
+        navigationOptions: {
+            tabBarLabel: 'ChatRoom',
+            tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
+        }
+    },
+    Settings: {
+        screen: SettingsStack,
+        navigationOptions: {
+            tabBarLabel: 'Settings',
+            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
+        }
     },
 
 
