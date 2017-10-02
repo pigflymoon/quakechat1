@@ -120,12 +120,6 @@ export default class Utils {
             </ScrollView>
         )
     }
-    static renderLoadingImage = () => {
-        return (
 
-            <Text>Loading...</Text>
-
-        )
-    }
 
 }

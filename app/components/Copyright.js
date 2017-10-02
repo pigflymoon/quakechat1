@@ -13,7 +13,6 @@ export default class Copyright extends Component {
         }];
 
         const mitProjects = [
-
             {
                 name: 'React Native Elements',
                 link: 'https://github.com/react-native-training/react-native-elements',
@@ -29,10 +28,6 @@ export default class Copyright extends Component {
             {
                 name: 'react-native-push-notification',
                 link: 'https://github.com/zo0r/react-native-push-notification'
-            },
-            {
-                name: 'react-native-router-flux',
-                link: 'https://github.com/aksonov/react-native-router-flux',
             },
             {
                 name: 'react-navigation',

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Platform, Dimensions, Image, Text} from 'react-native';
+import {View, Platform, Dimensions, Image, Text, ActivityIndicator} from 'react-native';
 import {GiftedChat, Actions as ChatActions, Bubble} from 'react-native-gifted-chat';
 import {Icon} from 'react-native-elements';
 
@@ -9,13 +9,12 @@ import firebase from 'firebase';  // Initialize Firebase
 import RNFetchBlob from 'react-native-fetch-blob';
 
 import firebaseApp from '../config/FirebaseConfig';
-import Utils from '../utils/utils';
+
 import colors from '../styles/colors';
 import navigationStyle from '../styles/navigation';
 import chat from '../styles/chat';
 
-const {width, height} = Dimensions.get("window");
-const SCREEN_WIDTH = width;
+
 
 export default class Chat extends Component {
     uid = '';
@@ -165,7 +164,7 @@ export default class Chat extends Component {
             })
             .then((url) => {
                 // URL of the image uploaded on Firebase storage
-                console.log(url);
+
                 self.messagesRef.push({
                     text: message.text || '',
                     image: url,
@@ -200,7 +199,6 @@ export default class Chat extends Component {
         }
 
     }
-
 
     componentWillMount() {
         var isConnected = this.props.isConnected;

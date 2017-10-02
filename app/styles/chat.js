@@ -1,6 +1,6 @@
 import {
     Dimensions,
-
+    Platform,
 } from 'react-native';
 import colors from '../styles/colors';
 const {width, height} = Dimensions.get("window");
@@ -131,5 +131,10 @@ export default{
     whiteBg: {
         backgroundColor: colors.white,
     },
-
+    activityIndicator: {
+        marginTop: Platform.select({
+            ios: -14,
+            android: -16,
+        }),
+    },
 }
