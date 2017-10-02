@@ -8,11 +8,10 @@ import {
     Dimensions,
     Alert,
 } from 'react-native';
-const {width, height} = Dimensions.get("screen");
+
 import firebaseApp from '../config/FirebaseConfig';
 import Utils from '../utils/utils';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
 import colors from '../styles/colors';
 import edit from '../styles/edit';
@@ -22,13 +21,51 @@ import navigationStyle from '../styles/navigation';
 export default class ChangePassword extends Component {
     constructor(props) {
         super(props);
+        var user = firebaseApp.auth().currentUser;
+        console.log('user', user)
         this.state = {
-            password: '',
+            passwordFirst: '',
+            passwordSecond: '',
+            showInfo: false,
 
 
         };
     }
 
+    changePasswordFirst = (text) => {
+        this.setState({passwordFirst: text});
+    }
+    changePasswordSecond = (text) => {
+        this.setState({passwordSecond: text});
+    }
+
+    handleInfo = (showInfo) => {
+        this.setState({
+            showInfo: showInfo
+        })
+    }
+    updatePassword = () => {
+        var user = firebaseApp.auth().currentUser;
+        var newPassword = this.state.passwordFirst;
+
+        var self = this;
+        if (this.state.passwordFirst === '' || this.state.passwordSecond === '' || (this.state.passwordFirst !== this.state.passwordSecond)) {
+            self.setState({
+                showInfo: true
+            });
+        } else {
+            user.updatePassword(newPassword).then(function () {
+                self.props.navigation.goBack();
+
+            }).catch(function (error) {
+                self.setState({
+                    showInfo: true
+                });
+            });
+
+        }
+
+    }
 
     render() {
 
@@ -36,19 +73,7 @@ export default class ChangePassword extends Component {
             <View style={[edit.container, edit.whiteBg]}>
                 <View resizeMode="cover">
                     <View style={edit.wrapper}>
-                        <View style={edit.inputWrap}>
-                            <View style={edit.iconWrap}>
-                                <Text style={edit.textItem}>Current</Text>
-                            </View>
-                            <TextInput
-                                placeholderTextColor={colors.grey2}
-                                placeholder="Current password"
-                                style={edit.input}
-                                secureTextEntry
-                                onChangeText={(text) => this.setPassword(text)}
-                                value={this.state.password}
-                            />
-                        </View>
+
                         <View style={edit.inputWrap}>
                             <View style={edit.iconWrap}>
                                 <Text style={edit.textItem}>New</Text>
@@ -58,8 +83,8 @@ export default class ChangePassword extends Component {
                                 placeholder="New password"
                                 style={edit.input}
                                 secureTextEntry
-                                onChangeText={(text) => this.setPassword(text)}
-                                value={this.state.password}
+                                onChangeText={(text) => this.changePasswordFirst(text)}
+                                value={this.state.passwordFirst}
                             />
                         </View>
                         <View style={edit.inputWrap}>
@@ -71,12 +96,12 @@ export default class ChangePassword extends Component {
                                 placeholder="New password again"
                                 style={edit.input}
                                 secureTextEntry
-                                onChangeText={(text) => this.setPassword(text)}
-                                value={this.state.password}
+                                onChangeText={(text) => this.changePasswordSecond(text)}
+                                value={this.state.passwordSecond}
                             />
                         </View>
 
-                        <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>
+                        <TouchableOpacity activeOpacity={.5} onPress={this.updatePassword}>
                             <View style={edit.button}>
                                 <Text style={edit.buttonText}>Save</Text>
                             </View>
@@ -86,6 +111,13 @@ export default class ChangePassword extends Component {
                     </View>
 
 
+                </View>
+                <View style={showInfo.infoWrapper}>
+                    {this.state.showInfo ?
+                        <AnimatedInfo showInfo={this.handleInfo}>
+                            <Text style={showInfo.infoText}>Update fail, please try again.</Text>
+                        </AnimatedInfo>
+                        : null}
                 </View>
             </View>
         );
@@ -100,7 +132,7 @@ ChangePassword.navigationOptions = props => {
             <View style={[navigationStyle.rightContainer, navigationStyle.containerPadding]}>
 
                 <TouchableOpacity activeOpacity={.5} onPress={() => {
-                    props.navigation.navigate('Edit')
+                    props.navigation.goBack()
                 }}>
                     <View >
                         <Text style={edit.buttonText}>Cancel</Text>
@@ -113,7 +145,8 @@ ChangePassword.navigationOptions = props => {
         headerRight: (
             <View style={[navigationStyle.rightContainer, navigationStyle.containerPadding]}>
                 <TouchableOpacity activeOpacity={.5} onPress={() => {
-                    props.navigation.navigate('Edit')
+                    props.navigation.goBack()
+
                 }}>
                     <View >
                         <Text style={edit.buttonText}>Done</Text>

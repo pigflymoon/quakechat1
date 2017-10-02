@@ -214,10 +214,10 @@ export default class Signin extends Component {
 
                         </View>
                     </View>
-                    <View style={chat.infoWrapper}>
+                    <View style={showInfo.infoWrapper}>
                         {this.state.showInfo ?
                             <AnimatedInfo showInfo={this.handleInfo}>
-                                <Text style={chat.infoText}>Sign in fail, please try again.</Text>
+                                <Text style={showInfo.infoText}>Sign in fail, please try again.</Text>
                             </AnimatedInfo>
                             : null}
                     </View>

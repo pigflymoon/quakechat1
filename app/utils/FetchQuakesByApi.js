@@ -74,7 +74,7 @@ export const fetchQuakesByApi = (apiType, url, callback) => {
 
 
                     var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
-                    console.log('quakeData.magnitude', quakeData.magnitude)
+                    // console.log('quakeData.magnitude', quakeData.magnitude)
                     if (quakeData.magnitude) {
 
                         if (lastNotifiedTimeValue === null) {

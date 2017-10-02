@@ -46,10 +46,10 @@ export const ChatStatck = StackNavigator({
         },
         ChatRoom: {
             screen: Chat,
-            navigationOptions: {
+            navigationOptions: ({navigation}) => ( {
                 title: 'Chat Room',
                 headerLeft: null
-            },
+            }),
         },
 
         Signup: {

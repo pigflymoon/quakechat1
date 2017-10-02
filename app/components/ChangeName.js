@@ -8,25 +8,59 @@ import {
     Dimensions,
     Alert,
 } from 'react-native';
-const {width, height} = Dimensions.get("screen");
 import firebaseApp from '../config/FirebaseConfig';
-import Utils from '../utils/utils';
-
-import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
+
 import colors from '../styles/colors';
 import edit from '../styles/edit';
-import showInfo from '../styles/showInfo';
 import navigationStyle from '../styles/navigation';
+import showInfo from '../styles/showInfo';
+
+
 
 export default class ChangeName extends Component {
     constructor(props) {
         super(props);
+        var user = firebaseApp.auth().currentUser;
         this.state = {
-            name: '',
-
+            name: user.displayName,
+            showInfo: false,
 
         };
+    }
+
+
+    changeName = (text) => {
+        this.setState({name: text});
+    }
+
+    handleInfo = (showInfo) => {
+        this.setState({
+            showInfo: showInfo
+        })
+    }
+    updateName = () => {
+        var user = firebaseApp.auth().currentUser;
+        console.log('user', user, 'props', this.props)
+        var self = this;
+        if (this.state.name === '') {
+            self.setState({
+                showInfo: true
+            });
+        } else {
+            user.updateProfile({
+                displayName: this.state.name,
+            }).then(function () {
+                self.props.navigation.goBack();
+
+            }).catch(function (error) {
+                console.log('error', error)
+                self.setState({
+                    showInfo: true
+                });
+            });
+        }
+
     }
 
 
@@ -44,15 +78,24 @@ export default class ChangeName extends Component {
                                 placeholderTextColor={colors.grey2}
                                 placeholder="Current Name"
                                 style={edit.input}
-                                secureTextEntry
-                                onChangeText={(text) => this.setPassword(text)}
-                                value={this.state.password}
+                                onChangeText={this.changeName}
+                                value={this.state.name}
                             />
                         </View>
-
+                        <TouchableOpacity activeOpacity={.5} onPress={this.updateName}>
+                            <View style={edit.button}>
+                                <Text style={edit.buttonText}>Save</Text>
+                            </View>
+                        </TouchableOpacity>
 
                     </View>
-
+                    <View style={showInfo.infoWrapper}>
+                        {this.state.showInfo ?
+                            <AnimatedInfo showInfo={this.handleInfo}>
+                                <Text style={showInfo.infoText}>Update fail, please try again.</Text>
+                            </AnimatedInfo>
+                            : null}
+                    </View>
 
                 </View>
             </View>
@@ -68,7 +111,7 @@ ChangeName.navigationOptions = props => {
             <View style={[navigationStyle.rightContainer, navigationStyle.containerPadding]}>
 
                 <TouchableOpacity activeOpacity={.5} onPress={() => {
-                    props.navigation.navigate('Edit')
+                    props.navigation.goBack()
                 }}>
                     <View >
                         <Text style={edit.buttonText}>Cancel</Text>
@@ -81,7 +124,7 @@ ChangeName.navigationOptions = props => {
         headerRight: (
             <View style={[navigationStyle.rightContainer, navigationStyle.containerPadding]}>
                 <TouchableOpacity activeOpacity={.5} onPress={() => {
-                    props.navigation.navigate('Edit')
+                    props.navigation.goBack()
                 }}>
                     <View >
                         <Text style={edit.buttonText}>Done</Text>
