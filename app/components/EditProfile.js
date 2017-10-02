@@ -22,8 +22,8 @@ import quakeStyle from '../styles/quake';
 import listStyle from '../styles/list';
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
+import edit from '../styles/edit';
 
-import chat from '../styles/chat';
 export default class EditProfile extends Component {
 
     constructor(props, context) {
@@ -35,15 +35,14 @@ export default class EditProfile extends Component {
     }
 
     changeName = (text) => {
-        this.setState({name: text});
+        this.props.navigation.navigate('ChangeName', {});
+
     }
 
     changePassword = () => {
         this.props.navigation.navigate('ChangePassword', {});
     };
 
-    saveName = (name) => {
-    }
 
     componentDidMount() {
 
@@ -53,29 +52,19 @@ export default class EditProfile extends Component {
 
     render() {
         return (
-            <ScrollView style={chat.whiteBg}>
+            <ScrollView style={edit.whiteBg}>
                 <List>
-                    <View style={chat.inputWrap}>
-                        <View style={chat.iconWrap}>
-                            <Icon name="user" size={20} style={chat.icon}/>
-                        </View>
-                        <TextInput
-                            placeholder="Name"
-                            style={chat.input}
-                            onChangeText={(text) => this.changeName(text)}
-                            value={this.state.name}
-                        />
-                        <TouchableOpacity activeOpacity={.5} onPress={this.saveName}>
-                            <View style={chat.button}>
-                                <Text style={chat.buttonText}>Save</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                    <ListItem
+                        containerStyle={listStyle.listItem}
+                        leftIcon={{name: 'account-circle', color: colors.grey2}}
+                        title={`Change Name`}
+                        onPress={() => this.changeName()}
+                    />
                 </List>
                 <List>
                     <ListItem
                         containerStyle={listStyle.listItem}
-                        leftIcon={{name: 'info', color: colors.grey2}}
+                        leftIcon={{name: 'lock', color: colors.grey2}}
                         title={`Change Password`}
                         onPress={() => this.changePassword()}
                     />

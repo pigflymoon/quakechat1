@@ -3,6 +3,9 @@ export default{
     container: {
         flex: 1,
     },
+    whiteBg: {
+        backgroundColor: colors.white,
+    },
     wrapper: {
         marginHorizontal: 20,
         marginBottom: 10,
@@ -36,6 +39,18 @@ export default{
         justifyContent: "center",
         marginTop: 30,
         marginHorizontal: 10,
+        borderWidth: 1,
+        borderColor: colors.grey5,
+        borderRadius: 5,
+    },
+    rightButton: {
+        backgroundColor: colors.white,
+        padding: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        // marginTop: 30,
+        // marginHorizontal: 10,
+        marginLeft: 15,
         borderWidth: 1,
         borderColor: colors.grey5,
         borderRadius: 5,

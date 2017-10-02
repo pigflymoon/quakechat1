@@ -19,11 +19,11 @@ import edit from '../styles/edit';
 import showInfo from '../styles/showInfo';
 import navigationStyle from '../styles/navigation';
 
-export default class ChangePassword extends Component {
+export default class ChangeName extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            password: '',
+            name: '',
 
 
         };
@@ -38,49 +38,17 @@ export default class ChangePassword extends Component {
                     <View style={edit.wrapper}>
                         <View style={edit.inputWrap}>
                             <View style={edit.iconWrap}>
-                                <Text style={edit.textItem}>Current</Text>
+                                <Text style={edit.textItem}>Name</Text>
                             </View>
                             <TextInput
                                 placeholderTextColor={colors.grey2}
-                                placeholder="Current password"
+                                placeholder="Current Name"
                                 style={edit.input}
                                 secureTextEntry
                                 onChangeText={(text) => this.setPassword(text)}
                                 value={this.state.password}
                             />
                         </View>
-                        <View style={edit.inputWrap}>
-                            <View style={edit.iconWrap}>
-                                <Text style={edit.textItem}>New</Text>
-                            </View>
-                            <TextInput
-                                placeholderTextColor={colors.grey2}
-                                placeholder="New password"
-                                style={edit.input}
-                                secureTextEntry
-                                onChangeText={(text) => this.setPassword(text)}
-                                value={this.state.password}
-                            />
-                        </View>
-                        <View style={edit.inputWrap}>
-                            <View style={edit.iconWrap}>
-                                <Text style={edit.textItem}>Verify</Text>
-                            </View>
-                            <TextInput
-                                placeholderTextColor={colors.grey2}
-                                placeholder="New password again"
-                                style={edit.input}
-                                secureTextEntry
-                                onChangeText={(text) => this.setPassword(text)}
-                                value={this.state.password}
-                            />
-                        </View>
-
-                        <TouchableOpacity activeOpacity={.5} onPress={this.handleSignin}>
-                            <View style={edit.button}>
-                                <Text style={edit.buttonText}>Save</Text>
-                            </View>
-                        </TouchableOpacity>
 
 
                     </View>
@@ -92,7 +60,7 @@ export default class ChangePassword extends Component {
     }
 }
 
-ChangePassword.navigationOptions = props => {
+ChangeName.navigationOptions = props => {
 
     return {
         // Render a button on the right side of the header.

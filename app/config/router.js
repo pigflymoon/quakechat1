@@ -19,6 +19,7 @@ import VerifyEmail from '../components/VerifyEmail';
 import Terms from '../components/TermOfUse';
 import Edit from '../components/EditProfile';
 import ChangePassword from '../components/ChangePassword';
+import ChangeName from '../components/ChangeName';
 export const QuakesListStack = StackNavigator({
     QuakesList: {
         screen: QuakesList,
@@ -82,8 +83,14 @@ export const ChatStatck = StackNavigator({
         Edit: {
             screen: Edit,
             navigationOptions: ({navigation}) => ({
-                title: 'Edit Profile',
+                title: 'Options',
 
+            }),
+        },
+        ChangeName: {
+            screen: ChangeName,
+            navigationOptions: ({navigation}) => ({
+                title: 'Edit Profile',
             }),
         },
         ChangePassword: {
