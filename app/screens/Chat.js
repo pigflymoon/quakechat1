@@ -32,6 +32,7 @@ export default class Chat extends Component {
             isConnected: false,
             loadEarlier: true,
             typingText: null,
+            isLoadingEarlier: true,
         };
     }
 
@@ -227,6 +228,8 @@ export default class Chat extends Component {
                 console.log('message', message)
                 return {
                     messages: GiftedChat.append(previousState.messages, message),
+                    isLoadingEarlier: false,
+                    loadEarlier: false,
                 };
             });
         });
@@ -248,6 +251,7 @@ export default class Chat extends Component {
                     this.sendMessage(message);
                 }}
                 loadEarlier={this.state.loadEarlier}
+                isLoadingEarlier={this.state.isLoadingEarlier}
                 user={{
                     _id: this.getUid(),
                     name: this.getName()

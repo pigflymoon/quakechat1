@@ -121,18 +121,5 @@ ChangeName.navigationOptions = props => {
 
 
         ),
-        headerRight: (
-            <View style={[navigationStyle.rightContainer, navigationStyle.containerPadding]}>
-                <TouchableOpacity activeOpacity={.5} onPress={() => {
-                    props.navigation.goBack()
-                }}>
-                    <View >
-                        <Text style={edit.buttonText}>Done</Text>
-                    </View>
-                </TouchableOpacity>
-            </View>
-
-
-        ),
     };
 };
