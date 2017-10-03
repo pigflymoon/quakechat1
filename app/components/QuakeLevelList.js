@@ -161,12 +161,15 @@ export default class QuakeLevelList extends Component {
                             let notificationRule = value;
 
                             if (notificationQuakes.length > 0) {
+                                var i = 1;
                                 for (var k in notificationQuakes) {
+
                                     if (notificationRule <= notificationQuakes[k].mmi) {//new quakes in the rules
+
                                         PushNotification.localNotificationSchedule({
                                             message: notificationQuakes[k].message,
-                                            date: new Date(notificationQuakes[k].time),//(Date.now() + (5 * 1000)),//(notificationQuakes[k].time),
-                                            number: 0,
+                                            date: new Date(notificationQuakes[k].time),
+                                            number: i++,
                                             playSound: playSound,
                                             foreground: true,
 
@@ -184,7 +187,6 @@ export default class QuakeLevelList extends Component {
                                         PushNotification.configure({
                                             onNotification: function (notification) {
 
-                                                console.log('NOTIFICATION:', notification);
                                                 var isConnected = true;
                                                 var quake = notificationQuakes[0];
                                                 var quakeSource = 'notification';
@@ -214,7 +216,8 @@ export default class QuakeLevelList extends Component {
             }).done();
 
         } else {
-            console.log('app is running in foreground')
+            // console.log('app is running in foreground')
+            PushNotification.setApplicationIconBadgeNumber(0);
         }
 
 
