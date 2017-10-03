@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Utils from '../utils/utils';
 
 import firebaseApp from '../config/FirebaseConfig';
 const {width, height} = Dimensions.get("screen");
@@ -23,7 +22,6 @@ export default class VeriyEmail extends Component {
         super(props);
 
         const {user} = this.props.navigation.state.params;
-        console.log('user',user)
 
         this.state = {
             signin: false,
@@ -33,33 +31,30 @@ export default class VeriyEmail extends Component {
             width: width,
             height: height,
             showIcon: true,
+            showErrorInfo: false,
         };
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     var isConnected = nextProps.isConnected;//update netinfo
-    //     this.setState({isConnected: isConnected});
-    // }
-    //
+    errorInfo = (showInfo) => {
+        this.setState({
+            showErrorInfo: showInfo
+        })
+    }
     handleVerifyEmail = (e) => {
         var self = this;
         var user = this.state.user;
 
         e.preventDefault();
-        //
-        // if (!this.state.isConnected) {
-        //     Utils.netWorkError();
-        // }
+
         user.sendEmailVerification().then(
-            // setTimeout(
-            () => {
+            function () {
                 self.setState({
                     isLoading: true
                 });
 
                 interval = setInterval(() => {
                     user.reload().then(
-                        () => {
+                        function () {
                             if (interval && user.emailVerified) {
                                 clearInterval(interval);
                                 interval = null;
@@ -69,10 +64,9 @@ export default class VeriyEmail extends Component {
                                         isLoading: false
                                     });
                                     clearInterval(interval);
-                                    console.log('uer email ',user,user.emailVerified)
+                                    console.log('uer email ', user, user.emailVerified)
                                     if (user && user.emailVerified) {
-                                        self.props.navigation.navigate('ChatRoom',{name: self.state.name});
-                                        // Actions.chat({name: self.state.name});
+                                        self.props.navigation.navigate('ChatRoom', {name: self.state.name});
                                         clearInterval(interval);
                                         interval = null;
                                     } else {
@@ -87,21 +81,15 @@ export default class VeriyEmail extends Component {
                                     isLoading: false
                                 });
                             }
-                        }, error => {
-                            if (interval) {
-                                clearInterval(interval);
-                                interval = null;
-                                console.log('interval registerUserAndWaitEmailVerification: reload failed ! ' + error.message + ' (' + error.code + ')');
-
-                            }
-                        }
-                    );
+                        }).catch(function (error) {
+                        var errorMessage = error.message + ' (' + error.code + ')';
+                        self.setState({showErrorInfo: true, errorInfo: errorMessage});
+                    });
                 }, 1000 * 30);
-
-            }, error => {
-                console.log('registerUserAndWaitEmailVerification: sendEmailVerification failed ! ' + error.message + ' (' + error.code + ')');
-
-            })
+            }).catch(function (error) {
+            var errorMessage = error.message + ' (' + error.code + ')';
+            self.setState({showErrorInfo: true, errorInfo: errorMessage});
+        });
 
 
     }
@@ -140,8 +128,6 @@ export default class VeriyEmail extends Component {
     }
 
     render() {
-        // const {user,email} = this.props.navigation.state.params;
-        console.log('veriffy email',this.props.navigation.state.params)
         const {email} = this.props.navigation.state.params;
 
         return (
@@ -182,7 +168,13 @@ export default class VeriyEmail extends Component {
                                     </View>
                                 </TouchableOpacity>
                             </View>
-
+                            <View style={chat.infoWrapper}>
+                                {this.state.showErrorInfo ?
+                                    <AnimatedInfo showInfo={this.errorInfo}>
+                                        <Text style={chat.infoText}>{this.state.errorInfo}, please try again.</Text>
+                                    </AnimatedInfo>
+                                    : null}
+                            </View>
                         </View>
                     )}
             </View>
