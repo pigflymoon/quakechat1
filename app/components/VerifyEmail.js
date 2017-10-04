@@ -64,7 +64,6 @@ export default class VeriyEmail extends Component {
                                         isLoading: false
                                     });
                                     clearInterval(interval);
-                                    console.log('uer email ', user, user.emailVerified)
                                     if (user && user.emailVerified) {
                                         self.props.navigation.navigate('ChatRoom', {name: self.state.name});
                                         clearInterval(interval);
@@ -117,11 +116,6 @@ export default class VeriyEmail extends Component {
         }
     }
 
-    //
-    // componentWillReceiveProps(nextProps) {
-    //     var isConnected = nextProps.screenProps;//update netinfo
-    //     this.setState({isConnected: isConnected});
-    // }
     componentWillUnmount() {
         Dimensions.removeEventListener("change", this.handleRotate);
         interval && clearInterval(interval);

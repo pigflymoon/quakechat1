@@ -10,7 +10,6 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from 'firebase';
-import Utils from '../utils/utils';
 
 const {width, height} = Dimensions.get("screen");
 
@@ -38,17 +37,12 @@ export default class ResetPassword extends Component {
     }
 
     handleSignup = () => {
-        // Actions.signup();
         this.props.navigation.navigate('Signup');
-
     }
 
     handleResetPassword = () => {
         var self = this;
 
-        // if (!this.state.isConnected) {
-        //     Utils.netWorkError();
-        // }
         if (!this.state.email) {
             this.setState({
                 showInfo: true
@@ -111,8 +105,6 @@ export default class ResetPassword extends Component {
     render() {
         return (
             <View style={chat.container}>
-
-
                 <View style={{width: this.state.width, height: this.state.height, backgroundColor: colors.white}}
                       resizeMode="cover">
                     {this.state.showIcon ?
@@ -134,7 +126,6 @@ export default class ResetPassword extends Component {
                                 value={this.state.email}
                             />
                         </View>
-
                         <TouchableOpacity activeOpacity={.5} onPress={this.handleResetPassword}>
                             <View style={chat.button}>
                                 <Text style={chat.buttonText}>Rest Password</Text>
@@ -142,8 +133,6 @@ export default class ResetPassword extends Component {
                         </TouchableOpacity>
 
                     </View>
-
-
                     <View style={chat.container}>
                         <View style={chat.footerWrap}>
                             <Text style={chat.accountText}>Don't have an account?</Text>
@@ -161,7 +150,6 @@ export default class ResetPassword extends Component {
                             </AnimatedInfo>
                             : null}
                     </View>
-
                 </View>
             </View>
         );

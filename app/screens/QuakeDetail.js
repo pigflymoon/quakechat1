@@ -25,7 +25,6 @@ export default class QuakeDetail extends Component {
     }
 
     componentDidMount() {
-        // console.log('share', this.props.navigation)
         this.props.navigation.setParams({handleShare: this.onShare})
     }
 
@@ -108,18 +107,11 @@ export default class QuakeDetail extends Component {
 QuakeDetail.navigationOptions = props => {
     const {quake} = props.navigation.state.params;
     const {params = {}} = props.navigation.state
-    // console.log('goback',props.navigation)
-    // var time = quake.time;
-    // var magnitude = quake.magnitude;
-    // var locality = quake.locality;
     var message = quake.message + 'by @QuakeChat';
-    // var message = `${time} happened ${magnitude} earthquake in ${locality} by @QuakeChat `;
-
     const url = Config.share.url;
 
     return {
         // Render a button on the right side of the header.
-
         headerRight: (
             <Icon name='share' type='font-awesome' size={18} color={colors.primary1} style={navigationStyle.rightTitle}
                   onPress={() => {

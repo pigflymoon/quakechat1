@@ -10,13 +10,11 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import Utils from '../utils/utils';
-import showInfo from '../styles/showInfo';
 import listStyle from '../styles/list';
 import Config from '../config/ApiConfig';
 import NewsItem from '../components/NewsItem';
 import axios from 'axios';
 import utils from '../utils/utils';
-
 
 var news;
 
@@ -51,7 +49,6 @@ export default class News extends Component {
                     if (item.published) {
                         item.published = item.published.slice(0, 10).replace(/-/g, "-")
                     }
-
                     return item;
                 });
                 this.setState({
@@ -73,7 +70,6 @@ export default class News extends Component {
     }
 
     componentDidMount() {
-        // console.log('news  did mount is ', this.props.screenProps.isConnected)
         if (this.props.screenProps.isConnected) {//check netinfo
             this.fetchNews(true);
         }

@@ -145,7 +145,7 @@ export default class QuakeLevelList extends Component {
         var lastIndex = [];
         if ((this.state.appState.match(/background|active/)) && nextAppState.match(/background|inactive/)) {
             goBack(null);
-            console.log('app is running in background')
+            // console.log('app is running in background')
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
                     var playSound = (isSlientValue === "false");
@@ -241,7 +241,7 @@ export default class QuakeLevelList extends Component {
             //
             this.interval = setInterval(() => {
                 this.fetchQuakes();
-            }, 1000 * 10);
+            }, 1000 * 60 * 10);
 
 
             if (this.props.refreshing) {

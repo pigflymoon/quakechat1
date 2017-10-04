@@ -1,14 +1,6 @@
 import React, {Component} from 'react';
 import {
-    Text,
-    View,
     ScrollView,
-    StyleSheet,
-    Linking,
-    Picker,
-    Platform,
-    Switch,
-
 } from 'react-native';
 
 import Label from '../components/Label';

@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import {View, Platform, Dimensions, Image, Text, ActivityIndicator} from 'react-native';
 import {GiftedChat, Actions as ChatActions, Bubble} from 'react-native-gifted-chat';
 import {Icon} from 'react-native-elements';
-
-import CustomActions from '../components/CustomActions';
-import CustomView from '../components/CustomView';
 import firebase from 'firebase';  // Initialize Firebase
 import RNFetchBlob from 'react-native-fetch-blob';
+import CustomActions from '../components/CustomActions';
+import CustomView from '../components/CustomView';
 
 import firebaseApp from '../config/FirebaseConfig';
 

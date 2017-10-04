@@ -11,7 +11,6 @@ import {
 import QuakeLevelTab from '../components/QuakeLevelTab';
 import QuakeLevelList from '../components/QuakeLevelList';
 import Utils from '../utils/utils';
-import showInfo from '../styles/showInfo';
 import listStyle from '../styles/list';
 import Config from '../config/ApiConfig';
 
@@ -46,7 +45,6 @@ export default class QuakesList extends Component {
     }
 
     getRefreshData = () => {
-        // this.state.isConnected = false;
         if (!this.state.isConnected) {
             this.setState({
                 refreshing: false

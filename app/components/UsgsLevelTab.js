@@ -16,10 +16,7 @@ export  default class UsgsLevelTab extends Component {
             selectedIndex: 0,
             showIndexValue: ''
         };
-
-
     }
-
 
     onChange = (event) => {
 

@@ -3,7 +3,6 @@ import {
     AsyncStorage,
     Alert,
 } from 'react-native';
-import utils from '../utils/utils';
 
 const QuakeData = (apiType, timeStamp, utime, time, quake) => {
     if (apiType === 'usgs') {
@@ -72,9 +71,7 @@ export const fetchQuakesByApi = (apiType, url, callback) => {
                     let timeStamp = time.getTime();
                     time = time.toString().split('GMT')[0];
 
-
                     var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
-                    // console.log('quakeData.magnitude', quakeData.magnitude)
                     if (quakeData.magnitude) {
 
                         if (lastNotifiedTimeValue === null) {
@@ -95,10 +92,6 @@ export const fetchQuakesByApi = (apiType, url, callback) => {
 
 
             })//then
-        // .catch(error => {
-        //     utils.netWorkError();
-        //
-        // });
 
     }).done();
 }

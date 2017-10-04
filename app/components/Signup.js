@@ -100,8 +100,6 @@ export default class Signup extends Component {
     }
 
     handleRotate = () => {
-        // console.log('width,height',this.state.width,this.state.height)
-
         let {width, height} = Dimensions.get('screen');
         if (width > height) {
             this.setState({width: width, height: height, showIcon: false})

@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import * as StoreReview from 'react-native-store-review';
-// import DeviceInfo from 'react-native-device-info';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import listStyle from '../styles/list';
@@ -41,7 +40,6 @@ export default class Settings extends Component {
 
     componentDidMount() {
         AsyncStorage.getItem("isNotified").then((value) => {
-            // console.log('is Notified', value)
             if (value) {
                 var val = (value === "true");
                 this.setState({"isNotified": val});
@@ -70,7 +68,6 @@ export default class Settings extends Component {
 
         }).done();
         AsyncStorage.getItem("dataSource").then((value) => {
-            // console.log('is Notified', value)
             if (value) {
                 this.setState({"dataSource": value.toUpperCase()});
             } else {
@@ -91,12 +88,9 @@ export default class Settings extends Component {
 
     }
     toggleDisturbSwitch = (value) => {
-        // var val = (value == true);
         let currentHour = new Date().getHours();
-        // console.log('val', val)
         if (value) {
             if (currentHour <= 8 || currentHour >= 22) {
-                // val = true;
                 AsyncStorage.setItem("isSilent", 'true');
             } else {
                 AsyncStorage.setItem("isSilent", 'false');
@@ -144,7 +138,6 @@ export default class Settings extends Component {
             for (let data of showDataSource) {
                 if (this.state.dataSource === data) {
                     AsyncStorage.setItem('dataSource', data.toLowerCase()).then( this.setState({dataSource: data}));
-                    console.log('data',data)
                 }
 
             }

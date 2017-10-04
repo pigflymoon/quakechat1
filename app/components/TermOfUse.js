@@ -3,11 +3,6 @@ import {
     Text,
     View,
     ScrollView,
-    StyleSheet,
-    Linking,
-    Picker,
-    Platform,
-    Switch,
 
 } from 'react-native';
 
@@ -367,8 +362,7 @@ export default class TermOfUse extends Component {
                         You will cooperate as fully required by QuakeChat in the defense of any claim. QuakeChat
                         reserves the right to assume the exclusive defense and control of any matter subject to
                         indemnification by you, and you will not in any event settle any claim without the prior written
-                        consent of
-                        QuakeChat.
+                        consent of QuakeChat.
 
                     </Text>
                     <Text style={SettingStyle.text}>

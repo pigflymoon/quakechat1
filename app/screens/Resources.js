@@ -3,11 +3,6 @@ import {
     Text,
     View,
     ScrollView,
-    StyleSheet,
-    Linking,
-    Picker,
-    Platform,
-    Switch,
     Image,
 } from 'react-native';
 import {Card, Button} from 'react-native-elements';

@@ -84,7 +84,6 @@ export  default class UsgsTab extends Component {
     }
 
     renderTabsContent() {
-        const {activeTag} = this.state
         return <UsgsLevelTab onQuakeUsgsLevel={this.handleUsgsLevel}/>
     }
 

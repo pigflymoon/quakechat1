@@ -8,7 +8,7 @@ import Chat from '../screens/Chat';
 import QuakesList from '../screens/QuakesList';
 import QuakesMap from '../screens/QuakesMap';
 import QuakeDetail from '../screens/QuakeDetail';
-// import ChatRoom from '../screens/ChatRoom';
+
 import About from '../screens/About';
 import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';

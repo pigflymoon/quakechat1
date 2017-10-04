@@ -13,15 +13,10 @@ import {
     TextInput,
     TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {List, ListItem} from 'react-native-elements';
-import * as StoreReview from 'react-native-store-review';
 import colors from '../styles/colors';
-import quakeStyle from '../styles/quake';
 import listStyle from '../styles/list';
-import Utils from '../utils/utils';
-import Config from '../config/ApiConfig';
 import edit from '../styles/edit';
 
 export default class EditProfile extends Component {
@@ -42,13 +37,6 @@ export default class EditProfile extends Component {
     changePassword = () => {
         this.props.navigation.navigate('ChangePassword', {});
     };
-
-
-    componentDidMount() {
-
-
-    }
-
 
     render() {
         return (

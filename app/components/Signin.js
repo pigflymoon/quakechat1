@@ -9,10 +9,10 @@ import {
     Alert,
 } from 'react-native';
 const {width, height} = Dimensions.get("screen");
+import Icon from 'react-native-vector-icons/FontAwesome';
 import firebaseApp from '../config/FirebaseConfig';
 import Utils from '../utils/utils';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedInfo from './AnimatedInfo';
 import colors from '../styles/colors';
 import chat from '../styles/chat';
@@ -35,13 +35,10 @@ export default class Signin extends Component {
     }
 
     signup = () => {
-        // Actions.signup();
         this.props.navigation.navigate('Signup');
-
     }
 
     handleSignin = (e) => {
-        // console.log('sign in ',this.props.navigation)
         var self = this;
         e.preventDefault();
 
@@ -115,8 +112,6 @@ export default class Signin extends Component {
     }
 
     componentDidMount() {
-        // console.log('sign in  did mount is ', this.props.screenProps.isConnected)
-
         let {width, height} = Dimensions.get('screen');
         if (this.state.width < width) {
             this.setState({width: width, height: height, showIcon: false});
@@ -128,7 +123,6 @@ export default class Signin extends Component {
     componentWillUnmount() {
         // Important to stop updating state after unmount
         Dimensions.removeEventListener("change", this.handleRotate);
-        // console.log('sign in will unmount')
     }
 
 

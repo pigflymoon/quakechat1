@@ -176,17 +176,9 @@ export default class QuakeMap extends Component {
         );
     }
 
-    renderOffline = () => {
-        return (
-            <View style={showInfo.container}><Text style={showInfo.text}>Offline: Cannot Connect to App.</Text></View>
-        )
-    }
-
     render() {
         var isConnected = this.props.isConnected;
-        // if (!isConnected) {
-        //     return this.renderOffline();
-        // }
+
         return (
             <View style={map.container}>
                 { this.renderPosts()}

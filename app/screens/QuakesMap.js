@@ -8,7 +8,6 @@ import QuakeMap from '../components/QuakeMap';
 import QuakeSlider from '../components/QuakeSlider';
 import Utils from '../utils/utils';
 import quakeStyle from '../styles/quake';
-import showInfo from '../styles/showInfo';
 import Config from '../config/ApiConfig';
 
 export default class QuakesMap extends Component {
@@ -27,7 +26,6 @@ export default class QuakesMap extends Component {
     }
 
     handleChooseLevel = (stat) => {
-        // console.log('stat level is ',stat);
         if (stat <= 3) {
             this.setState({level: 3});
         } else if (stat <= 4) {
