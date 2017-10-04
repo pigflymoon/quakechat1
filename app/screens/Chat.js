@@ -15,7 +15,6 @@ import navigationStyle from '../styles/navigation';
 import chat from '../styles/chat';
 
 
-
 export default class Chat extends Component {
     uid = '';
     messagesRef = null;
@@ -30,9 +29,10 @@ export default class Chat extends Component {
             names: [],
             isConnected: false,
             loadEarlier: true,
-            typingText: null,
             isLoadingEarlier: true,
         };
+
+
     }
 
     setUid = (value) => {
@@ -201,16 +201,26 @@ export default class Chat extends Component {
     }
 
     componentWillMount() {
-        var isConnected = this.props.isConnected;
-        // console.log('isConnected will mount chat group',isConnected)
         var user = firebase.auth().currentUser;
-        // console.log('user', user)
+        var self = this;
         if (user) {
             this.setUid(user.uid);
             this.setName(user.displayName);
-        } else {
-            // console.log('user is not signed in', user)
+            var rootRef = firebaseApp.database().ref();
+            rootRef.once("value")
+                .then(function (snapshot) {
+                    var childValue = snapshot.child("messages").val();
+                    if (childValue == null) {
+                        //database is empty,not early loading
+                        self.setState({
+                            isLoadingEarlier: false,
+                            loadEarlier: false,
+                        })
+                    }
 
+
+                });
+        } else {
             this.props.navigation.navigate('Signin');
 
         }
@@ -221,9 +231,7 @@ export default class Chat extends Component {
             signin: true
         });
         this.loadMessages((message) => {
-
             this.setState((previousState) => {
-                console.log('message', message)
                 return {
                     messages: GiftedChat.append(previousState.messages, message),
                     isLoadingEarlier: false,
