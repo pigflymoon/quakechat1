@@ -186,13 +186,7 @@ export default class QuakeLevelList extends Component {
 
                                         PushNotification.configure({
                                             onNotification: function (notification) {
-
-                                                var isConnected = true;
-                                                var quake = notificationQuakes[0];
-                                                var quakeSource = 'notification';
                                                 navigate('List');
-
-                                                // navigate('Detail', {isConnected, quake, quakeSource});
                                             },
 
 
@@ -251,7 +245,7 @@ export default class QuakeLevelList extends Component {
             //
             this.interval = setInterval(() => {
                 this.fetchQuakes();
-            }, 1000*10);
+            }, 1000 * 10);
 
 
             if (this.props.refreshing) {

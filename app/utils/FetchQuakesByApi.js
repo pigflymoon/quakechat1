@@ -82,10 +82,8 @@ export const fetchQuakesByApi = (apiType, url, callback) => {
                         } else {
                             lastNotificationTime = parseInt(lastNotifiedTimeValue)
                         }
-                        if (notifiedTime >= lastNotificationTime) {
-                            // let magnitude = (apiType === 'usgs') ? quake.properties.mag.toFixed(1) : quake.properties.magnitude.toFixed(1);
-                            // let location = (apiType === 'usgs') ? quake.properties.place : quake.properties.locality;
-                            //
+                        if (notifiedTime > lastNotificationTime) {
+
                             let notificationQuake = quakeData;
                             notificationQuakes.push(notificationQuake);
                         }
