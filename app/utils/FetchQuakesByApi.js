@@ -44,55 +44,55 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
 }
 
 
-export const fetchQuakesByApi = (apiType, url, callback) => {
-    AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedTimeValue) => {
-        console.log('lastNotifiedTimeValue',lastNotifiedTimeValue)
-        axios.get(url)
-            .then(function (result) {
-                let quakesData = result.data.features;
-                if (apiType === 'usgs') {
-                    quakesData = quakesData.slice(0, 100);
-                }
-
-                let quakesArray = [],
-                    notificationQuakes = [],
-                    lastNotificationTime = 0;
-
-                for (let quake of quakesData) {
-                    let time = quake.properties.time;
-
-                    let utime = new Date(time);
-
-                    utime = new Date(utime.toUTCString().slice(0, -4));
-                    utime = utime.toString().split('GMT')[0];
-
-                    time = new Date(time);
-                    let notifiedTime = time.getTime();
-
-                    let timeStamp = time.getTime();
-                    time = time.toString().split('GMT')[0];
-
-                    var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
-                    if (quakeData.magnitude) {
-
-                        if (lastNotifiedTimeValue === null) {
-                            lastNotificationTime = 0;
-                        } else {
-                            lastNotificationTime = parseInt(lastNotifiedTimeValue)
-                        }
-                        if (notifiedTime > lastNotificationTime) {
-
-                            let notificationQuake = quakeData;
-                            notificationQuakes.push(notificationQuake);
-                        }
-                        quakesArray.push(quakeData);
+export const fetchQuakesByApi = (notificationTypeTime, apiType, url, callback) => {
+        AsyncStorage.getItem(notificationTypeTime).then((lastNotifiedTimeValue) => {
+            axios.get(url)
+                .then(function (result) {
+                    let quakesData = result.data.features;
+                    if (apiType === 'usgs') {
+                        quakesData = quakesData.slice(0, 100);
                     }
+                    quakesData = quakesData.slice(0, 100);
+                    let quakesArray = [],
+                        notificationQuakes = [],
+                        lastNotificationTime = 0;
 
-                } //for
-                callback(quakesArray, notificationQuakes);
+                    for (let quake of quakesData) {
+                        let time = quake.properties.time;
 
+                        let utime = new Date(time);
 
-            })//then
+                        utime = new Date(utime.toUTCString().slice(0, -4));
+                        utime = utime.toString().split('GMT')[0];
 
-    }).done();
+                        time = new Date(time);
+                        let notifiedTime = time.getTime();
+
+                        let timeStamp = time.getTime();
+                        time = time.toString().split('GMT')[0];
+
+                        var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
+                        if (quakeData.magnitude) {
+
+                            if (lastNotifiedTimeValue === null) {
+                                lastNotificationTime = 0;
+                            } else {
+                                lastNotificationTime = parseInt(lastNotifiedTimeValue)
+                            }
+                            if (notifiedTime > lastNotificationTime) {
+
+                                let notificationQuake = quakeData;
+                                notificationQuakes.push(notificationQuake);
+                            }
+                            quakesArray.push(quakeData);
+                        }
+
+                    } //for
+                    callback(quakesArray, notificationQuakes);
+
+                })//then
+
+        }).done();
+    // }
+
 }

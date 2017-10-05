@@ -33,8 +33,8 @@ export default class Settings extends Component {
             dataSource: 'GEONET'
 
         };
-        AsyncStorage.setItem('ruleValue', "0");
-
+        AsyncStorage.setItem("ruleValue", "0");
+        AsyncStorage.setItem("isNotified", "true");
     }
 
 
@@ -137,7 +137,7 @@ export default class Settings extends Component {
         this.setState({dataSource: dataSource}, function () {
             for (let data of showDataSource) {
                 if (this.state.dataSource === data) {
-                    AsyncStorage.setItem('dataSource', data.toLowerCase()).then( this.setState({dataSource: data}));
+                    AsyncStorage.setItem('dataSource', data.toLowerCase()).then(this.setState({dataSource: data}));
                 }
 
             }
