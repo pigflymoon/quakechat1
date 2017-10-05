@@ -161,7 +161,7 @@ export default class QuakeLevelList extends Component {
                         AsyncStorage.getItem("ruleValue").then((value) => {
                             let notificationRule = value;
 
-                            if (notificationQuakes.length > 1) {
+                            if (notificationQuakes.length >= 1) {
                                 goBack(null);
                                 var i = 1;
                                 for (var k in notificationQuakes) {
@@ -186,7 +186,8 @@ export default class QuakeLevelList extends Component {
                                     console.log('lastIndex', lastIndex)
                                     let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
                                     AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString()).then((value) => {
-                                        console.log('navigate to list?')
+                                        console.log('navigate to list?',lastNotificationTime)
+                                        this.setState({notificationQuakes:[]});
                                         PushNotification.configure({
                                             onNotification: function (notification) {
                                                 navigate('List');
@@ -194,6 +195,7 @@ export default class QuakeLevelList extends Component {
 
 
                                         });
+
 
                                     }).done();
 

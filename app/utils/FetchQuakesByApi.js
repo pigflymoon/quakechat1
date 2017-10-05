@@ -46,6 +46,7 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
 
 export const fetchQuakesByApi = (apiType, url, callback) => {
     AsyncStorage.getItem("lastNotificationTime").then((lastNotifiedTimeValue) => {
+        console.log('lastNotifiedTimeValue',lastNotifiedTimeValue)
         axios.get(url)
             .then(function (result) {
                 let quakesData = result.data.features;
