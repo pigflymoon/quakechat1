@@ -125,6 +125,7 @@ export default class Chat extends Component {
                 },
                 ...(message.image) && {image: message.image}
             });
+
         };
         this.messagesRef.limitToLast(20).on('child_added', onReceive);
     }

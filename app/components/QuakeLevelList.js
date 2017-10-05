@@ -138,13 +138,18 @@ export default class QuakeLevelList extends Component {
         const {navigate, dispatch, goBack} = this.props.navigation;
         const currentScreen = this.props.currentScreen;
         let notificationQuakes = this.state.notificationQuakes;
+        console.log('notificationQuakes', notificationQuakes)
+
 
         // else {
         var self = this;
 
         var lastIndex = [];
         if ((this.state.appState.match(/background|active/)) && nextAppState.match(/background|inactive/)) {
-            goBack(null);
+            // goBack(null);
+            console.log('navigate to back?')
+
+
             // console.log('app is running in background')
             AsyncStorage.getItem("isNotified").then((isNotifiedValue) => {
                 AsyncStorage.getItem("isSilent").then((isSlientValue) => {
@@ -156,7 +161,8 @@ export default class QuakeLevelList extends Component {
                         AsyncStorage.getItem("ruleValue").then((value) => {
                             let notificationRule = value;
 
-                            if (notificationQuakes.length > 0) {
+                            if (notificationQuakes.length > 1) {
+                                goBack(null);
                                 var i = 1;
                                 for (var k in notificationQuakes) {
 
@@ -177,9 +183,10 @@ export default class QuakeLevelList extends Component {
                                 if (lastIndex.length <= 0) {
                                     console.log('No new notification')
                                 } else {
+                                    console.log('lastIndex', lastIndex)
                                     let lastNotificationTime = notificationQuakes[lastIndex[0]].timeStamp;
                                     AsyncStorage.setItem("lastNotificationTime", lastNotificationTime.toString()).then((value) => {
-
+                                        console.log('navigate to list?')
                                         PushNotification.configure({
                                             onNotification: function (notification) {
                                                 navigate('List');
