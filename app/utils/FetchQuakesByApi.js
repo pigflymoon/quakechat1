@@ -45,7 +45,9 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
 
 
 export const fetchQuakesByApi = (notificationTypeTime, apiType, url, callback) => {
-        AsyncStorage.getItem(notificationTypeTime).then((lastNotifiedTimeValue) => {
+    AsyncStorage.getItem(notificationTypeTime).then((lastNotifiedTimeValue) => {
+        // if (lastNotifiedTimeValue != null) {
+            console.log('notificationTypeTime is ',lastNotifiedTimeValue)
             axios.get(url)
                 .then(function (result) {
                     let quakesData = result.data.features;
@@ -91,8 +93,12 @@ export const fetchQuakesByApi = (notificationTypeTime, apiType, url, callback) =
                     callback(quakesArray, notificationQuakes);
 
                 })//then
+        // }else{
+        //     console.log('notificationTypeTime is null',lastNotifiedTimeValue)
+        // }
 
-        }).done();
+
+    }).done();
     // }
 
 }
