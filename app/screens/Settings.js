@@ -10,6 +10,7 @@ import {
     Platform,
     AsyncStorage,
     Item,
+    TouchableOpacity
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import * as StoreReview from 'react-native-store-review';
@@ -19,6 +20,7 @@ import listStyle from '../styles/list';
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 
+import PushNotification from 'react-native-push-notification';
 
 export default class Settings extends Component {
 
@@ -75,7 +77,9 @@ export default class Settings extends Component {
             }
 
         }).done();
+//
 
+        //
     }
 
     toggleNotificationSwitch = (value) => {
@@ -161,11 +165,22 @@ export default class Settings extends Component {
 
     }
 
+
+    schedule = () => {
+        let notificationDate = new Date(Date.now() + 5000)
+        let notificationMessage = "This is a long text to see whether it gets displayed in Android as bigText. Notification Scheduled a minute ago"
+        PushNotification.localNotificationSchedule({
+            message: notificationMessage, // (required)
+            date: notificationDate, // in 60 secs
+        })
+        console.log("scheduled notifiation for ",notificationDate)
+    }
     render() {
         return (
             <ScrollView>
 
                 <List>
+
                     <ListItem containerStyle={listStyle.listItem}
                               title="DataSource"
                               leftIcon={{name: 'description', color: colors.grey2}}

@@ -8,8 +8,6 @@ import {
 import {Tabs} from './config/router';
 import utils from './utils/utils';
 
-
-
 export default class App extends Component {
 
     constructor(props, context) {
@@ -69,6 +67,7 @@ export default class App extends Component {
             'connectionChange',
             this.handleConnectivityChange
         );
+
 
     }
 

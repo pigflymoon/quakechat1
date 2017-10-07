@@ -47,13 +47,13 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
 export const fetchQuakesByApi = (notificationTypeTime, apiType, url, callback) => {
     AsyncStorage.getItem(notificationTypeTime).then((lastNotifiedTimeValue) => {
         // if (lastNotifiedTimeValue != null) {
-            console.log('notificationTypeTime is ',lastNotifiedTimeValue)
+            console.log('saved notificationTypeTime is ',lastNotifiedTimeValue)
             axios.get(url)
                 .then(function (result) {
                     let quakesData = result.data.features;
-                    if (apiType === 'usgs') {
-                        quakesData = quakesData.slice(0, 100);
-                    }
+                    // if (apiType === 'usgs') {
+                    //     quakesData = quakesData.slice(0, 100);
+                    // }
                     quakesData = quakesData.slice(0, 100);
                     let quakesArray = [],
                         notificationQuakes = [],
@@ -61,7 +61,6 @@ export const fetchQuakesByApi = (notificationTypeTime, apiType, url, callback) =
 
                     for (let quake of quakesData) {
                         let time = quake.properties.time;
-
                         let utime = new Date(time);
 
                         utime = new Date(utime.toUTCString().slice(0, -4));
@@ -76,12 +75,12 @@ export const fetchQuakesByApi = (notificationTypeTime, apiType, url, callback) =
                         var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
                         if (quakeData.magnitude) {
 
-                            if (lastNotifiedTimeValue === null) {
+                            if (lastNotifiedTimeValue === null) {//not save lastNotifiedTimeValue
                                 lastNotificationTime = 0;
                             } else {
                                 lastNotificationTime = parseInt(lastNotifiedTimeValue)
                             }
-                            if (notifiedTime > lastNotificationTime) {
+                            if (notifiedTime > lastNotificationTime) {//quake time later than saved lastNotificationTime
 
                                 let notificationQuake = quakeData;
                                 notificationQuakes.push(notificationQuake);
