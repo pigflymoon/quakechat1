@@ -44,10 +44,10 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
 }
 
 
-export const fetchQuakesByApi = (notificationTypeTime, apiType, url, callback) => {
+export const fetchQuakesByApi = (notificationRule, quakeLevel, notificationTypeTime, apiType, url, callback) => {
     AsyncStorage.getItem(notificationTypeTime).then((lastNotifiedTimeValue) => {
-        // if (lastNotifiedTimeValue != null) {
-            console.log('saved notificationTypeTime is ',lastNotifiedTimeValue)
+            // if (lastNotifiedTimeValue != null) {
+            console.log('saved notificationTypeTime is ', lastNotifiedTimeValue)
             axios.get(url)
                 .then(function (result) {
                     let quakesData = result.data.features;
@@ -62,29 +62,53 @@ export const fetchQuakesByApi = (notificationTypeTime, apiType, url, callback) =
                     for (let quake of quakesData) {
                         let time = quake.properties.time;
                         let utime = new Date(time);
-
+                        var quakeTime = new Date(time).getTime();
                         utime = new Date(utime.toUTCString().slice(0, -4));
                         utime = utime.toString().split('GMT')[0];
 
                         time = new Date(time);
-                        let notifiedTime = time.getTime();
+
+                        // let notifiedTime = time.getTime();
 
                         let timeStamp = time.getTime();
                         time = time.toString().split('GMT')[0];
 
                         var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
+                        //
+                        var TenMinutesEarlier = new Date();
+                        TenMinutesEarlier.setMinutes(TenMinutesEarlier.getMinutes() - 13);
+                        var notifiedTime = TenMinutesEarlier;
+
                         if (quakeData.magnitude) {
+                            /*
+                             if (lastNotifiedTimeValue === null) {//not save lastNotifiedTimeValue
+                             lastNotificationTime = 0;
+                             } else {
+                             lastNotificationTime = parseInt(lastNotifiedTimeValue)
+                             }
+                             if (notifiedTime > lastNotificationTime) {//quake time later than saved lastNotificationTime
 
-                            if (lastNotifiedTimeValue === null) {//not save lastNotifiedTimeValue
-                                lastNotificationTime = 0;
-                            } else {
-                                lastNotificationTime = parseInt(lastNotifiedTimeValue)
-                            }
-                            if (notifiedTime > lastNotificationTime) {//quake time later than saved lastNotificationTime
+                             let notificationQuake = quakeData;
+                             notificationQuakes.push(notificationQuake);
+                             }
+                             */
+                            // console.log('notificationRule: ', notificationRule, 'quakeLevel: ', quakeLevel)
 
-                                let notificationQuake = quakeData;
-                                notificationQuakes.push(notificationQuake);
+                            if (quakeLevel == 'all' || quakeLevel == 0) {
+                                console.log('request all or mmi = 0')
+                                if (notificationRule <= quakeData.magnitude && notifiedTime <= quakeTime) {// && notifiedTime <= quakeTime
+                                    console.log('request all or mmi = 0 data is >= rule')
+                                    notificationQuakes.push(quakeData);
+                                }
                             }
+                            if (notificationRule > quakeLevel && notifiedTime > quakeTime) {
+                                console.log('No notified');
+                                return;
+                            } else if (notificationRule <= quakeLevel && notifiedTime <= quakeTime) {//notifiedTime <= quakeTime
+                                console.log('NotifiedTime is later then quakeTime');
+                                notificationQuakes.push(quakeData);
+                            }
+                            // console.log('call back notificationQuakes', notificationQuakes)
                             quakesArray.push(quakeData);
                         }
 
@@ -92,12 +116,13 @@ export const fetchQuakesByApi = (notificationTypeTime, apiType, url, callback) =
                     callback(quakesArray, notificationQuakes);
 
                 })//then
-        // }else{
-        //     console.log('notificationTypeTime is null',lastNotifiedTimeValue)
-        // }
+            // }else{
+            //     console.log('notificationTypeTime is null',lastNotifiedTimeValue)
+            // }
 
 
-    }).done();
-    // }
+        }
+    ).done();
+// }
 
 }
