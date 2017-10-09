@@ -13,6 +13,7 @@ import QuakeItem from './QuakeItem';
 import Config from '../config/ApiConfig';
 import listStyle from '../styles/list';
 import PushNotification from 'react-native-push-notification';
+import AppStateListener from "react-native-appstate-listener";
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 var notificationRule;
 export default class QuakeLevelList extends Component {
@@ -39,9 +40,11 @@ export default class QuakeLevelList extends Component {
      */
     async fetchQuakes(nextProps, notificationRule) {
         let self = this;
+        // console.log('appState is ', this.state.appState)
+
 
         if (nextProps) {
-            console.log('**********nextProps***********')
+            // console.log('**********nextProps***********')
 
             let geoUrl = Config.api.quakes_geonet_url + nextProps.level;
             let usgUrl = Config.api.quakes_usgs_url + nextProps.level;
@@ -64,7 +67,7 @@ export default class QuakeLevelList extends Component {
                     });
                 } else {
                     fetchQuakesByApi('lastUsgsNotificationTime', 'usgs', usgUrl, function (quakes, notificationQuakes) {
-                        console.log('**********nextProps refreshing usgs***********', notificationQuakes)
+                        // console.log('**********nextProps refreshing usgs***********', notificationQuakes)
 
                         self.setState({
                                 quakes: quakes,
@@ -94,6 +97,8 @@ export default class QuakeLevelList extends Component {
 
                             }
                         );
+
+
                     });
                 } else {
                     fetchQuakesByApi(notificationRule, usgLevel, 'lastUsgsNotificationTime', 'usgs', usgUrl, function (quakes, notificationQuakes) {
@@ -107,6 +112,7 @@ export default class QuakeLevelList extends Component {
                                 error: null,
                             }
                         );
+
                     });
                 }
 
@@ -116,7 +122,7 @@ export default class QuakeLevelList extends Component {
             let geoUrl = Config.api.quakes_geonet_url + self.props.level;
             let usgUrl = Config.api.quakes_usgs_url + self.props.level;
             let usgLevel = (self.props.level).toString().split("_")[0];
-            console.log('********first time*********', self.props.tab)
+            // console.log('********first time*********', self.props.tab)
             if (self.props.tab === 'newzealand') {
                 fetchQuakesByApi(notificationRule, self.props.level, 'lastGeoNetNotificationTime', 'geonet', geoUrl, function (quakes, notificationQuakes) {
                     console.log('newzealand tab notificationQuakes', notificationQuakes)
@@ -128,6 +134,8 @@ export default class QuakeLevelList extends Component {
                             error: null,
                         }
                     );
+
+
                 });
                 self.props.onRefreshData(false);
             } else {
@@ -142,6 +150,8 @@ export default class QuakeLevelList extends Component {
                             error: null,
                         }
                     );
+
+
                 });
                 self.props.onRefreshData(false);
             }
@@ -174,7 +184,7 @@ export default class QuakeLevelList extends Component {
         if (nextProps.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
                 var savedRule = value;
-                console.log('savedRule :', value)
+                // console.log('savedRule :', value)
                 this.fetchQuakes(nextProps, savedRule);
             });
 
@@ -182,55 +192,57 @@ export default class QuakeLevelList extends Component {
     }
 
 
-    handleAppStateChange = (nextAppState) => {
+    handleNotifiation = () => {
         const {navigate, dispatch, goBack} = this.props.navigation;
-        if ((this.state.appState.match(/background|active/)) && nextAppState.match(/background|inactive/)) {
-            // const currentScreen = this.props.currentScreen;
-            var notificationQuakes, notificationType;
-            AsyncStorage.getItem("dataSource").then((value) => {
-                if (value === 'geonet') {
-                    notificationQuakes = this.state.geonetNotificationQuakes;
-                    console.log(' geonet notificationQuakes', notificationQuakes)
-                    console.log('state geonetNotificationQuakes ', this.state.geonetNotificationQuakes)
+        // console.log('notification running ', this.state.appState)
+        // if (this.state.appState.match(/background|inactive/)) {
+        // const currentScreen = this.props.currentScreen;
 
-                    notificationType = 'geonet';
-                } else {
-                    notificationQuakes = this.state.usgsNotificationQuakes;
-                    console.log('usgs notificationQuakes', notificationQuakes)
-                    notificationType = 'usgs';
+
+        var notificationQuakes, notificationType;
+        AsyncStorage.getItem("dataSource").then((value) => {
+            if (value === 'geonet') {
+                notificationQuakes = this.state.geonetNotificationQuakes;
+                console.log(' geonet notificationQuakes', notificationQuakes)
+                console.log('state geonetNotificationQuakes ', this.state.geonetNotificationQuakes)
+
+                notificationType = 'geonet';
+            } else {
+                notificationQuakes = this.state.usgsNotificationQuakes;
+                console.log('usgs notificationQuakes', notificationQuakes)
+                notificationType = 'usgs';
+            }
+            console.log('notificationQuakes', notificationQuakes)
+
+            if (notificationQuakes.length >= 1) {
+                // goBack(null);
+                var i = 1;
+
+                console.log('notificationQuakes')
+                for (var k in notificationQuakes) {
+                    // if (notificationRule <= notificationQuakes[k].magnitude) {//new quakes in the rules
+                    console.log('notification message', notificationQuakes[k].message)
+                    PushNotification.localNotificationSchedule({
+                        message: notificationQuakes[k].message,
+                        date: new Date(notificationQuakes[k].time),
+                        number: i++,
+                        playSound: true,
+                        foreground: true,
+
+                    });
+                    let lastNotificationTime = notificationQuakes[0].timeStamp;//get the latest quake in rules
+
+                    console.log("scheduled notifiation for ", new Date(notificationQuakes[k].time))
+                    console.log('lastGeoNetNotificationTime ',lastNotificationTime)
+
+                    // }
+
                 }
-                console.log('notificationQuakes', notificationQuakes)
-
-                if (notificationQuakes.length >= 1) {
-                    // goBack(null);
-                    var i = 1;
-
-                    console.log('notificationQuakes')
-                    for (var k in notificationQuakes) {
-                        // if (notificationRule <= notificationQuakes[k].magnitude) {//new quakes in the rules
-                        console.log('notification message', notificationQuakes[k].message)
-                        PushNotification.localNotificationSchedule({
-                            message: notificationQuakes[k].message,
-                            date: new Date(notificationQuakes[k].time),
-                            number: i++,
-                            playSound: true,
-                            foreground: true,
-
-                        });
-                        console.log("scheduled notifiation for ", new Date(notificationQuakes[k].time))
-                        // }
-
-                    }
-                    navigate('List');
-                }
+                navigate('List');
+            }
 
 
-            });
-        } else {
-            this.setState({usgsNotificationQuakes: [], geonetNotificationQuakes: []});
-            // navigate('List');
-            PushNotification.setApplicationIconBadgeNumber(0);
-        }
+        });
 
     }
 
@@ -259,7 +271,7 @@ export default class QuakeLevelList extends Component {
              */
             requestPermissions: true,
         });
-        AppState.addEventListener('change', this.handleAppStateChange);
+        // AppState.addEventListener('change', this.handleAppStateChange);
         var notificationRule;
         if (this.props.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
@@ -270,27 +282,64 @@ export default class QuakeLevelList extends Component {
                 }
                 //
                 this.interval = setInterval(() => {
+                    console.log('*************fetch data 1min************',new Date())
                     this.fetchQuakes('', notificationRule);
-                }, 1000 * 60 * 10);
+
+
+                }, 1000 * 60 * 1);
 
 
                 if (this.props.refreshing) {
                     this.fetchQuakes('', notificationRule);
                 }
             });
+
+
+            //
         }
 
 
     }
 
+    handleActive = () => {
+        console.log("The application is now active!");
+        this.setState({usgsNotificationQuakes: [], geonetNotificationQuakes: []});
+        console.log('set number')
+        PushNotification.setApplicationIconBadgeNumber(0);
+    }
+
+    handleBackground = () => {
+        this.handleNotifiation();
+        this.backgroundInterval = setInterval(() => {
+            // console.log('fetch data ?')
+            console.log("The application is running  in the background!",new Date());
+            console.log('*************fetch Notification data 1 min*************')
+            this.handleNotifiation();
+
+
+        }, 1000 * 60 * 1);
+        // navigate('List');
+
+    }
+
+    handleInactive = () => {
+        console.log("The application is now inactive!");
+    }
+
     componentWillUnmount() {
-        AppState.removeEventListener('change', this.handleAppStateChange);
+        // AppState.removeEventListener('change', this.handleAppStateChange);
         clearInterval(this.interval);
+        clearInterval(this.backgroundInterval);
     }
 
     render() {
         return (
             <List>
+                <AppStateListener
+                    onActive={this.handleActive}
+                    onBackground={this.handleBackground}
+                    onInactive={this.handleInactive}
+                />
                 <FlatList
                     keyExtractor={this.keyExtractor}
                     data={this.state.quakes}
