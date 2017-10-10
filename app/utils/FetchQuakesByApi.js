@@ -76,8 +76,9 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, notificationTypeT
                         var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
                         //
                         var TenMinutesEarlier = new Date();
-                        TenMinutesEarlier.setMinutes(TenMinutesEarlier.getMinutes() - 13);
+                        TenMinutesEarlier.setMinutes(TenMinutesEarlier.getMinutes() - 3);
                         var notifiedTime = TenMinutesEarlier;
+                        // console.log('get api data notifiedTime',notifiedTime)
 
                         if (quakeData.magnitude) {
                             /*

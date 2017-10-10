@@ -286,7 +286,7 @@ export default class QuakeLevelList extends Component {
                     this.fetchQuakes('', notificationRule);
 
 
-                }, 1000 * 60 * 1);
+                }, 1000 * 60 * 4);
 
 
                 if (this.props.refreshing) {
@@ -317,7 +317,7 @@ export default class QuakeLevelList extends Component {
             this.handleNotifiation();
 
 
-        }, 1000 * 60 * 1);
+        }, 1000 * 60 * 4);
         // navigate('List');
 
     }
