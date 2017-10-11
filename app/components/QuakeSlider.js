@@ -19,7 +19,6 @@ export default  class QuakeSlider extends Component {
 
     handlerSlide = (value) => {
         this.setState({value: value.toFixed()});
-        console.log('value is ',value.toFixed())
         this.props.onChooseLevel(value);
     }
 
