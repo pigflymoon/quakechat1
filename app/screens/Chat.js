@@ -6,12 +6,10 @@ import firebase from 'firebase';  // Initialize Firebase
 import RNFetchBlob from 'react-native-fetch-blob';
 import CustomActions from '../components/CustomActions';
 import CustomView from '../components/CustomView';
-
 import firebaseApp from '../config/FirebaseConfig';
 
 import colors from '../styles/colors';
 import navigationStyle from '../styles/navigation';
-import chat from '../styles/chat';
 
 
 export default class Chat extends Component {
@@ -34,6 +32,33 @@ export default class Chat extends Component {
 
     }
 
+    componentWillMount() {
+        var user = firebase.auth().currentUser;
+        console.log('user is ', user)
+        var self = this;
+        if (user) {
+            this.setUid(user.uid);
+            this.setName(user.displayName);
+            var rootRef = firebaseApp.database().ref();
+            rootRef.once("value")
+                .then(function (snapshot) {
+                    var childValue = snapshot.child("messages").val();
+                    if (childValue == null) {
+                        //database is empty,not early loading
+                        self.setState({
+                            isLoadingEarlier: false,
+                            loadEarlier: false,
+                        })
+                    }
+
+
+                });
+        } else {
+            this.props.navigation.navigate('Signin');
+
+        }
+    }
+
     setUid = (value) => {
         this.uid = value;
     }
@@ -43,10 +68,12 @@ export default class Chat extends Component {
     }
 
     setName = (value) => {
+        console.log('this setName', value)
         this.displayName = value;
     }
 
     getName = () => {
+        console.log('this displayname', this.displayName)
         return this.displayName;
     }
 
@@ -98,22 +125,13 @@ export default class Chat extends Component {
         );
     }
 
-    renderCustomAvatar = (props) => {
-        return (
-            <View style={chat.avatarContainer}>
-                <Icon name="account-circle" size={40} color={colors.grey2} style={chat.avatarStyle}/>
-                <Text style={chat.userNameStyle}>{props.user.name}</Text>
-            </View>
-        )
-    }
-
     loadMessages(callback) {
         this.messagesRef = firebaseApp.database().ref('messages');
         this.messagesRef.off();
 
         const onReceive = (data) => {
             const message = data.val();
-
+            console.log('message ', message)
             callback({
                 _id: data.key,
                 text: message.text || '',
@@ -200,31 +218,6 @@ export default class Chat extends Component {
 
     }
 
-    componentWillMount() {
-        var user = firebase.auth().currentUser;
-        var self = this;
-        if (user) {
-            this.setUid(user.uid);
-            this.setName(user.displayName);
-            var rootRef = firebaseApp.database().ref();
-            rootRef.once("value")
-                .then(function (snapshot) {
-                    var childValue = snapshot.child("messages").val();
-                    if (childValue == null) {
-                        //database is empty,not early loading
-                        self.setState({
-                            isLoadingEarlier: false,
-                            loadEarlier: false,
-                        })
-                    }
-
-
-                });
-        } else {
-            this.props.navigation.navigate('Signin');
-
-        }
-    }
 
     componentDidMount() {
         this.setState({
@@ -267,7 +260,6 @@ export default class Chat extends Component {
                 renderActions={this.renderCustomActions}
                 renderBubble={this.renderBubble}
                 renderCustomView={this.renderCustomView}
-                renderAvatar={this.renderCustomAvatar}
             />
         );
     }
