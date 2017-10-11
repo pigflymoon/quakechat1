@@ -64,7 +64,7 @@ export  default class QuakeLevelTab extends Component {
             tabsStyle.tabText, activeTab === 'global' && tabsStyle.activeTabText
         ]
 
-        return this.state.activeTab === 'newzealand' ? <TouchableOpacity
+        return ((this.state.activeTab === 'newzealand' ) ? <TouchableOpacity
                 style={newzealandStyles}
                 onPress={() => this.setActiveTab('newzealand')}>
                 <Text style={newzealandTextStyles}>
@@ -77,7 +77,7 @@ export  default class QuakeLevelTab extends Component {
                 <Text style={globalTextStyles}>
                     Global
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity>);
     }
 
     renderTabs() {
@@ -94,12 +94,18 @@ export  default class QuakeLevelTab extends Component {
 
     renderTabsContent() {
         const {activeTab} = this.state
-        return activeTab === 'newzealand' ? <GeoNetLevelTab onQuakeLevel={this.handleQuakeLevel}/> :
-            <UsgsTab onQuakeUsgsLevel={this.handleQuakeLevel}/>
+
+        console.log('activeTab tab is ',activeTab)
+        console.log('activeTab tab is ',(activeTab === 'newzealand'))
+        return ( (activeTab === 'newzealand') ? <GeoNetLevelTab onQuakeLevel={this.handleQuakeLevel}/> :
+                <UsgsTab onQuakeUsgsLevel={this.handleQuakeLevel}/>
+        );
+
     }
 
     componentWillReceiveProps() {
         AsyncStorage.getItem("dataSource").then((value) => {
+            console.log('datasource value',value)
             if (value === 'geonet') {
                 this.setState({activeTab: 'newzealand'});
             } else {

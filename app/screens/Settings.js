@@ -124,16 +124,16 @@ export default class Settings extends Component {
 
     onRate() {
         let link = '';
-
-        if (Platform.OS === 'ios') {
-            if (StoreReview.isAvailable) {
-                return StoreReview.requestReview();
-            }
-
-            link = '';
-        }
-
-        return Utils.goToURL(link);
+        //
+        // if (Platform.OS === 'ios') {
+        //     if (StoreReview.isAvailable) {
+        //         return StoreReview.requestReview();
+        //     }
+        //
+        //     link = '';
+        // }
+        //
+        // return Utils.goToURL(link);
     }
 
     updateDataSource = (dataSource) => {
@@ -165,16 +165,6 @@ export default class Settings extends Component {
 
     }
 
-
-    schedule = () => {
-        let notificationDate = new Date(Date.now() + 5000)
-        let notificationMessage = "This is a long text to see whether it gets displayed in Android as bigText. Notification Scheduled a minute ago"
-        PushNotification.localNotificationSchedule({
-            message: notificationMessage, // (required)
-            date: notificationDate, // in 60 secs
-        })
-        console.log("scheduled notifiation for ",notificationDate)
-    }
     render() {
         return (
             <ScrollView>

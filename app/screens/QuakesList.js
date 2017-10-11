@@ -30,12 +30,17 @@ export default class QuakesList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
+        console.log('QuakesList ', nextProps.screenProps.currentScreen)
+        if (nextProps.screenProps.currentScreen != 'QuakesList') {
+            return;
+        }
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
 
         this.setState({
             isConnected: isConnected,
             connectionInfo: nextProps.screenProps.connectionInfo,
-            reach: nextProps.screenProps.reach
+            // reach: nextProps.screenProps.reach
         });
         if (!nextProps.screenProps.isConnected) {
             this.setState({
@@ -94,7 +99,7 @@ export default class QuakesList extends Component {
                         onRefresh={this.getRefreshData}
                     />}
             >
-                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel} isConnected={this.props.screenProps.isConnected} />
+                <QuakeLevelTab onQuakeLevel={this.handleQuakeLevel} isConnected={this.props.screenProps.isConnected}/>
                 <QuakeLevelList onRefreshData={this.handleRefreshData} navigation={this.props.navigation}
                                 nps_source={this.state.api_source}
                                 tab={this.state.tab}
@@ -111,6 +116,11 @@ export default class QuakesList extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
+        console.log(' props QuakesList ', this.props.screenProps.currentScreen)
+        console.log(' props QuakesList ',((this.props.screenProps.currentScreen != 'List' || this.props.screenProps.currentScreen != 'QuakesList')))
+        if (this.props.screenProps.currentScreen != 'List' && this.props.screenProps.currentScreen != 'QuakesList') {
+            return null;
+        }
         if (!isConnected) {
             return Utils.renderOffline();
         }

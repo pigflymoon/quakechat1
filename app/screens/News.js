@@ -32,6 +32,10 @@ export default class News extends Component {
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
+        console.log('nextprops news',nextProps)
+        if(nextProps.screenProps.currentScreen != 'News'){
+            return;
+        }
 
         if (isConnected) {
             this.setState({
@@ -42,6 +46,7 @@ export default class News extends Component {
     }
 
     fetchApiData = () => {
+        console.log('news called')
         axios.get(Config.api.news_url)
             .then(res => {
                 news = res.data.feed.map(function (item) {

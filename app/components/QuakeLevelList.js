@@ -44,8 +44,16 @@ export default class QuakeLevelList extends Component {
 
 
         if (nextProps) {
-            // console.log('**********nextProps***********')
-
+            console.log('**********nextProps***********', nextProps)
+            console.log(nextProps.tab === 'newzealand')
+            // Alert.alert(
+            //     'Network unavailable',
+            //     'nextProps'+nextProps.tab,
+            //     [
+            //         {text: 'OK'},
+            //     ],
+            //     {cancelable: false}
+            // )
             let geoUrl = Config.api.quakes_geonet_url + nextProps.level;
             let usgUrl = Config.api.quakes_usgs_url + nextProps.level;
             let usgLevel = (nextProps.level).toString().split("_")[0];
@@ -116,13 +124,12 @@ export default class QuakeLevelList extends Component {
                     });
                 }
 
-                // this.stopTimer();
             }
         } else {
             let geoUrl = Config.api.quakes_geonet_url + self.props.level;
             let usgUrl = Config.api.quakes_usgs_url + self.props.level;
             let usgLevel = (self.props.level).toString().split("_")[0];
-            // console.log('********first time*********', self.props.tab)
+            console.log('********first time*********', self.props.tab)
             if (self.props.tab === 'newzealand') {
                 fetchQuakesByApi(notificationRule, self.props.level, 'lastGeoNetNotificationTime', 'geonet', geoUrl, function (quakes, notificationQuakes) {
                     console.log('newzealand tab notificationQuakes', notificationQuakes)
@@ -177,10 +184,13 @@ export default class QuakeLevelList extends Component {
 
 
     componentWillReceiveProps(nextProps) {
+
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
+        // console.log('nextProps is ....', nextProps)
+        // console.log('nextProps', nextProps.currentScreen)
 
-
+        console.log('nextProps....', nextProps.currentScreen)
         if (nextProps.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
                 var savedRule = value;
@@ -233,7 +243,7 @@ export default class QuakeLevelList extends Component {
                     let lastNotificationTime = notificationQuakes[0].timeStamp;//get the latest quake in rules
 
                     console.log("scheduled notifiation for ", new Date(notificationQuakes[k].time))
-                    console.log('lastGeoNetNotificationTime ',lastNotificationTime)
+                    console.log('lastGeoNetNotificationTime ', lastNotificationTime)
 
                     // }
 
@@ -271,26 +281,25 @@ export default class QuakeLevelList extends Component {
              */
             requestPermissions: true,
         });
-        // AppState.addEventListener('change', this.handleAppStateChange);
         var notificationRule;
         if (this.props.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
                 notificationRule = value;
 
                 if (this.state.quakes.length <= 0) {
-                    this.fetchQuakes('', notificationRule);
+                    this.fetchQuakes(false, notificationRule);
                 }
                 //
                 this.interval = setInterval(() => {
-                    console.log('*************fetch data 1min************',new Date())
-                    this.fetchQuakes('', notificationRule);
+                    console.log('*************fetch data 1min************', new Date())
+                    this.fetchQuakes(false, notificationRule);
 
 
                 }, 1000 * 60 * 4);
 
 
                 if (this.props.refreshing) {
-                    this.fetchQuakes('', notificationRule);
+                    this.fetchQuakes(false, notificationRule);
                 }
             });
 
@@ -304,7 +313,6 @@ export default class QuakeLevelList extends Component {
     handleActive = () => {
         console.log("The application is now active!");
         this.setState({usgsNotificationQuakes: [], geonetNotificationQuakes: []});
-        console.log('set number')
         PushNotification.setApplicationIconBadgeNumber(0);
     }
 
@@ -312,7 +320,7 @@ export default class QuakeLevelList extends Component {
         this.handleNotifiation();
         this.backgroundInterval = setInterval(() => {
             // console.log('fetch data ?')
-            console.log("The application is running  in the background!",new Date());
+            console.log("The application is running  in the background!", new Date());
             console.log('*************fetch Notification data 1 min*************')
             this.handleNotifiation();
 
@@ -324,6 +332,15 @@ export default class QuakeLevelList extends Component {
 
     handleInactive = () => {
         console.log("The application is now inactive!");
+        this.handleNotifiation();
+        this.backgroundInterval = setInterval(() => {
+            // console.log('fetch data ?')
+            console.log("The application is running  in the inactive!", new Date());
+            console.log('*************fetch Notification data 1 min*************')
+            this.handleNotifiation();
+
+
+        }, 1000 * 60 * 4);
     }
 
     componentWillUnmount() {

@@ -52,6 +52,10 @@ export default class Copyright extends Component {
                 name: 'React Native Vector Icons',
                 link: 'https://github.com/oblador/react-native-vector-icons',
             },
+            {
+                name: 'react-native-appstate-listener',
+                link: 'https://github.com/CodingZeal/react-native-appstate-listener',
+            },
 
         ];
 
