@@ -7,14 +7,12 @@ import {
 import {Card, List, ListItem} from 'react-native-elements';
 
 import MapView from 'react-native-maps';
-import showInfo from '../styles/showInfo';
-
 import map from '../styles/map';
 import callout from '../styles/callout';
 
 import Utils from '../utils/utils';
 import ResourcesConfig from '../config/ResourcesConfig';
-import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
+import {fetchMapQuakesByApi} from '../utils/FetchQuakesByApi';
 import colors from '../styles/colors';
 
 var markersData = [];
@@ -64,7 +62,8 @@ export default class QuakeMap extends Component {
 
         if (nextProps && nextProps.level >= 1) {
             url = url + nextProps.level;
-            fetchQuakesByApi(apiType, url, function (quakes) {
+
+            fetchMapQuakesByApi(apiType, url, function (quakes) {
                 self.setState({
                         loading: false,
                         quakes: quakes,
@@ -140,6 +139,7 @@ export default class QuakeMap extends Component {
                                 <ListItem
                                     hideChevron
                                     title={`Time: ${quake.time}`}
+                                    titleNumberOfLines={2}
                                 />
                                 <ListItem
                                     hideChevron
