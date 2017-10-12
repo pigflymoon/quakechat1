@@ -97,7 +97,6 @@ export default class CustomActions extends Component {
                     this.setModalVisible(false);
 
                     this.getImages().map((image) => {
-                        console.log('image',image.uri)
                         this.props.onSend({image: image.uri});
                     });
 

@@ -22,7 +22,6 @@ export default class ChangePassword extends Component {
     constructor(props) {
         super(props);
         var user = firebaseApp.auth().currentUser;
-        console.log('user', user)
         this.state = {
             passwordFirst: '',
             passwordSecond: '',

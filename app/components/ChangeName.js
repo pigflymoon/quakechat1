@@ -41,7 +41,6 @@ export default class ChangeName extends Component {
     }
     updateName = () => {
         var user = firebaseApp.auth().currentUser;
-        console.log('user', user, 'props', this.props)
         var self = this;
         if (this.state.name === '') {
             self.setState({

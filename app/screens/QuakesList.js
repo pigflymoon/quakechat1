@@ -30,8 +30,6 @@ export default class QuakesList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
-        console.log('QuakesList ', nextProps.screenProps.currentScreen)
         if (nextProps.screenProps.currentScreen != 'QuakesList') {
             return;
         }
@@ -116,9 +114,9 @@ export default class QuakesList extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-        console.log(' props QuakesList ', this.props.screenProps.currentScreen)
-        console.log(' props QuakesList ',((this.props.screenProps.currentScreen != 'List' || this.props.screenProps.currentScreen != 'QuakesList')))
-        if (this.props.screenProps.currentScreen != 'List' && this.props.screenProps.currentScreen != 'QuakesList') {
+        // console.log(' props QuakesList ', this.props.screenProps.currentScreen)
+        // console.log(' props QuakesList ',((this.props.screenProps.currentScreen != 'List' || this.props.screenProps.currentScreen != 'QuakesList')))
+        if (this.props.screenProps.currentScreen != 'QuakesList') {
             return null;
         }
         if (!isConnected) {

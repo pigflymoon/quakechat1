@@ -134,8 +134,6 @@ export const NewsStack = StackNavigator({
 });
 
 export const Tabs = TabNavigator({
-
-
     List: {
         screen: QuakesListStack,
         navigationOptions: {
@@ -143,6 +141,7 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="home" size={35} color={tintColor}/>,
         },
     },
+
     News: {
         screen: NewsStack,
         navigationOptions: {
@@ -150,6 +149,9 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name="list" size={35} color={tintColor}/>,
         },
     },
+
+
+
     Map: {
         screen: QuakesMap,
         headerTitle: 'Quakes Map',

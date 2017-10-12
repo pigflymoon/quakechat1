@@ -6,7 +6,8 @@ import {
     StyleSheet,
     LayoutAnimation,
     TouchableOpacity,
-    AsyncStorage
+    AsyncStorage,
+    Alert,
 } from 'react-native';
 
 import tabsStyle from '../styles/tabs';
@@ -94,9 +95,6 @@ export  default class QuakeLevelTab extends Component {
 
     renderTabsContent() {
         const {activeTab} = this.state
-
-        console.log('activeTab tab is ',activeTab)
-        console.log('activeTab tab is ',(activeTab === 'newzealand'))
         return ( (activeTab === 'newzealand') ? <GeoNetLevelTab onQuakeLevel={this.handleQuakeLevel}/> :
                 <UsgsTab onQuakeUsgsLevel={this.handleQuakeLevel}/>
         );
@@ -105,16 +103,19 @@ export  default class QuakeLevelTab extends Component {
 
     componentWillReceiveProps() {
         AsyncStorage.getItem("dataSource").then((value) => {
-            console.log('datasource value',value)
-            if (value === 'geonet') {
-                this.setState({activeTab: 'newzealand'});
+            if (value) {
+                if (value === 'geonet') {
+                    this.setState({activeTab: 'newzealand'});
+                } else {
+                    this.setState({activeTab: 'global'})
+                }
             } else {
-                this.setState({activeTab: 'global'})
+                this.setState({activeTab: 'newzealand'});//when first time load the app,value is null to set default one
             }
+
 
         });
     }
-
 
     render() {
         var isConnected = this.props.isConnected;

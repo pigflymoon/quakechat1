@@ -75,7 +75,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, notificationTypeT
 
                         if (quakeData.magnitude) {
                             if (quakeLevel == 'all' || quakeLevel == 0) {
-                                console.log('request all or mmi = 0')
+                                // console.log('request all or mmi = 0')
                                 if (notificationRule <= quakeData.magnitude && notifiedTime <= quakeTime) {// && notifiedTime <= quakeTime
                                     console.log('request all or mmi = 0 data is >= rule')
                                     notificationQuakes.push(quakeData);

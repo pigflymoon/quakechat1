@@ -32,7 +32,6 @@ export default class News extends Component {
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
-        console.log('nextprops news',nextProps)
         if(nextProps.screenProps.currentScreen != 'News'){
             return;
         }

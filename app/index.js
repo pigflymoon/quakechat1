@@ -14,7 +14,7 @@ export default class App extends Component {
         super(props, context);
         this.state = {
             isConnected: false,
-            currentScreen: 'List',
+            currentScreen: 'QuakesList',
             connectionInfo: '',
         };
     }
@@ -85,7 +85,6 @@ export default class App extends Component {
             return null;
         }
         const route = navigationState.routes[navigationState.index];
-        // console.log('route', route)
         if (route.routes) {
             return this.getCurrentRouteName(route);
         }

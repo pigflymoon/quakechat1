@@ -34,7 +34,6 @@ export default class Chat extends Component {
 
     componentWillMount() {
         var user = firebase.auth().currentUser;
-        console.log('user is ', user)
         var self = this;
         if (user) {
             this.setUid(user.uid);
@@ -68,12 +67,10 @@ export default class Chat extends Component {
     }
 
     setName = (value) => {
-        console.log('this setName', value)
         this.displayName = value;
     }
 
     getName = () => {
-        console.log('this displayname', this.displayName)
         return this.displayName;
     }
 
@@ -131,7 +128,6 @@ export default class Chat extends Component {
 
         const onReceive = (data) => {
             const message = data.val();
-            console.log('message ', message)
             callback({
                 _id: data.key,
                 text: message.text || '',

@@ -40,20 +40,10 @@ export default class QuakeLevelList extends Component {
      */
     async fetchQuakes(nextProps, notificationRule) {
         let self = this;
-        // console.log('appState is ', this.state.appState)
+        console.log('QuakesList called ')
 
 
         if (nextProps) {
-            console.log('**********nextProps***********', nextProps)
-            console.log(nextProps.tab === 'newzealand')
-            // Alert.alert(
-            //     'Network unavailable',
-            //     'nextProps'+nextProps.tab,
-            //     [
-            //         {text: 'OK'},
-            //     ],
-            //     {cancelable: false}
-            // )
             let geoUrl = Config.api.quakes_geonet_url + nextProps.level;
             let usgUrl = Config.api.quakes_usgs_url + nextProps.level;
             let usgLevel = (nextProps.level).toString().split("_")[0];
@@ -94,8 +84,6 @@ export default class QuakeLevelList extends Component {
 
                 if (nextProps.tab === 'newzealand') {
                     fetchQuakesByApi(notificationRule, nextProps.level, 'lastGeoNetNotificationTime', 'geonet', geoUrl, function (quakes, notificationQuakes) {
-                        console.log('**********nextProps  newzealand***********', notificationQuakes)
-
                         self.setState({
                                 quakes: quakes,
                                 // notificationQuakes: notificationQuakes,
@@ -110,8 +98,6 @@ export default class QuakeLevelList extends Component {
                     });
                 } else {
                     fetchQuakesByApi(notificationRule, usgLevel, 'lastUsgsNotificationTime', 'usgs', usgUrl, function (quakes, notificationQuakes) {
-                        console.log('**********nextProps  usgs***********', notificationQuakes)
-
                         self.setState({
                                 quakes: quakes,
                                 // notificationQuakes: notificationQuakes,
