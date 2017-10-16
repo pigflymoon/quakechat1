@@ -19,7 +19,7 @@ export  default class QuakeLevelTab extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            activeTab: 'newzealand',
+            // activeTab: 'newzealand',
             level: 0,
             usgslevel: '',
             life: ''
@@ -100,9 +100,25 @@ export  default class QuakeLevelTab extends Component {
         );
 
     }
+    componentDidMount() {
+        AsyncStorage.getItem("dataSource").then((value) => {
+            console.log('quake tab datasrouce',value)
+            if (value) {
+                if (value === 'geonet') {
+                    this.setState({activeTab: 'newzealand'});
+                } else {
+                    this.setState({activeTab: 'global'})
+                }
+            } else {
+                this.setState({activeTab: 'newzealand'});//when first time load the app,value is null to set default one
+            }
 
+
+        });
+    }
     componentWillReceiveProps() {
         AsyncStorage.getItem("dataSource").then((value) => {
+            console.log('quake tab datasrouce',value)
             if (value) {
                 if (value === 'geonet') {
                     this.setState({activeTab: 'newzealand'});

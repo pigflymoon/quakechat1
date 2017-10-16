@@ -38,9 +38,9 @@ export default class QuakeLevelList extends Component {
      *
      * @param nextProps
      */
-    async fetchQuakes(nextProps, notificationRule) {
+     fetchQuakes(nextProps, notificationRule) {
         let self = this;
-        console.log('QuakesList called ')
+        console.log('QuakesList called nextProps ', nextProps)
 
 
         if (nextProps) {
@@ -49,7 +49,8 @@ export default class QuakeLevelList extends Component {
             let usgLevel = (nextProps.level).toString().split("_")[0];
             if (nextProps.refreshing == true) {
                 if (nextProps.tab === 'newzealand') {
-                    fetchQuakesByApi('lastGeoNetNotificationTime', 'geonet', geoUrl, function (quakes, notificationQuakes) {
+                    console.log('refresh', nextProps.level, geoUrl)
+                    fetchQuakesByApi(notificationRule, nextProps.level, 'lastGeoNetNotificationTime', 'geonet', geoUrl, function (quakes, notificationQuakes) {
                         console.log('**********nextProps refreshing newzealand***********', notificationQuakes)
                         self.setState({
                                 quakes: quakes,
@@ -64,7 +65,7 @@ export default class QuakeLevelList extends Component {
                         // this.stopTimer();
                     });
                 } else {
-                    fetchQuakesByApi('lastUsgsNotificationTime', 'usgs', usgUrl, function (quakes, notificationQuakes) {
+                    fetchQuakesByApi(notificationRule, usgLevel, 'lastUsgsNotificationTime', 'usgs', usgUrl, function (quakes, notificationQuakes) {
                         // console.log('**********nextProps refreshing usgs***********', notificationQuakes)
 
                         self.setState({
@@ -81,7 +82,7 @@ export default class QuakeLevelList extends Component {
                 }
 
             } else {
-
+                console.log('next Props tab', nextProps.tab)
                 if (nextProps.tab === 'newzealand') {
                     fetchQuakesByApi(notificationRule, nextProps.level, 'lastGeoNetNotificationTime', 'geonet', geoUrl, function (quakes, notificationQuakes) {
                         self.setState({
@@ -112,6 +113,7 @@ export default class QuakeLevelList extends Component {
 
             }
         } else {
+            console.log('level', self.props.level)
             let geoUrl = Config.api.quakes_geonet_url + self.props.level;
             let usgUrl = Config.api.quakes_usgs_url + self.props.level;
             let usgLevel = (self.props.level).toString().split("_")[0];
@@ -176,12 +178,17 @@ export default class QuakeLevelList extends Component {
         // console.log('nextProps is ....', nextProps)
         // console.log('nextProps', nextProps.currentScreen)
 
-        console.log('nextProps....', nextProps.currentScreen)
+        console.log('nextProps....', nextProps)
         if (nextProps.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
-                var savedRule = value;
-                // console.log('savedRule :', value)
-                this.fetchQuakes(nextProps, savedRule);
+                console.log('quake ruleValue', value)
+                if (value) {
+                    var savedRule = value;
+                    // console.log('savedRule :', value)
+                    this.fetchQuakes(nextProps, savedRule);
+                }
+
+
             });
 
         }
@@ -270,23 +277,28 @@ export default class QuakeLevelList extends Component {
         var notificationRule;
         if (this.props.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
-                notificationRule = value;
+                if (value) {
+                    notificationRule = value;
+                    console.log('!!!!!!!!!!!!!!this props&&&&&&&&&&&&&&&&',this.props)
 
-                if (this.state.quakes.length <= 0) {
-                    this.fetchQuakes(false, notificationRule);
+                    if (this.state.quakes.length <= 0) {
+                        this.fetchQuakes(false, notificationRule);
+                    }
+                    //
+                    this.interval = setInterval(() => {
+                        console.log('*************fetch data 1min************', new Date())
+                        this.fetchQuakes(false, notificationRule);
+
+
+                    }, 1000 * 60 * 4);
+
+
+                    if (this.props.refreshing) {
+                        this.fetchQuakes(false, notificationRule);
+                    }
                 }
-                //
-                this.interval = setInterval(() => {
-                    console.log('*************fetch data 1min************', new Date())
-                    this.fetchQuakes(false, notificationRule);
+                // notificationRule = value;
 
-
-                }, 1000 * 60 * 4);
-
-
-                if (this.props.refreshing) {
-                    this.fetchQuakes(false, notificationRule);
-                }
             });
 
 
@@ -339,9 +351,7 @@ export default class QuakeLevelList extends Component {
         return (
             <List>
                 <AppStateListener
-                    onActive={this.handleActive}
-                    onBackground={this.handleBackground}
-                    onInactive={this.handleInactive}
+
                 />
                 <FlatList
                     keyExtractor={this.keyExtractor}

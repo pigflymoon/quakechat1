@@ -93,6 +93,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, notificationTypeT
                         }
 
                     } //for
+                    console.log('return quakedata',quakesArray)
                     callback(quakesArray, notificationQuakes);
 
                 })//then

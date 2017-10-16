@@ -22,14 +22,15 @@ export default class QuakesList extends Component {
             level: 0,
             refreshing: false,
             isConnected: true,
-            api_source: Config.api.quakes_geonet_url,
-            tab: 'newzealand',
+            api_source: '',
+            tab: '',
             connectionInfo: this.props.screenProps.connectionInfo
 
         };
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('nextProps.screenProps.currentScreen',nextProps.screenProps.currentScreen)
         if (nextProps.screenProps.currentScreen != 'QuakesList') {
             return;
         }
@@ -67,6 +68,7 @@ export default class QuakesList extends Component {
     }
 
     handleQuakeLevel = (tab, tag, level, life) => {
+        console.log('tab is ',tab)
         var url = Config.api.quakes_geonet_url;
         if (tab === 'global') {
             url = Config.api.quakes_usgs_url;
@@ -114,7 +116,7 @@ export default class QuakesList extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-        // console.log(' props QuakesList ', this.props.screenProps.currentScreen)
+        console.log(' props QuakesList ', this.props.screenProps.currentScreen)
         // console.log(' props QuakesList ',((this.props.screenProps.currentScreen != 'List' || this.props.screenProps.currentScreen != 'QuakesList')))
         if (this.props.screenProps.currentScreen != 'QuakesList') {
             return null;
