@@ -204,6 +204,7 @@ export default class QuakeLevelList extends Component {
 
         var notificationQuakes, notificationType;
         AsyncStorage.getItem("dataSource").then((value) => {
+            console.log('handleNotifiation', value)
             if (value === 'geonet') {
                 notificationQuakes = this.state.geonetNotificationQuakes;
                 console.log(' geonet notificationQuakes', notificationQuakes)
@@ -315,6 +316,7 @@ export default class QuakeLevelList extends Component {
     }
 
     handleBackground = () => {
+        console.log("The application is now background!");
         this.handleNotifiation();
         this.backgroundInterval = setInterval(() => {
             // console.log('fetch data ?')
@@ -351,7 +353,9 @@ export default class QuakeLevelList extends Component {
         return (
             <List>
                 <AppStateListener
-
+                    onActive={this.handleActive}
+                    onBackground={this.handleBackground}
+                    onInactive={this.handleInactive}
                 />
                 <FlatList
                     keyExtractor={this.keyExtractor}
