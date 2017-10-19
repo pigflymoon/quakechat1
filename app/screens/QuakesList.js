@@ -67,6 +67,13 @@ export default class QuakesList extends Component {
         });
     }
 
+
+    handleNotification = (value) => {
+        console.log('~~~~~~~~~value passed in List is~~~~~~~~~~~~ ',value)
+        console.log('this props *************',this.props)
+        this.props.screenProps.onNotification(value);
+    }
+
     handleQuakeLevel = (tab, tag, level, life) => {
         console.log('tab is ',tab)
         var url = Config.api.quakes_geonet_url;
@@ -108,6 +115,7 @@ export default class QuakesList extends Component {
                                 level={this.state.level}
                                 isConnected={true}
                                 currentScreen={this.props.screenProps.currentScreen}
+                                onNotification={this.handleNotification}
 
                 />
             </ScrollView>
@@ -116,7 +124,7 @@ export default class QuakesList extends Component {
 
     render() {
         var isConnected = this.props.screenProps.isConnected;
-        console.log(' props QuakesList ', this.props.screenProps.currentScreen)
+        console.log('props QuakesList ', this.props.screenProps.currentScreen)
         // console.log(' props QuakesList ',((this.props.screenProps.currentScreen != 'List' || this.props.screenProps.currentScreen != 'QuakesList')))
         if (this.props.screenProps.currentScreen != 'QuakesList') {
             return null;

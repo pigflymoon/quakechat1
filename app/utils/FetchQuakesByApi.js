@@ -70,7 +70,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, notificationTypeT
                         var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
                         //
                         var TenMinutesEarlier = new Date();
-                        TenMinutesEarlier.setMinutes(TenMinutesEarlier.getMinutes() - 3);
+                        TenMinutesEarlier.setMinutes(TenMinutesEarlier.getMinutes() - 5);
                         var notifiedTime = TenMinutesEarlier;
 
                         if (quakeData.magnitude) {
@@ -85,7 +85,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, notificationTypeT
                                 console.log('No notified');
                                 return;
                             } else if (notificationRule <= quakeLevel && notifiedTime <= quakeTime) {//notifiedTime <= quakeTime
-                                // console.log('NotifiedTime is later then quakeTime');
+                                console.log('@@@@@@@@@@@@@@@@@@NotifiedTime is later then quakeTime@@@@@@@@@@@@2');
                                 notificationQuakes.push(quakeData);
                             }
                             // console.log('call back notificationQuakes', notificationQuakes)
@@ -93,7 +93,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, notificationTypeT
                         }
 
                     } //for
-                    console.log('return quakedata',quakesArray)
+                    console.log('return notificationQuakes',notificationQuakes)
                     callback(quakesArray, notificationQuakes);
 
                 })//then
