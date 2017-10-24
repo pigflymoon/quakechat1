@@ -8,10 +8,9 @@ import {
     AsyncStorage
 } from 'react-native';
 import PushNotification from 'react-native-push-notification';
-
 import {Tabs} from './config/router';
 import utils from './utils/utils';
-var notificationQuakesData;
+// var notificationQuakesData;
 export default class App extends Component {
 
     constructor(props, context) {
@@ -23,6 +22,8 @@ export default class App extends Component {
             appState: AppState.currentState,
             previousAppStates: [],
         };
+        AsyncStorage.setItem("usgsLastNotifiedTime", "0");
+        AsyncStorage.setItem("geonetLastNotifiedTime", "0");
     }
 
 
@@ -69,44 +70,60 @@ export default class App extends Component {
 
     handleNotificationData = (notificationQuakes) => {
         console.log('~~~~~~~~~~passed notificationQuakes in index~~~~~~~~~~`', notificationQuakes)
-        notificationQuakesData = notificationQuakes
-        // return notificationQuakes;
+        AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
+
     }
 
     handleNotification = (notificationQuakesData) => {
-        // notificationQuakesData = [{message:'test',time:(new Date().getTime())}]
         AsyncStorage.getItem("dataSource").then((value) => {
-            // console.log('handleNotifiation', value)
             if (value) {
-                // var notificationQuakes = this.handleNotificationData();
                 console.log('~~~~~~~~~~~~~~notificationQuakes in Notification ~~~~~~~~~~~~~~~~`', notificationQuakesData)
                 if (notificationQuakesData.length >= 1) {
                     // goBack(null);
                     var i = 1;
 
-                    console.log('notificationQuakes')
-                    for (var k in notificationQuakesData) {
-                        // if (notificationRule <= notificationQuakes[k].magnitude) {//new quakes in the rules
-                        console.log('notification message', notificationQuakesData[k].message)
-                        PushNotification.localNotificationSchedule({
-                            message: notificationQuakesData[k].message,
-                            date: new Date(notificationQuakesData[k].time),
-                            number: i++,
-                            playSound: true,
-                            foreground: true,
 
-                        });
-                        let lastNotificationTime = notificationQuakesData[0].timeStamp;//get the latest quake in rules
+                    AsyncStorage.getItem(notificationQuakesData[0].apiType + 'LastNotifiedTime').then((value) => {
+                        if (value) {
+                            console.log('saved last notifiation time', value)
+                            if (value > 0) {
+                                for (var k in notificationQuakesData) {
+                                    console.log(' value ', parseInt(value), 'timeStamp ,', notificationQuakesData[k].timeStamp);
+                                    if (parseInt(value) < notificationQuakesData[k].timeStamp) {
+                                        PushNotification.localNotificationSchedule({
+                                            message: notificationQuakesData[k].message,
+                                            date: new Date(notificationQuakesData[k].time),
+                                            number: i++,
+                                            playSound: true,
+                                            foreground: true,
 
-                        console.log("scheduled notifiation for ", new Date(notificationQuakesData[k].time))
-                        console.log('lastGeoNetNotificationTime ', lastNotificationTime)
+                                        });
+                                    }
 
-                        // }
+                                }
+                            } else {
+                                PushNotification.localNotificationSchedule({
+                                    message: notificationQuakesData[k].message,
+                                    date: new Date(notificationQuakesData[k].time),
+                                    number: i++,
+                                    playSound: true,
+                                    foreground: true,
 
-                    }
-                    // navigate('List');
+                                });
+                            }
+                        }
+                    });
+                    // for (var k in notificationQuakesData) {
+                    //     PushNotification.localNotificationSchedule({
+                    //         message: notificationQuakesData[k].message,
+                    //         date: new Date(notificationQuakesData[k].time),
+                    //         number: i++,
+                    //         playSound: true,
+                    //         foreground: true,
+                    //
+                    //     });
+                    // }
                 }
-
             }
 
 
@@ -126,17 +143,25 @@ export default class App extends Component {
         if ((previousState.match(/active/) && appState.match(/inactive/)) ||
             (previousState.match(/inactive/) && appState.match(/background/))) {
             console.log('############running at background@@@@@@@@@@@@@@')
-            this.backgroundInterval = setInterval(() => {
-                console.log('*************fetch Notification data 4 min*************，notificationQuakesData', notificationQuakesData)
+            AsyncStorage.getItem('notificationQuakesData')
+                .then(req => JSON.parse(req))
+                .then((value) => {
+                    this.backgroundInterval = setInterval(() => {
+                        console.log('*************fetch Notification data 4 min*************，notificationQuakesData', value)
+                        if (value.length >= 1) {
+                            this.handleNotification(value);
+                        }
 
-                this.handleNotification(notificationQuakesData);
-            }, 1000 * 60 * 2);
+                    }, 1000 * 60 * 2);
+                })
+                .catch(error => console.log('error!'));
+
         }
         if ((previousState.match(/background/) && appState.match(/active/))) {
             console.log('############running at foreground @@@@@@@@@@@@@@')
-            // this.setState({notificationQuakes: []});
-            notificationQuakesData = [];
             PushNotification.setApplicationIconBadgeNumber(0);
+            AsyncStorage.setItem("notificationQuakesData", "");
+
         }
 
 

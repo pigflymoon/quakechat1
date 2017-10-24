@@ -43,67 +43,74 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
 
 }
 
-export const fetchQuakesByApi = (notificationRule, quakeLevel, notificationTypeTime, apiType, url, callback) => {
-    AsyncStorage.getItem(notificationTypeTime).then((lastNotifiedTimeValue) => {
-            axios.get(url)
-                .then(function (result) {
-                    let quakesData = result.data.features;
-
-                    quakesData = quakesData.slice(0, 100);
-                    let quakesArray = [],
-                        notificationQuakes = [],
-                        lastNotificationTime = 0;
-
-                    for (let quake of quakesData) {
-                        let time = quake.properties.time;
-                        let utime = new Date(time);
-                        var quakeTime = new Date(time).getTime();
-                        utime = new Date(utime.toUTCString().slice(0, -4));
-                        utime = utime.toString().split('GMT')[0];
-
-                        time = new Date(time);
-
-
-                        let timeStamp = time.getTime();
-                        time = time.toString().split('GMT')[0];
-
-                        var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
-                        //
-                        var TenMinutesEarlier = new Date();
-                        TenMinutesEarlier.setMinutes(TenMinutesEarlier.getMinutes() - 5);
-                        var notifiedTime = TenMinutesEarlier;
-
-                        if (quakeData.magnitude) {
-                            if (quakeLevel == 'all' || quakeLevel == 0) {
-                                // console.log('request all or mmi = 0')
-                                if (notificationRule <= quakeData.magnitude && notifiedTime <= quakeTime) {// && notifiedTime <= quakeTime
-                                    console.log('request all or mmi = 0 data is >= rule')
-                                    notificationQuakes.push(quakeData);
-                                }
-                            }
-                            if (notificationRule > quakeLevel && notifiedTime > quakeTime) {
-                                console.log('No notified');
-                                return;
-                            } else if (notificationRule <= quakeLevel && notifiedTime <= quakeTime) {//notifiedTime <= quakeTime
-                                console.log('@@@@@@@@@@@@@@@@@@NotifiedTime is later then quakeTime@@@@@@@@@@@@2');
-                                notificationQuakes.push(quakeData);
-                            }
-                            // console.log('call back notificationQuakes', notificationQuakes)
-                            quakesArray.push(quakeData);
-                        }
-
-                    } //for
-                    console.log('return notificationQuakes',notificationQuakes)
-                    callback(quakesArray, notificationQuakes);
-
-                })//then
-            // }else{
-            //     console.log('notificationTypeTime is null',lastNotifiedTimeValue)
-            // }
-
-
+export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, callback) => {
+    // AsyncStorage.getItem(notificationTypeTime).then((lastNotifiedTimeValue) => {
+    AsyncStorage.getItem('usgs').then((value) => {
+        if (value) {
+            console.log(' usgs value is ', value)
         }
-    ).done();
+    });
+    axios.get(url)
+        .then(function (result) {
+            let quakesData = result.data.features;
+
+            quakesData = quakesData.slice(0, 100);
+            let quakesArray = [],
+                notificationQuakes = [];
+
+
+            for (let quake of quakesData) {
+                let time = quake.properties.time;
+                let utime = new Date(time);
+                var quakeTime = new Date(time).getTime();
+                utime = new Date(utime.toUTCString().slice(0, -4));
+                utime = utime.toString().split('GMT')[0];
+
+                time = new Date(time);
+
+
+                let timeStamp = time.getTime();
+                time = time.toString().split('GMT')[0];
+
+                var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
+
+                console.log('apiType', apiType)
+                if (quakeData.magnitude) {
+
+                    if (quakeLevel == 'all' || quakeLevel == 0) {
+                        // console.log('request all or mmi = 0')
+                        if (notificationRule <= quakeData.magnitude) {// && notifiedTime <= quakeTime
+                            notificationQuakes.push(quakeData);
+                        }
+                    } else if (notificationRule <= quakeLevel) {//
+                        notificationQuakes.push(quakeData);
+                    } else {
+                        console.log('No notified');
+                        return;
+                    }
+
+                    quakesArray.push(quakeData);
+                }
+
+            } //for
+            console.log('return notificationQuakes', (notificationQuakes));
+            if (notificationQuakes.length > 0) {
+                let lastNotificationData = notificationQuakes[0];
+                let lastNotificationTime = lastNotificationData.timeStamp;
+                console.log('lastNotificationTime ', lastNotificationTime)
+                AsyncStorage.setItem(apiType + 'LastNotifiedTime', lastNotificationTime.toString())
+            }
+
+            callback(quakesArray, notificationQuakes);
+
+        })//then
+    // }else{
+    //     console.log('notificationTypeTime is null',lastNotifiedTimeValue)
+    // }
+
+
+    // }
+    // ).done();
 // }
 
 }
