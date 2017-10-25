@@ -22,8 +22,9 @@ export default class App extends Component {
             appState: AppState.currentState,
             previousAppStates: [],
         };
-        AsyncStorage.setItem("usgsLastNotifiedTime", "0");
-        AsyncStorage.setItem("geonetLastNotifiedTime", "0");
+        // AsyncStorage.setItem("usgsLastNotifiedTime", "0");
+        // AsyncStorage.setItem("geonetLastNotifiedTime", "0");
+        AsyncStorage.setItem("notificationQuakesData", "");
     }
 
 
@@ -83,13 +84,15 @@ export default class App extends Component {
                     var i = 1;
 
 
-                    AsyncStorage.getItem(notificationQuakesData[0].apiType + 'LastNotifiedTime').then((value) => {
-                        if (value) {
-                            console.log('saved last notifiation time', value)
-                            if (value > 0) {
+                    AsyncStorage.getItem(notificationQuakesData[0].apiType + 'LastNotifiedTime').then((notificateTime) => {
+                        if (notificateTime) {
+                            console.log('saved last notifiation time', notificateTime,'apiType',notificationQuakesData[0].apiType)
+                            if (notificateTime > 0) {
                                 for (var k in notificationQuakesData) {
-                                    console.log(' value ', parseInt(value), 'timeStamp ,', notificationQuakesData[k].timeStamp);
-                                    if (parseInt(value) < notificationQuakesData[k].timeStamp) {
+                                    console.log(' notificateTime ', parseInt(notificateTime), 'timeStamp ,', notificationQuakesData[k].timeStamp);
+                                    console.log(parseInt(notificateTime) < notificationQuakesData[k].timeStamp)
+                                    if (parseInt(notificateTime) < notificationQuakesData[k].timeStamp) {
+                                        console.log('called notification',notificationQuakesData[k].time)
                                         PushNotification.localNotificationSchedule({
                                             message: notificationQuakesData[k].message,
                                             date: new Date(notificationQuakesData[k].time),
@@ -101,7 +104,11 @@ export default class App extends Component {
                                     }
 
                                 }
-                            } else {
+                            }
+
+                        }else {
+                            console.log('called notification',notificateTime)
+                            for (var k in notificationQuakesData) {
                                 PushNotification.localNotificationSchedule({
                                     message: notificationQuakesData[k].message,
                                     date: new Date(notificationQuakesData[k].time),
@@ -112,17 +119,12 @@ export default class App extends Component {
                                 });
                             }
                         }
+                        let lastNotificationData = notificationQuakesData[0];
+                        let lastNotificationTime = lastNotificationData.timeStamp;
+                        console.log('lastNotificationTime ', lastNotificationTime)
+                        AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', lastNotificationTime.toString())
                     });
-                    // for (var k in notificationQuakesData) {
-                    //     PushNotification.localNotificationSchedule({
-                    //         message: notificationQuakesData[k].message,
-                    //         date: new Date(notificationQuakesData[k].time),
-                    //         number: i++,
-                    //         playSound: true,
-                    //         foreground: true,
-                    //
-                    //     });
-                    // }
+
                 }
             }
 
@@ -143,24 +145,26 @@ export default class App extends Component {
         if ((previousState.match(/active/) && appState.match(/inactive/)) ||
             (previousState.match(/inactive/) && appState.match(/background/))) {
             console.log('############running at background@@@@@@@@@@@@@@')
-            AsyncStorage.getItem('notificationQuakesData')
-                .then(req => JSON.parse(req))
-                .then((value) => {
-                    this.backgroundInterval = setInterval(() => {
+            this.backgroundInterval = setInterval(() => {
+                AsyncStorage.getItem('notificationQuakesData')
+                    .then(req => JSON.parse(req))
+                    .then((value) => {
                         console.log('*************fetch Notification data 4 min*************，notificationQuakesData', value)
                         if (value.length >= 1) {
                             this.handleNotification(value);
                         }
+                    })
+                    .catch(error => console.log('error!'));
 
-                    }, 1000 * 60 * 2);
-                })
-                .catch(error => console.log('error!'));
+
+            }, 1000 * 60 * 2);
+
 
         }
         if ((previousState.match(/background/) && appState.match(/active/))) {
             console.log('############running at foreground @@@@@@@@@@@@@@')
             PushNotification.setApplicationIconBadgeNumber(0);
-            AsyncStorage.setItem("notificationQuakesData", "");
+            // AsyncStorage.setItem("notificationQuakesData", "");
 
         }
 

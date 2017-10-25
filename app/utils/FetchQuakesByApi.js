@@ -94,12 +94,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, cal
 
             } //for
             console.log('return notificationQuakes', (notificationQuakes));
-            if (notificationQuakes.length > 0) {
-                let lastNotificationData = notificationQuakes[0];
-                let lastNotificationTime = lastNotificationData.timeStamp;
-                console.log('lastNotificationTime ', lastNotificationTime)
-                AsyncStorage.setItem(apiType + 'LastNotifiedTime', lastNotificationTime.toString())
-            }
+
 
             callback(quakesArray, notificationQuakes);
 
