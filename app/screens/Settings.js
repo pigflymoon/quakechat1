@@ -146,6 +146,7 @@ export default class Settings extends Component {
 
             }
         })
+        AsyncStorage.setItem("notificationQuakesData", "");
 
     }
     updateRule = (rule) => {

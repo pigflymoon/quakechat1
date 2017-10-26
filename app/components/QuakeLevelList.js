@@ -196,8 +196,6 @@ export default class QuakeLevelList extends Component {
 
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
-        // console.log('nextProps is ....', nextProps)
-        // console.log('nextProps', nextProps.currentScreen)
 
         console.log('nextProps....', nextProps)
         if (nextProps.isConnected) {
@@ -256,11 +254,8 @@ export default class QuakeLevelList extends Component {
 
 
     componentWillUnmount() {
-        // AppState.removeEventListener('change', this.handleAppStateChange);
-        // AppState.removeEventListener('change', this._handleAppStateChange);
-
         clearInterval(this.interval);
-        // clearInterval(this.backgroundInterval);
+
     }
 
     render() {

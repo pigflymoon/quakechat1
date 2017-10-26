@@ -19,7 +19,8 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
                 longitude: quake.geometry.coordinates[0],
                 latitude: quake.geometry.coordinates[1]
             },
-            ...(quake.properties.mag) && {magnitude: (quake.properties.mag).toFixed(1)},
+            magnitude: (quake.properties.mag) ? (quake.properties.mag).toFixed(1) : 0,
+            // ...(quake.properties.mag) && {magnitude: (quake.properties.mag).toFixed(1)},
             message: `${time} happened ${(quake.properties.mag) && (quake.properties.mag).toFixed(1)} earthquake in ${quake.properties.place}`,
 
         });
@@ -44,12 +45,7 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
 }
 
 export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, callback) => {
-    // AsyncStorage.getItem(notificationTypeTime).then((lastNotifiedTimeValue) => {
-    AsyncStorage.getItem('usgs').then((value) => {
-        if (value) {
-            console.log(' usgs value is ', value)
-        }
-    });
+    console.log('url is ', url)
     axios.get(url)
         .then(function (result) {
             let quakesData = result.data.features;
@@ -62,7 +58,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, cal
             for (let quake of quakesData) {
                 let time = quake.properties.time;
                 let utime = new Date(time);
-                var quakeTime = new Date(time).getTime();
+                // var quakeTime = new Date(time).getTime();
                 utime = new Date(utime.toUTCString().slice(0, -4));
                 utime = utime.toString().split('GMT')[0];
 
@@ -74,7 +70,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, cal
 
                 var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
 
-                console.log('apiType', apiType)
+                // console.log('apiType', apiType, 'quakeData', quakeData);
                 if (quakeData.magnitude) {
 
                     if (quakeLevel == 'all' || quakeLevel == 0) {
@@ -93,7 +89,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, cal
                 }
 
             } //for
-            console.log('return notificationQuakes', (notificationQuakes));
+            // console.log('return notificationQuakes', (notificationQuakes));
 
 
             callback(quakesArray, notificationQuakes);
