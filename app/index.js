@@ -77,7 +77,7 @@ export default class App extends Component {
 
 
     handleNotification = (notificationQuakesData) => {
-        var self = this;
+
         AsyncStorage.getItem("dataSource").then((value) => {
             if (value) {
                 console.log('~~~~~~~~~~~~~~notificationQuakes in Notification ~~~~~~~~~~~~~~~~`', notificationQuakesData)
@@ -89,7 +89,7 @@ export default class App extends Component {
                         if (notificateTime) {
                             console.log('saved last notifiation time', notificateTime, 'apiType', notificationQuakesData[0].apiType)
                             if (notificateTime > 0) {
-                                var lastTime = 0;
+                                var lastTime;
 
 
                                 for (var i = 0, len = notificationQuakesData.length; i < len; i++) {
@@ -111,10 +111,7 @@ export default class App extends Component {
 
                                 }
                                 lastTime = notificationQuakesData.find(function (el) {
-                                    // console.log('el', el, 'timeStamp', el.timeStamp)
-                                    if (el.timeStamp > parseInt(notificateTime)) {
-                                        return el
-                                    }
+                                    return (el.timeStamp > parseInt(notificateTime))
                                 });
                                 console.log('lastTime ', lastTime)
                                 if (lastTime) {
@@ -193,7 +190,17 @@ export default class App extends Component {
         if ((previousState.match(/background/) && appState.match(/active/))) {
             console.log('############running at foreground @@@@@@@@@@@@@@')
             PushNotification.setApplicationIconBadgeNumber(0);
-            // AsyncStorage.setItem("notificationQuakesData", "");
+            AsyncStorage.getItem("notificationQuakesData")
+                .then(req => JSON.parse(req))
+                .then((value) => {
+                    console.log('foreground value', value[0].timeStamp)
+                    if (value.length >= 1) {
+                        // goBack(null);
+
+                        AsyncStorage.setItem(value[0].apiType + 'LastNotifiedTime', (value[0].timeStamp).toString())
+                    }
+                });
+
 
         }
 
