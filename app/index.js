@@ -11,6 +11,7 @@ import PushNotification from 'react-native-push-notification';
 import {Tabs} from './config/router';
 import utils from './utils/utils';
 // var notificationQuakesData;
+var j = 1;
 export default class App extends Component {
 
     constructor(props, context) {
@@ -85,7 +86,7 @@ export default class App extends Component {
                     // goBack(null);
 
                     AsyncStorage.getItem(notificationQuakesData[0].apiType + 'LastNotifiedTime').then((notificateTime) => {
-                        var j = 1;
+
                         if (notificateTime) {
                             console.log('saved last notifiation time', notificateTime, 'apiType', notificationQuakesData[0].apiType)
                             if (notificateTime > 0) {
@@ -98,7 +99,7 @@ export default class App extends Component {
                                     // var lastTime = notificationQuakesData.findIndex(this.isLatest(parseInt(notificateTime), notificationQuakesData[i].timeStamp));
                                     // console.log('lastTieme is ', lastTime)
                                     if (parseInt(notificateTime) < notificationQuakesData[i].timeStamp) {
-                                        console.log('called notification', notificationQuakesData[i].timeStamp)
+                                        console.log('called notification', notificationQuakesData[i].timeStamp,' j is ',j)
                                         PushNotification.localNotificationSchedule({
                                             message: notificationQuakesData[i].message,
                                             date: new Date(notificationQuakesData[i].time),

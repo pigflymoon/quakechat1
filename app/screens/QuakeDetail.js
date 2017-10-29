@@ -56,12 +56,14 @@ export default class QuakeDetail extends Component {
                             title="Universal Time"
                             rightTitle={quake.utime}
                             rightTitleStyle={quakeStyle.rightTitle}
+                            rightTitleNumberOfLines={2}
                             hideChevron
                         />
                         <ListItem
                             title="Time"
                             rightTitle={quake.time}
                             rightTitleStyle={quakeStyle.rightTitle}
+                            rightTitleNumberOfLines={2}
                             hideChevron
                         />
                         <ListItem

@@ -17,7 +17,7 @@ export default{
         fontSize: 14,
     },
     listContainer: {
-        marginHorizontal: 10,
+        marginHorizontal: 6,
     },
     title: {
         fontWeight: '600',
