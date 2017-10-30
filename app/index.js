@@ -10,8 +10,10 @@ import {
 import PushNotification from 'react-native-push-notification';
 import {Tabs} from './config/router';
 import utils from './utils/utils';
+import BackgroundTimer from 'react-native-background-timer';
 // var notificationQuakesData;
 var j = 1;
+// var intervalId;
 export default class App extends Component {
 
     constructor(props, context) {
@@ -71,7 +73,8 @@ export default class App extends Component {
     }
 
     handleNotificationData = (notificationQuakes) => {
-        // console.log('~~~~~~~~~~passed notificationQuakes in index~~~~~~~~~~`', notificationQuakes)
+        console.log('~~~~~~~~~~passed notificationQuakes in index~~~~~~~~~~`', notificationQuakes.slice(0, 10))
+        notificationQuakes = notificationQuakes.slice(0, 10);//get first 10 data
         AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
 
     }
@@ -99,7 +102,7 @@ export default class App extends Component {
                                     // var lastTime = notificationQuakesData.findIndex(this.isLatest(parseInt(notificateTime), notificationQuakesData[i].timeStamp));
                                     // console.log('lastTieme is ', lastTime)
                                     if (parseInt(notificateTime) < notificationQuakesData[i].timeStamp) {
-                                        console.log('called notification', notificationQuakesData[i].timeStamp,' j is ',j)
+                                        console.log('called notification', notificationQuakesData[i].timeStamp, ' j is ', j)
                                         PushNotification.localNotificationSchedule({
                                             message: notificationQuakesData[i].message,
                                             date: new Date(notificationQuakesData[i].time),
@@ -169,27 +172,37 @@ export default class App extends Component {
         var my_array = previousAppStates;
         var previousState = my_array[my_array.length - 1];
 
-        if ((previousState.match(/active/) && appState.match(/inactive/)) ||
+
+        // if ((previousState.match(/active/) && appState.match(/inactive/)) ||
+        //     (previousState.match(/inactive/) && appState.match(/background/))) {
+        //     console.log('Test interval', previousState, 'appState ', appState)
+        //     console.log('############running at background@@@@@@@@@@@@@@')
+        // }
+
+
+        if ((previousState.match(/active|unknown/) && appState.match(/inactive/)) ||
             (previousState.match(/inactive/) && appState.match(/background/))) {
-            console.log('############running at background@@@@@@@@@@@@@@')
-            this.backgroundInterval = setInterval(() => {
+            this.intervalId = BackgroundTimer.setInterval(() => {
+                console.log('Test interval', previousState, 'appState ', appState)
                 AsyncStorage.getItem('notificationQuakesData')
                     .then(req => JSON.parse(req))
                     .then((value) => {
                         // console.log('*************fetch Notification data 4 min*************，notificationQuakesData', value)
+                        console.log('Test @@@@@@@@@@@@@')
                         if (value.length >= 1) {
                             this.handleNotification(value);
                         }
                     })
                     .catch(error => console.log('error!'));
-
-
             }, 1000 * 60 * 2);
-
-
         }
+
         if ((previousState.match(/background/) && appState.match(/active/))) {
             console.log('############running at foreground @@@@@@@@@@@@@@')
+            console.log('this intervalId at foreground', this.intervalId)
+            BackgroundTimer.clearInterval(this.intervalId - 1);
+            BackgroundTimer.clearInterval(this.intervalId);
+            // BackgroundTimer.clearInterval(1);
             PushNotification.setApplicationIconBadgeNumber(0);
             AsyncStorage.getItem("notificationQuakesData")
                 .then(req => JSON.parse(req))
@@ -249,7 +262,7 @@ export default class App extends Component {
             'connectionChange',
             this.handleConnectivityChange
         );
-        clearInterval(this.backgroundInterval);
+        BackgroundTimer.clearInterval(this.intervalId);
 
     }
 
