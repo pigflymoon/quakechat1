@@ -11,9 +11,8 @@ import PushNotification from 'react-native-push-notification';
 import {Tabs} from './config/router';
 import utils from './utils/utils';
 import BackgroundTimer from 'react-native-background-timer';
-// var notificationQuakesData;
 var j = 1;
-// var intervalId;
+
 export default class App extends Component {
 
     constructor(props, context) {
@@ -25,8 +24,8 @@ export default class App extends Component {
             appState: AppState.currentState,
             previousAppStates: [],
         };
-        // AsyncStorage.setItem("usgsLastNotifiedTime", "0");
-        // AsyncStorage.setItem("geonetLastNotifiedTime", "0");
+        //设置一个标记，表示从后台进入前台的时候，处理其他逻辑
+        this.flage = false;
         AsyncStorage.setItem("notificationQuakesData", "");
     }
 
@@ -117,7 +116,7 @@ export default class App extends Component {
                                 lastTime = notificationQuakesData.find(function (el) {
                                     return (el.timeStamp > parseInt(notificateTime))
                                 });
-                                console.log('lastTime ', lastTime)
+                                // console.log('lastTime ', lastTime)
                                 if (lastTime) {
                                     console.log('last time ', lastTime)
                                     AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (lastTime.timeStamp).toString())
@@ -137,20 +136,7 @@ export default class App extends Component {
                                 foreground: true,
 
                             });
-
                             AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (notificationQuakesData[0].timeStamp).toString())
-                            /*
-                             for (var k in notificationQuakesData) {
-                             PushNotification.localNotificationSchedule({
-                             message: notificationQuakesData[k].message,
-                             date: new Date(notificationQuakesData[k].time),
-                             number: i++,
-                             playSound: true,
-                             foreground: true,
-
-                             });
-                             }
-                             */
                         }
 
                     });
@@ -162,28 +148,47 @@ export default class App extends Component {
         });
 
     }
-    _handleAppStateChange = (appState) => {
-        var previousAppStates = this.state.previousAppStates.slice();
-        previousAppStates.push(this.state.appState);
-        this.setState({
-            appState,
-            previousAppStates,
-        });
-        var my_array = previousAppStates;
-        var previousState = my_array[my_array.length - 1];
 
+    handleAppStateChange = (nextAppState) => {
+        if (nextAppState != null && nextAppState === 'active') {
 
-        // if ((previousState.match(/active/) && appState.match(/inactive/)) ||
-        //     (previousState.match(/inactive/) && appState.match(/background/))) {
-        //     console.log('Test interval', previousState, 'appState ', appState)
-        //     console.log('############running at background@@@@@@@@@@@@@@')
-        // }
+            //如果是true ，表示从后台进入了前台 ，请求数据，刷新页面。或者做其他的逻辑
+            if (this.flage) {
+                //这里的逻辑表示 ，第一次进入前台的时候 ，不会进入这个判断语句中。
+                // 因为初始化的时候是false ，当进入后台的时候 ，flag才是true ，
+                // 当第二次进入前台的时候 ，这里就是true ，就走进来了。
 
+                //测试通过
+                // alert("从后台进入前台");
 
-        if ((previousState.match(/active|unknown/) && appState.match(/inactive/)) ||
-            (previousState.match(/inactive/) && appState.match(/background/))) {
+                // 这个地方进行网络请求等其他逻辑。
+                console.log('############running at foreground @@@@@@@@@@@@@@')
+                //
+                //foreground
+                // BackgroundTimer.clearInterval(this.intervalId - 1);
+                console.log('this.intervalId foreground', this.intervalId)
+                BackgroundTimer.clearInterval(this.intervalId);
+                // BackgroundTimer.clearInterval(1);
+                PushNotification.setApplicationIconBadgeNumber(0);
+                AsyncStorage.getItem("notificationQuakesData")
+                    .then(req => JSON.parse(req))
+                    .then((value) => {
+                        console.log('foreground value', value[0].timeStamp)
+                        if (value.length >= 1) {
+                            // goBack(null);
+
+                            AsyncStorage.setItem(value[0].apiType + 'LastNotifiedTime', (value[0].timeStamp).toString())
+                        }
+                    });
+                //
+            }
+            this.flage = false;
+
+        } else if (nextAppState != null && nextAppState === 'background') {
+            this.flage = true;
+            console.log('############running at background @@@@@@@@@@@@@@')
+            //
             this.intervalId = BackgroundTimer.setInterval(() => {
-                console.log('Test interval', previousState, 'appState ', appState)
                 AsyncStorage.getItem('notificationQuakesData')
                     .then(req => JSON.parse(req))
                     .then((value) => {
@@ -194,30 +199,11 @@ export default class App extends Component {
                         }
                     })
                     .catch(error => console.log('error!'));
-            }, 1000 * 60 * 2);
+            }, 1000 * 20);
+            console.log('this.intervalId background ', this.intervalId)
+
+            //
         }
-
-        if ((previousState.match(/background/) && appState.match(/active/))) {
-            console.log('############running at foreground @@@@@@@@@@@@@@')
-            console.log('this intervalId at foreground', this.intervalId)
-            BackgroundTimer.clearInterval(this.intervalId - 1);
-            BackgroundTimer.clearInterval(this.intervalId);
-            // BackgroundTimer.clearInterval(1);
-            PushNotification.setApplicationIconBadgeNumber(0);
-            AsyncStorage.getItem("notificationQuakesData")
-                .then(req => JSON.parse(req))
-                .then((value) => {
-                    console.log('foreground value', value[0].timeStamp)
-                    if (value.length >= 1) {
-                        // goBack(null);
-
-                        AsyncStorage.setItem(value[0].apiType + 'LastNotifiedTime', (value[0].timeStamp).toString())
-                    }
-                });
-
-
-        }
-
 
     }
 
@@ -246,7 +232,8 @@ export default class App extends Component {
              */
             requestPermissions: true,
         })
-        AppState.addEventListener('change', this._handleAppStateChange);
+        AppState.addEventListener('change', this.handleAppStateChange);
+
         NetInfo.addEventListener(
             'connectionChange',
             this.handleConnectivityChange
@@ -257,7 +244,7 @@ export default class App extends Component {
 
 
     componentWillUnmount() {
-        AppState.removeEventListener('change', this._handleAppStateChange);
+        AppState.removeEventListener('change', this.handleAppStateChange);
         NetInfo.removeEventListener(
             'connectionChange',
             this.handleConnectivityChange
