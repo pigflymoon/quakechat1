@@ -20,7 +20,7 @@ export  default class GeoNetLevelTab extends Component {
     }
     componentDidMount(){
         //set default for geonet data
-        this.props.onQuakeLevel('',this.state.showIndexValue);
+        this.props.onQuakeGeoNetLevel('',this.state.showIndexValue);
     }
 
     onChange = (event) => {
@@ -34,7 +34,7 @@ export  default class GeoNetLevelTab extends Component {
             selectedIndex: selectedIndex,
             showIndexValue: showIndexValue
         });
-        this.props.onQuakeLevel('',showIndexValue);
+        this.props.onQuakeGeoNetLevel('',showIndexValue);
     };
 
     onValueChange = (value) => {

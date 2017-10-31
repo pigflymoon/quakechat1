@@ -137,7 +137,8 @@ export default class Settings extends Component {
     }
 
     updateDataSource = (dataSource) => {
-        let showDataSource = ['GEONET', 'USGS'];
+        let showDataSource = ['GEONET', 'USGS'];//
+        // let showDataSource = ['GEONET'];//, 'USGS'
         this.setState({dataSource: dataSource}, function () {
             for (let data of showDataSource) {
                 if (this.state.dataSource === data) {

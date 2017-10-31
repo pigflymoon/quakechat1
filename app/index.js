@@ -98,8 +98,7 @@ export default class App extends Component {
                                 for (var i = 0, len = notificationQuakesData.length; i < len; i++) {
                                     console.log(' notificateTime ', parseInt(notificateTime), 'timeStamp ,', notificationQuakesData[i].timeStamp);
                                     console.log(parseInt(notificateTime) < notificationQuakesData[i].timeStamp)
-                                    // var lastTime = notificationQuakesData.findIndex(this.isLatest(parseInt(notificateTime), notificationQuakesData[i].timeStamp));
-                                    // console.log('lastTieme is ', lastTime)
+
                                     if (parseInt(notificateTime) < notificationQuakesData[i].timeStamp) {
                                         console.log('called notification', notificationQuakesData[i].timeStamp, ' j is ', j)
                                         PushNotification.localNotificationSchedule({
@@ -113,6 +112,10 @@ export default class App extends Component {
                                     }
 
                                 }
+                                //
+                                // const {navigate} = this.props.navigation;
+                                // navigate('QuakesList');
+
                                 lastTime = notificationQuakesData.find(function (el) {
                                     return (el.timeStamp > parseInt(notificateTime))
                                 });
@@ -122,11 +125,13 @@ export default class App extends Component {
                                     AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (lastTime.timeStamp).toString())
                                 }
 
+                                this.setState({navigateScreen:'QuakesList'})
                             }
 
 
                         } else {
                             console.log('called notification', notificateTime)
+                            j = 1;
 
                             PushNotification.localNotificationSchedule({
                                 message: notificationQuakesData[0].message,
@@ -201,7 +206,7 @@ export default class App extends Component {
                     .catch(error => console.log('error!'));
             }, 1000 * 20);
             console.log('this.intervalId background ', this.intervalId)
-
+            console.log('currentScreen ', this.state.currentScreen)
             //
         }
 
@@ -274,6 +279,7 @@ export default class App extends Component {
                 screenProps={{
                     isConnected: this.state.isConnected,
                     currentScreen: this.state.currentScreen,
+                    navigateScreen: this.state.navigateScreen,
                     connectionInfo: this.state.connectionInfo,
                     onNotification: this.handleNotificationData
                 }}

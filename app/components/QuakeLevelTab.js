@@ -19,7 +19,7 @@ export  default class QuakeLevelTab extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            // activeTab: 'newzealand',
+            activeTab: 'newzealand',
             level: 0,
             usgslevel: '',
             life: ''
@@ -95,7 +95,7 @@ export  default class QuakeLevelTab extends Component {
 
     renderTabsContent() {
         const {activeTab} = this.state
-        return ( (activeTab === 'newzealand') ? <GeoNetLevelTab onQuakeLevel={this.handleQuakeLevel}/> :
+        return ( (activeTab === 'newzealand') ? <GeoNetLevelTab onQuakeGeoNetLevel={this.handleQuakeLevel}/> :
                 <UsgsTab onQuakeUsgsLevel={this.handleQuakeLevel}/>
         );
 

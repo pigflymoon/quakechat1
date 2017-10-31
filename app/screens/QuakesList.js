@@ -30,16 +30,14 @@ export default class QuakesList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log('nextProps.screenProps.currentScreen', nextProps.screenProps.currentScreen)
-        if (nextProps.screenProps.currentScreen != 'QuakesList') {
-            return;
-        }
+        // if (nextProps.screenProps.currentScreen != 'QuakesList') {
+        //     return;
+        // }
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
 
         this.setState({
             isConnected: isConnected,
             connectionInfo: nextProps.screenProps.connectionInfo,
-            // reach: nextProps.screenProps.reach
         });
         if (!nextProps.screenProps.isConnected) {
             this.setState({
@@ -69,8 +67,6 @@ export default class QuakesList extends Component {
 
 
     handleNotification = (value) => {
-        // console.log('~~~~~~~~~value passed in List is~~~~~~~~~~~~ ', value)
-        // console.log('this props *************', this.props)
         this.props.screenProps.onNotification(value);
     }
 
