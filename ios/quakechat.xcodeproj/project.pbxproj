@@ -1384,7 +1384,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = quakechat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
 				PRODUCT_NAME = quakechat;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1416,7 +1416,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = quakechat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
 				PRODUCT_NAME = quakechat;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";

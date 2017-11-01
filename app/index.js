@@ -270,9 +270,6 @@ export default class App extends Component {
         return route.routeName;
     }
 
-    // handleNotification = (notificationQuakes) => {
-    //     console.log('notificationQuakes', notificationQuakes)
-    // }
 
     render() {
         return (<Tabs
