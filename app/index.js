@@ -11,7 +11,7 @@ import PushNotification from 'react-native-push-notification';
 import {Tabs} from './config/router';
 import utils from './utils/utils';
 import BackgroundTimer from 'react-native-background-timer';
-var j = 1;
+
 
 export default class App extends Component {
 
@@ -80,7 +80,7 @@ export default class App extends Component {
 
 
     handleNotification = (notificationQuakesData) => {
-
+        var j = 1;
         AsyncStorage.getItem("dataSource").then((value) => {
             if (value) {
                 console.log('~~~~~~~~~~~~~~notificationQuakes in Notification ~~~~~~~~~~~~~~~~`', notificationQuakesData)
@@ -93,7 +93,6 @@ export default class App extends Component {
                             console.log('saved last notifiation time', notificateTime, 'apiType', notificationQuakesData[0].apiType)
                             if (notificateTime > 0) {
                                 var lastTime;
-
 
                                 for (var i = 0, len = notificationQuakesData.length; i < len; i++) {
                                     console.log(' notificateTime ', parseInt(notificateTime), 'timeStamp ,', notificationQuakesData[i].timeStamp);
@@ -131,7 +130,7 @@ export default class App extends Component {
 
                         } else {
                             console.log('called notification', notificateTime)
-                            j = 1;
+                            // var k = 1;
 
                             PushNotification.localNotificationSchedule({
                                 message: notificationQuakesData[0].message,
@@ -162,18 +161,12 @@ export default class App extends Component {
                 //这里的逻辑表示 ，第一次进入前台的时候 ，不会进入这个判断语句中。
                 // 因为初始化的时候是false ，当进入后台的时候 ，flag才是true ，
                 // 当第二次进入前台的时候 ，这里就是true ，就走进来了。
-
-                //测试通过
-                // alert("从后台进入前台");
-
                 // 这个地方进行网络请求等其他逻辑。
                 console.log('############running at foreground @@@@@@@@@@@@@@')
                 //
                 //foreground
-                // BackgroundTimer.clearInterval(this.intervalId - 1);
                 console.log('this.intervalId foreground', this.intervalId)
                 BackgroundTimer.clearInterval(this.intervalId);
-                // BackgroundTimer.clearInterval(1);
                 PushNotification.setApplicationIconBadgeNumber(0);
                 AsyncStorage.getItem("notificationQuakesData")
                     .then(req => JSON.parse(req))

@@ -122,9 +122,9 @@ export default class QuakesList extends Component {
         var isConnected = this.props.screenProps.isConnected;
         // console.log('props QuakesList ', this.props.screenProps.currentScreen)
         // console.log(' props QuakesList ',((this.props.screenProps.currentScreen != 'List' || this.props.screenProps.currentScreen != 'QuakesList')))
-        if ((this.props.screenProps.currentScreen != 'QuakesList') && (this.props.screenProps.currentScreen != 'Detail')) {
-            return null;
-        }
+        // if ((this.props.screenProps.currentScreen != 'QuakesList') && (this.props.screenProps.currentScreen != 'Detail')) {
+        //     return null;
+        // }
         if (!isConnected) {
             return Utils.renderOffline();
         }
