@@ -10,17 +10,19 @@ import {
     Platform,
     AsyncStorage,
     Item,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
 import * as StoreReview from 'react-native-store-review';
+import {NativeModules} from 'react-native';
+const {InAppUtils}  = NativeModules;
+
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import listStyle from '../styles/list';
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
-
-import PushNotification from 'react-native-push-notification';
 
 export default class Settings extends Component {
 
@@ -121,6 +123,31 @@ export default class Settings extends Component {
         Utils.shareText(message, url)
     }
 
+    onPay = () => {
+        InAppUtils.canMakePayments((enabled) => {
+            if (enabled) {
+                Alert.alert('IAP enabled');
+                var products = [
+                    'com.lucy.quakechat',
+                ];
+                InAppUtils.loadProducts(products, (error, products) => {
+                    //update store here.
+                    InAppUtils.purchaseProduct(products, (error, response) => {
+                        // NOTE for v3.0: User can cancel the payment which will be available as error object here.
+                        Alert.alert('response' + response);
+                        // if (response && response.products) {
+                        //     Alert.alert('Purchase Successful', 'Your Transaction ID is ' + response.transactionIdentifier);
+                        //     //unlock store here.
+                        // }
+                    });
+                });
+                // var productIdentifier = 'com.lucy.quakechat';
+
+            } else {
+                Alert.alert('IAP disabled');
+            }
+        });
+    }
 
     onRate() {
         let link = '';
@@ -237,6 +264,12 @@ export default class Settings extends Component {
                 </List>
 
                 <List>
+                    <ListItem
+                        containerStyle={listStyle.listItem}
+                        leftIcon={{name: 'favorite', color: colors.grey2}}
+                        title={`Test Pay`}
+                        onPress={() => this.onPay()}
+                    />
                     <ListItem
                         containerStyle={listStyle.listItem}
                         leftIcon={{name: 'chat', color: colors.grey2}}
