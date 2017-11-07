@@ -35,6 +35,7 @@
 		8D2A2DF31F668C0D0093B75B /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 8D2A2DF21F668C0D0093B75B /* assets */; };
 		8D38C71F1F215473008EA058 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D0C75081F21504600BE58CD /* libRCTPushNotification.a */; };
 		8DA51FDD1F551C7700FDA272 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DA51FBC1F5518FB00FDA272 /* libRCTCameraRoll.a */; };
+		8DD84CB81FAD5ED000C825C9 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DD84CB71FAD5ED000C825C9 /* StoreKit.framework */; };
 		8F2BC272773345529D2F06B6 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AFBEFD11FA94BFF99BED049 /* SimpleLineIcons.ttf */; };
 		A8AF5BE3929649D29D943121 /* libInAppUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B128E65D033E47EEA085F713 /* libInAppUtils.a */; };
 		BEA259E4987B47CE8773C296 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A614923B30B4C62A2F08ED4 /* libRNDeviceInfo.a */; };
@@ -393,6 +394,7 @@
 		8DD2E8981F43CB6F008756C3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		8DD2E8B81F43CB7D008756C3 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8DD2E8E91F43E4A7008756C3 /* quakechat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = quakechat.xcodeproj; sourceTree = "<group>"; };
+		8DD84CB71FAD5ED000C825C9 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		B128E65D033E47EEA085F713 /* libInAppUtils.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libInAppUtils.a; sourceTree = "<group>"; };
 		B21C23F1F64B41AAAB64A7A8 /* RNStoreReview.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNStoreReview.xcodeproj; path = "../node_modules/react-native-store-review/ios/RNStoreReview.xcodeproj"; sourceTree = "<group>"; };
 		B321601C57DE41189D6D3D39 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				7D6C6175DB15423BA22F885A /* libRNVectorIcons.a in Frameworks */,
 				445A0D9A517A4FA9AB21D321 /* libAirMaps.a in Frameworks */,
+				8DD84CB81FAD5ED000C825C9 /* StoreKit.framework in Frameworks */,
 				CAA5397EE26040C884B32E1B /* libRNStoreReview.a in Frameworks */,
 				BEA259E4987B47CE8773C296 /* libRNDeviceInfo.a in Frameworks */,
 				1C8AD8107C6D431EBD8DF5C6 /* libRNFetchBlob.a in Frameworks */,
@@ -694,6 +697,7 @@
 		8DD2E8971F43CB6F008756C3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8DD84CB71FAD5ED000C825C9 /* StoreKit.framework */,
 				8DD2E8B81F43CB7D008756C3 /* MessageUI.framework */,
 				8DD2E8981F43CB6F008756C3 /* Social.framework */,
 			);
@@ -765,10 +769,13 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = TFYB97VTU3;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
 							};
 						};
 					};
@@ -1270,7 +1277,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = TFYB97VTU3;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
@@ -1294,10 +1301,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = quakechat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
 				PRODUCT_NAME = quakechat;
-				PROVISIONING_PROFILE = "56cfe79d-aa0d-4657-8cf1-3022cf1621f5";
-				PROVISIONING_PROFILE_SPECIFIER = "QuakeChat-development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1310,7 +1317,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TFYB97VTU3;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
@@ -1334,10 +1341,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = quakechat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
 				PRODUCT_NAME = quakechat;
-				PROVISIONING_PROFILE = "294b8c07-506e-4980-baa7-3cdeef492b7b";
-				PROVISIONING_PROFILE_SPECIFIER = "QuakeChat-development";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

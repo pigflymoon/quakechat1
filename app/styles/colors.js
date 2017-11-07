@@ -2,11 +2,12 @@ export default {
     primary: '#9E9E9E',
     primary1: '#4d86f7',
     primary2: '#6296f9',
-    blue1:'#81d4fa',
-    blue2:'#4fc3f7',
+    blue1: '#81d4fa',
+    blue2: '#4fc3f7',
     secondary: '#8F0CE8',
     green: '#00B233',
     green1: '#00FF48',
+    green2: '#8BC052',
 
     grey0: '#393e42',
     grey1: '#43484d',
@@ -24,6 +25,7 @@ export default {
     orange6: '#f7540d',
 
     orange7: '#f22d24',
+    red: '#FD3E39',
 
 
     dkGreyBg: '#232323',

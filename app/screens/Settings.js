@@ -23,7 +23,7 @@ import quakeStyle from '../styles/quake';
 import listStyle from '../styles/list';
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
-
+// let showDataSource = ['GEONET'];//
 export default class Settings extends Component {
 
     constructor(props, context) {
@@ -34,7 +34,9 @@ export default class Settings extends Component {
             rule: 'All',
             ruleValue: '0',
             version: '1.0',
-            dataSource: 'GEONET'
+            dataSource: 'GEONET',
+            showUsgs: false,
+            isPro: 'DISABLED',
 
         };
         AsyncStorage.setItem("ruleValue", "0");
@@ -108,7 +110,10 @@ export default class Settings extends Component {
         this.setState({"isSilent": value});
 
     }
+    onProversion = ()=>{
+        this.props.navigation.navigate('Proversion', {});
 
+    }
 
     onAbout = () => {
         this.props.navigation.navigate('About', {});
@@ -123,31 +128,7 @@ export default class Settings extends Component {
         Utils.shareText(message, url)
     }
 
-    onPay = () => {
-        InAppUtils.canMakePayments((enabled) => {
-            if (enabled) {
-                Alert.alert('IAP enabled');
-                var products = [
-                    'com.lucy.quakechat',
-                ];
-                InAppUtils.loadProducts(products, (error, products) => {
-                    //update store here.
-                    InAppUtils.purchaseProduct(products, (error, response) => {
-                        // NOTE for v3.0: User can cancel the payment which will be available as error object here.
-                        Alert.alert('response' + response);
-                        // if (response && response.products) {
-                        //     Alert.alert('Purchase Successful', 'Your Transaction ID is ' + response.transactionIdentifier);
-                        //     //unlock store here.
-                        // }
-                    });
-                });
-                // var productIdentifier = 'com.lucy.quakechat';
 
-            } else {
-                Alert.alert('IAP disabled');
-            }
-        });
-    }
 
     onRate() {
         let link = '';
@@ -193,13 +174,51 @@ export default class Settings extends Component {
         })
 
     }
+    titleStyle = () => {
+        const {showUsgs} = this.state;
+        console.log('showUsgs', showUsgs)
+        if (showUsgs) {
+            return {
+                color: colors.green
+            }
+        } else {
+            return {
+                color: colors.red
+            }
+        }
+
+    }
+
+    hanldeUpdateVersion = (update)=>{
+        console.log('update',update)
+    }
+    renderDataSource = () => {
+        const {showUsgs} = this.state;
+        return (showUsgs ? <Picker selectedValue={this.state.dataSource} onValueChange={this.updateDataSource}>
+                    <Picker.Item label="GEONET(NewZealand)" value="GEONET"/>
+                    <Picker.Item label="USGS(Global)" value="USGS"/>
+                </Picker> :
+                <Picker selectedValue={this.state.dataSource} onValueChange={this.updateDataSource}>
+                    <Picker.Item label="GEONET(NewZealand)" value="GEONET"/>
+                </Picker>
+        );
+    }
 
     render() {
         return (
             <ScrollView>
 
                 <List>
-
+                    <ListItem
+                        containerStyle={listStyle.listItem}
+                        leftIcon={{name: 'favorite', color: colors.grey2}}
+                        title={`PRO Version`}
+                        titleStyle={this.titleStyle()}
+                        rightTitle={this.state.isPro}
+                        rightTitleStyle={this.titleStyle()}
+                        updateVersion = {this.hanldeUpdateVersion}
+                        onPress={() => this.onProversion()}
+                    />
                     <ListItem containerStyle={listStyle.listItem}
                               title="DataSource"
                               leftIcon={{name: 'description', color: colors.grey2}}
@@ -207,10 +226,7 @@ export default class Settings extends Component {
                               rightTitleStyle={quakeStyle.rightTitle}
                               hideChevron
                     />
-                    <Picker selectedValue={this.state.dataSource} onValueChange={this.updateDataSource}>
-                        <Picker.Item label="GEONET(NewZealand)" value="GEONET"/>
-                        <Picker.Item label="USGS(Global)" value="USGS"/>
-                    </Picker>
+                    {this.renderDataSource()}
 
                     <ListItem
                         containerStyle={listStyle.listItem}
@@ -264,12 +280,6 @@ export default class Settings extends Component {
                 </List>
 
                 <List>
-                    <ListItem
-                        containerStyle={listStyle.listItem}
-                        leftIcon={{name: 'favorite', color: colors.grey2}}
-                        title={`Test Pay`}
-                        onPress={() => this.onPay()}
-                    />
                     <ListItem
                         containerStyle={listStyle.listItem}
                         leftIcon={{name: 'chat', color: colors.grey2}}

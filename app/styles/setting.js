@@ -28,6 +28,9 @@ export default{
         alignSelf: 'center',
         marginBottom: 10,
 
-    }
+    },
+    versionBtn:{
+        backgroundColor:colors.green2
+    },
 
 }
