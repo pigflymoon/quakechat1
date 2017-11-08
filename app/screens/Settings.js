@@ -11,12 +11,17 @@ import {
     AsyncStorage,
     Item,
     TouchableOpacity,
-    Alert
+    Alert,
+    Modal,
+    TouchableHighlight,
 } from 'react-native';
-import {List, ListItem} from 'react-native-elements';
+import {List, ListItem, Tile} from 'react-native-elements';
 import * as StoreReview from 'react-native-store-review';
 import {NativeModules} from 'react-native';
 const {InAppUtils}  = NativeModules;
+import showInfo from '../styles/showInfo';
+import probg from '../images/pro-bg.jpg';
+
 
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
@@ -37,6 +42,8 @@ export default class Settings extends Component {
             dataSource: 'GEONET',
             showUsgs: false,
             isPro: 'DISABLED',
+            modalVisible: false,
+
 
         };
         AsyncStorage.setItem("ruleValue", "0");
@@ -45,6 +52,7 @@ export default class Settings extends Component {
 
 
     componentDidMount() {
+
         AsyncStorage.getItem("isNotified").then((value) => {
             if (value) {
                 var val = (value === "true");
@@ -110,9 +118,9 @@ export default class Settings extends Component {
         this.setState({"isSilent": value});
 
     }
-    onProversion = ()=>{
-        this.props.navigation.navigate('Proversion', {});
 
+    setModalVisible(visible) {
+        this.setState({modalVisible: visible});
     }
 
     onAbout = () => {
@@ -128,7 +136,52 @@ export default class Settings extends Component {
         Utils.shareText(message, url)
     }
 
+    onPay = () => {
+        InAppUtils.canMakePayments((enabled) => {
+            if (enabled) {
+                Alert.alert('IAP enabled');
+                var products = [
+                    'com.lucy.quakechat.productid',
+                ];
 
+                InAppUtils.loadProducts(products, (error, products) => {
+                    //update store here.
+                    console.log('IAP ', products);
+                    var productIdentifier = 'com.lucy.quakechat.productid';
+                    InAppUtils.purchaseProduct(productIdentifier, (error, response) => {
+                        // NOTE for v3.0: User can cancel the payment which will be available as error object here.
+                        if (response && response.productIdentifier) {
+                            console.log('response' + response);
+
+                            console.log('Purchase Successful', 'Your Transaction ID is ' + response.transactionIdentifier);
+                            this.setState({showUsgs: true, isPro: 'Available'})
+                            this.setModalVisible(true)
+                            //unlock store here.
+
+
+                        }
+                    });
+                });
+
+            } else {
+                Alert.alert('IAP disabled');
+            }
+        });
+    }
+    titleStyle = () => {
+        const {showUsgs} = this.state;
+        console.log('showUsgs', showUsgs)
+        if (showUsgs) {
+            return {
+                color: colors.green
+            }
+        } else {
+            return {
+                color: colors.red
+            }
+        }
+
+    }
 
     onRate() {
         let link = '';
@@ -174,24 +227,14 @@ export default class Settings extends Component {
         })
 
     }
-    titleStyle = () => {
-        const {showUsgs} = this.state;
-        console.log('showUsgs', showUsgs)
-        if (showUsgs) {
-            return {
-                color: colors.green
-            }
-        } else {
-            return {
-                color: colors.red
-            }
-        }
 
-    }
 
-    hanldeUpdateVersion = (update)=>{
-        console.log('update',update)
-    }
+    // hanldeUpdateVersion = (update)=>{
+    //     console.log('update',update)
+    //     console.log('showUsgs',update.showUsgs,'isPro ',update.isPro)
+    //     this.setState({showUsgs:update.showUsgs,isPro:update.isPro})
+    //
+    // }
     renderDataSource = () => {
         const {showUsgs} = this.state;
         return (showUsgs ? <Picker selectedValue={this.state.dataSource} onValueChange={this.updateDataSource}>
@@ -203,8 +246,15 @@ export default class Settings extends Component {
                 </Picker>
         );
     }
+    handleInfo = (showInfo) => {
+        this.setState({
+            showInfo: showInfo
+        })
+    }
 
     render() {
+        // const {setParams,state} = this.props.navigation;
+        // console.log('state.params',this.props.navigation.state.params)
         return (
             <ScrollView>
 
@@ -216,8 +266,7 @@ export default class Settings extends Component {
                         titleStyle={this.titleStyle()}
                         rightTitle={this.state.isPro}
                         rightTitleStyle={this.titleStyle()}
-                        updateVersion = {this.hanldeUpdateVersion}
-                        onPress={() => this.onProversion()}
+                        onPress={() => this.onPay()}
                     />
                     <ListItem containerStyle={listStyle.listItem}
                               title="DataSource"
@@ -305,6 +354,42 @@ export default class Settings extends Component {
                         subtitle={this.state.version}
                     />
                 </List>
+                <View style={showInfo.infoWrapper}>
+
+
+                        <Modal
+                            animationType="slide"
+                            transparent={true}
+                            visible={this.state.modalVisible}
+                            onRequestClose={() => {
+                                alert("Modal has been closed.")
+                            }}
+                        >
+                            <View style={{marginTop: 22}}>
+                                <Tile
+                                    imageSrc={probg}
+                                    title="Thank you for your support!"
+                                    featured
+                                    icon={{name: 'play-circle', type: 'font-awesome'}}  // optional
+                                    contentContainerStyle={{height: 70}}
+                                >
+                                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                                        <Text>Love and share</Text>
+                                        <TouchableHighlight onPress={() => {
+                                            this.setModalVisible(!this.state.modalVisible)
+                                        }}>
+                                            <Text>Close</Text>
+                                        </TouchableHighlight>
+                                    </View>
+                                </Tile>
+
+                            </View>
+                        </Modal>
+
+
+
+
+                </View>
             </ScrollView>
         )
     }
