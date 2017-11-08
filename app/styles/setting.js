@@ -29,8 +29,30 @@ export default{
         marginBottom: 10,
 
     },
-    versionBtn:{
-        backgroundColor:colors.green2
+    model: {
+        marginTop: 120,
+        marginBottom: 100,
+        backgroundColor: colors.white,
+        borderWidth: 1,
+        borderColor: colors.grey5,
     },
+    caption: {
+        fontSize: 16,
+    },
+    modelContent: {
+        height: 100,
+    },
+    dialogContentView: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    tileText: {
+        textAlign: 'center',
+    },
+    versionBtn: {
+        backgroundColor: colors.green2
+    },
+
 
 }

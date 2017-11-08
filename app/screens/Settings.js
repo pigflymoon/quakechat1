@@ -26,6 +26,8 @@ import probg from '../images/pro-bg.jpg';
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
 import listStyle from '../styles/list';
+import SettingStyle from '../styles/setting';
+
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 // let showDataSource = ['GEONET'];//
@@ -135,7 +137,10 @@ export default class Settings extends Component {
         const url = Config.share.url;
         Utils.shareText(message, url)
     }
-
+    onTest = () => {
+        this.setState({showUsgs: true, isPro: 'Available'});
+        this.setModalVisible(true)
+    }
     onPay = () => {
         InAppUtils.canMakePayments((enabled) => {
             if (enabled) {
@@ -228,13 +233,6 @@ export default class Settings extends Component {
 
     }
 
-
-    // hanldeUpdateVersion = (update)=>{
-    //     console.log('update',update)
-    //     console.log('showUsgs',update.showUsgs,'isPro ',update.isPro)
-    //     this.setState({showUsgs:update.showUsgs,isPro:update.isPro})
-    //
-    // }
     renderDataSource = () => {
         const {showUsgs} = this.state;
         return (showUsgs ? <Picker selectedValue={this.state.dataSource} onValueChange={this.updateDataSource}>
@@ -246,19 +244,14 @@ export default class Settings extends Component {
                 </Picker>
         );
     }
-    handleInfo = (showInfo) => {
-        this.setState({
-            showInfo: showInfo
-        })
-    }
+
 
     render() {
-        // const {setParams,state} = this.props.navigation;
-        // console.log('state.params',this.props.navigation.state.params)
         return (
             <ScrollView>
 
                 <List>
+                    <ListItem onPress={() => this.onTest()}></ListItem>
                     <ListItem
                         containerStyle={listStyle.listItem}
                         leftIcon={{name: 'favorite', color: colors.grey2}}
@@ -355,38 +348,30 @@ export default class Settings extends Component {
                     />
                 </List>
                 <View style={showInfo.infoWrapper}>
-
-
-                        <Modal
-                            animationType="slide"
-                            transparent={true}
-                            visible={this.state.modalVisible}
-                            onRequestClose={() => {
-                                alert("Modal has been closed.")
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => {
+                            alert("Modal has been closed.")
+                        }}
+                    >
+                        <Tile
+                            imageSrc={probg}
+                            title="Thank you for your support"
+                            caption="Love and share"
+                            captionStyle={SettingStyle.caption}
+                            icon={{name: 'times-circle-o', type: 'font-awesome', size: 40}}  // optional
+                            containerStyle={SettingStyle.model}
+                            contentContainerStyle={SettingStyle.modelContent}
+                            featured
+                            onPress={() => {
+                                this.setModalVisible(!this.state.modalVisible)
                             }}
+
                         >
-                            <View style={{marginTop: 22}}>
-                                <Tile
-                                    imageSrc={probg}
-                                    title="Thank you for your support!"
-                                    featured
-                                    icon={{name: 'play-circle', type: 'font-awesome'}}  // optional
-                                    contentContainerStyle={{height: 70}}
-                                >
-                                    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-                                        <Text>Love and share</Text>
-                                        <TouchableHighlight onPress={() => {
-                                            this.setModalVisible(!this.state.modalVisible)
-                                        }}>
-                                            <Text>Close</Text>
-                                        </TouchableHighlight>
-                                    </View>
-                                </Tile>
-
-                            </View>
-                        </Modal>
-
-
+                        </Tile>
+                    </Modal>
 
 
                 </View>
