@@ -19,7 +19,7 @@ export default class TermOfUse extends Component {
 
         return (
             <ScrollView style={SettingStyle.container}>
-                <Label text="Term of Use"/>
+                <Label text="Terms of Use"/>
                 <View style={SettingStyle.box}>
                     <Text style={SettingStyle.text}>
                         Terms of Use
