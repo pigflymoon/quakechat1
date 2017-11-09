@@ -30,7 +30,7 @@ export default{
 
     },
     model: {
-        marginTop: 120,
+        marginTop: 100,
         marginBottom: 100,
         backgroundColor: colors.white,
         borderWidth: 1,

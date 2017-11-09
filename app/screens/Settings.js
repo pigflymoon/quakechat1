@@ -137,10 +137,7 @@ export default class Settings extends Component {
         const url = Config.share.url;
         Utils.shareText(message, url)
     }
-    onTest = () => {
-        this.setState({showUsgs: true, isPro: 'Available'});
-        this.setModalVisible(true)
-    }
+
     onPay = () => {
         InAppUtils.canMakePayments((enabled) => {
             if (enabled) {
@@ -249,9 +246,7 @@ export default class Settings extends Component {
     render() {
         return (
             <ScrollView>
-
                 <List>
-                    <ListItem onPress={() => this.onTest()}></ListItem>
                     <ListItem
                         containerStyle={listStyle.listItem}
                         leftIcon={{name: 'favorite', color: colors.grey2}}
