@@ -8,7 +8,6 @@ import Chat from '../screens/Chat';
 import QuakesList from '../screens/QuakesList';
 import QuakesMap from '../screens/QuakesMap';
 import QuakeDetail from '../screens/QuakeDetail';
-import ProVersion from '../screens/Proversion';
 import About from '../screens/About';
 import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
@@ -110,12 +109,6 @@ export const SettingsStack = StackNavigator({
             title: 'Settings'
         },
     },
-    Proversion:{
-        screen: ProVersion,
-        navigationOptions: ({navigation}) => ({
-            title: 'Pro Version'
-        })
-    },
     About: {
         screen: About,
         navigationOptions: ({navigation}) => ({
@@ -164,7 +157,6 @@ export const Tabs = TabNavigator({
     },
 
 
-
     Map: {
         screen: QuakesMap,
         headerTitle: 'Quakes Map',
@@ -180,7 +172,6 @@ export const Tabs = TabNavigator({
             tabBarIcon: ({tintColor}) => <Icon name='group' type='font-awesome' size={30} color={tintColor}/>,
         }
     },
-
 
 
 });
