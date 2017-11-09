@@ -20,9 +20,9 @@ export default{
     },
 
     circleIcon: {
-        width: 120,
-        height: 120,
-        borderRadius: 120 / 2,
+        width: 100,
+        height: 100,
+        borderRadius: 100 / 2,
         alignItems: "center",
         justifyContent: "center",
     },

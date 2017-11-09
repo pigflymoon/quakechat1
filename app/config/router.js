@@ -16,6 +16,7 @@ import Signup from '../components/Signup';
 import ResetPassword from '../components/ResetPassword';
 import VerifyEmail from '../components/VerifyEmail';
 import Terms from '../components/TermOfUse';
+import Policy from '../components/PrivacyPolicy';
 import Edit from '../components/EditProfile';
 import ChangePassword from '../components/ChangePassword';
 import ChangeName from '../components/ChangeName';
@@ -76,6 +77,13 @@ export const ChatStatck = StackNavigator({
             screen: Terms,
             navigationOptions: ({navigation}) => ({
                 title: 'Terms of Use',
+
+            }),
+        },
+        Policy: {
+            screen: Policy,
+            navigationOptions: ({navigation}) => ({
+                title: 'Privacy Policy',
 
             }),
         },

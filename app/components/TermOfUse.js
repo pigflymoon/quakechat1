@@ -376,7 +376,7 @@ export default class TermOfUse extends Component {
                     <Text style={SettingStyle.text}>
                         Contact Us
                         If you have any questions or suggestions about my Terms and Conditions, do not hesitate to
-                        contact me. pplflymoon2015@gmail.com
+                        contact me. pigflymoon@gmail.com
 
                     </Text>
                 </View>

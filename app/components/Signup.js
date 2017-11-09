@@ -39,6 +39,9 @@ export default class Signup extends Component {
     handleTerms = () => {
         this.props.navigation.navigate('Terms');
     }
+    handlePolicy = () => {
+        this.props.navigation.navigate('Policy');
+    }
     handleSignin = () => {
         this.props.navigation.navigate('Signin');
     }
@@ -193,12 +196,21 @@ export default class Signup extends Component {
 
                     <View style={chat.container}>
                         <View style={chat.footerWrap}>
-                            <Text style={chat.accountText}>By signing up, you agree to the</Text>
-                            <TouchableOpacity activeOpacity={.5} onPress={this.handleTerms}>
-                                <View>
-                                    <Text style={chat.linkText}>Terms of Service</Text>
-                                </View>
-                            </TouchableOpacity>
+                            <View>
+                                <Text style={chat.accountText}>By signing up, you agree to the</Text>
+                                <TouchableOpacity activeOpacity={.5} onPress={this.handleTerms}>
+                                    <View>
+                                        <Text style={chat.linkText}>Terms of Service</Text>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity activeOpacity={.5} onPress={this.handlePolicy}>
+                                    <View>
+                                        <Text style={chat.linkText}>Privacy Policy</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+
+
                         </View>
                         <View style={chat.footerWrap}>
                             <Text style={chat.accountText}>Already have an account?</Text>
