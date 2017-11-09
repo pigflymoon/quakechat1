@@ -5,7 +5,7 @@ export default Config = {
         quakes_usgs_url:'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/'
     },
     share:{
-        url:'https://github.com/pigflymoon/quakechat'
+        url:'http://quakechat.kiwiinfo.com/'
     }
 };
 

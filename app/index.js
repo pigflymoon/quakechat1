@@ -72,7 +72,6 @@ export default class App extends Component {
     }
 
     handleNotificationData = (notificationQuakes) => {
-        console.log('~~~~~~~~~~passed notificationQuakes in index~~~~~~~~~~`', notificationQuakes.slice(0, 10))
         notificationQuakes = notificationQuakes.slice(0, 10);//get first 10 data
         AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
 
@@ -83,23 +82,18 @@ export default class App extends Component {
         var j = 1;
         AsyncStorage.getItem("dataSource").then((value) => {
             if (value) {
-                console.log('~~~~~~~~~~~~~~notificationQuakes in Notification ~~~~~~~~~~~~~~~~`', notificationQuakesData)
                 if (notificationQuakesData.length >= 1) {
                     // goBack(null);
 
                     AsyncStorage.getItem(notificationQuakesData[0].apiType + 'LastNotifiedTime').then((notificateTime) => {
 
                         if (notificateTime) {
-                            console.log('saved last notifiation time', notificateTime, 'apiType', notificationQuakesData[0].apiType)
                             if (notificateTime > 0) {
                                 var lastTime;
 
                                 for (var i = 0, len = notificationQuakesData.length; i < len; i++) {
-                                    console.log(' notificateTime ', parseInt(notificateTime), 'timeStamp ,', notificationQuakesData[i].timeStamp);
-                                    console.log(parseInt(notificateTime) < notificationQuakesData[i].timeStamp)
 
                                     if (parseInt(notificateTime) < notificationQuakesData[i].timeStamp) {
-                                        console.log('called notification', notificationQuakesData[i].timeStamp, ' j is ', j)
                                         PushNotification.localNotificationSchedule({
                                             message: notificationQuakesData[i].message,
                                             date: new Date(notificationQuakesData[i].time),
@@ -120,7 +114,6 @@ export default class App extends Component {
                                 });
                                 // console.log('lastTime ', lastTime)
                                 if (lastTime) {
-                                    console.log('last time ', lastTime)
                                     AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (lastTime.timeStamp).toString())
                                 }
 
@@ -162,16 +155,13 @@ export default class App extends Component {
                 // 因为初始化的时候是false ，当进入后台的时候 ，flag才是true ，
                 // 当第二次进入前台的时候 ，这里就是true ，就走进来了。
                 // 这个地方进行网络请求等其他逻辑。
-                console.log('############running at foreground @@@@@@@@@@@@@@')
                 //
                 //foreground
-                console.log('this.intervalId foreground', this.intervalId)
                 BackgroundTimer.clearInterval(this.intervalId);
                 PushNotification.setApplicationIconBadgeNumber(0);
                 AsyncStorage.getItem("notificationQuakesData")
                     .then(req => JSON.parse(req))
                     .then((value) => {
-                        console.log('foreground value', value[0].timeStamp)
                         if (value.length >= 1) {
                             // goBack(null);
 
@@ -184,22 +174,16 @@ export default class App extends Component {
 
         } else if (nextAppState != null && nextAppState === 'background') {
             this.flage = true;
-            console.log('############running at background @@@@@@@@@@@@@@')
-            //
             this.intervalId = BackgroundTimer.setInterval(() => {
                 AsyncStorage.getItem('notificationQuakesData')
                     .then(req => JSON.parse(req))
                     .then((value) => {
-                        // console.log('*************fetch Notification data 4 min*************，notificationQuakesData', value)
-                        console.log('Test @@@@@@@@@@@@@')
                         if (value.length >= 1) {
                             this.handleNotification(value);
                         }
                     })
                     .catch(error => console.log('error!'));
             }, 1000 * 20);
-            console.log('this.intervalId background ', this.intervalId)
-            console.log('currentScreen ', this.state.currentScreen)
             //
         }
 

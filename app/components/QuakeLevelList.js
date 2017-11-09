@@ -69,7 +69,6 @@ export default class QuakeLevelList extends Component {
                 }
 
             } else {
-                console.log('next Props tab', nextProps.tab)
                 if (nextProps.tab === 'newzealand') {
                     fetchQuakesByApi(notificationRule, nextProps.level, 'geonet', geoUrl, function (quakes, notificationQuakes) {
                         self.setState({
@@ -79,7 +78,6 @@ export default class QuakeLevelList extends Component {
                             }
                         );
 
-                        console.log('self props', self.props)
                         self.props.onNotification(notificationQuakes);
                     });
 
@@ -97,11 +95,9 @@ export default class QuakeLevelList extends Component {
 
             }
         } else {
-            console.log('level', self.props.level)
             let geoUrl = Config.api.quakes_geonet_url + self.props.level;
             let usgUrl = Config.api.quakes_usgs_url + self.props.level;
             let usgLevel = (self.props.level).toString().split("_")[0];
-            console.log('********first time*********', self.props.tab)
             if (self.props.tab === 'newzealand') {
                 fetchQuakesByApi(notificationRule, self.props.level, 'geonet', geoUrl, function (quakes, notificationQuakes) {
                     self.setState({
@@ -136,11 +132,9 @@ export default class QuakeLevelList extends Component {
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
-        console.log('nextProps.isConnected',nextProps.isConnected)
 
         if (nextProps.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
-                console.log('nextProps ruleValue',value)
                 if (value) {
                     var savedRule = value;
                     this.fetchQuakes(nextProps, savedRule);
@@ -152,11 +146,8 @@ export default class QuakeLevelList extends Component {
 
     componentDidMount() {
         var notificationRule;
-        console.log('this.props.isConnected',this.props.isConnected)
         if (this.props.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
-                console.log('this.props. ruleValue',value)
-
                 // if (value) {
                     notificationRule = value;
                     if (this.state.quakes.length <= 0) {
@@ -179,7 +170,6 @@ export default class QuakeLevelList extends Component {
 
 
     componentWillUnmount() {
-        console.log('this interval list', this.quakesInterval)
         BackgroundTimer.clearInterval(this.quakesInterval);
     }
 

@@ -102,7 +102,6 @@ export  default class QuakeLevelTab extends Component {
     }
     componentDidMount() {
         AsyncStorage.getItem("dataSource").then((value) => {
-            console.log('quake tab datasrouce',value)
             if (value) {
                 if (value === 'geonet') {
                     this.setState({activeTab: 'newzealand'});
@@ -118,7 +117,6 @@ export  default class QuakeLevelTab extends Component {
     }
     componentWillReceiveProps() {
         AsyncStorage.getItem("dataSource").then((value) => {
-            console.log('quake tab datasrouce',value)
             if (value) {
                 if (value === 'geonet') {
                     this.setState({activeTab: 'newzealand'});

@@ -19,8 +19,6 @@ export default class Proversion extends Component {
 
     constructor(props, context) {
         super(props, context);
-        console.log('props updateVersion',this.props)
-
     }
     onPay = () => {
         var self = this;
@@ -34,7 +32,6 @@ export default class Proversion extends Component {
 
                 InAppUtils.loadProducts(products, (error, products) => {
                     //update store here.
-                    console.log('IAP ', products);
                     var productIdentifier = 'com.lucy.quakechat.productid';
                     InAppUtils.purchaseProduct(productIdentifier, (error, response) => {
                         // NOTE for v3.0: User can cancel the payment which will be available as error object here.

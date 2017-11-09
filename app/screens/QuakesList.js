@@ -71,7 +71,6 @@ export default class QuakesList extends Component {
     }
 
     handleQuakeLevel = (tab, tag, level, life) => {
-        console.log('tab is ', tab)
         var url = Config.api.quakes_geonet_url;
         if (tab === 'global') {
             url = Config.api.quakes_usgs_url;

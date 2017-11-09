@@ -141,26 +141,19 @@ export default class Settings extends Component {
     onPay = () => {
         InAppUtils.canMakePayments((enabled) => {
             if (enabled) {
-                Alert.alert('IAP enabled');
                 var products = [
                     'com.lucy.quakechat.productid',
                 ];
 
                 InAppUtils.loadProducts(products, (error, products) => {
                     //update store here.
-                    console.log('IAP ', products);
                     var productIdentifier = 'com.lucy.quakechat.productid';
                     InAppUtils.purchaseProduct(productIdentifier, (error, response) => {
                         // NOTE for v3.0: User can cancel the payment which will be available as error object here.
                         if (response && response.productIdentifier) {
-                            console.log('response' + response);
-
-                            console.log('Purchase Successful', 'Your Transaction ID is ' + response.transactionIdentifier);
                             this.setState({showUsgs: true, isPro: 'Available'})
                             this.setModalVisible(true)
                             //unlock store here.
-
-
                         }
                     });
                 });
@@ -172,7 +165,6 @@ export default class Settings extends Component {
     }
     titleStyle = () => {
         const {showUsgs} = this.state;
-        console.log('showUsgs', showUsgs)
         if (showUsgs) {
             return {
                 color: colors.green

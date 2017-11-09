@@ -45,7 +45,6 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
 }
 
 export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, callback) => {
-    console.log('url is ', url)
     axios.get(url)
         .then(function (result) {
             let quakesData = result.data.features;
@@ -81,7 +80,6 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, cal
                     } else if (notificationRule <= quakeLevel) {//
                         notificationQuakes.push(quakeData);
                     } else {
-                        console.log('No notified');
                         return;
                     }
 
