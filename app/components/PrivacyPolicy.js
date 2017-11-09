@@ -19,13 +19,12 @@ export default class PrivacyPolicy extends Component {
 
         return (
             <ScrollView style={SettingStyle.container}>
-                <Label text="Term of Use"/>
+                <Label text="Privacy Policy"/>
                 <View style={SettingStyle.box}>
                     <Text style={SettingStyle.text}>
-                        Privacy Policy
-
                         Effective date: October , 2017
-
+                    </Text>
+                    <Text style={SettingStyle.text}>
                         Lucy built the QuakeChat as a Open Source app. This page is used to inform website visitors
                         regarding my policies with the collection, use, and disclosure of Personal Information if anyone
                         decided to use my Service.
