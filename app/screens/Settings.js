@@ -15,7 +15,7 @@ import {
     Modal,
     TouchableHighlight,
 } from 'react-native';
-import {List, ListItem, Tile} from 'react-native-elements';
+import {List, ListItem, Card, Tile, Icon,} from 'react-native-elements';
 import * as StoreReview from 'react-native-store-review';
 import {NativeModules} from 'react-native';
 const {InAppUtils}  = NativeModules;
@@ -44,7 +44,6 @@ export default class Settings extends Component {
             dataSource: 'GEONET',
             showUsgs: false,
             isPro: 'DISABLED',
-            modalVisible: false,
 
 
         };
@@ -121,12 +120,11 @@ export default class Settings extends Component {
 
     }
 
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
-    }
-
     onAbout = () => {
         this.props.navigation.navigate('About', {});
+    };
+    onProversion = () => {
+        this.props.navigation.navigate('Proversion', {});
     };
 
     onResources = () => {
@@ -152,7 +150,6 @@ export default class Settings extends Component {
                         // NOTE for v3.0: User can cancel the payment which will be available as error object here.
                         if (response && response.productIdentifier) {
                             this.setState({showUsgs: true, isPro: 'Available'})
-                            this.setModalVisible(true)
                             //unlock store here.
                         }
                     });
@@ -178,17 +175,17 @@ export default class Settings extends Component {
     }
 
     onRate() {
-        let link = '';
+        let link = 'https://itunes.apple.com/cn/app/quakechat/id1304970962';
         //
-        // if (Platform.OS === 'ios') {
-        //     if (StoreReview.isAvailable) {
-        //         return StoreReview.requestReview();
-        //     }
-        //
-        //     link = '';
-        // }
-        //
-        // return Utils.goToURL(link);
+        if (Platform.OS === 'ios') {
+            if (StoreReview.isAvailable) {
+                return StoreReview.requestReview();
+            }
+
+            link = '';
+        }
+
+        return Utils.goToURL(link);
     }
 
     updateDataSource = (dataSource) => {
@@ -239,6 +236,54 @@ export default class Settings extends Component {
         return (
             <ScrollView>
                 <List>
+                    <Card>
+                        <View style={{paddingTop: 20}}>
+                            <Tile
+                                imageSrc={probg}
+                                title="Thank you for your support"
+                                titleStyle={{fontSize: 20}}
+                                activeOpacity={1}
+                                width={310}
+                                contentContainerStyle={{height: 100}}
+
+
+                                onPress={() => {
+                                    Alert.alert('Hi')
+                                }}
+                            >
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        marginTop: 10,
+                                        alignItems: 'center',
+                                    }}
+                                >
+
+                                    <TouchableOpacity activeOpacity={.5} onPress={() => {
+                                        this.onPay()
+                                    }}>
+                                        <View style={{
+                                            backgroundColor: '#4f9deb',
+                                            paddingVertical: 5,
+                                            paddingHorizontal: 10,
+                                        }}>
+
+                                            <Text style={{color: '#ffffff'}}>Get PRO Version</Text>
+                                        </View>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity activeOpacity={.5} onPress={() => this.onProversion()}>
+                                        <View>
+                                            <Text style={{color: 'grey'}}>Find out more ></Text>
+                                        </View>
+                                    </TouchableOpacity>
+
+                                </View>
+                            </Tile>
+                        </View>
+                    </Card>
                     <ListItem
                         containerStyle={listStyle.listItem}
                         leftIcon={{name: 'favorite', color: colors.grey2}}
@@ -246,7 +291,7 @@ export default class Settings extends Component {
                         titleStyle={this.titleStyle()}
                         rightTitle={this.state.isPro}
                         rightTitleStyle={this.titleStyle()}
-                        onPress={() => this.onPay()}
+                        hideChevron
                     />
                     <ListItem containerStyle={listStyle.listItem}
                               title="DataSource"
@@ -334,34 +379,7 @@ export default class Settings extends Component {
                         subtitle={this.state.version}
                     />
                 </List>
-                <View style={showInfo.infoWrapper}>
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.modalVisible}
-                        onRequestClose={() => {
-                            alert("Modal has been closed.")
-                        }}
-                    >
-                        <Tile
-                            imageSrc={probg}
-                            title="Thank you for your support"
-                            caption="Love and share"
-                            captionStyle={SettingStyle.caption}
-                            icon={{name: 'times-circle-o', type: 'font-awesome', size: 40}}  // optional
-                            containerStyle={SettingStyle.model}
-                            contentContainerStyle={SettingStyle.modelContent}
-                            featured
-                            onPress={() => {
-                                this.setModalVisible(!this.state.modalVisible)
-                            }}
 
-                        >
-                        </Tile>
-                    </Modal>
-
-
-                </View>
             </ScrollView>
         )
     }

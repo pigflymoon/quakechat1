@@ -9,6 +9,7 @@ import QuakesList from '../screens/QuakesList';
 import QuakesMap from '../screens/QuakesMap';
 import QuakeDetail from '../screens/QuakeDetail';
 import About from '../screens/About';
+import Proversion from '../screens/Proversion';
 import Resources from '../screens/Resources';
 import Settings from '../screens/Settings';
 import Signin from '../components/Signin';
@@ -115,6 +116,12 @@ export const SettingsStack = StackNavigator({
         screen: Settings,
         navigationOptions: {
             title: 'Settings'
+        },
+    },
+    Proversion:{
+        screen: Proversion,
+        navigationOptions: {
+            title: 'PRO Version'
         },
     },
     About: {

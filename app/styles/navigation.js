@@ -6,7 +6,7 @@ export default{
         paddingHorizontal: 5,
     },
     rightTitle: {
-        paddingRight: 10,
+        paddingRight: 15,
     }
 
 }

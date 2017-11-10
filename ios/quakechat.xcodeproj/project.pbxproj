@@ -81,6 +81,7 @@
 		D96BFE58791D43AABBA28F81 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37672FB4B89F44AD897C6304 /* EvilIcons.ttf */; };
 		DB47693E9E9B4041BBB40911 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 701E6CE6799841E996155500 /* Zocial.ttf */; };
 		DEC4B21B1DD1445D80E8D4A1 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0924AF8139B0427DB081056D /* MaterialIcons.ttf */; };
+		F489D3F5A4324CBEB6CB4606 /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45784BA2A4FF4AEBAB5FF999 /* libRNShare.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,6 +288,13 @@
 			remoteGlobalIDString = 3D05745F1DE6004600184BB4;
 			remoteInfo = "RCTPushNotification-tvOS";
 		};
+		8D14B11B1FB52A44000F3CF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC7F4B9B1AF046009A277250 /* RNShare.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNShare;
+		};
 		8D3D3AA71FA6C92400ED0988 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 156A5D3929B3492FBB47DAA7 /* RNBackgroundTimer.xcodeproj */;
@@ -401,6 +409,7 @@
 		3503C8015D0547AA882FB404 /* InAppUtils.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = InAppUtils.xcodeproj; path = "../node_modules/react-native-in-app-utils/InAppUtils.xcodeproj"; sourceTree = "<group>"; };
 		37672FB4B89F44AD897C6304 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		38EF604C685442ED83EB646C /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		45784BA2A4FF4AEBAB5FF999 /* libRNShare.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNShare.a; sourceTree = "<group>"; };
 		5A614923B30B4C62A2F08ED4 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		5C07B33BEB7E4F23991308A3 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -428,6 +437,7 @@
 		B4B816C40E234C25B9539859 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		D2E4DBB1042B40E9B856FB11 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		E7943DDF5B3046C4852BF71B /* libRNStoreReview.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNStoreReview.a; sourceTree = "<group>"; };
+		EC7F4B9B1AF046009A277250 /* RNShare.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		EF77B88B7EF34C6E8C3A8A04 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		F3E784DED6BD456486D07568 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -458,6 +468,7 @@
 				1C8AD8107C6D431EBD8DF5C6 /* libRNFetchBlob.a in Frameworks */,
 				6BE7E283973341A2A8AED484 /* libRNBackgroundTimer.a in Frameworks */,
 				A8AF5BE3929649D29D943121 /* libInAppUtils.a in Frameworks */,
+				F489D3F5A4324CBEB6CB4606 /* libRNShare.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,6 +655,7 @@
 				5C07B33BEB7E4F23991308A3 /* RNFetchBlob.xcodeproj */,
 				156A5D3929B3492FBB47DAA7 /* RNBackgroundTimer.xcodeproj */,
 				3503C8015D0547AA882FB404 /* InAppUtils.xcodeproj */,
+				EC7F4B9B1AF046009A277250 /* RNShare.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -712,6 +724,14 @@
 			children = (
 				8D0C75081F21504600BE58CD /* libRCTPushNotification.a */,
 				8D0C750A1F21504600BE58CD /* libRCTPushNotification-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8D14B0F11FB52A44000F3CF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D14B11C1FB52A44000F3CF6 /* libRNShare.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -851,7 +871,7 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = TFYB97VTU3;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -953,6 +973,10 @@
 				{
 					ProductGroup = 8DD27E2B1F7228A3007CBC86 /* Products */;
 					ProjectRef = 5C07B33BEB7E4F23991308A3 /* RNFetchBlob.xcodeproj */;
+				},
+				{
+					ProductGroup = 8D14B0F11FB52A44000F3CF6 /* Products */;
+					ProjectRef = EC7F4B9B1AF046009A277250 /* RNShare.xcodeproj */;
 				},
 				{
 					ProductGroup = 8D8F19551F54C9E100878898 /* Products */;
@@ -1173,6 +1197,13 @@
 			fileType = archive.ar;
 			path = "libRCTPushNotification-tvOS.a";
 			remoteRef = 8D0C75091F21504600BE58CD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8D14B11C1FB52A44000F3CF6 /* libRNShare.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNShare.a;
+			remoteRef = 8D14B11B1FB52A44000F3CF6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		8D3D3AA81FA6C92400ED0988 /* libRNBackgroundTimer.a */ = {
@@ -1410,11 +1441,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: lusimei2007@126.com (SCU974Q2GV)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simei Lu (TFYB97VTU3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Simei Lu (TFYB97VTU3)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = TFYB97VTU3;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
@@ -1426,11 +1457,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
 					"$(SRCROOT)/../node_modules/react-native-in-app-utils/InAppUtils",
+					"$(SRCROOT)/../node_modules/react-native-share/ios",
 				);
 				INFOPLIST_FILE = quakechat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/quakechat\"",
 					"\"$(SRCROOT)/quakechat\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1440,8 +1473,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
 				PRODUCT_NAME = quakechat;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "732e7ec5-ffd7-4438-840d-dde7c0d42955";
+				PROVISIONING_PROFILE_SPECIFIER = QuakeChat;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1452,9 +1485,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Simei Lu (TFYB97VTU3)";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = TFYB97VTU3;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
@@ -1466,11 +1499,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
 					"$(SRCROOT)/../node_modules/react-native-in-app-utils/InAppUtils",
+					"$(SRCROOT)/../node_modules/react-native-share/ios",
 				);
 				INFOPLIST_FILE = quakechat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/quakechat\"",
 					"\"$(SRCROOT)/quakechat\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1480,8 +1515,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
 				PRODUCT_NAME = quakechat;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "14293567-7e84-43dd-aad9-619995a563dc";
+				PROVISIONING_PROFILE_SPECIFIER = QuakeChat;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1591,6 +1626,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
 					"$(SRCROOT)/../node_modules/react-native-in-app-utils/InAppUtils",
+					"$(SRCROOT)/../node_modules/react-native-share/ios",
 				);
 				INFOPLIST_FILE = "quakechat copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1632,6 +1668,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
 					"$(SRCROOT)/../node_modules/react-native-in-app-utils/InAppUtils",
+					"$(SRCROOT)/../node_modules/react-native-share/ios",
 				);
 				INFOPLIST_FILE = "quakechat copy-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
