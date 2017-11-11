@@ -21,17 +21,6 @@ export default class Proversion extends Component {
     }
 
     render() {
-        const features = [
-            {
-                title: 'More quakes list  in global or in New Zealand',
-            }, {
-                title: 'Even more settings'
-            },
-            {
-                title: 'Some upcoming features'
-            },
-
-        ];
         return (
             <ScrollView style={SettingStyle.container}>
 
@@ -45,7 +34,6 @@ export default class Proversion extends Component {
                     <View style={SettingStyle.infoContainer}>
                         <Text style={[SettingStyle.fonts,SettingStyle.proTitle]} h6>Thank you for your support</Text>
                         <Text style={[SettingStyle.fonts,SettingStyle.proTitle]} h6>Love and share</Text>
-
 
                         <Text style={SettingStyle.fonts} h5>* More quakes list in global or in New Zealand</Text>
                         <Text style={SettingStyle.fonts} h5>* Even more settings</Text>
