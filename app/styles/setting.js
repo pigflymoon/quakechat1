@@ -13,12 +13,35 @@ export default{
         marginTop: 15,
 
     },
+    proContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 10,
+        marginBottom: 15,
+        alignItems: 'center',
+    },
+    more: {
+        alignSelf: 'flex-end',
+    },
+    btnRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    getAppContainer: {
+        backgroundColor: colors.green2,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+
+    },
+    getRestoreContainer: {
+        backgroundColor: colors.blue3,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+    },
     title: {
         fontSize: 14,
         fontWeight: 'bold',
-    },
-    text: {
-        padding: 10,
     },
     link: {
         color: colors.primary1,
@@ -28,6 +51,9 @@ export default{
         alignSelf: 'center',
         marginBottom: 10,
 
+    },
+    proImage: {
+        height: '50%',
     },
     model: {
         marginTop: 100,
@@ -53,6 +79,27 @@ export default{
     versionBtn: {
         backgroundColor: colors.green2
     },
+    iconTextContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.blue3
+    },
+    infoContainer: {
+        flex: 1,
 
+
+    },
+    fonts: {
+        marginBottom: 8,
+        color: colors.grey2,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    proTitle: {
+        color: colors.blue3,
+    }
 
 }

@@ -872,6 +872,12 @@
 					};
 					8DD60F3D1FB6720400624A96 = {
 						DevelopmentTeam = TFYB97VTU3;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1420,8 +1426,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = quakechat/quakechat.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = TFYB97VTU3;
@@ -1450,11 +1456,11 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.quakechat;
 				PRODUCT_NAME = quakechat;
-				PROVISIONING_PROFILE = "23d68a74-b7d3-4556-91f9-c56e36eb0b24";
-				PROVISIONING_PROFILE_SPECIFIER = QuakeChat;
-				TARGETED_DEVICE_FAMILY = 1;
+				PROVISIONING_PROFILE = "9311b90d-691e-4562-bb89-37ac6edfb847";
+				PROVISIONING_PROFILE_SPECIFIER = "dev-quakechat";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1465,8 +1471,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = quakechat/quakechat.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = TFYB97VTU3;
 				HEADER_SEARCH_PATHS = (
@@ -1494,11 +1500,11 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.quakechat;
 				PRODUCT_NAME = quakechat;
-				PROVISIONING_PROFILE = "23d68a74-b7d3-4556-91f9-c56e36eb0b24";
-				PROVISIONING_PROFILE_SPECIFIER = QuakeChat;
-				TARGETED_DEVICE_FAMILY = 1;
+				PROVISIONING_PROFILE = "9311b90d-691e-4562-bb89-37ac6edfb847";
+				PROVISIONING_PROFILE_SPECIFIER = "dev-quakechat";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1593,10 +1599,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = quakechat/quakechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = TFYB97VTU3;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
@@ -1622,10 +1628,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.quakechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "23d68a74-b7d3-4556-91f9-c56e36eb0b24";
-				PROVISIONING_PROFILE_SPECIFIER = QuakeChat;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1638,9 +1644,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = quakechat/quakechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TFYB97VTU3;
+				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
@@ -1666,10 +1672,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lucy.quakechat;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.quakechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "23d68a74-b7d3-4556-91f9-c56e36eb0b24";
-				PROVISIONING_PROFILE_SPECIFIER = QuakeChat;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

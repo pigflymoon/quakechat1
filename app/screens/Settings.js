@@ -12,10 +12,11 @@ import {
     Item,
     TouchableOpacity,
     Alert,
-    Modal,
     TouchableHighlight,
+    Image,
 } from 'react-native';
-import {List, ListItem, Card, Tile, Icon,} from 'react-native-elements';
+import {List, ListItem, Card, Tile, Icon, Button} from 'react-native-elements';
+
 import * as StoreReview from 'react-native-store-review';
 import {NativeModules} from 'react-native';
 const {InAppUtils}  = NativeModules;
@@ -137,7 +138,9 @@ export default class Settings extends Component {
     }
 
     onPay = () => {
+        console.log('hi')
         InAppUtils.canMakePayments((enabled) => {
+            console.log('enabled', enabled)
             if (enabled) {
                 var products = [
                     'com.lucy.quakechat.productid',
@@ -145,9 +148,24 @@ export default class Settings extends Component {
 
                 InAppUtils.loadProducts(products, (error, products) => {
                     //update store here.
-                    var productIdentifier = 'com.lucy.quakechat.productid';
+                    console.log('products', products)
+                    var productIdentifier = 'com.lucy.quakechat.productid';//com.lucy.quakechat.productid
                     InAppUtils.purchaseProduct(productIdentifier, (error, response) => {
                         // NOTE for v3.0: User can cancel the payment which will be available as error object here.
+                        //transactionReceipt
+                        console.log('error', error)
+                        console.log('response', response)
+                        if (response && response.transactionReceipt) {
+                            InAppUtils.receiptData((error, receiptData) => {
+                                console.log('receiptData', receiptData)
+                                if (error) {
+                                    Alert.alert('itunes Error', 'Receipt not found.');
+                                } else {
+                                    //send to validation server
+                                    console.log('validate receipt')
+                                }
+                            });
+                        }
                         if (response && response.productIdentifier) {
                             this.setState({showUsgs: true, isPro: 'Available'})
                             //unlock store here.
@@ -235,55 +253,40 @@ export default class Settings extends Component {
     render() {
         return (
             <ScrollView>
+
+
                 <List>
-                    <Card>
-                        <View style={{paddingTop: 20}}>
-                            <Tile
-                                imageSrc={probg}
-                                title="Thank you for your support"
-                                titleStyle={{fontSize: 20}}
-                                activeOpacity={1}
-                                width={310}
-                                contentContainerStyle={{height: 100}}
-
-
-                                onPress={() => {
-                                    Alert.alert('Hi')
-                                }}
-                            >
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                        marginTop: 10,
-                                        alignItems: 'center',
-                                    }}
-                                >
-
-                                    <TouchableOpacity activeOpacity={.5} onPress={() => {
-                                        this.onPay()
-                                    }}>
-                                        <View style={{
-                                            backgroundColor: '#4f9deb',
-                                            paddingVertical: 5,
-                                            paddingHorizontal: 10,
-                                        }}>
-
-                                            <Text style={{color: '#ffffff'}}>Get PRO Version</Text>
-                                        </View>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity activeOpacity={.5} onPress={() => this.onProversion()}>
-                                        <View>
-                                            <Text style={{color: 'grey'}}>Find out more ></Text>
-                                        </View>
-                                    </TouchableOpacity>
-
+                    <Card
+                        containerStyle={{marginTop: 15, marginBottom: 15}}
+                        title="Thank you for your support"
+                        titleStyle={{color:colors.blue3}}
+                    >
+                        <View style={SettingStyle.proContainer}>
+                            <TouchableOpacity activeOpacity={.5} onPress={this.onPay}>
+                                <View style={SettingStyle.getAppContainer}>
+                                    <Text style={{color: '#ffffff'}}>Get PRO Version</Text>
                                 </View>
-                            </Tile>
+                            </TouchableOpacity>
+                            <TouchableOpacity activeOpacity={.5} onPress={() => {
+                                this.onRestore()
+                            }}>
+                                <View style={SettingStyle.getRestoreContainer}>
+                                    <Text style={{color: '#ffffff'}}>Restore Purchases</Text>
+                                </View>
+                            </TouchableOpacity>
+
                         </View>
+                        <View style={SettingStyle.container}>
+                            <TouchableOpacity activeOpacity={.5} onPress={() => this.onProversion()}
+                                              style={SettingStyle.more}>
+                                <View>
+                                    <Text style={SettingStyle.link}>Find out more ></Text>
+                                </View>
+                            </TouchableOpacity></View>
+
                     </Card>
+
+
                     <ListItem
                         containerStyle={listStyle.listItem}
                         leftIcon={{name: 'favorite', color: colors.grey2}}
@@ -292,6 +295,9 @@ export default class Settings extends Component {
                         rightTitle={this.state.isPro}
                         rightTitleStyle={this.titleStyle()}
                         hideChevron
+                        onPress={() => {
+                            this.onPay()
+                        }}
                     />
                     <ListItem containerStyle={listStyle.listItem}
                               title="DataSource"
