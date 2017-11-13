@@ -148,13 +148,7 @@ export const NewsStack = StackNavigator({
 });
 
 export const Tabs = TabNavigator({
-    Settings: {
-        screen: SettingsStack,
-        navigationOptions: {
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({tintColor}) => <Icon name="settings" size={35} color={tintColor}/>,
-        }
-    },
+
     List: {
         screen: QuakesListStack,
         navigationOptions: {

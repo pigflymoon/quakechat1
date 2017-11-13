@@ -43,7 +43,7 @@ export default class Settings extends Component {
             ruleValue: '0',
             version: '1.0',
             dataSource: 'GEONET',
-            showUsgs: false,
+            showUsgs: false,//remove in-purchase
             isPro: 'DISABLED',
 
 
@@ -200,7 +200,6 @@ export default class Settings extends Component {
                 return StoreReview.requestReview();
             }
 
-            link = '';
         }
 
         return Utils.goToURL(link);
@@ -256,49 +255,8 @@ export default class Settings extends Component {
 
 
                 <List>
-                    <Card
-                        containerStyle={{marginTop: 15, marginBottom: 15}}
-                        title="Thank you for your support"
-                        titleStyle={{color:colors.blue3}}
-                    >
-                        <View style={SettingStyle.proContainer}>
-                            <TouchableOpacity activeOpacity={.5} onPress={this.onPay}>
-                                <View style={SettingStyle.getAppContainer}>
-                                    <Text style={{color: '#ffffff'}}>Get PRO Version</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity activeOpacity={.5} onPress={() => {
-                                this.onRestore()
-                            }}>
-                                <View style={SettingStyle.getRestoreContainer}>
-                                    <Text style={{color: '#ffffff'}}>Restore Purchases</Text>
-                                </View>
-                            </TouchableOpacity>
-
-                        </View>
-                        <View style={SettingStyle.container}>
-                            <TouchableOpacity activeOpacity={.5} onPress={() => this.onProversion()}
-                                              style={SettingStyle.more}>
-                                <View>
-                                    <Text style={SettingStyle.link}>Find out more ></Text>
-                                </View>
-                            </TouchableOpacity></View>
-
-                    </Card>
 
 
-                    <ListItem
-                        containerStyle={listStyle.listItem}
-                        leftIcon={{name: 'favorite', color: colors.grey2}}
-                        title={`PRO Version`}
-                        titleStyle={this.titleStyle()}
-                        rightTitle={this.state.isPro}
-                        rightTitleStyle={this.titleStyle()}
-                        hideChevron
-                        onPress={() => {
-                            this.onPay()
-                        }}
-                    />
                     <ListItem containerStyle={listStyle.listItem}
                               title="DataSource"
                               leftIcon={{name: 'description', color: colors.grey2}}
