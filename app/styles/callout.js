@@ -13,16 +13,20 @@ export default{
         opacity: 0.8,
 
     },
-    card:{
+    card: {
         width: 300,
         padding: 15,
         flexDirection: 'column',
         alignSelf: 'flex-start',
     },
+    title: {
+        alignSelf: 'center',
+        color: colors.primary1,
+        fontSize: 16,
+    }
     // list:{
     //     borderBottomColor: colors.blue1
     // }
-
 
 
 }

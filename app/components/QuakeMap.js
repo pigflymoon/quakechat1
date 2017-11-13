@@ -133,33 +133,34 @@ export default class QuakeMap extends Component {
                                     pinColor={Utils.colorByLevel(quake.apiType, quake.mmi, quake.magnitude)}
                     >
                         <MapView.Callout style={callout.container}>
+                            <View style={callout.card}>
+                                <Text style={callout.title}>Quake detail</Text>
+                                <List>
+                                    <ListItem
+                                        hideChevron
+                                        title={`Time: ${quake.time}`}
+                                        titleNumberOfLines={2}
+                                    />
+                                    <ListItem
+                                        hideChevron
+                                        title={`Locality:${quake.locality}`}
+                                        titleNumberOfLines={2}
+                                    />
+                                    <ListItem
+                                        hideChevron
+                                        title={`Depth: ${quake.depth}`}
+                                    />
+                                    <ListItem
+                                        hideChevron
+                                        title={`Magnitude: ${quake.magnitude}`}
+                                    />
+                                    <ListItem
+                                        hideChevron
+                                        title={`mmi:${quake.mmi}`}
+                                    />
+                                </List>
+                            </View>
 
-                            <Card style={callout.card} title='Quake detail'>
-
-                                <ListItem
-                                    hideChevron
-                                    title={`Time: ${quake.time}`}
-                                    titleNumberOfLines={2}
-                                />
-                                <ListItem
-                                    hideChevron
-                                    title={`Locality:${quake.locality}`}
-                                    titleNumberOfLines={2}
-                                />
-                                <ListItem
-                                    hideChevron
-                                    title={`Depth: ${quake.depth}`}
-                                />
-                                <ListItem
-                                    hideChevron
-                                    title={`Magnitude: ${quake.magnitude}`}
-                                />
-                                <ListItem
-                                    hideChevron
-                                    title={`mmi:${quake.mmi}`}
-                                />
-
-                            </Card>
 
                         </MapView.Callout>
 
