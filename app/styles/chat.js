@@ -7,6 +7,8 @@ const {width, height} = Dimensions.get("window");
 export default{
     container: {
         flex: 1,
+        justifyContent: "space-between",
+
     },
     background: {
         // width,
@@ -14,7 +16,7 @@ export default{
         backgroundColor: colors.white,
     },
     markWrap: {
-        flex: 1,
+        // flex: 1,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -30,12 +32,14 @@ export default{
     wrapper: {
         marginHorizontal: 20,
         marginBottom: 10,
+        // flex:1,
     },
     verifyWrapper: {
         flex: 2
     },
 
     footerWrap: {
+        // flex: 2,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",

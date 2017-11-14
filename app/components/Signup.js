@@ -194,7 +194,7 @@ export default class Signup extends Component {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={chat.container}>
+                    <View style={chat.wrapper}>
                         <View style={chat.footerWrap}>
                             <View>
                                 <Text style={chat.accountText}>By signing up, you agree to the</Text>
