@@ -53,7 +53,7 @@ export default{
 
     },
     proImage: {
-        height: '50%',
+        maxHeight: '30%',
     },
     model: {
         marginTop: 100,
@@ -89,8 +89,6 @@ export default{
     },
     infoContainer: {
         flex: 1,
-
-
     },
     fonts: {
         marginBottom: 8,

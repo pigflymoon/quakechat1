@@ -24,7 +24,7 @@ export default class Proversion extends Component {
         return (
             <ScrollView style={SettingStyle.container}>
 
-                <Card containerStyle={{marginTop: 15, height: 400,}} title="PRO Version ($1.49)"
+                <Card containerStyle={{marginTop: 15,flex:1}} title="PRO Version ($1.49)"
                       titleStyle={{color: colors.blue3, fontSize: 32, fontWeight: 'bold'}}>
                     <Image
                         style={[SettingStyle.image, SettingStyle.proImage]}
