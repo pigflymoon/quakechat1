@@ -21,9 +21,7 @@ import * as StoreReview from 'react-native-store-review';
 import {NativeModules} from 'react-native';
 const {InAppUtils}  = NativeModules;
 
-import showInfo from '../styles/showInfo';
-import probg from '../images/pro-bg.jpg';
-
+import axios from 'axios';
 
 import colors from '../styles/colors';
 import quakeStyle from '../styles/quake';
@@ -32,6 +30,9 @@ import SettingStyle from '../styles/setting';
 
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
+var verifysandboxHost = Config.receiptVerify.Host.sandboxHost;
+// var verifyproductionHost = Config.receiptVerify.Host.productionHost;
+
 // let showDataSource = ['GEONET'];//
 export default class Settings extends Component {
 
@@ -101,9 +102,6 @@ export default class Settings extends Component {
             }
 
         }).done();
-//
-
-        //
     }
 
     toggleNotificationSwitch = (value) => {
@@ -148,41 +146,55 @@ export default class Settings extends Component {
     }
 
     onPay = () => {
-
+        var self = this;
         InAppUtils.canMakePayments((enabled) => {
-            console.log('enabled', enabled)
+
             if (enabled) {
-                var productIdentifier = Config.products.productIdentifier;//com.lucy.quakechat.productid
+                var productIdentifier = Config.products.productIdentifier;
                 var products = [
                     productIdentifier,
                 ];
 
                 InAppUtils.loadProducts(products, (error, products) => {
                     //update store here.
-                    console.log('products', products)
-                    var productIdentifier = Config.products.productIdentifier;//com.lucy.quakechat.productid
+                    var productIdentifier = Config.products.productIdentifier;
                     InAppUtils.purchaseProduct(productIdentifier, (error, response) => {
                         // NOTE for v3.0: User can cancel the payment which will be available as error object here.
                         //transactionReceipt
-                        console.log('error', error)
-                        console.log('response', response)
                         if (response && response.transactionReceipt) {
                             InAppUtils.receiptData((error, receiptData) => {
-                                console.log('receiptData', receiptData)
                                 if (error) {
                                     Alert.alert('itunes Error', 'Receipt not found.');
                                 } else {
                                     //send to validation server
-                                    console.log('validate receipt')
+                                    axios.post(verifysandboxHost, {
+                                        'receipt-data': receiptData,
+                                    })
+                                        .then(function (response) {
+                                            var status = response.data.status;
+                                            var statusCode = Config.receiptVerify.statusCode;
+                                            for (var prop in statusCode) {
+
+                                                if (status == prop) {
+                                                    if (statusCode[prop].valid) {
+                                                        AsyncStorage.setItem("isPro", 'true');
+                                                        self.setState({showUsgs: true, isPro: 'Available'})
+                                                    } else {
+                                                        Alert.alert('Message: ' + statusCode[prop].message);
+                                                    }
+
+
+                                                }
+                                            }
+
+                                        })
+                                        .catch(function (error) {
+                                            console.log('validate error', error);
+                                        })
                                 }
                             });
                         }
-                        if (response && response.productIdentifier) {
-                            AsyncStorage.setItem("isPro", 'true');
 
-                            this.setState({showUsgs: true, isPro: 'Available'})
-                            //unlock store here.
-                        }
                     });
                 });
 
