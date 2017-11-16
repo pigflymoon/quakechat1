@@ -6,4 +6,5 @@ var fireBaseconfig = {
     storageBucket: "quakechat-3317e.appspot.com",
 };
 var firebaseApp = firebase.initializeApp(fireBaseconfig);
+
 export default firebaseApp

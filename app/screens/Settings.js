@@ -20,7 +20,7 @@ import {List, ListItem, Card, Tile, Icon, Button} from 'react-native-elements';
 import * as StoreReview from 'react-native-store-review';
 import {NativeModules} from 'react-native';
 const {InAppUtils}  = NativeModules;
-
+// import receiptsFirebase from '../config/FirebaseReceiptsconfig';
 import axios from 'axios';
 
 import colors from '../styles/colors';
@@ -35,6 +35,7 @@ var verifyproductionHost = Config.receiptVerify.Host.productionHost;
 var verifyHost = verifysandboxHost;
 // let showDataSource = ['GEONET'];//
 export default class Settings extends Component {
+    receiptsRef = null;
 
     constructor(props, context) {
         super(props, context);
@@ -146,6 +147,24 @@ export default class Settings extends Component {
         const url = Config.share.url;
         Utils.shareText(message, url)
     }
+    sendRecipt = (receipt, receiptData) => {
+
+        // this.receiptsRef = receiptsFirebase.database().ref('receipts');
+        // console.log('this.receiptsRef ', this.receiptsRef)
+        // this.receiptsRef.set({
+        //     receiptData: receiptData,
+        //     transaction_id: (receipt.in_app)[0].transaction_id,
+        //     application_version: receipt.application_version,
+        //     bundle_id: receipt.bundle_id,
+        //     original_application_version: receipt.original_application_version,
+        //     original_purchase_date: receipt.original_purchase_date,
+        //     original_purchase_date_pst: receipt.original_purchase_date_pst,
+        //     receipt_creation_date: receipt.receipt_creation_date,
+        //     receipt_creation_date_pst: receipt.receipt_creation_date_pst,
+        //     receipt_type: receipt.receipt_type,
+        // });
+
+    }
 
     onPay = () => {
         var self = this;
@@ -169,12 +188,13 @@ export default class Settings extends Component {
                                     Alert.alert('itunes Error', 'Receipt not found.');
                                 } else {
                                     //send to validation server
-                                    console.log('receiptData ',receiptData)
+                                    console.log('receiptData ', receiptData)
                                     axios.post(verifyHost, {
                                         'receipt-data': receiptData,
                                     })
                                         .then(function (response) {
-                                            console.log('receipt ',response)
+                                            console.log('receipt ', response)
+                                            self.sendRecipt(response.data.receipt, receiptData);
                                             var status = response.data.status;
                                             var statusCode = Config.receiptVerify.statusCode;
                                             for (var prop in statusCode) {
@@ -298,6 +318,12 @@ export default class Settings extends Component {
                     <Picker.Item label="GEONET(NewZealand)" value="GEONET"/>
                 </Picker>
         );
+    }
+
+    componentWillUnmount() {
+        if (this.receiptsRef) {
+            this.receiptsRef.off();
+        }
     }
 
 
