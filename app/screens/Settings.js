@@ -31,8 +31,8 @@ import SettingStyle from '../styles/setting';
 import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 var verifysandboxHost = Config.receiptVerify.Host.sandboxHost;
-// var verifyproductionHost = Config.receiptVerify.Host.productionHost;
-
+var verifyproductionHost = Config.receiptVerify.Host.productionHost;
+var verifyHost = verifysandboxHost;
 // let showDataSource = ['GEONET'];//
 export default class Settings extends Component {
 
@@ -69,7 +69,9 @@ export default class Settings extends Component {
         AsyncStorage.getItem("isPro").then((value) => {
             if (value) {
                 var val = (value === "true");
-                this.setState({showUsgs: true, isPro: 'Available'})
+                if (val) {
+                    this.setState({showUsgs: true, isPro: 'Available'})
+                }
             } else {
                 AsyncStorage.setItem("isPro", this.state.showUsgs.toString());
             }
@@ -167,10 +169,12 @@ export default class Settings extends Component {
                                     Alert.alert('itunes Error', 'Receipt not found.');
                                 } else {
                                     //send to validation server
-                                    axios.post(verifysandboxHost, {
+                                    console.log('receiptData ',receiptData)
+                                    axios.post(verifyHost, {
                                         'receipt-data': receiptData,
                                     })
                                         .then(function (response) {
+                                            console.log('receipt ',response)
                                             var status = response.data.status;
                                             var statusCode = Config.receiptVerify.statusCode;
                                             for (var prop in statusCode) {
@@ -189,6 +193,7 @@ export default class Settings extends Component {
 
                                         })
                                         .catch(function (error) {
+                                            Alert.alert(error)
                                             console.log('validate error', error);
                                         })
                                 }
