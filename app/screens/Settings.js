@@ -20,6 +20,7 @@ import {List, ListItem, Card, Tile, Icon, Button} from 'react-native-elements';
 import * as StoreReview from 'react-native-store-review';
 import {NativeModules} from 'react-native';
 const {InAppUtils}  = NativeModules;
+
 import showInfo from '../styles/showInfo';
 import probg from '../images/pro-bg.jpg';
 
@@ -61,6 +62,15 @@ export default class Settings extends Component {
                 this.setState({"isNotified": val});
             } else {
                 AsyncStorage.setItem("isNotified", this.state.isNotified.toString());
+            }
+
+        }).done();
+        AsyncStorage.getItem("isPro").then((value) => {
+            if (value) {
+                var val = (value === "true");
+                this.setState({showUsgs: true, isPro: 'Available'})
+            } else {
+                AsyncStorage.setItem("isPro", this.state.showUsgs.toString());
             }
 
         }).done();
@@ -142,14 +152,15 @@ export default class Settings extends Component {
         InAppUtils.canMakePayments((enabled) => {
             console.log('enabled', enabled)
             if (enabled) {
+                var productIdentifier = Config.products.productIdentifier;//com.lucy.quakechat.productid
                 var products = [
-                    'com.lucy.quakechat.productid',
+                    productIdentifier,
                 ];
 
                 InAppUtils.loadProducts(products, (error, products) => {
                     //update store here.
                     console.log('products', products)
-                    var productIdentifier = 'com.lucy.quakechat.productid';//com.lucy.quakechat.productid
+                    var productIdentifier = Config.products.productIdentifier;//com.lucy.quakechat.productid
                     InAppUtils.purchaseProduct(productIdentifier, (error, response) => {
                         // NOTE for v3.0: User can cancel the payment which will be available as error object here.
                         //transactionReceipt
@@ -167,6 +178,8 @@ export default class Settings extends Component {
                             });
                         }
                         if (response && response.productIdentifier) {
+                            AsyncStorage.setItem("isPro", 'true');
+
                             this.setState({showUsgs: true, isPro: 'Available'})
                             //unlock store here.
                         }
@@ -189,13 +202,12 @@ export default class Settings extends Component {
                     Alert.alert('No Purchases', "We didn't find any purchases to restore.");
                     return;
                 }
-                var products = [
-                    'com.lucy.quakechat.productid',
-                ];
+                var productIdentifier = Config.products.productIdentifier;//com.lucy.quakechat.productid
+
                 response.forEach((purchase) => {
-                    if (purchase.productIdentifier === products) {
+                    if (purchase.productIdentifier === productIdentifier) {
                         // Handle purchased product.
-                        console.log('restore the app')
+                        this.setState({showUsgs: true, isPro: 'Available'})
                     }
                 });
             }
