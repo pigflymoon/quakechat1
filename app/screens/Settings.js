@@ -32,7 +32,7 @@ import Utils from '../utils/utils';
 import Config from '../config/ApiConfig';
 var verifysandboxHost = Config.receiptVerify.Host.sandboxHost;
 var verifyproductionHost = Config.receiptVerify.Host.productionHost;
-var verifyHost = verifysandboxHost;
+var verifyHost = verifyproductionHost;
 // let showDataSource = ['GEONET'];//
 export default class Settings extends Component {
     receiptsRef = null;
@@ -148,21 +148,35 @@ export default class Settings extends Component {
         Utils.shareText(message, url)
     }
     sendRecipt = (receipt, receiptData) => {
-
+        var self = this;
         this.receiptsRef = firebaseReceriptApp.database().ref('receipts');
-        console.log('this.receiptsRef ', this.receiptsRef)
-        this.receiptsRef.set({
-            receiptData: receiptData,
-            transaction_id: (receipt.in_app)[0].transaction_id,
-            application_version: receipt.application_version,
-            bundle_id: receipt.bundle_id,
-            original_application_version: receipt.original_application_version,
-            original_purchase_date: receipt.original_purchase_date,
-            original_purchase_date_pst: receipt.original_purchase_date_pst,
-            receipt_creation_date: receipt.receipt_creation_date,
-            receipt_creation_date_pst: receipt.receipt_creation_date_pst,
-            receipt_type: receipt.receipt_type,
-        });
+        // var newPostRef = this.receiptsRef.push();
+        var transactionKey = ( (receipt.in_app)[0].transaction_id) ? ( (receipt.in_app)[0].transaction_id).toString() : null;
+        if (transactionKey) {
+            this.receiptsRef.once('value', function (snapshot) {
+                if (snapshot) {
+                    if (snapshot.hasChild(transactionKey)) {
+                        console.log('exists')
+                    } else {
+                        self.receiptsRef.child(transactionKey).set({
+                            receiptData: receiptData,
+                            transaction_id: (receipt.in_app)[0].transaction_id,
+                            application_version: receipt.application_version,
+                            bundle_id: receipt.bundle_id,
+                            original_application_version: receipt.original_application_version,
+                            original_purchase_date: receipt.original_purchase_date,
+                            original_purchase_date_pst: receipt.original_purchase_date_pst,
+                            receipt_creation_date: receipt.receipt_creation_date,
+                            receipt_creation_date_pst: receipt.receipt_creation_date_pst,
+                            receipt_type: receipt.receipt_type,
+                        });
+                    }
+                }
+
+            });
+
+        }
+
 
     }
 
@@ -193,22 +207,22 @@ export default class Settings extends Component {
                                         'receipt-data': receiptData,
                                     })
                                         .then(function (response) {
-                                            console.log('receipt ', response)
-                                            self.sendRecipt(response.data.receipt, receiptData);
-                                            var status = response.data.status;
-                                            var statusCode = Config.receiptVerify.statusCode;
-                                            for (var prop in statusCode) {
-
-                                                if (status == prop) {
-                                                    if (statusCode[prop].valid) {
-                                                        AsyncStorage.setItem("isPro", 'true');
-                                                        self.setState({showUsgs: true, isPro: 'Available'})
-                                                    } else {
-                                                        Alert.alert('Message: ' + statusCode[prop].message);
+                                            if (response.data.receipt) {
+                                                self.sendRecipt(response.data.receipt, receiptData);
+                                                var status = response.data.status;
+                                                var statusCode = Config.receiptVerify.statusCode;
+                                                for (var prop in statusCode) {
+                                                    if (status == prop) {
+                                                        if (status == 0) {
+                                                            AsyncStorage.setItem("isPro", 'true');
+                                                            self.setState({showUsgs: true, isPro: 'Available'})
+                                                        } else {
+                                                            Alert.alert('Message: ' + statusCode[prop].message);
+                                                        }
                                                     }
-
-
                                                 }
+                                            } else {
+                                                Alert.alert('Please try later.')
                                             }
 
                                         })
@@ -233,20 +247,22 @@ export default class Settings extends Component {
             if (error) {
                 Alert.alert('itunes Error', 'Could not connect to itunes store.');
             } else {
-                Alert.alert('Restore Successful', 'Successfully restores all your purchases.');
-
                 if (response.length === 0) {
                     Alert.alert('No Purchases', "We didn't find any purchases to restore.");
                     return;
-                }
-                var productIdentifier = Config.products.productIdentifier;//com.lucy.quakechat.productid
+                } else {
+                    var productIdentifier = Config.products.productIdentifier;
 
-                response.forEach((purchase) => {
-                    if (purchase.productIdentifier === productIdentifier) {
-                        // Handle purchased product.
-                        this.setState({showUsgs: true, isPro: 'Available'})
-                    }
-                });
+                    response.forEach((purchase) => {
+                        if (purchase.productIdentifier === productIdentifier) {
+                            // Handle purchased product.
+                            this.setState({showUsgs: true, isPro: 'Available'});
+                            Alert.alert('Restore Successful', 'Successfully restores all your purchases.');
+
+                        }
+                    });
+                }
+
             }
         });
     }
