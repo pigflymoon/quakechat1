@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D09D2C81FBA3E7F0026176E"
-               BuildableName = "quakechat-pro.app"
-               BlueprintName = "quakechat-pro"
+               BuildableName = "quakechat.app"
+               BlueprintName = "quakechat"
                ReferencedContainer = "container:quakechat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -70,9 +70,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8DC41F8D1FBCED9900CD64A0"
-            BuildableName = "quakechat-dev.app"
-            BlueprintName = "quakechat-dev"
+            BlueprintIdentifier = "8D09D2C81FBA3E7F0026176E"
+            BuildableName = "quakechat.app"
+            BlueprintName = "quakechat"
             ReferencedContainer = "container:quakechat.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,7 +80,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -93,9 +93,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8DC41F8D1FBCED9900CD64A0"
-            BuildableName = "quakechat-dev.app"
-            BlueprintName = "quakechat-dev"
+            BlueprintIdentifier = "8D09D2C81FBA3E7F0026176E"
+            BuildableName = "quakechat.app"
+            BlueprintName = "quakechat"
             ReferencedContainer = "container:quakechat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -113,8 +113,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8D09D2C81FBA3E7F0026176E"
-            BuildableName = "quakechat-pro.app"
-            BlueprintName = "quakechat-pro"
+            BuildableName = "quakechat.app"
+            BlueprintName = "quakechat"
             ReferencedContainer = "container:quakechat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

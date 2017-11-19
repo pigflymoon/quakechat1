@@ -877,9 +877,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D09D2C81FBA3E7F0026176E /* quakechat-pro */ = {
+		8D09D2C81FBA3E7F0026176E /* quakechat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8D09D2F31FBA3E7F0026176E /* Build configuration list for PBXNativeTarget "quakechat-pro" */;
+			buildConfigurationList = 8D09D2F31FBA3E7F0026176E /* Build configuration list for PBXNativeTarget "quakechat" */;
 			buildPhases = (
 				8D09D2C91FBA3E7F0026176E /* Sources */,
 				8D09D2CC1FBA3E7F0026176E /* Frameworks */,
@@ -891,7 +891,7 @@
 			);
 			dependencies = (
 			);
-			name = "quakechat-pro";
+			name = quakechat;
 			productName = "Hello World";
 			productReference = 8D09D2F61FBA3E7F0026176E /* quakechat-pro.app */;
 			productType = "com.apple.product-type.application";
@@ -945,6 +945,11 @@
 				TargetAttributes = {
 					8D09D2C81FBA3E7F0026176E = {
 						DevelopmentTeam = TFYB97VTU3;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 					8D83E6B51FBCF11600531B17 = {
 						DevelopmentTeam = TFYB97VTU3;
@@ -1053,8 +1058,8 @@
 			);
 			projectRoot = "";
 			targets = (
+				8D09D2C81FBA3E7F0026176E /* quakechat */,
 				8DC41F8D1FBCED9900CD64A0 /* quakechat-dev */,
-				8D09D2C81FBA3E7F0026176E /* quakechat-pro */,
 				8D83E6B51FBCF11600531B17 /* quakechat-ad-hoc */,
 			);
 		};
@@ -1913,7 +1918,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8D09D2F31FBA3E7F0026176E /* Build configuration list for PBXNativeTarget "quakechat-pro" */ = {
+		8D09D2F31FBA3E7F0026176E /* Build configuration list for PBXNativeTarget "quakechat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8D09D2F41FBA3E7F0026176E /* Debug */,
