@@ -57,11 +57,11 @@ export default class Settings extends Component {
 
 
     componentDidMount() {
-
+        var self = this;
         AsyncStorage.getItem("isNotified").then((value) => {
             if (value) {
                 var val = (value === "true");
-                this.setState({"isNotified": val});
+                self.setState({"isNotified": val});
             } else {
                 AsyncStorage.setItem("isNotified", this.state.isNotified.toString());
             }
@@ -71,7 +71,7 @@ export default class Settings extends Component {
             if (value) {
                 var val = (value === "true");
                 if (val) {
-                    this.setState({showUsgs: true, isPro: 'Available'})
+                    self.setState({showUsgs: true, isPro: 'Available'})
                 }
             } else {
                 AsyncStorage.setItem("isPro", this.state.showUsgs.toString());
@@ -86,7 +86,7 @@ export default class Settings extends Component {
                 if (currentHour <= 8 || currentHour >= 22) {
                     val = true;
                 }
-                this.setState({"isSilent": val});
+                self.setState({"isSilent": val});
             } else {
                 if (currentHour <= 8 || currentHour >= 22) {
                     AsyncStorage.setItem("isSilent", 'true');
@@ -99,20 +99,21 @@ export default class Settings extends Component {
         }).done();
         AsyncStorage.getItem("dataSource").then((value) => {
             if (value) {
-                this.setState({"dataSource": value.toUpperCase()});
+                self.setState({"dataSource": value.toUpperCase()});
             } else {
-                AsyncStorage.setItem("dataSource", this.state.dataSource.toString().toLowerCase());
+                AsyncStorage.setItem("dataSource", self.state.dataSource.toString().toLowerCase());
             }
 
         }).done();
     }
 
     toggleNotificationSwitch = (value) => {
+        var self = this;
         AsyncStorage.setItem("isNotified", value.toString());
         this.setState({"isNotified": value});
         AsyncStorage.getItem("isNotified").then((value) => {
             var val = (value === "true");
-            this.setState({"isNotified": val});
+            self.setState({"isNotified": val});
         }).done();
 
     }

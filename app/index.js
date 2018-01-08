@@ -32,6 +32,7 @@ export default class App extends Component {
 
     handleConnectivityChange = (connectionInfo) => {
         let connectionType = connectionInfo.type;
+        Alert.alert('connectionType' + connectionType);
         if (connectionType === 'none' || connectionType === 'unknown') {
             utils.netWorkError();
             this.setState({
@@ -79,7 +80,7 @@ export default class App extends Component {
 
 
     handleNotification = (notificationQuakesData) => {
-        var j = 1;
+        var j = 1,self = this;
         AsyncStorage.getItem("dataSource").then((value) => {
             if (value) {
                 if (notificationQuakesData.length >= 1) {
@@ -117,7 +118,7 @@ export default class App extends Component {
                                     AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (lastTime.timeStamp).toString())
                                 }
 
-                                this.setState({navigateScreen:'QuakesList'})
+                                self.setState({navigateScreen: 'QuakesList'})
                             }
 
 
@@ -174,12 +175,13 @@ export default class App extends Component {
 
         } else if (nextAppState != null && nextAppState === 'background') {
             this.flage = true;
+            var self = this
             this.intervalId = BackgroundTimer.setInterval(() => {
                 AsyncStorage.getItem('notificationQuakesData')
                     .then(req => JSON.parse(req))
                     .then((value) => {
                         if (value.length >= 1) {
-                            this.handleNotification(value);
+                            self.handleNotification(value);
                         }
                     })
                     .catch(error => console.log('error!'));

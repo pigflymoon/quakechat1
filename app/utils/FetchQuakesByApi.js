@@ -92,15 +92,11 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, cal
 
             callback(quakesArray, notificationQuakes);
 
-        })//then
-    // }else{
-    //     console.log('notificationTypeTime is null',lastNotifiedTimeValue)
-    // }
+        })
+        .catch((error) => {
+            console.warn('fetch quake data error: ', error)
+        })
 
-
-    // }
-    // ).done();
-// }
 
 }
 export const fetchMapQuakesByApi = (apiType, url, callback) => {

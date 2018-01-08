@@ -134,10 +134,11 @@ export default class QuakeLevelList extends Component {
         this.setState({isConnected: isConnected});
 
         if (nextProps.isConnected) {
+            var self = this;
             AsyncStorage.getItem("ruleValue").then((value) => {
                 if (value) {
                     var savedRule = value;
-                    this.fetchQuakes(nextProps, savedRule);
+                    self.fetchQuakes(nextProps, savedRule);
                 }
             });
 
@@ -145,20 +146,20 @@ export default class QuakeLevelList extends Component {
     }
 
     componentDidMount() {
-        var notificationRule;
+        var notificationRule,self = this;
         if (this.props.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
                 // if (value) {
                     notificationRule = value;
-                    if (this.state.quakes.length <= 0) {
-                        this.fetchQuakes(false, notificationRule);
+                    if (self.state.quakes.length <= 0) {
+                        self.fetchQuakes(false, notificationRule);
                     }
-                    this.quakesInterval = BackgroundTimer.setInterval(() => {
-                        this.fetchQuakes(false, notificationRule);
+                    self.quakesInterval = BackgroundTimer.setInterval(() => {
+                        self.fetchQuakes(false, notificationRule);
                     }, 1000 * 60 * 1);
 
-                    if (this.props.refreshing) {
-                        this.fetchQuakes(false, notificationRule);
+                    if (self.props.refreshing) {
+                        self.fetchQuakes(false, notificationRule);
                     }
                 // }
 
