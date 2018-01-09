@@ -101,32 +101,30 @@ export  default class QuakeLevelTab extends Component {
 
     }
     componentDidMount() {
-        var self = this;
         AsyncStorage.getItem("dataSource").then((value) => {
             if (value) {
                 if (value === 'geonet') {
-                    self.setState({activeTab: 'newzealand'});
+                    this.setState({activeTab: 'newzealand'});
                 } else {
-                    self.setState({activeTab: 'global'})
+                    this.setState({activeTab: 'global'})
                 }
             } else {
-                self.setState({activeTab: 'newzealand'});//when first time load the app,value is null to set default one
+                this.setState({activeTab: 'newzealand'});//when first time load the app,value is null to set default one
             }
 
 
         });
     }
     componentWillReceiveProps() {
-        var self = this ;
         AsyncStorage.getItem("dataSource").then((value) => {
             if (value) {
                 if (value === 'geonet') {
-                    self.setState({activeTab: 'newzealand'});
+                    this.setState({activeTab: 'newzealand'});
                 } else {
-                    self.setState({activeTab: 'global'})
+                    this.setState({activeTab: 'global'})
                 }
             } else {
-                self.setState({activeTab: 'newzealand'});//when first time load the app,value is null to set default one
+                this.setState({activeTab: 'newzealand'});//when first time load the app,value is null to set default one
             }
 
 

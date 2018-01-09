@@ -80,7 +80,7 @@ export default class App extends Component {
 
 
     handleNotification = (notificationQuakesData) => {
-        var j = 1,self = this;
+        var j = 1;
         AsyncStorage.getItem("dataSource").then((value) => {
             if (value) {
                 if (notificationQuakesData.length >= 1) {
@@ -118,7 +118,7 @@ export default class App extends Component {
                                     AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (lastTime.timeStamp).toString())
                                 }
 
-                                self.setState({navigateScreen: 'QuakesList'})
+                                this.setState({navigateScreen: 'QuakesList'})
                             }
 
 
@@ -175,17 +175,18 @@ export default class App extends Component {
 
         } else if (nextAppState != null && nextAppState === 'background') {
             this.flage = true;
-            var self = this
             this.intervalId = BackgroundTimer.setInterval(() => {
                 AsyncStorage.getItem('notificationQuakesData')
                     .then(req => JSON.parse(req))
                     .then((value) => {
                         if (value.length >= 1) {
-                            self.handleNotification(value);
+                            this.handleNotification(value);
                         }
                     })
-                    .catch(error => console.log('error!'));
-            }, 1000 * 20);
+                    .catch((error) => {
+                        console.warn('run at background data error: ', error)
+                    })
+            }, 1000 * 60 * 3);
             //
         }
 

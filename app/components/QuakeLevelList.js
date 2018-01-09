@@ -14,7 +14,7 @@ import QuakeItem from './QuakeItem';
 import Config from '../config/ApiConfig';
 import listStyle from '../styles/list';
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
-
+var quakesInterval;
 export default class QuakeLevelList extends Component {
 
     constructor(props, context) {
@@ -70,6 +70,7 @@ export default class QuakeLevelList extends Component {
 
             } else {
                 if (nextProps.tab === 'newzealand') {
+                    console.log('tab is newzealand')
                     fetchQuakesByApi(notificationRule, nextProps.level, 'geonet', geoUrl, function (quakes, notificationQuakes) {
                         self.setState({
                                 quakes: quakes,
@@ -134,11 +135,10 @@ export default class QuakeLevelList extends Component {
         this.setState({isConnected: isConnected});
 
         if (nextProps.isConnected) {
-            var self = this;
             AsyncStorage.getItem("ruleValue").then((value) => {
                 if (value) {
                     var savedRule = value;
-                    self.fetchQuakes(nextProps, savedRule);
+                    this.fetchQuakes(nextProps, savedRule);
                 }
             });
 
@@ -151,13 +151,17 @@ export default class QuakeLevelList extends Component {
             AsyncStorage.getItem("ruleValue").then((value) => {
                 // if (value) {
                     notificationRule = value;
-                    if (self.state.quakes.length <= 0) {
-                        self.fetchQuakes(false, notificationRule);
+                    if (this.state.quakes.length <= 0) {
+                        this.fetchQuakes(false, notificationRule);
                     }
-                    self.quakesInterval = BackgroundTimer.setInterval(() => {
+                self.quakesInterval = BackgroundTimer.setInterval(() => {
+                        console.log('fetch data every minute??')
                         self.fetchQuakes(false, notificationRule);
+                        // Alert.alert('is still running every minute');
                     }, 1000 * 60 * 1);
-
+                // self.quakesInterval = BackgroundTimer.setInterval(() => {
+                //    Alert.alert('is still running every minute')
+                // }, 1000 * 60 * 1);
                     if (self.props.refreshing) {
                         self.fetchQuakes(false, notificationRule);
                     }
@@ -171,7 +175,7 @@ export default class QuakeLevelList extends Component {
 
 
     componentWillUnmount() {
-        BackgroundTimer.clearInterval(this.quakesInterval);
+        // BackgroundTimer.clearInterval(quakesInterval);
     }
 
     keyExtractor = (item, index) => `key${index}`;
