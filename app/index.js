@@ -13,6 +13,7 @@ import utils from './utils/utils';
 import BackgroundTimer from 'react-native-background-timer';
 
 
+
 export default class App extends Component {
 
     constructor(props, context) {
@@ -79,73 +80,7 @@ export default class App extends Component {
     }
 
 
-    handleNotification = (notificationQuakesData) => {
-        var j = 1;
-        AsyncStorage.getItem("dataSource").then((value) => {
-            if (value) {
-                if (notificationQuakesData.length >= 1) {
-                    // goBack(null);
 
-                    AsyncStorage.getItem(notificationQuakesData[0].apiType + 'LastNotifiedTime').then((notificateTime) => {
-
-                        if (notificateTime) {
-                            if (notificateTime > 0) {
-                                var lastTime;
-
-                                for (var i = 0, len = notificationQuakesData.length; i < len; i++) {
-
-                                    if (parseInt(notificateTime) < notificationQuakesData[i].timeStamp) {
-                                        PushNotification.localNotificationSchedule({
-                                            message: notificationQuakesData[i].message,
-                                            date: new Date(notificationQuakesData[i].time),
-                                            number: j++,
-                                            playSound: true,
-                                            foreground: true,
-
-                                        });
-                                    }
-
-                                }
-                                //
-                                // const {navigate} = this.props.navigation;
-                                // navigate('QuakesList');
-
-                                lastTime = notificationQuakesData.find(function (el) {
-                                    return (el.timeStamp > parseInt(notificateTime))
-                                });
-                                // console.log('lastTime ', lastTime)
-                                if (lastTime) {
-                                    AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (lastTime.timeStamp).toString())
-                                }
-
-                                this.setState({navigateScreen: 'QuakesList'})
-                            }
-
-
-                        } else {
-                            console.log('called notification', notificateTime)
-                            // var k = 1;
-
-                            PushNotification.localNotificationSchedule({
-                                message: notificationQuakesData[0].message,
-                                date: new Date(notificationQuakesData[0].time),
-                                number: j,
-                                playSound: true,
-                                foreground: true,
-
-                            });
-                            AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (notificationQuakesData[0].timeStamp).toString())
-                        }
-
-                    });
-
-                }
-            }
-
-
-        });
-
-    }
 
     handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
@@ -193,31 +128,33 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        PushNotification.configure({
-            // (required) Called when a remote or local notification is opened or received
-            onNotification: function (notification) {
-                console.log('NOTIFICATION:', notification);
-            },
 
-            // IOS ONLY (optional): default: all - Permissions to register.
-            permissions: {
-                alert: true,
-                badge: true,
-                sound: true
-            },
+        // PushNotification.configure({
+        //     // (required) Called when a remote or local notification is opened or received
+        //     onNotification: function (notification) {
+        //         console.log('NOTIFICATION:', notification);
+        //     },
+        //
+        //     // IOS ONLY (optional): default: all - Permissions to register.
+        //     permissions: {
+        //         alert: true,
+        //         badge: true,
+        //         sound: true
+        //     },
+        //
+        //     // Should the initial notification be popped automatically
+        //     // default: true
+        //     popInitialNotification: true,
+        //
+        //     /**
+        //      * (optional) default: true
+        //      * - Specified if permissions (ios) and token (android and ios) will requested or not,
+        //      * - if not, you must call PushNotificationsHandler.requestPermissions() later
+        //      */
+        //     requestPermissions: true,
+        // })
 
-            // Should the initial notification be popped automatically
-            // default: true
-            popInitialNotification: true,
-
-            /**
-             * (optional) default: true
-             * - Specified if permissions (ios) and token (android and ios) will requested or not,
-             * - if not, you must call PushNotificationsHandler.requestPermissions() later
-             */
-            requestPermissions: true,
-        })
-        AppState.addEventListener('change', this.handleAppStateChange);
+        // AppState.addEventListener('change', this.handleAppStateChange);
 
         NetInfo.addEventListener(
             'connectionChange',
@@ -229,12 +166,12 @@ export default class App extends Component {
 
 
     componentWillUnmount() {
-        AppState.removeEventListener('change', this.handleAppStateChange);
+        // AppState.removeEventListener('change', this.handleAppStateChange);
         NetInfo.removeEventListener(
             'connectionChange',
             this.handleConnectivityChange
         );
-        BackgroundTimer.clearInterval(this.intervalId);
+        // BackgroundTimer.clearInterval(this.intervalId);
 
     }
 

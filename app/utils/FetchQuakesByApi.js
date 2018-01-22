@@ -3,6 +3,7 @@ import {
     AsyncStorage,
     Alert,
 } from 'react-native';
+import BackgroundTask from 'react-native-background-task';
 
 const QuakeData = (apiType, timeStamp, utime, time, quake) => {
     if (apiType === 'usgs') {
