@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSApplicationCategoryType</key>
+	<string/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -21,7 +23,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>4</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -38,13 +40,14 @@
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) uses photos</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) uses photos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
 		<string>FontAwesome.ttf</string>
 		<string>Foundation.ttf</string>
 		<string>Ionicons.ttf</string>
@@ -53,11 +56,10 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
-		<string>Feather.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>remote-notification</string>
+		<string>fetch</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

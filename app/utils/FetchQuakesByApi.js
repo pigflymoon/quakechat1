@@ -45,6 +45,7 @@ const QuakeData = (apiType, timeStamp, utime, time, quake) => {
 }
 
 export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, callback) => {
+    /*
     axios.get(url)
         .then(function (result) {
             let quakesData = result.data.features;
@@ -92,15 +93,68 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, cal
 
             callback(quakesArray, notificationQuakes);
 
-        })//then
-    // }else{
-    //     console.log('notificationTypeTime is null',lastNotifiedTimeValue)
-    // }
+        })
+        .catch((error) => {
+            console.warn('fetch quake data error: ', error)
+        })
+
+    */
+    // console.log('fetch api try to fetch**********')
+    fetch(url, {method: "GET"})
+        .then((response) => response.json())
+        .then((responseData) => {
+            // console.log('responseData',responseData.features)
+            let quakesData = responseData.features;
+
+            quakesData = quakesData.slice(0, 100);
+            let quakesArray = [],
+                notificationQuakes = [];
 
 
-    // }
-    // ).done();
-// }
+            for (let quake of quakesData) {
+                let time = quake.properties.time;
+                let utime = new Date(time);
+                // var quakeTime = new Date(time).getTime();
+                utime = new Date(utime.toUTCString().slice(0, -4));
+                utime = utime.toString().split('GMT')[0];
+
+                time = new Date(time);
+
+
+                let timeStamp = time.getTime();
+                time = time.toString().split('GMT')[0];
+
+                var quakeData = QuakeData(apiType, timeStamp, utime, time, quake);
+
+                // console.log('apiType', apiType, 'quakeData', quakeData);
+                if (quakeData.magnitude) {
+
+                    if (quakeLevel == 'all' || quakeLevel == 0) {
+                        // console.log('request all or mmi = 0')
+                        if (notificationRule <= quakeData.magnitude) {// && notifiedTime <= quakeTime
+                            notificationQuakes.push(quakeData);
+                        }
+                    } else if (notificationRule <= quakeLevel) {//
+                        notificationQuakes.push(quakeData);
+                    } else {
+                        return;
+                    }
+
+                    quakesArray.push(quakeData);
+                }
+
+            } //for
+            // console.log('return notificationQuakes', (notificationQuakes));
+
+
+            callback(quakesArray, notificationQuakes);
+
+        })
+        .catch((error)=>{console.warn('fetch quake data error: ',error)})
+
+
+
+
 
 }
 export const fetchMapQuakesByApi = (apiType, url, callback) => {

@@ -10,11 +10,16 @@ import {
 import PushNotification from 'react-native-push-notification';
 import {Tabs} from './config/router';
 import utils from './utils/utils';
-import BackgroundTimer from 'react-native-background-timer';
 
+// import BackgroundTask from 'react-native-background-task';
+//
+// BackgroundTask.define(async() => {
+//     // Remember to call finish()
+//     console.log('Hello from a background task ####index####')
+//     BackgroundTask.finish()
+// });
 
 export default class App extends Component {
-
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -78,74 +83,6 @@ export default class App extends Component {
     }
 
 
-    handleNotification = (notificationQuakesData) => {
-        var j = 1;
-        AsyncStorage.getItem("dataSource").then((value) => {
-            if (value) {
-                if (notificationQuakesData.length >= 1) {
-                    // goBack(null);
-
-                    AsyncStorage.getItem(notificationQuakesData[0].apiType + 'LastNotifiedTime').then((notificateTime) => {
-
-                        if (notificateTime) {
-                            if (notificateTime > 0) {
-                                var lastTime;
-
-                                for (var i = 0, len = notificationQuakesData.length; i < len; i++) {
-
-                                    if (parseInt(notificateTime) < notificationQuakesData[i].timeStamp) {
-                                        PushNotification.localNotificationSchedule({
-                                            message: notificationQuakesData[i].message,
-                                            date: new Date(notificationQuakesData[i].time),
-                                            number: j++,
-                                            playSound: true,
-                                            foreground: true,
-
-                                        });
-                                    }
-
-                                }
-                                //
-                                // const {navigate} = this.props.navigation;
-                                // navigate('QuakesList');
-
-                                lastTime = notificationQuakesData.find(function (el) {
-                                    return (el.timeStamp > parseInt(notificateTime))
-                                });
-                                // console.log('lastTime ', lastTime)
-                                if (lastTime) {
-                                    AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (lastTime.timeStamp).toString())
-                                }
-
-                                this.setState({navigateScreen:'QuakesList'})
-                            }
-
-
-                        } else {
-                            console.log('called notification', notificateTime)
-                            // var k = 1;
-
-                            PushNotification.localNotificationSchedule({
-                                message: notificationQuakesData[0].message,
-                                date: new Date(notificationQuakesData[0].time),
-                                number: j,
-                                playSound: true,
-                                foreground: true,
-
-                            });
-                            AsyncStorage.setItem(notificationQuakesData[0].apiType + 'LastNotifiedTime', (notificationQuakesData[0].timeStamp).toString())
-                        }
-
-                    });
-
-                }
-            }
-
-
-        });
-
-    }
-
     handleAppStateChange = (nextAppState) => {
         if (nextAppState != null && nextAppState === 'active') {
 
@@ -182,39 +119,43 @@ export default class App extends Component {
                             this.handleNotification(value);
                         }
                     })
-                    .catch(error => console.log('error!'));
-            }, 1000 * 20);
+                    .catch((error) => {
+                        console.warn('run at background data error: ', error)
+                    })
+            }, 1000 * 60 * 3);
             //
         }
 
     }
 
     componentDidMount() {
-        PushNotification.configure({
-            // (required) Called when a remote or local notification is opened or received
-            onNotification: function (notification) {
-                console.log('NOTIFICATION:', notification);
-            },
+        // BackgroundTask.schedule();
+        // PushNotification.configure({
+        //     // (required) Called when a remote or local notification is opened or received
+        //     onNotification: function (notification) {
+        //         console.log('NOTIFICATION:', notification);
+        //     },
+        //
+        //     // IOS ONLY (optional): default: all - Permissions to register.
+        //     permissions: {
+        //         alert: true,
+        //         badge: true,
+        //         sound: true
+        //     },
+        //
+        //     // Should the initial notification be popped automatically
+        //     // default: true
+        //     popInitialNotification: true,
+        //
+        //     /**
+        //      * (optional) default: true
+        //      * - Specified if permissions (ios) and token (android and ios) will requested or not,
+        //      * - if not, you must call PushNotificationsHandler.requestPermissions() later
+        //      */
+        //     requestPermissions: true,
+        // })
 
-            // IOS ONLY (optional): default: all - Permissions to register.
-            permissions: {
-                alert: true,
-                badge: true,
-                sound: true
-            },
-
-            // Should the initial notification be popped automatically
-            // default: true
-            popInitialNotification: true,
-
-            /**
-             * (optional) default: true
-             * - Specified if permissions (ios) and token (android and ios) will requested or not,
-             * - if not, you must call PushNotificationsHandler.requestPermissions() later
-             */
-            requestPermissions: true,
-        })
-        AppState.addEventListener('change', this.handleAppStateChange);
+        // AppState.addEventListener('change', this.handleAppStateChange);
 
         NetInfo.addEventListener(
             'connectionChange',
@@ -226,12 +167,12 @@ export default class App extends Component {
 
 
     componentWillUnmount() {
-        AppState.removeEventListener('change', this.handleAppStateChange);
+        // AppState.removeEventListener('change', this.handleAppStateChange);
         NetInfo.removeEventListener(
             'connectionChange',
             this.handleConnectivityChange
         );
-        BackgroundTimer.clearInterval(this.intervalId);
+        // BackgroundTimer.clearInterval(this.intervalId);
 
     }
 

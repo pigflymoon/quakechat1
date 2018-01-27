@@ -3,18 +3,16 @@ package com.quakechat;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.ocetnik.timer.BackgroundTimerPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import cl.json.RNSharePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.airbnb.android.react.maps.MapsPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,15 +29,18 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new BackgroundTimerPackage(),
-            new RNFetchBlobPackage(),
-            new RNDeviceInfo(),
-            new RNSharePackage(),
+            new VectorIconsPackage(),
             new ReactNativePushNotificationPackage(),
             new MapsPackage(),
-            new VectorIconsPackage(),
-            new ReactNativePushNotificationPackage()
+            new RNFetchBlobPackage(),
+            new RNDeviceInfo(),
+            new BackgroundTaskPackage()
       );
+    }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
     }
   };
 

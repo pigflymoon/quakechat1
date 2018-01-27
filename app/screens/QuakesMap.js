@@ -21,6 +21,11 @@ export default class QuakesMap extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
+        if(nextProps.screenProps.currentScreen != 'Map'){
+            return;
+        }
+        console.log('map props called')
         var isConnected = nextProps.screenProps.isConnected;//update netinfo
         this.setState({isConnected: isConnected});
     }

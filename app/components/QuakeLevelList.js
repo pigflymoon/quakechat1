@@ -9,12 +9,21 @@ import {
     FlatList
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
-import BackgroundTimer from 'react-native-background-timer';
+// import BackgroundTimer from 'react-native-background-timer';
+import BackgroundTask from 'react-native-background-task';
+
 import QuakeItem from './QuakeItem';
 import Config from '../config/ApiConfig';
 import listStyle from '../styles/list';
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 
+var quakesInterval;
+
+BackgroundTask.define(async() => {
+    // Remember to call finish()
+    console.log('Hello from a background task')
+    BackgroundTask.finish()
+});
 export default class QuakeLevelList extends Component {
 
     constructor(props, context) {
@@ -51,6 +60,7 @@ export default class QuakeLevelList extends Component {
                             }
                         );
                         nextProps.onRefreshData(false);
+                        // self.handleNotificationTask();
                         self.props.onNotification(notificationQuakes);
 
                     });
@@ -70,6 +80,7 @@ export default class QuakeLevelList extends Component {
 
             } else {
                 if (nextProps.tab === 'newzealand') {
+                    // console.log('tab is newzealand')
                     fetchQuakesByApi(notificationRule, nextProps.level, 'geonet', geoUrl, function (quakes, notificationQuakes) {
                         self.setState({
                                 quakes: quakes,
@@ -77,7 +88,7 @@ export default class QuakeLevelList extends Component {
                                 error: null,
                             }
                         );
-
+                        // self.handleNotificationTask();
                         self.props.onNotification(notificationQuakes);
                     });
 
@@ -106,7 +117,11 @@ export default class QuakeLevelList extends Component {
                             error: null,
                         }
                     );
+                    //
+                    AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
+
                     self.props.onNotification(notificationQuakes);
+                    // self.handleNotificationTask();
 
                 });
                 self.props.onRefreshData(false);
@@ -128,12 +143,14 @@ export default class QuakeLevelList extends Component {
         }
     }
 
+    handleNotificationTask = () => {
+        console.log('************notification task************')
+    }
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;
         this.setState({isConnected: isConnected});
-
-        if (nextProps.isConnected) {
+        if (nextProps.isConnected && nextProps.currentScreen === 'QuakesList') {
             AsyncStorage.getItem("ruleValue").then((value) => {
                 if (value) {
                     var savedRule = value;
@@ -145,21 +162,32 @@ export default class QuakeLevelList extends Component {
     }
 
     componentDidMount() {
-        var notificationRule;
+        BackgroundTask.schedule();
+        var notificationRule, self = this;
         if (this.props.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
                 // if (value) {
-                    notificationRule = value;
-                    if (this.state.quakes.length <= 0) {
-                        this.fetchQuakes(false, notificationRule);
-                    }
-                    this.quakesInterval = BackgroundTimer.setInterval(() => {
-                        this.fetchQuakes(false, notificationRule);
-                    }, 1000 * 60 * 1);
+                notificationRule = value;
+                if (this.state.quakes.length <= 0) {
+                    this.fetchQuakes(false, notificationRule);
+                }
+                // self.interval = setInterval(
+                //     () => { console.log('把一个定时器的引用挂在this上'); },
+                //     5000
+                // );
+                // self.quakesInterval = BackgroundTimer.setInterval(() => {
+                //     console.log('fetch data every minute??')
+                //     self.fetchQuakes(false, notificationRule);
+                //     // Alert.alert('is still running every minute');
+                // }, 1000 * 60 * 1);
+                self.intervalFetchQuakesData = setInterval(() => {
+                    console.log('当前用定时器取数据');
+                    self.fetchQuakes(false, notificationRule)
+                }, 1000 * 60 * 1);
 
-                    if (this.props.refreshing) {
-                        this.fetchQuakes(false, notificationRule);
-                    }
+                if (self.props.refreshing) {
+                    self.fetchQuakes(false, notificationRule);
+                }
                 // }
 
             });
@@ -170,7 +198,9 @@ export default class QuakeLevelList extends Component {
 
 
     componentWillUnmount() {
-        BackgroundTimer.clearInterval(this.quakesInterval);
+        // BackgroundTimer.clearInterval(quakesInterval);
+        console.log('unmount called');
+        this.intervalFetchQuakesData && clearInterval(this.intervalFetchQuakesData);
     }
 
     keyExtractor = (item, index) => `key${index}`;

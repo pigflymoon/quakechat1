@@ -29,6 +29,7 @@ export default class QuakeDetail extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('detail props called')
         var isConnected = nextProps.navigation.state.params.isConnected;
         this.setState({isConnected: isConnected});
     }

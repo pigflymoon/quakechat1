@@ -32,6 +32,7 @@ export default class ResetPassword extends Component {
             showIcon: true,
         };
     }
+
     setEmail = (text) => {
         this.setState({email: text});
     }
@@ -136,11 +137,9 @@ export default class ResetPassword extends Component {
                     <View style={chat.container}>
                         <View style={chat.footerWrap}>
                             <Text style={chat.accountText}>Don't have an account?</Text>
-                            <TouchableOpacity activeOpacity={.5} onPress={this.handleSignup}>
-                                <View>
-                                    <Text style={chat.linkText}>Sign up</Text>
-                                </View>
-                            </TouchableOpacity>
+                                <TouchableOpacity activeOpacity={.5} onPress={this.handleSignup}>
+                                    <View> <Text style={chat.linkText}>Sign up</Text></View>
+                                </TouchableOpacity>
                         </View>
                     </View>
                     <View style={chat.infoWrapper}>
