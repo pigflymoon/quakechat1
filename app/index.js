@@ -7,17 +7,8 @@ import {
     AppState,
     AsyncStorage
 } from 'react-native';
-import PushNotification from 'react-native-push-notification';
 import {Tabs} from './config/router';
 import utils from './utils/utils';
-
-// import BackgroundTask from 'react-native-background-task';
-//
-// BackgroundTask.define(async() => {
-//     // Remember to call finish()
-//     console.log('Hello from a background task ####index####')
-//     BackgroundTask.finish()
-// });
 
 export default class App extends Component {
     constructor(props, context) {
@@ -94,7 +85,7 @@ export default class App extends Component {
                 // 这个地方进行网络请求等其他逻辑。
                 //
                 //foreground
-                BackgroundTimer.clearInterval(this.intervalId);
+                // BackgroundTimer.clearInterval(this.intervalId);
                 PushNotification.setApplicationIconBadgeNumber(0);
                 AsyncStorage.getItem("notificationQuakesData")
                     .then(req => JSON.parse(req))
@@ -111,6 +102,7 @@ export default class App extends Component {
 
         } else if (nextAppState != null && nextAppState === 'background') {
             this.flage = true;
+            /*
             this.intervalId = BackgroundTimer.setInterval(() => {
                 AsyncStorage.getItem('notificationQuakesData')
                     .then(req => JSON.parse(req))
@@ -123,6 +115,7 @@ export default class App extends Component {
                         console.warn('run at background data error: ', error)
                     })
             }, 1000 * 60 * 3);
+            */
             //
         }
 

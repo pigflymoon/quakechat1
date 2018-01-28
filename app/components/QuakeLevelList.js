@@ -9,8 +9,20 @@ import {
     FlatList
 } from 'react-native';
 import {List, ListItem} from 'react-native-elements';
-// import BackgroundTimer from 'react-native-background-timer';
 import BackgroundTask from 'react-native-background-task';
+import PushNotification from 'react-native-push-notification';
+// import BackgroundTask from 'react-native-background-task';
+//
+BackgroundTask.define(async() => {
+    // Remember to call finish()
+    console.log('Hello from a background task ####index####')
+    PushNotification.localNotification({//
+        message: 'hello', // (required)
+        title: 'hi'
+    })
+    BackgroundTask.finish()
+});
+
 
 import QuakeItem from './QuakeItem';
 import Config from '../config/ApiConfig';
@@ -18,12 +30,12 @@ import listStyle from '../styles/list';
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 
 var quakesInterval;
+// handleNotificationTask = () => {
+//     console.log('************notification task************')
+// }
 
-BackgroundTask.define(async() => {
-    // Remember to call finish()
-    console.log('Hello from a background task')
-    BackgroundTask.finish()
-});
+
+
 export default class QuakeLevelList extends Component {
 
     constructor(props, context) {
@@ -143,8 +155,22 @@ export default class QuakeLevelList extends Component {
         }
     }
 
-    handleNotificationTask = () => {
-        console.log('************notification task************')
+    async checkStatus() {
+        const status = await BackgroundTask.statusAsync()
+        console.log('status ', status)
+        if (status.available) {
+            // Everything's fine
+            console.log('status is available')
+            // this.handleNotificationTask();
+            return
+        }
+
+        const reason = status.unavailableReason
+        if (reason === BackgroundTask.UNAVAILABLE_DENIED) {
+            Alert.alert('Denied', 'Please enable background "Background App Refresh" for this app')
+        } else if (reason === BackgroundTask.UNAVAILABLE_RESTRICTED) {
+            Alert.alert('Restricted', 'Background tasks are restricted on your device')
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -163,6 +189,32 @@ export default class QuakeLevelList extends Component {
 
     componentDidMount() {
         BackgroundTask.schedule();
+        PushNotification.configure({
+            // (required) Called when a remote or local notification is opened or received
+            onNotification: function (notification) {
+                console.log('NOTIFICATION:', notification);
+            },
+
+            // IOS ONLY (optional): default: all - Permissions to register.
+            permissions: {
+                alert: true,
+                badge: true,
+                sound: true
+            },
+
+            // Should the initial notification be popped automatically
+            // default: true
+            popInitialNotification: true,
+
+            /**
+             * (optional) default: true
+             * - Specified if permissions (ios) and token (android and ios) will requested or not,
+             * - if not, you must call PushNotificationsHandler.requestPermissions() later
+             */
+            requestPermissions: true,
+        })
+
+        // this.checkStatus();
         var notificationRule, self = this;
         if (this.props.isConnected) {
             AsyncStorage.getItem("ruleValue").then((value) => {
