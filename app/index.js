@@ -28,6 +28,7 @@ export default class App extends Component {
 
     handleConnectivityChange = (connectionInfo) => {
         let connectionType = connectionInfo.type;
+        console.log('connectionInfo is ************',connectionInfo)
         if (connectionType === 'none' || connectionType === 'unknown') {
             utils.netWorkError();
             this.setState({
@@ -86,7 +87,7 @@ export default class App extends Component {
                 //
                 //foreground
                 // BackgroundTimer.clearInterval(this.intervalId);
-                PushNotification.setApplicationIconBadgeNumber(0);
+                // PushNotification.setApplicationIconBadgeNumber(0);
                 AsyncStorage.getItem("notificationQuakesData")
                     .then(req => JSON.parse(req))
                     .then((value) => {

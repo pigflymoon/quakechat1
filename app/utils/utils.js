@@ -6,7 +6,9 @@ import {
     Alert,
     Linking,
     Share,
+    AsyncStorage,
 } from 'react-native';
+import PushNotification from 'react-native-push-notification';
 import colors from '../styles/colors';
 import showInfo from '../styles/showInfo';
 
@@ -106,6 +108,80 @@ export default class Utils {
             ],
             {cancelable: false}
         )
+    }
+
+    static notificationGenerator = () => {
+        AsyncStorage.getItem("ruleValue").then((value) => {
+            console.log('rulevalue is ', value)
+            AsyncStorage.getItem("notificationQuakesData")
+                .then(req => JSON.parse(req))
+                .then((notificationQuakes) => {
+                    if (notificationQuakes.length >= 1) {
+                        var lastNotifiedTimeType = notificationQuakes[0].apiType + 'LastNotifiedTime';
+                        var j = 1;
+                        AsyncStorage.getItem("dataSource").then((value) => {
+                            if (value) {
+                                if (notificationQuakes.length >= 1) {
+                                    // goBack(null);
+
+                                    AsyncStorage.getItem(lastNotifiedTimeType).then((notificateTime) => {
+
+                                        if (notificateTime) {
+                                            if (notificateTime > 0) {
+                                                var lastTime;
+
+                                                for (var i = 0, len = notificationQuakes.length; i < len; i++) {
+
+                                                    if (parseInt(notificateTime) < notificationQuakes[i].timeStamp) {
+                                                        PushNotification.localNotification({//
+                                                            title: 'hello', // (required)
+                                                            message: notificationQuakes[0].message,
+                                                            number: j,
+                                                            playSound: true,
+                                                            foreground: true,
+                                                        });
+                                                    }
+
+                                                }
+                                                //
+                                                // const {navigate} = this.props.navigation;
+                                                // navigate('QuakesList');
+
+                                                lastTime = notificationQuakes.find(function (el) {
+                                                    return (el.timeStamp > parseInt(notificateTime))
+                                                });
+                                                // console.log('lastTime ', lastTime)
+                                                if (lastTime) {
+                                                    AsyncStorage.setItem(lastNotifiedTimeType, (lastTime.timeStamp).toString());
+                                                }
+
+                                                // this.setState({navigateScreen: 'QuakesList'})
+                                            }
+
+
+                                        } else {
+                                            console.log('called notification', notificateTime)
+
+                                            PushNotification.localNotification({//
+                                                title: 'hello', // (required)
+                                                message: notificationQuakes[0].message,
+                                                number: j,
+                                                playSound: true,
+                                                foreground: true,
+                                            });
+                                            AsyncStorage.setItem(lastNotifiedTimeType, (notificationQuakes[0].timeStamp).toString());
+                                        }
+
+                                    });
+
+                                }
+                            }
+
+
+                        });
+                    }
+                });
+        });
     }
     static renderOffline = () => {
         return (

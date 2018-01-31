@@ -11,29 +11,69 @@ import {
 import {List, ListItem} from 'react-native-elements';
 import BackgroundTask from 'react-native-background-task';
 import PushNotification from 'react-native-push-notification';
-// import BackgroundTask from 'react-native-background-task';
-//
-BackgroundTask.define(async() => {
-    // Remember to call finish()
-    console.log('Hello from a background task ####index####')
-    PushNotification.localNotification({//
-        message: 'hello', // (required)
-        title: 'hi'
-    })
-    BackgroundTask.finish()
-});
-
 
 import QuakeItem from './QuakeItem';
 import Config from '../config/ApiConfig';
 import listStyle from '../styles/list';
 import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 
+BackgroundTask.define(async() => {
+    // Remember to call finish()
+    console.log('Hello from a background task ####index####');
+    var url = "https://api.geonet.org.nz/quake?MMI=0";
+    /*
+    fetch(url, {method: "GET"})
+        .then((response) => response.json())
+        .then((responseData) => {
+            // console.log('responseData',responseData.features)
+            let quakesData = responseData.features;
+            console.log('quakesData is ',quakesData[0])
+            // quakesData = quakesData.slice(0, 100);
+            // let quakesArray = [],
+            //     notificationQuakes = [];
+
+
+
+            // console.log('return notificationQuakes', (notificationQuakes));
+
+
+            // callback(quakesArray, notificationQuakes);
+
+        })
+        .catch((error)=>{console.warn('fetch quake data error: ',error)})
+    */
+
+    // fetchQuakesByApi(0, 0, 'geonet', url, function (quakes, notificationQuakes) {
+    //
+    //     console.log('background fetch quake', quakes[0]);
+    //
+    // });
+    AsyncStorage.getItem("notificationRule").then((rule) => {
+        if (rule) {
+            console.log('rule is ', rule)
+            fetchQuakesByApi(0, 0, 'geonet', url, function (quakes, notificationQuakes) {
+
+                console.log('###########AsyncStorage background fetch quake', quakes[0]);
+
+            });
+        }
+    });
+
+
+    // utils.notificationGenerator();
+    // PushNotification.localNotification({//
+    //     message: 'hello', // (required)
+    //     title: 'hi'
+    // })
+
+    BackgroundTask.finish();
+});
+
+
 var quakesInterval;
 // handleNotificationTask = () => {
 //     console.log('************notification task************')
 // }
-
 
 
 export default class QuakeLevelList extends Component {
@@ -61,6 +101,12 @@ export default class QuakeLevelList extends Component {
             let geoUrl = Config.api.quakes_geonet_url + nextProps.level;
             let usgUrl = Config.api.quakes_usgs_url + nextProps.level;
             let usgLevel = (nextProps.level).toString().split("_")[0];
+            //
+            // AsyncStorage.setItem("geoUrl", JSON.stringify(geoUrl));
+            // AsyncStorage.setItem("usgUrl", JSON.stringify(usgUrl));
+            // AsyncStorage.setItem("usgLevel", JSON.stringify(usgLevel));
+
+            //
             if (nextProps.refreshing == true) {
                 if (nextProps.tab === 'newzealand') {
                     fetchQuakesByApi(notificationRule, nextProps.level, 'geonet', geoUrl, function (quakes, notificationQuakes) {
@@ -71,11 +117,20 @@ export default class QuakeLevelList extends Component {
 
                             }
                         );
-                        nextProps.onRefreshData(false);
+
+
+                        AsyncStorage.setItem("notificationRule", JSON.stringify(notificationRule));
+                        AsyncStorage.setItem("geonetLevel", JSON.stringify(nextProps.level));
+                        AsyncStorage.setItem("geoUrl", JSON.stringify(geoUrl));
+
+                        AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
+
                         // self.handleNotificationTask();
-                        self.props.onNotification(notificationQuakes);
+                        // self.props.onNotification(notificationQuakes);
 
                     });
+                    nextProps.onRefreshData(false);
+
                 } else {
                     fetchQuakesByApi(notificationRule, usgLevel, 'usgs', usgUrl, function (quakes, notificationQuakes) {
                         self.setState({
@@ -85,9 +140,14 @@ export default class QuakeLevelList extends Component {
 
                             }
                         );
-                        self.props.onNotification(notificationQuakes);
-                        nextProps.onRefreshData(false);
-                    })
+                        // self.props.onNotification(notificationQuakes);
+                        // self.getNotificationData(notificationQuakes);
+
+                        AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
+
+
+                    });
+                    nextProps.onRefreshData(false);
                 }
 
             } else {
@@ -100,9 +160,16 @@ export default class QuakeLevelList extends Component {
                                 error: null,
                             }
                         );
+
+                        AsyncStorage.setItem("notificationRule", JSON.stringify(notificationRule));
+                        AsyncStorage.setItem("geonetLevel", JSON.stringify(nextProps.level));
+                        AsyncStorage.setItem("geoUrl", JSON.stringify(geoUrl));
+                        AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
+
                         // self.handleNotificationTask();
-                        self.props.onNotification(notificationQuakes);
+                        // self.props.onNotification(notificationQuakes);
                     });
+
 
                 } else {
                     fetchQuakesByApi(notificationRule, usgLevel, 'usgs', usgUrl, function (quakes, notificationQuakes) {
@@ -112,7 +179,11 @@ export default class QuakeLevelList extends Component {
                                 error: null,
                             }
                         );
-                        self.props.onNotification(notificationQuakes);
+                        // self.props.onNotification(notificationQuakes);
+                        // self.getNotificationData(notificationQuakes);
+                        AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
+
+
                     });
                 }
 
@@ -130,10 +201,17 @@ export default class QuakeLevelList extends Component {
                         }
                     );
                     //
+
+                    AsyncStorage.setItem("notificationRule", JSON.stringify(notificationRule));
+                    AsyncStorage.setItem("geonetLevel", JSON.stringify(self.props.level));
+                    AsyncStorage.setItem("geoUrl", JSON.stringify(geoUrl));
+
                     AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
 
-                    self.props.onNotification(notificationQuakes);
+                    // self.props.onNotification(notificationQuakes);
                     // self.handleNotificationTask();
+                    // self.getNotificationData(notificationQuakes);
+
 
                 });
                 self.props.onRefreshData(false);
@@ -145,8 +223,10 @@ export default class QuakeLevelList extends Component {
                             error: null,
                         }
                     );
+                    AsyncStorage.setItem("notificationQuakesData", JSON.stringify(notificationQuakes));
+                    // self.getNotificationData(notificationQuakes);
 
-                    self.props.onNotification(notificationQuakes);
+                    // self.props.onNotification(notificationQuakes);
 
                 });
                 self.props.onRefreshData(false);
@@ -155,23 +235,6 @@ export default class QuakeLevelList extends Component {
         }
     }
 
-    async checkStatus() {
-        const status = await BackgroundTask.statusAsync()
-        console.log('status ', status)
-        if (status.available) {
-            // Everything's fine
-            console.log('status is available')
-            // this.handleNotificationTask();
-            return
-        }
-
-        const reason = status.unavailableReason
-        if (reason === BackgroundTask.UNAVAILABLE_DENIED) {
-            Alert.alert('Denied', 'Please enable background "Background App Refresh" for this app')
-        } else if (reason === BackgroundTask.UNAVAILABLE_RESTRICTED) {
-            Alert.alert('Restricted', 'Background tasks are restricted on your device')
-        }
-    }
 
     componentWillReceiveProps(nextProps) {
         var isConnected = nextProps.isConnected;
@@ -188,7 +251,10 @@ export default class QuakeLevelList extends Component {
     }
 
     componentDidMount() {
-        BackgroundTask.schedule();
+        // BackgroundTask.schedule();
+        BackgroundTask.schedule({
+            period: 60*20, // Aim to run every 30 mins - more conservative on battery
+        })
         PushNotification.configure({
             // (required) Called when a remote or local notification is opened or received
             onNotification: function (notification) {
@@ -232,10 +298,10 @@ export default class QuakeLevelList extends Component {
                 //     self.fetchQuakes(false, notificationRule);
                 //     // Alert.alert('is still running every minute');
                 // }, 1000 * 60 * 1);
-                self.intervalFetchQuakesData = setInterval(() => {
-                    console.log('当前用定时器取数据');
-                    self.fetchQuakes(false, notificationRule)
-                }, 1000 * 60 * 1);
+                // self.intervalFetchQuakesData = setInterval(() => {
+                //     console.log('当前用定时器取数据');
+                //     self.fetchQuakes(false, notificationRule)
+                // }, 1000 * 60 * 1);
 
                 if (self.props.refreshing) {
                     self.fetchQuakes(false, notificationRule);
