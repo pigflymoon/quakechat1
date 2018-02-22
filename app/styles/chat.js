@@ -135,6 +135,11 @@ export default{
     whiteBg: {
         backgroundColor: colors.white,
     },
+    loading: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
     activityIndicator: {
         marginTop: Platform.select({
             ios: -14,
