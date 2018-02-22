@@ -208,7 +208,7 @@ export const fetchQuakesByApi = (notificationRule, quakeLevel, apiType, url, cal
         })
         .catch((error) => {
             console.log('url is ,', url)
-            console.warn('fetch quake data error: ', error.response.data.message);
+            console.warn('fetch quake data error: ', error);
         })
 
 

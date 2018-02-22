@@ -20,28 +20,28 @@ import {fetchQuakesByApi} from '../utils/FetchQuakesByApi';
 BackgroundTask.define(async() => {
     // Remember to call finish()
     console.log('Hello from a background task ####index####');
-    var url = "https://api.geonet.org.nz/quake?MMI=0";
+    // var url = "https://api.geonet.org.nz/quake?MMI=0";
     /*
-    fetch(url, {method: "GET"})
-        .then((response) => response.json())
-        .then((responseData) => {
-            // console.log('responseData',responseData.features)
-            let quakesData = responseData.features;
-            console.log('quakesData is ',quakesData[0])
-            // quakesData = quakesData.slice(0, 100);
-            // let quakesArray = [],
-            //     notificationQuakes = [];
+     fetch(url, {method: "GET"})
+     .then((response) => response.json())
+     .then((responseData) => {
+     // console.log('responseData',responseData.features)
+     let quakesData = responseData.features;
+     console.log('quakesData is ',quakesData[0])
+     // quakesData = quakesData.slice(0, 100);
+     // let quakesArray = [],
+     //     notificationQuakes = [];
 
 
 
-            // console.log('return notificationQuakes', (notificationQuakes));
+     // console.log('return notificationQuakes', (notificationQuakes));
 
 
-            // callback(quakesArray, notificationQuakes);
+     // callback(quakesArray, notificationQuakes);
 
-        })
-        .catch((error)=>{console.warn('fetch quake data error: ',error)})
-    */
+     })
+     .catch((error)=>{console.warn('fetch quake data error: ',error)})
+     */
 
     // fetchQuakesByApi(0, 0, 'geonet', url, function (quakes, notificationQuakes) {
     //
@@ -50,21 +50,35 @@ BackgroundTask.define(async() => {
     // });
     AsyncStorage.getItem("notificationRule").then((rule) => {
         if (rule) {
-            console.log('rule is ', rule)
-            fetchQuakesByApi(0, 0, 'geonet', url, function (quakes, notificationQuakes) {
+            console.log('rule is ', rule);
+            AsyncStorage.getItem("geoUrl").then((url) => {
+                console.log('url is ', url)
+                if (url) {
+                    AsyncStorage.getItem("geonetLevel").then((level) => {
+                        console.log('level is ', level,'url is ',url)
+                        if (level) {
+                            fetchQuakesByApi(0, 0, 'geonet', url, function (quakes, notificationQuakes) {
 
-                console.log('###########AsyncStorage background fetch quake', quakes[0]);
+                                console.log('###########AsyncStorage background fetch quake', quakes[0]);
+                                // PushNotification.localNotification({//
+                                //     message: 'hello', // (required)
+                                //     title: 'hi'
+                                // })
+
+                            });
+                        }
+
+                    })
+                }
 
             });
+
         }
     });
 
 
     // utils.notificationGenerator();
-    // PushNotification.localNotification({//
-    //     message: 'hello', // (required)
-    //     title: 'hi'
-    // })
+
 
     BackgroundTask.finish();
 });
@@ -253,7 +267,7 @@ export default class QuakeLevelList extends Component {
     componentDidMount() {
         // BackgroundTask.schedule();
         BackgroundTask.schedule({
-            period: 60*20, // Aim to run every 30 mins - more conservative on battery
+            period: 60 * 20, // Aim to run every 30 mins - more conservative on battery
         })
         PushNotification.configure({
             // (required) Called when a remote or local notification is opened or received
