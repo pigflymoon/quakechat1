@@ -64,7 +64,7 @@ export default class Utils {
     static bind = (context) => (...methods) => (methods.forEach(method => context[method] = context[method].bind(context)));
     static shareText = (message, url) => {
         var shareText = {
-            title: 'QuakeChat-Chat,share and help',
+            title: 'QuakeChat,share and help',
             message: message,
             url: url,
 
